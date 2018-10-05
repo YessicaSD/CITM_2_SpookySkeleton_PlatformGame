@@ -45,7 +45,7 @@ void j1Map::Draw()
 			{
 				for (uint column = 0; column<data.width; column++)
 				{
-					LOG("%i");
+				/*	LOG("%i");*/
 					if (layer->tiledata[Get(column, row)]!=0)
 					{
 						iPoint mapPoint = MapToWorld(column,row);
