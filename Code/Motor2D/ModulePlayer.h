@@ -8,11 +8,20 @@
 
 #include "p2SString.h"
 #include "PugiXml\src\pugixml.hpp"
+#include "p2Point.h"
+#include "Animation.h"
 
 class j1App;
 
+
 class j1Player
 {
+private:
+	
+	fPoint initialPos;
+	fPoint instantPos;
+	Animation PlayerIdle;
+
 public:
 
 	j1Player() : active(false)
