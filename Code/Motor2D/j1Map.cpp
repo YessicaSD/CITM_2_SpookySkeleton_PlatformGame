@@ -36,31 +36,35 @@ void j1Map::Draw()
 
 	// TODO 5: Prepare the loop to draw all tilesets + Blit
 
-	p2List_item<TileSet*>* item_tileset = data.tilesets.start;
-	p2List_item<MapLayer*>* item_layer = data.layers.start;
-		while (item_layer !=NULL)
+	for (p2List_item<TileSet*>* item_tileset = data.tilesets.start;item_tileset;item_tileset=item_tileset->next)
+	{
+		for (p2List_item<MapLayer*>* item_layer = data.layers.start; item_layer; item_layer = item_layer->next)
 		{
 			MapLayer* layer = item_layer->data;
+
 			for (uint row = 0; row<data.height; row++)
 			{
 				for (uint column = 0; column<data.width; column++)
 				{
-				/*	LOG("%i");*/
-					if (layer->tiledata[Get(column, row)]!=0)
+
+					if (layer->tiledata[Get(column, row)] != 0)
 					{
-						iPoint mapPoint = MapToWorld(column,row);
+
+						iPoint mapPoint = MapToWorld(column, row);
 						SDL_Rect section = item_tileset->data->GetTileRect(layer->tiledata[Get(column, row)]);
-						App->render->Blit(item_tileset->data->texture, mapPoint.x, mapPoint.y, &section,5.0f);
+ 						App->render->Blit(item_tileset->data->texture, mapPoint.x, mapPoint.y, &section, 5.0f);
+
 					}
-					
+
 				}
 			}
-			item_layer=item_layer->next;
+
 		}
+	}
+
 	
 	
-
-
+	
 		// TODO 9: Complete the draw function
 
 }
@@ -156,11 +160,11 @@ bool j1Map::Load(const char* file_name)
 	// TODO 4: Iterate all layers and load each of them --Done
 	// Load layer info ----------------------------------------------
 
-	for (pugi::xml_node layer = map_file.child("map").child("layer"); layer; layer = tileset.next_sibling("tile"))
+	for (pugi::xml_node layer = map_file.child("map").child("layer"); layer; layer = layer.next_sibling("layer"))
 	{
 		MapLayer* set = new MapLayer();
 
-		LoadLayer(map_file.child("map").child("layer"), set);
+		LoadLayer(layer, set);
 
 		data.layers.add(set);
 		
@@ -216,18 +220,18 @@ bool j1Map::LoadMap()
 	}
 	else
 	{
-		data.width = map.attribute("width").as_int();
-		data.height = map.attribute("height").as_int();
-		data.tile_width = map.attribute("tilewidth").as_int();
-		data.tile_height = map.attribute("tileheight").as_int();
-		p2SString bg_color(map.attribute("backgroundcolor").as_string());
+		data.width = map.attribute("width").as_uint();
+		data.height = map.attribute("height").as_uint();
+		data.tile_width = map.attribute("tilewidth").as_uint();
+		data.tile_height = map.attribute("tileheight").as_uint();
+		/*p2SString bg_color(map.attribute("backgroundcolor").as_string());*/
 
-		data.background_color.r = 0;
+		/*data.background_color.r = 0;
 		data.background_color.g = 0;
 		data.background_color.b = 0;
-		data.background_color.a = 0;
+		data.background_color.a = 0;*/
 
-		if(bg_color.Length() > 0)
+	/*	if(bg_color.Length() > 0)
 		{
 			p2SString red, green, blue;
 			bg_color.SubString(1, 2, red);
@@ -244,7 +248,7 @@ bool j1Map::LoadMap()
 
 			sscanf_s(blue.GetString(), "%x", &v);
 			if(v >= 0 && v <= 255) data.background_color.b = v;
-		}
+		}*/
 
 		p2SString orientation(map.attribute("orientation").as_string());
 
@@ -309,22 +313,22 @@ bool j1Map::LoadTilesetImage(pugi::xml_node& tileset_node, TileSet* set)
 		set->texture = App->tex->Load(PATH(folder.GetString(), image.attribute("source").as_string()));
 		int w, h;
 		SDL_QueryTexture(set->texture, NULL, NULL, &w, &h);
-		set->tex_width = image.attribute("width").as_int();
+		set->tex_width = image.attribute("width").as_uint();
 
 		if(set->tex_width <= 0)
 		{
 			set->tex_width = w;
 		}
 
-		set->tex_height = image.attribute("height").as_int();
+		set->tex_height = image.attribute("height").as_uint();
 
 		if(set->tex_height <= 0)
 		{
 			set->tex_height = h;
 		}
 
-		set->num_tiles_width = set->tex_width / set->tile_width;
-		set->num_tiles_height = set->tex_height / set->tile_height;
+		set->num_tiles_width = (set->tex_width - 2 * set->margin) / (set->tile_width /*+ set->spacing*/);
+		set->num_tiles_height = (set->tex_height - 2 * set->margin) / (set->tile_height /*+ set->spacing*/);
 	}
 
 	return ret;
