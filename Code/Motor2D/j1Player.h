@@ -14,13 +14,14 @@
 class j1App;
 
 
-class j1Player
+class j1Player : public j1Module
 {
 private:
 	
 	fPoint initialPos;
 	fPoint instantPos;
 	Animation PlayerIdle;
+	pugi::xml_document documentPlayer;
 
 public:
 
