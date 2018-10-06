@@ -17,7 +17,6 @@
     <borderless value="false"/>
     <resizable value="false"/>
     <fullscreen_window value="false"/>
-    
   </window>
 
   <file_system>
@@ -27,5 +26,9 @@
   <map>
     <folder>maps/</folder>
   </map>
+  
+  <player>
+    player.xml
+  </player>
 
 </config>
