@@ -34,7 +34,11 @@
     <ClCompile Include="j1Map.cpp">
       <Filter>Desenvolupament  ========\Modules</Filter>
     </ClCompile>
+<<<<<<< HEAD
     <ClCompile Include="j1Player.cpp">
+=======
+    <ClCompile Include="ModulePlayer.cpp">
+>>>>>>> 063a6104ff4d6a8d9492ade6147ddbe913e6b544
       <Filter>Desenvolupament  ========\Modules</Filter>
     </ClCompile>
   </ItemGroup>
@@ -90,12 +94,21 @@
     <ClInclude Include="j1Map.h">
       <Filter>Desenvolupament  ========\Modules</Filter>
     </ClInclude>
+<<<<<<< HEAD
     <ClInclude Include="p2Animation.h">
       <Filter>Programacio 2 ===========</Filter>
     </ClInclude>
     <ClInclude Include="j1Player.h">
       <Filter>Desenvolupament  ========\Modules</Filter>
     </ClInclude>
+=======
+    <ClInclude Include="ModulePlayer.h">
+      <Filter>Desenvolupament  ========\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="Animation.h">
+      <Filter>Desenvolupament  ========\Tools</Filter>
+    </ClInclude>
+>>>>>>> 063a6104ff4d6a8d9492ade6147ddbe913e6b544
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Programacio 2 ===========">
