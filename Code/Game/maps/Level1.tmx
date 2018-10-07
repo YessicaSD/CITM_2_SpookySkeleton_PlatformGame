@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="50" height="15" tilewidth="16" tileheight="16" nextobjectid="1">
- <tileset firstgid="1" name="Mazmorra" tilewidth="16" tileheight="16" spacing="1" margin="1" tilecount="226" columns="10">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="50" height="15" tilewidth="16" tileheight="16" nextobjectid="12">
+ <tileset firstgid="1" name="Mazmorra" tilewidth="16" tileheight="16" spacing="1" margin="1" tilecount="175" columns="10">
   <image source="Mazmorra.png" width="171" height="273"/>
   <terraintypes>
    <terrain name="Nuevo Terreno" tile="-1"/>
@@ -1531,4 +1531,16 @@
    <tile gid="0"/>
   </data>
  </layer>
+ <objectgroup name="collisions">
+  <object id="2" x="7" y="209" width="135" height="30.5"/>
+  <object id="3" x="161" y="129" width="93" height="29"/>
+  <object id="4" x="257" y="193" width="221" height="46"/>
+  <object id="5" x="433.5" y="145" width="59.5" height="47"/>
+  <object id="6" x="449" y="128.5" width="44" height="16"/>
+  <object id="7" x="479" y="191.5" width="14.5" height="31"/>
+  <object id="8" x="529" y="193" width="92.5" height="46.5"/>
+  <object id="9" x="640.5" y="113" width="94" height="30"/>
+  <object id="10" x="656" y="144" width="78" height="13.5"/>
+  <object id="11" x="672.5" y="158" width="46" height="80.5"/>
+ </objectgroup>
 </map>

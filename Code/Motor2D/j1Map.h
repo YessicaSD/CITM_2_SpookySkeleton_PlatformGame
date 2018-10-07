@@ -8,6 +8,22 @@
 
 // TODO 1: Create a struct for the map layer
 // ----------------------------------------------------
+struct Object
+{
+	int			obj_id;
+	float		x;
+	float       y;
+	float		width;
+	float		height;
+};
+
+struct Collision
+{
+	p2SString			name;
+	SDL_Rect			rect;
+	p2List<Object*>		object;
+};
+
 struct MapLayer
 {
 	p2SString name="";
@@ -80,6 +96,7 @@ struct MapData
 	p2List<TileSet*>	tilesets;
 	// TODO 2: Add a list/array of layers to the map!
 	p2List<MapLayer*> layers;
+	p2List<Collision*>	collisions;
 };
 
 // ----------------------------------------------------
@@ -114,6 +131,7 @@ private:
 	bool LoadTilesetImage(pugi::xml_node& tileset_node, TileSet* set);
 	// TODO 3: Create a method that loads a single layer
     bool LoadLayer(pugi::xml_node& node, MapLayer* layer);
+	bool LoadCollision(pugi::xml_node& coll_node, Collision* collision);
 	
 
 public:
