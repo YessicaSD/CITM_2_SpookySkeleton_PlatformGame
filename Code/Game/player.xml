@@ -1,7 +1,10 @@
-<player1>
-  <animation>
-    <image source="Mazmorra.png" width="171" height="273"/>
+<player>
+  <player1>
     
+  <animation>
+    
+    <image source="textures/skeleton.png"/>
+
     <idle>
       <frame x="2" y="0" width="14" height="31"/>
    </idle>
@@ -17,7 +20,8 @@
     <attack>
       <frame x="2" y="0" width="14" height="31"/>
     </attack>
-    
-    
   </animation>
-</player1>
+    
+  </player1>
+  
+</player>

@@ -164,7 +164,7 @@ bool j1Map::Load(const char* file_name)
 	{
 		MapLayer* set = new MapLayer();
 
-		LoadLayer(layer, set);
+		ret = LoadLayer(layer, set);
 
 		data.layers.add(set);
 		

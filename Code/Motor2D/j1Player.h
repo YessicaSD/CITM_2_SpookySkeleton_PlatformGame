@@ -1,18 +1,17 @@
-// ----------------------------------------------------
-// j1Module.h
-// Interface for all engine modules
-// ----------------------------------------------------
 
 #ifndef __MODULE_PLAYER_H__
 #define __MODULE_PLAYER_H__
 
-#include "p2SString.h"
 #include "PugiXml\src\pugixml.hpp"
+#include "j1Module.h"
+
+#include "p2SString.h"
 #include "p2Point.h"
 #include "Animation.h"
 
-class j1App;
 
+class j1App;
+struct SDL_Texture;
 
 class j1Player : public j1Module
 {
@@ -20,13 +19,17 @@ private:
 	
 	fPoint initialPos;
 	fPoint instantPos;
+	
 	Animation PlayerIdle;
-	pugi::xml_document documentPlayer;
+
+	
+	SDL_Texture* ptexture=nullptr;
+
 
 public:
 
-	j1Player() : active(false)
-	{}
+	j1Player();
+	
 
 	void Init()
 	{
@@ -34,55 +37,27 @@ public:
 	}
 
 	// Called before render is available
-	virtual bool Awake(pugi::xml_node&)
-	{
-		return true;
-	}
+	bool Awake(pugi::xml_node&);
 
 	// Called before the first frame
-	virtual bool Start()
-	{
-		return true;
-	}
+	bool Start();
 
-	// Called each loop iteration
-	virtual bool PreUpdate()
-	{
-		return true;
-	}
+	bool LoadAnimations(const pugi::xml_node&);
+	//// Called each loop iteration
+	//bool PreUpdate();
 
-	// Called each loop iteration
-	virtual bool Update(float dt)
-	{
-		return true;
-	}
+	//// Called each loop iteration
+	//bool Update(float dt);
 
-	// Called each loop iteration
-	virtual bool PostUpdate()
-	{
-		return true;
-	}
+	//// Called each loop iteration
+	//bool PostUpdate();
 
-	// Called before quitting
-	virtual bool CleanUp()
-	{
-		return true;
-	}
+	//// Called before quitting
+	//bool CleanUp();
 
-	virtual bool Load(pugi::xml_node&)
-	{
-		return true;
-	}
+	//bool Load(pugi::xml_node&);
 
-	virtual bool Save(pugi::xml_node&) const
-	{
-		return true;
-	}
-
-public:
-
-	p2SString	name;
-	bool		active;
+	//bool Save(pugi::xml_node&) const;
 
 };
 

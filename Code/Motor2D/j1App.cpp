@@ -90,6 +90,8 @@ bool j1App::Awake()
 		while(item != NULL && ret == true)
 		{
 			ret = item->data->Awake(config.child(item->data->name.GetString()));
+
+			
 			item = item->next;
 		}
 	}
