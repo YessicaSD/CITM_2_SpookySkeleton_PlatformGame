@@ -2,6 +2,7 @@
 #include "p2Log.h"
 #include "j1App.h"
 #include "j1Textures.h"
+#include "j1Render.h"
 j1Player::j1Player() : j1Module()
 {
 	active = false;
@@ -68,4 +69,9 @@ bool j1Player::LoadAnimations()
 
 	return ret;
 
+}
+bool j1Player::Update(float dt)
+{
+	App->render->Blit(ptexture,0,0,&PlayerIdle.GetCurrentFrame());
+	return true;
 }
