@@ -7,6 +7,11 @@
 
     <idle>
       <frame x="2" y="0" width="14" height="31"/>
+     <frame x="34" y="0" width="14" height="31"/>
+     <frame x="66" y="0" width="14" height="31"/>
+     <frame x="162" y="0" width="14" height="31"/>
+      
+    
    </idle>
     
     <walking>
