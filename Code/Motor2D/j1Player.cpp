@@ -3,6 +3,7 @@
 #include "j1App.h"
 #include "j1Textures.h"
 #include "j1Render.h"
+#include "j1Input.h"
 j1Player::j1Player() : j1Module()
 {
 	active = false;
@@ -70,8 +71,21 @@ bool j1Player::LoadAnimations()
 	return ret;
 
 }
+bool j1Player::PreUpdate()
+{
+	if (App->input->GetKey(SDL_SCANCODE_RIGHT)== KEY_REPEAT)
+		instantPos.x += 0.25f;
+	if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT)
+		instantPos.x -= 0.25f;
+	if (App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT)
+		instantPos.y -= 0.25f;
+	if (App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT)
+		instantPos.y += 0.25f;
+	return true;
+}
 bool j1Player::Update(float dt)
 {
-	App->render->Blit(ptexture,0,0,&PlayerIdle.GetCurrentFrame());
+
+	App->render->Blit(ptexture,instantPos.x,instantPos.y,&PlayerIdle.GetCurrentFrame(),1.0f);
 	return true;
 }

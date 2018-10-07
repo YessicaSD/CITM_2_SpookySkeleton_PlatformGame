@@ -32,6 +32,8 @@ public:
 
 	void Init()
 	{
+		instantPos.x = 0;
+		instantPos.y = 0;
 		active = true;
 	}
 
@@ -42,8 +44,8 @@ public:
 	bool Start();
 
 	bool LoadAnimations();
-	//// Called each loop iteration
-	//bool PreUpdate();
+	// Called each loop iteration
+	bool PreUpdate();
 
 	// Called each loop iteration
 	bool Update(float dt);
