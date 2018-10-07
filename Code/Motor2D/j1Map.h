@@ -36,7 +36,7 @@ struct TileSet
 	int					spacing;
 	int					tile_width;
 	int					tile_height;
-	SDL_Texture*		texture;
+	SDL_Texture*		texture=nullptr;
 	int					tex_width;
 	int					tex_height;
 	int					num_tiles_width;

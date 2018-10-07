@@ -21,10 +21,9 @@ private:
 	fPoint instantPos;
 	
 	Animation PlayerIdle;
-
-	
+	pugi::xml_node player_node;
 	SDL_Texture* ptexture=nullptr;
-
+	p2SString String_docXml;
 
 public:
 
@@ -42,7 +41,7 @@ public:
 	// Called before the first frame
 	bool Start();
 
-	bool LoadAnimations(const pugi::xml_node&);
+	bool LoadAnimations();
 	//// Called each loop iteration
 	//bool PreUpdate();
 
@@ -55,7 +54,7 @@ public:
 	//// Called before quitting
 	//bool CleanUp();
 
-	//bool Load(pugi::xml_node&);
+	/*bool Load(pugi::xml_node&);*/
 
 	//bool Save(pugi::xml_node&) const;
 

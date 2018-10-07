@@ -9,22 +9,26 @@ j1Player::j1Player() : j1Module()
 }
 bool j1Player:: Awake (pugi::xml_node &node) 
 {
-	bool ret= false;
+	LOG("Init SDL player");
+	
+	String_docXml.create( node.child_value());
+	
+	return true;
+}
 
+bool j1Player::Start()
+{
+	bool ret = false;
 	//Loading file player xml --------------------------------------------------------------
 	pugi::xml_document	player_file;
-	pugi::xml_node player_node;
-
-	p2SString String_docXml(node.child_value());;
-	
 	pugi::xml_parse_result result = player_file.load_file(String_docXml.GetString());
 
 	if (result)
 	{
 		player_node = player_file.child("player");
-		
-		ret = LoadAnimations(player_node);
-		
+		LoadAnimations();
+		ret = true;
+
 	}
 
 	else
@@ -32,26 +36,15 @@ bool j1Player:: Awake (pugi::xml_node &node)
 		LOG("player %s", result.description());
 		return false;
 	}
-	
-	
 
-	return ret;
-}
-
-bool j1Player::Start()
-{
-	
-	
 	return true;
 }
-bool j1Player::LoadAnimations(const pugi::xml_node& player_node)
+bool j1Player::LoadAnimations()
 {
 	bool ret = true;
-
 	pugi::xml_node p1_node = player_node.child("player1").child("animation");
 
-	LOG("%s", p1_node.name());
-	LOG("%s", p1_node.child("image").attribute("source").as_string());
+	
 	ptexture = App->tex->Load("textures/skeleton.png");
 
 
@@ -62,6 +55,7 @@ bool j1Player::LoadAnimations(const pugi::xml_node& player_node)
 	else {
 		LOG("Loaded player texture succesfully");
 	}
+
 	for (pugi::xml_node frame = p1_node.child("idle").child("frame"); frame; frame = frame.next_sibling("frame"))
 	{
 		SDL_Rect frameRect;
