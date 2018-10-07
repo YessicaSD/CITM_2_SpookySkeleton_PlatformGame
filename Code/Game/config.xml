@@ -27,8 +27,6 @@
     <folder>maps/</folder>
   </map>
   
-  <player>
-    player.xml
-  </player>
+  <player>player.xml</player>
 
 </config>

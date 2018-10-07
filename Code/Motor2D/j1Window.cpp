@@ -16,6 +16,7 @@ j1Window::j1Window() : j1Module()
 // Destructor
 j1Window::~j1Window()
 {
+
 }
 
 // Called before render is available
