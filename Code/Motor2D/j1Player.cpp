@@ -58,16 +58,17 @@ bool j1Player::LoadAnimations()
 		LOG("Loaded player texture succesfully");
 	}
 
+	SDL_Rect frameRect;
 	for (pugi::xml_node frame = p1_node.child("idle").child("frame"); frame; frame = frame.next_sibling("frame"))
 	{
-		SDL_Rect frameRect;
+		
 		frameRect.x = frame.attribute("x").as_int();
 		frameRect.y = frame.attribute("y").as_int();
 		frameRect.w = frame.attribute("width").as_int();
 		frameRect.h = frame.attribute("height").as_int();
 		PlayerIdle.PushBack(frameRect);
 	}
-
+	PlayerIdle.speed = 0.005f;
 	return ret;
 
 }
@@ -87,5 +88,6 @@ bool j1Player::Update(float dt)
 {
 
 	App->render->Blit(ptexture,instantPos.x,instantPos.y,&PlayerIdle.GetCurrentFrame(),1.0f);
+	LOG("%f",PlayerIdle.current_frame);
 	return true;
 }
