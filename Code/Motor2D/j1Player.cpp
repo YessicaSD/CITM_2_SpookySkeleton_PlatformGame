@@ -83,7 +83,7 @@ inline bool j1Player::LoadAnimations()
 inline bool j1Player::CreateCol()
 {
 	bool ret = false;
-	offset.x = 2;
+	offset.x = 3;
 	offset.y = 0;
 	SDL_Rect playerRect;
 	playerRect.x = instantPos.x+offset.x;

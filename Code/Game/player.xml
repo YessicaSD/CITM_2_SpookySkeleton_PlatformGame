@@ -1,6 +1,6 @@
 <player>
   <player1 Start_pos_x="0" Start_pos_y="0"  >
-    <collider w="10" h="31"/>
+    <collider w="8" h="31"/>
   <animation>
     
     <image source="textures/skeleton.png"/>
