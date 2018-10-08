@@ -32,11 +32,9 @@ void j1Map::Draw()
 	if(map_loaded == false)
 		return;
 
-
-	
-	for (p2List_item<TileSet*>* item_tileset = data.tilesets.start;item_tileset;item_tileset=item_tileset->next)
+	for (p2List_item<TileSet*>* item_tileset = data.tilesets.start;item_tileset!=NULL;item_tileset=item_tileset->next)
 	{
-		for (p2List_item<MapLayer*>* item_layer = data.layers.start; item_layer; item_layer = item_layer->next)
+		for (p2List_item<MapLayer*>* item_layer = data.layers.start; item_layer!=NULL; item_layer = item_layer->next)
 		{
 			MapLayer* layer = item_layer->data;
 
@@ -59,14 +57,6 @@ void j1Map::Draw()
 
 		}
 	}
-
-	/*p2List_item<Object_Layer*>* item_coll = data.collisions.start;
-	p2List_item<Object*>* object_rect = item_coll->data->object.start;
-	while (object_rect != NULL)
-	{
-		App->render->DrawQuad(object_rect->data->rect, 255, 0, 0, 75);
-		object_rect = object_rect->next;
-	}*/
 	
 }
 
@@ -330,12 +320,7 @@ bool j1Map::LoadTilesetImage(pugi::xml_node& tileset_node, TileSet* set)
 	bool ret = true;
 	pugi::xml_node image = tileset_node.child("image");
 
-	if(image == NULL)
-	{
-		LOG("Error parsing tileset xml file: Cannot find 'image' tag.");
-		ret = false;
-	}
-	else
+	for (pugi::xml_node image = tileset_node.child("image"); image != NULL; image = image.next_sibling("image"))
 	{
 		set->texture = App->tex->Load(PATH(folder.GetString(), image.attribute("source").as_string()));
 		int w, h;
@@ -354,8 +339,9 @@ bool j1Map::LoadTilesetImage(pugi::xml_node& tileset_node, TileSet* set)
 			set->tex_height = h;
 		}
 
-		set->num_tiles_width = (set->tex_width - 2 * set->margin) / (set->tile_width /*+ set->spacing*/);
-		set->num_tiles_height = (set->tex_height - 2 * set->margin) / (set->tile_height /*+ set->spacing*/);
+		set->num_tiles_width = (set->tex_width /*- 2 * set->margin*/) / (set->tile_width /*+ set->spacing*/);
+		set->num_tiles_height = (set->tex_height /*- 2 * set->margin*/) / (set->tile_height /*+ set->spacing*/);
+		LOG("PERFECT PARSING TILESET WITH PATH: %s", image.attribute("source").as_string());
 	}
 
 	return ret;
