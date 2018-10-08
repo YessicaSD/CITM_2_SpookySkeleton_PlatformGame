@@ -72,6 +72,7 @@ public:
 
 	// Callbacks ---
 	virtual void OnCollision(Collider*, Collider*) {}
+
 public:
 
 	p2SString	name;

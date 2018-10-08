@@ -145,8 +145,6 @@ bool j1Map::Load(const char* file_name)
 			ret = LoadTilesetImage(tileset, set);
 		}
 
-
-
 		data.tilesets.add(set);
 	}
 
@@ -162,8 +160,7 @@ bool j1Map::Load(const char* file_name)
 	}
 	
 	//Load Collision info
-	pugi::xml_node collision;
-	for (collision = map_file.child("map").child("objectgroup"); collision && ret; collision = collision.next_sibling("objectgroup"))
+	for (pugi::xml_node collision = map_file.child("map").child("objectgroup"); collision && ret; collision = collision.next_sibling("objectgroup"))
 	{
 		Object_Layer*	coll = new Object_Layer();
 		ret = LoadCollision(collision, coll);
@@ -190,9 +187,6 @@ bool j1Map::Load(const char* file_name)
 			item = item->next;
 		}
 
-		// TODO 4: Add info here about your loaded layers
-		// Adapt this vcode with your own variables
-		
 		p2List_item<MapLayer*>* item_layer = data.layers.start;
 		while(item_layer != NULL)
 		{
@@ -369,7 +363,7 @@ bool j1Map::LoadCollision(pugi::xml_node& node, Object_Layer* object_layer)
 
 		if ( object_layer->name=="Wall")
 		{
-			item_object->colWall = App->collision->AddCollider(rect,COLLIDER_WALL,App->collision);
+			item_object->colWall = App->collision->AddCollider(rect,COLLIDER_WALL,App->map);
 		}
 		object_layer->object.add(item_object);
 		LOG("Perfect parsing of collision.tmx: Found the collisions");
@@ -378,7 +372,6 @@ bool j1Map::LoadCollision(pugi::xml_node& node, Object_Layer* object_layer)
 	return ret;
 }
 
-// TODO 3: Create the definition for a function that loads a single layer
 bool j1Map::LoadLayer(pugi::xml_node& node, MapLayer* layer)
 {
 	layer->name = node.attribute("name").as_string();
@@ -398,4 +391,9 @@ bool j1Map::LoadLayer(pugi::xml_node& node, MapLayer* layer)
 		++i;
 	}
 	return true;
+}
+
+void j1Map::OnCollision(Collider* c1, Collider* c2 )
+{
+	
 }

@@ -100,6 +100,11 @@ class j1Map : public j1Module
 {
 public:
 
+	MapData data;
+
+	inline uint Get(int x, int y) const
+	{return  (y * data.width + x);}
+
 	j1Map();
 
 	// Destructor
@@ -117,32 +122,23 @@ public:
 	// Load new map
 	bool Load(const char* path);
 	iPoint MapToWorld(int x, int y) const;
-
-private:
-
-	bool LoadMap();
-	bool LoadTilesetDetails(pugi::xml_node& tileset_node, TileSet* set);
-	bool LoadTilesetImage(pugi::xml_node& tileset_node, TileSet* set);
-	// TODO 3: Create a method that loads a single layer
-    bool LoadLayer(pugi::xml_node& node, MapLayer* layer);
-	bool LoadCollision(pugi::xml_node& coll_node, Object_Layer* collision);
-	
-
-public:
-
-	MapData data;
-
-	// TODO 6: Short function to get the value of x,y
-	inline uint Get( int x,  int y) const
-	{
-		return  (y * data.width + x);
-	}
+	void OnCollision(Collider*, Collider*);
 
 private:
 
 	pugi::xml_document	map_file;
 	p2SString			folder;
 	bool				map_loaded;
+	uint i = 0;
+	bool LoadMap();
+	bool LoadTilesetDetails(pugi::xml_node& tileset_node, TileSet* set);
+	bool LoadTilesetImage(pugi::xml_node& tileset_node, TileSet* set);
+    bool LoadLayer(pugi::xml_node& node, MapLayer* layer);
+	bool LoadCollision(pugi::xml_node& coll_node, Object_Layer* collision);
+	
+
+
+
 };
 
 

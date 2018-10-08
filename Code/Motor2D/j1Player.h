@@ -39,8 +39,8 @@ public:
 	bool Update(float dt);
 	bool CleanUp();
 
-	inline bool LoadAnimations();
-	inline bool CreateCol();
+	 bool LoadAnimations();
+	 bool CreateCol();
 
 	//// Called each loop iteration
 	//bool PostUpdate();

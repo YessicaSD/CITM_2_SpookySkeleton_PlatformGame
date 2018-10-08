@@ -49,7 +49,7 @@ bool j1Player::Start()
 
 	return ret;
 }
-inline bool j1Player::LoadAnimations()
+ bool j1Player::LoadAnimations()
 {
 	bool ret = true;
 	pugi::xml_node p1_node = player_node.child("player1").child("animation");
