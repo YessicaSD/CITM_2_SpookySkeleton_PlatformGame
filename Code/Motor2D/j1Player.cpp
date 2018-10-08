@@ -115,7 +115,7 @@ bool j1Player::Update(float dt)
 {
 
 	App->render->Blit(ptexture,instantPos.x,instantPos.y,&PlayerIdle.GetCurrentFrame(),1.0f);
-	LOG("%f",PlayerIdle.current_frame);
+	
 	return true;
 }
 bool j1Player::CleanUp()

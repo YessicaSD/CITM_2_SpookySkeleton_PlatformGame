@@ -4,6 +4,7 @@
 #include "j1Render.h"
 #include "j1Textures.h"
 #include "j1Map.h"
+#include "j1Collision.h"
 #include <math.h>
 
 j1Map::j1Map() : j1Module(), map_loaded(false)
@@ -59,13 +60,13 @@ void j1Map::Draw()
 		}
 	}
 
-	p2List_item<Object_Layer*>* item_coll = data.collisions.start;
+	/*p2List_item<Object_Layer*>* item_coll = data.collisions.start;
 	p2List_item<Object*>* object_rect = item_coll->data->object.start;
 	while (object_rect != NULL)
 	{
 		App->render->DrawQuad(object_rect->data->rect, 255, 0, 0, 75);
 		object_rect = object_rect->next;
-	}
+	}*/
 	
 }
 
@@ -159,9 +160,7 @@ bool j1Map::Load(const char* file_name)
 		data.tilesets.add(set);
 	}
 
-	// TODO 4: Iterate all layers and load each of them --Done
 	// Load layer info ----------------------------------------------
-
 	for (pugi::xml_node layer = map_file.child("map").child("layer"); layer; layer = layer.next_sibling("layer"))
 	{
 		MapLayer* set = new MapLayer();
@@ -223,7 +222,7 @@ bool j1Map::Load(const char* file_name)
 			p2List_item<Object*>* item_obj = item_coll->data->object.start;
 			while (item_obj != NULL)
 			{
-				LOG("collision width: %d collision height: %d", item_obj->data->rect.w, item_obj->data->rect.h);
+				/*LOG("collision width: %d collision height: %d", item_obj->data->rect.w, item_obj->data->rect.h);*/
 				item_obj = item_obj->next;
 			}
 			item_coll = item_coll->next;
@@ -362,20 +361,31 @@ bool j1Map::LoadTilesetImage(pugi::xml_node& tileset_node, TileSet* set)
 	return ret;
 }
 
-bool j1Map::LoadCollision(pugi::xml_node& node, Object_Layer* collision)
+bool j1Map::LoadCollision(pugi::xml_node& node, Object_Layer* object_layer)
 {
 	bool ret = true;
-	collision->name = node.attribute("name").as_string();
+	SDL_Rect	rect;
+
+	object_layer->name = node.attribute("name").as_string();
+	LOG("%s", object_layer->name.GetString());
+	
 	for (pugi::xml_node object_node = node.child("object"); object_node != NULL; object_node = object_node.next_sibling("object"))
 	{
+
 		Object* item_object = new Object;
 		item_object->obj_id = object_node.attribute("id").as_int();
-		item_object->rect.w = object_node.attribute("width").as_float();
-		item_object->rect.h = object_node.attribute("height").as_float();
-		item_object->rect.x = object_node.attribute("x").as_float();
-		item_object->rect.y = object_node.attribute("y").as_float();
 
-		collision->object.add(item_object);
+		
+		rect.w = object_node.attribute("width").as_float();
+		rect.h = object_node.attribute("height").as_float();
+		rect.x = object_node.attribute("x").as_float();
+		rect.y = object_node.attribute("y").as_float();
+
+		if ( object_layer->name=="Wall")
+		{
+			item_object->colWall = App->collision->AddCollider(rect,COLLIDER_WALL,App->collision);
+		}
+		object_layer->object.add(item_object);
 		LOG("Perfect parsing of collision.tmx: Found the collisions");
 	}
 

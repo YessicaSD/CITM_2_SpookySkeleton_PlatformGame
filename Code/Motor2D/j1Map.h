@@ -6,12 +6,12 @@
 #include "p2Point.h"
 #include "j1Module.h"
 
-// TODO 1: Create a struct for the map layer
-// ----------------------------------------------------
+struct Collider;
 struct Object
 {
 	int			obj_id;
-	SDL_Rect			rect;
+	
+	Collider*   colWall=nullptr;
 	
 };
 
