@@ -117,3 +117,9 @@ bool j1Player::Update(float dt)
 	LOG("%f",PlayerIdle.current_frame);
 	return true;
 }
+bool j1Player::CleanUp()
+{
+	App->tex->UnLoad(ptexture);
+	ColliderPlayer->to_delete = true;
+	return true;
+}

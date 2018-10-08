@@ -37,6 +37,7 @@ public:
 	bool Start();
 	bool PreUpdate();
 	bool Update(float dt);
+	bool CleanUp();
 
 	inline bool LoadAnimations();
 	inline bool CreateCol();
@@ -44,8 +45,8 @@ public:
 	//// Called each loop iteration
 	//bool PostUpdate();
 
-	//// Called before quitting
-	//bool CleanUp();
+	
+	
 
 	/*bool Load(pugi::xml_node&);*/
 
