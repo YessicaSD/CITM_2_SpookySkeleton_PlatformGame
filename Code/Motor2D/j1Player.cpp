@@ -83,12 +83,13 @@ inline bool j1Player::LoadAnimations()
 inline bool j1Player::CreateCol()
 {
 	bool ret = false;
-
+	offset.x = 2;
+	offset.y = 0;
 	SDL_Rect playerRect;
-	playerRect.x = instantPos.x;
+	playerRect.x = instantPos.x+offset.x;
 	playerRect.y = instantPos.y;
 	playerRect.w = player_node.child("player1").child("collider").attribute("w").as_int();
-	playerRect.h = player_node.child("player1").child("collider").attribute("w").as_int();
+	playerRect.h = player_node.child("player1").child("collider").attribute("h").as_int();
 
 	ColliderPlayer = App->collision->AddCollider(playerRect, COLLIDER_PLAYER, App->player1);
 	if (ColliderPlayer != nullptr)
@@ -107,7 +108,7 @@ bool j1Player::PreUpdate()
 	if (App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT)
 		instantPos.y += 0.25f;
 
-	ColliderPlayer->SetPos(instantPos.x, instantPos.y);
+	ColliderPlayer->SetPos(instantPos.x+offset.x, instantPos.y);
 	return true;
 }
 bool j1Player::Update(float dt)

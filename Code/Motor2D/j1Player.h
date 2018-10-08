@@ -19,7 +19,7 @@ private:
 	
 	fPoint initialPos;
 	fPoint instantPos;
-	
+	fPoint offset;
 	Animation PlayerIdle;
 	pugi::xml_node player_node;
 	SDL_Texture* ptexture=nullptr;
