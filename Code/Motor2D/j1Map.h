@@ -11,16 +11,13 @@
 struct Object
 {
 	int			obj_id;
-	float		x;
-	float       y;
-	float		width;
-	float		height;
+	SDL_Rect			rect;
+	
 };
 
-struct Collision
+struct Object_Layer
 {
 	p2SString			name;
-	SDL_Rect			rect;
 	p2List<Object*>		object;
 };
 
@@ -94,9 +91,8 @@ struct MapData
 	/*SDL_Color			background_color;*/
 	MapTypes			type;
 	p2List<TileSet*>	tilesets;
-	// TODO 2: Add a list/array of layers to the map!
 	p2List<MapLayer*> layers;
-	p2List<Collision*>	collisions;
+	p2List<Object_Layer*>	collisions;
 };
 
 // ----------------------------------------------------
@@ -120,8 +116,6 @@ public:
 
 	// Load new map
 	bool Load(const char* path);
-
-	// TODO 8: Create a method that translates x,y coordinates from map positions to world positions
 	iPoint MapToWorld(int x, int y) const;
 
 private:
@@ -131,7 +125,7 @@ private:
 	bool LoadTilesetImage(pugi::xml_node& tileset_node, TileSet* set);
 	// TODO 3: Create a method that loads a single layer
     bool LoadLayer(pugi::xml_node& node, MapLayer* layer);
-	bool LoadCollision(pugi::xml_node& coll_node, Collision* collision);
+	bool LoadCollision(pugi::xml_node& coll_node, Object_Layer* collision);
 	
 
 public:

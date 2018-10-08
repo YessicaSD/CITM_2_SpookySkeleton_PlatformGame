@@ -33,9 +33,6 @@ void j1Map::Draw()
 
 
 	
-
-	// TODO 5: Prepare the loop to draw all tilesets + Blit
-	
 	for (p2List_item<TileSet*>* item_tileset = data.tilesets.start;item_tileset;item_tileset=item_tileset->next)
 	{
 		for (p2List_item<MapLayer*>* item_layer = data.layers.start; item_layer; item_layer = item_layer->next)
@@ -61,22 +58,15 @@ void j1Map::Draw()
 
 		}
 	}
-	p2List_item<Collision*>* item_coll = data.collisions.start;
+
+	p2List_item<Object_Layer*>* item_coll = data.collisions.start;
 	p2List_item<Object*>* object_rect = item_coll->data->object.start;
-	Collision* coll_rect = item_coll->data;
 	while (object_rect != NULL)
 	{
-		coll_rect->rect.w = object_rect->data->width;
-		coll_rect->rect.h = object_rect->data->height;
-		coll_rect->rect.x = object_rect->data->x;
-		coll_rect->rect.y = object_rect->data->y;
-		App->render->DrawQuad(coll_rect->rect, 255, 0, 0, 75);
+		App->render->DrawQuad(object_rect->data->rect, 255, 0, 0, 75);
 		object_rect = object_rect->next;
 	}
 	
-	
-		// TODO 9: Complete the draw function
-
 }
 
 
@@ -164,6 +154,8 @@ bool j1Map::Load(const char* file_name)
 			ret = LoadTilesetImage(tileset, set);
 		}
 
+
+
 		data.tilesets.add(set);
 	}
 
@@ -184,7 +176,7 @@ bool j1Map::Load(const char* file_name)
 	pugi::xml_node collision;
 	for (collision = map_file.child("map").child("objectgroup"); collision && ret; collision = collision.next_sibling("objectgroup"))
 	{
-		Collision*	coll = new Collision();
+		Object_Layer*	coll = new Object_Layer();
 		ret = LoadCollision(collision, coll);
 		if (ret == true)
 		{
@@ -222,7 +214,7 @@ bool j1Map::Load(const char* file_name)
 			item_layer = item_layer->next;
 		}
 
-		p2List_item<Collision*>* item_coll = data.collisions.start;
+		p2List_item<Object_Layer*>* item_coll = data.collisions.start;
 		while (item_coll != NULL)
 		{
 			//Collision* c = item_coll->data;
@@ -231,7 +223,7 @@ bool j1Map::Load(const char* file_name)
 			p2List_item<Object*>* item_obj = item_coll->data->object.start;
 			while (item_obj != NULL)
 			{
-				LOG("collision width: %d collision height: %d", item_obj->data->width, item_obj->data->height);
+				LOG("collision width: %d collision height: %d", item_obj->data->rect.w, item_obj->data->rect.h);
 				item_obj = item_obj->next;
 			}
 			item_coll = item_coll->next;
@@ -370,7 +362,7 @@ bool j1Map::LoadTilesetImage(pugi::xml_node& tileset_node, TileSet* set)
 	return ret;
 }
 
-bool j1Map::LoadCollision(pugi::xml_node& node, Collision* collision)
+bool j1Map::LoadCollision(pugi::xml_node& node, Object_Layer* collision)
 {
 	bool ret = true;
 	collision->name = node.attribute("name").as_string();
@@ -378,10 +370,10 @@ bool j1Map::LoadCollision(pugi::xml_node& node, Collision* collision)
 	{
 		Object* item_object = new Object;
 		item_object->obj_id = object_node.attribute("id").as_int();
-		item_object->width = object_node.attribute("width").as_float();
-		item_object->height = object_node.attribute("height").as_float();
-		item_object->x = object_node.attribute("x").as_float();
-		item_object->y = object_node.attribute("y").as_float();
+		item_object->rect.w = object_node.attribute("width").as_float();
+		item_object->rect.h = object_node.attribute("height").as_float();
+		item_object->rect.x = object_node.attribute("x").as_float();
+		item_object->rect.y = object_node.attribute("y").as_float();
 
 		collision->object.add(item_object);
 		LOG("Perfect parsing of collision.tmx: Found the collisions");
