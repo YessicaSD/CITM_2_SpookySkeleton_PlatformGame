@@ -20,6 +20,9 @@ private:
 	fPoint initialPos;
 	fPoint instantPos;
 	fPoint offset;
+
+	float SpeedX=0.0f;
+	Uint32 currentTime;
 	Animation PlayerIdle;
 	pugi::xml_node player_node;
 	SDL_Texture* ptexture=nullptr;

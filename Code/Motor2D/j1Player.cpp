@@ -101,17 +101,47 @@ inline bool j1Player::CreateCol()
 bool j1Player::PreUpdate()
 {
 	//Player input-------------------------------------------------------------------
-	if (App->input->GetKey(SDL_SCANCODE_RIGHT)== KEY_REPEAT)
-		instantPos.x += 0.25f;
-	if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT)
-		instantPos.x -= 0.25f;
+	if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_DOWN && App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_IDLE)
+	{
+		SpeedX += 0.5f;
+		currentTime = SDL_GetTicks();
+	}
+	if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_UP )
+	{
+		if (SpeedX > 0)
+		{
+			SpeedX -= 0.5f;
+			initialPos.x = instantPos.x;
+		}
+		
+	}
+		
+
+	if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_DOWN && App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_IDLE)
+	{
+		SpeedX -= 0.5f;
+		currentTime = SDL_GetTicks();
+	}
+	if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_UP && App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_IDLE)
+	{
+		if (SpeedX < 0)
+		{
+			SpeedX += 0.5f;
+			initialPos.x = instantPos.x;
+		}
+		
+	}
 	if (App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT)
 		instantPos.y -= 0.5f;
 	if (App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT)
 		instantPos.y += 0.25f;
+
 	//Gravity ------------------------------------------------------------------------
 	if(activeGravity)
 	instantPos.y = instantPos.y + App->map->gravity;
+
+
+	instantPos.x = initialPos.x + SpeedX* ( SDL_GetTicks()-currentTime);
 
 	ColliderPlayer->SetPos(instantPos.x+offset.x, instantPos.y);
 	return true;
