@@ -26,30 +26,23 @@ private:
 	p2SString String_docXml;
 	Collider* ColliderPlayer=nullptr;
 
+public:
+	bool activeGravity=true;
+
 
 public:
-
 	j1Player();
-	
-
 	void Init();
 	bool Awake(pugi::xml_node&);
 	bool Start();
 	bool PreUpdate();
 	bool Update(float dt);
 	bool CleanUp();
-
 	 bool LoadAnimations();
 	 bool CreateCol();
-
-	//// Called each loop iteration
-	//bool PostUpdate();
-
-	
-	
+	bool PostUpdate();
 
 	/*bool Load(pugi::xml_node&);*/
-
 	//bool Save(pugi::xml_node&) const;
 
 };

@@ -5,6 +5,7 @@
 #include "j1Textures.h"
 #include "j1Map.h"
 #include "j1Collision.h"
+#include "j1Player.h"
 #include <math.h>
 
 j1Map::j1Map() : j1Module(), map_loaded(false)
@@ -87,21 +88,27 @@ bool j1Map::CleanUp()
 {
 	LOG("Unloading map");
 
-	// Remove all tilesets
-	p2List_item<TileSet*>* item;
-	item = data.tilesets.start;
-
-	while(item != NULL)
+	// Remove all tilesets----------------------------------------------------------------------------------
+	for(p2List_item<TileSet*>* item = data.tilesets.start;item ; item = item->next)
 	{
 		RELEASE(item->data);
-		item = item->next;
 	}
 	data.tilesets.clear();
 
-	// TODO 2: clean up all layer data
-	// Remove all layers
 	
+	// Removed all layers----------------------------------------------------------------------------------
+	for (p2List_item<MapLayer*>* Layer_item = data.layers.start;Layer_item; Layer_item=Layer_item->next)
+	{
+		RELEASE(Layer_item->data);
+	}
 	data.layers.clear();
+
+	//Removed Col------------------------------------------------------------------------------------------
+	for (p2List_item<Object_Layer*>* Col_item = data.collisions.start; Col_item; Col_item = Col_item->next)
+	{
+		RELEASE(Col_item->data);
+	}
+	data.collisions.clear();
 
 	// Clean up the pugui tree
 	map_file.reset();
@@ -395,5 +402,5 @@ bool j1Map::LoadLayer(pugi::xml_node& node, MapLayer* layer)
 
 void j1Map::OnCollision(Collider* c1, Collider* c2 )
 {
-	
+	App->player1->activeGravity = false;
 }

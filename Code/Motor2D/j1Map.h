@@ -10,8 +10,11 @@ struct Collider;
 struct Object
 {
 	int			obj_id;
-	
 	Collider*   colWall=nullptr;
+	~Object()
+	{
+		delete[] colWall;
+	}
 	
 };
 
@@ -43,23 +46,22 @@ struct TileSet
 	// TODO 7: Create a method that receives a tile id and returns it's Rectfind the Rect associated with a specific tile id
 	SDL_Rect GetTileRect(int id) const;
 
-	p2SString			name;
-	int					firstgid;
-	int					margin;
-	int					spacing;
-	int					tile_width;
-	int					tile_height;
+	p2SString			name ="";
+	uint					firstgid=0;
+	uint					margin=0;
+	uint					spacing=0;
+	uint					tile_width=0;
+	uint					tile_height=0;
 	SDL_Texture*		texture=nullptr;
-	int					tex_width;
-	int					tex_height;
-	int					num_tiles_width;
-	int					num_tiles_height;
-	int					offset_x;
-	int					offset_y;
+	uint					tex_width=0;
+	uint					tex_height=0;
+	uint					num_tiles_width=0;
+	uint					num_tiles_height=0;
+	uint					offset_x=0;
+	uint					offset_y=0;
 
 	SDL_Rect Rectfind(uint tileId)
 	{
-		
 			tileId - 1;
 			SDL_Rect rect;
 			rect.w= tex_width;
@@ -67,10 +69,6 @@ struct TileSet
 			rect.x = margin + ((rect.w + spacing) * (tileId % num_tiles_width));
 			rect.y = margin + ((rect.h + spacing) * (tileId / num_tiles_width));
 			return rect;
-		
-		
-		
-			
 	}
 };
 
@@ -90,9 +88,9 @@ struct MapData
 	uint					tile_height;
 	/*SDL_Color			background_color;*/
 	MapTypes			type;
-	p2List<TileSet*>	tilesets;
+	p2List<TileSet*>tilesets;
 	p2List<MapLayer*> layers;
-	p2List<Object_Layer*>	collisions;
+	p2List<Object_Layer*>collisions;
 };
 
 // ----------------------------------------------------
@@ -101,7 +99,7 @@ class j1Map : public j1Module
 public:
 
 	MapData data;
-
+	float gravity=0.25;
 	inline uint Get(int x, int y) const
 	{return  (y * data.width + x);}
 

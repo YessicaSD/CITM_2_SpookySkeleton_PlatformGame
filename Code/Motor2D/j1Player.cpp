@@ -5,6 +5,7 @@
 #include "j1Render.h"
 #include "j1Input.h"
 #include "j1Collision.h"
+#include "j1Map.h"
 j1Player::j1Player() : j1Module()
 {
 	active = false;
@@ -99,14 +100,18 @@ inline bool j1Player::CreateCol()
 
 bool j1Player::PreUpdate()
 {
+	//Player input-------------------------------------------------------------------
 	if (App->input->GetKey(SDL_SCANCODE_RIGHT)== KEY_REPEAT)
 		instantPos.x += 0.25f;
 	if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT)
 		instantPos.x -= 0.25f;
 	if (App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT)
-		instantPos.y -= 0.25f;
+		instantPos.y -= 0.5f;
 	if (App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT)
 		instantPos.y += 0.25f;
+	//Gravity ------------------------------------------------------------------------
+	if(activeGravity)
+	instantPos.y = instantPos.y + App->map->gravity;
 
 	ColliderPlayer->SetPos(instantPos.x+offset.x, instantPos.y);
 	return true;
@@ -118,6 +123,12 @@ bool j1Player::Update(float dt)
 	
 	return true;
 }
+
+bool j1Player::PostUpdate()
+{
+	activeGravity = true;
+	return true;
+};
 bool j1Player::CleanUp()
 {
 	App->tex->UnLoad(ptexture);
