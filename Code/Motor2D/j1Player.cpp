@@ -4,6 +4,7 @@
 #include "j1Textures.h"
 #include "j1Render.h"
 #include "j1Input.h"
+#include "j1Collision.h"
 j1Player::j1Player() : j1Module()
 {
 	active = false;
@@ -17,7 +18,12 @@ bool j1Player:: Awake (pugi::xml_node &node)
 	
 	return true;
 }
-
+void j1Player::Init()
+{
+	instantPos.x = 0;
+	instantPos.y = 0;
+	active = true;
+}
 bool j1Player::Start()
 {
 	bool ret = false;
@@ -28,20 +34,22 @@ bool j1Player::Start()
 	if (result)
 	{
 		player_node = player_file.child("player");
-		LoadAnimations();
-		ret = true;
+		ret = LoadAnimations();
+		ret = CreateCol();
+		
+		
 
 	}
 
 	else
 	{
 		LOG("player %s", result.description());
-		return false;
+		return ret;
 	}
 
-	return true;
+	return ret;
 }
-bool j1Player::LoadAnimations()
+inline bool j1Player::LoadAnimations()
 {
 	bool ret = true;
 	pugi::xml_node p1_node = player_node.child("player1").child("animation");
@@ -72,6 +80,22 @@ bool j1Player::LoadAnimations()
 	return ret;
 
 }
+inline bool j1Player::CreateCol()
+{
+	bool ret = false;
+
+	SDL_Rect playerRect;
+	playerRect.x = instantPos.x;
+	playerRect.y = instantPos.y;
+	playerRect.w = player_node.child("player1").child("collider").attribute("w").as_int();
+	playerRect.h = player_node.child("player1").child("collider").attribute("w").as_int();
+
+	ColliderPlayer = App->collision->AddCollider(playerRect, COLLIDER_PLAYER, App->player1);
+	if (ColliderPlayer != nullptr)
+		ret = true;
+	return ret;
+}
+
 bool j1Player::PreUpdate()
 {
 	if (App->input->GetKey(SDL_SCANCODE_RIGHT)== KEY_REPEAT)
@@ -82,6 +106,8 @@ bool j1Player::PreUpdate()
 		instantPos.y -= 0.25f;
 	if (App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT)
 		instantPos.y += 0.25f;
+
+	ColliderPlayer->SetPos(instantPos.x, instantPos.y);
 	return true;
 }
 bool j1Player::Update(float dt)

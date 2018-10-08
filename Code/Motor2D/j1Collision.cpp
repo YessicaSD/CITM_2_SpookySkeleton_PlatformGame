@@ -16,24 +16,35 @@ j1Collision::j1Collision()
 	matrix[COLLIDER_IGNORE_HIT][COLLIDER_WALL] = false;
 	matrix[COLLIDER_IGNORE_HIT][COLLIDER_PLAYER] = false;
 	matrix[COLLIDER_IGNORE_HIT][COLLIDER_ENEMY] = false;
+	matrix[COLLIDER_IGNORE_HIT][COLLIDER_GOD] = false;
 
 	//Collider wall-----------------------------------------------------
 	matrix[COLLIDER_WALL][COLLIDER_IGNORE_HIT] = false;
 	matrix[COLLIDER_WALL][COLLIDER_WALL] = false;
 	matrix[COLLIDER_WALL][COLLIDER_PLAYER] = true;
 	matrix[COLLIDER_WALL][COLLIDER_ENEMY] = false;
+	matrix[COLLIDER_WALL][COLLIDER_GOD] = true;
 
 	//Collider player---------------------------------------------------
 	matrix[COLLIDER_PLAYER][COLLIDER_IGNORE_HIT] = false;
 	matrix[COLLIDER_PLAYER][COLLIDER_WALL] = true;
 	matrix[COLLIDER_PLAYER][COLLIDER_PLAYER] = false;
 	matrix[COLLIDER_PLAYER][COLLIDER_ENEMY] = true;
+	matrix[COLLIDER_PLAYER][COLLIDER_GOD] = false;
+
 
 	//Collider enemy ----------------------------------------------
 	matrix[COLLIDER_ENEMY][COLLIDER_IGNORE_HIT] = false;
 	matrix[COLLIDER_ENEMY][COLLIDER_WALL] = false;
 	matrix[COLLIDER_ENEMY][COLLIDER_PLAYER] = true;
 	matrix[COLLIDER_ENEMY][COLLIDER_ENEMY] = false;
+	matrix[COLLIDER_ENEMY][COLLIDER_GOD] = false;
+
+	//Collider God--------------------------------------------------------
+	matrix[COLLIDER_GOD][COLLIDER_IGNORE_HIT] = false;
+	matrix[COLLIDER_GOD][COLLIDER_WALL] = false;
+	matrix[COLLIDER_GOD][COLLIDER_PLAYER] = false;
+	matrix[COLLIDER_GOD][COLLIDER_ENEMY] = true;
 
 
 }

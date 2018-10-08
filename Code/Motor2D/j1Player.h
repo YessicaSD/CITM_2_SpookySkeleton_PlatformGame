@@ -24,31 +24,22 @@ private:
 	pugi::xml_node player_node;
 	SDL_Texture* ptexture=nullptr;
 	p2SString String_docXml;
+	Collider* ColliderPlayer=nullptr;
+
 
 public:
 
 	j1Player();
 	
 
-	void Init()
-	{
-		instantPos.x = 0;
-		instantPos.y = 0;
-		active = true;
-	}
-
-	// Called before render is available
+	void Init();
 	bool Awake(pugi::xml_node&);
-
-	// Called before the first frame
 	bool Start();
-
-	bool LoadAnimations();
-	// Called each loop iteration
 	bool PreUpdate();
-
-	// Called each loop iteration
 	bool Update(float dt);
+
+	inline bool LoadAnimations();
+	inline bool CreateCol();
 
 	//// Called each loop iteration
 	//bool PostUpdate();

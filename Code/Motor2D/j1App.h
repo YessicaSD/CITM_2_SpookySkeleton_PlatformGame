@@ -14,6 +14,7 @@ class j1Audio;
 class j1Scene;
 class j1Map;
 class j1Player;
+class j1Collision;
 
 class j1App
 {
@@ -77,22 +78,22 @@ private:
 public:
 
 	// Modules
-	j1Window*			win;
-	j1Input*			input;
-	j1Render*			render;
-	j1Textures*			tex;
-	j1Audio*			audio;
-	j1Scene*			scene;
-	j1Map*				map;
-	j1Player*			player1;
-
+	j1Window*			win=nullptr;
+	j1Input*			input = nullptr;
+	j1Render*			render = nullptr;
+	j1Textures*			tex = nullptr;
+	j1Audio*			audio = nullptr;
+	j1Scene*			scene = nullptr;
+	j1Map*				map = nullptr;
+	j1Player*			player1 = nullptr;
+	j1Collision*		collision = nullptr;
 private:
 
 	p2List<j1Module*>	modules;
 	uint				frames;
 	float				dt;
 	int					argc;
-	char**				args;
+	char**				args = nullptr;
 
 	p2SString			title;
 	p2SString			organization;
