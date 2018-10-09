@@ -49,8 +49,8 @@ bool j1Player::Start()
 		instantPos.x = player_node.child("player1").attribute("Start_pos_x").as_float();
 		instantPos.y = player_node.child("player1").attribute("Start_pos_y").as_float();
 
-		initialPos.x= player_node.child("player1").attribute("Start_pos_x").as_float();
-		initialPos.y = player_node.child("player1").attribute("Start_pos_y").as_float();
+		/*initialPos.x= player_node.child("player1").attribute("Start_pos_x").as_float();
+		initialPos.y = player_node.child("player1").attribute("Start_pos_y").as_float();*/
 
 		PlayerIdle = LoadAnimations("idle");
 		PlayerWalk = LoadAnimations("walking");
@@ -58,7 +58,7 @@ bool j1Player::Start()
 		PlayerAttack = LoadAnimations("attack");
 		PlayerDeath = LoadAnimations("death");
 		ret = CreateCol();
-		
+		currentTime = SDL_GetTicks();
 		
 
 	}
@@ -105,6 +105,8 @@ inline bool j1Player::CreateCol()
 	ColliderPlayer = App->collision->AddCollider(playerRect, COLLIDER_PLAYER, App->player1);
 	if (ColliderPlayer != nullptr)
 		ret = true;
+
+
 	return ret;
 }
 
@@ -113,54 +115,45 @@ bool j1Player::PreUpdate()
 	//Player input-------------------------------------------------------------------
 	if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_DOWN && App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_IDLE)
 	{
-		SpeedX += 0.5f;
-		currentTime = SDL_GetTicks();
-	}
-	if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_UP )
-	{
-		if (SpeedX > 0)
-		{
-			SpeedX -= 0.5f;
-			initialPos.x = instantPos.x;
-		}
+		if(SpeedX<0.5f)
+		SpeedX = 0.5f;
 		
 	}
 		
-
 	if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_DOWN && App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_IDLE)
 	{
-		SpeedX -= 0.5f;
-		currentTime = SDL_GetTicks();
+		if (SpeedX> -0.5f)
+		SpeedX = -0.5f;
+
 	}
-	if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_UP && App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_IDLE)
+
+	if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_IDLE && App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_IDLE)
 	{
-		if (SpeedX < 0)
-		{
-			SpeedX += 0.5f;
-			initialPos.x = instantPos.x;
-		}
-		
+		SpeedX = 0.0f;
 	}
-	if (App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT)
-		instantPos.y -= 0.5f;
-	if (App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT)
-		instantPos.y += 0.25f;
+
 
 	//Gravity ------------------------------------------------------------------------
 	if(activeGravity)
-	instantPos.y = instantPos.y + App->map->gravity;
+	{
+		instantPos.y += /*initialPos.y +*/ App->map->gravity /**(SDL_GetTicks() - currentTime)*/;
+	}
 
+	instantPos.x += SpeedX;
 
-	instantPos.x = initialPos.x + SpeedX* ( SDL_GetTicks()-currentTime);
+	/*instantPos.x = initialPos.x + SpeedX* ( SDL_GetTicks()-currentTime);*/
 
-	ColliderPlayer->SetPos(instantPos.x+offset.x, instantPos.y);
+	
 	return true;
 }
 bool j1Player::Update(float dt)
 {
+	SDL_Rect CurrentFrame = PlayerIdle.GetCurrentFrame();
 
-	App->render->Blit(ptexture,instantPos.x,instantPos.y,&PlayerIdle.GetCurrentFrame(),1.0f);
-	
+	App->render->Blit(ptexture,instantPos.x-CurrentFrame.w/2,instantPos.y-CurrentFrame.h,&CurrentFrame,1.0f);
+	ColliderPlayer->SetPos(instantPos.x + offset.x - CurrentFrame.w / 2, instantPos.y - CurrentFrame.h);
+	ColliderPlayer->SetMeasurements(CurrentFrame.w-6, CurrentFrame.h);
+
 	return true;
 }
 
