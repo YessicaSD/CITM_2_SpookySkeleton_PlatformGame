@@ -24,6 +24,10 @@ private:
 	float SpeedX=0.0f;
 	Uint32 currentTime;
 	Animation PlayerIdle;
+	Animation PlayerWalk;
+	Animation PlayerJump;
+	Animation PlayerAttack;
+	Animation PlayerDeath;
 
 	pugi::xml_node player_node;
 	SDL_Texture* ptexture=nullptr;
@@ -42,7 +46,7 @@ public:
 	bool PreUpdate();
 	bool Update(float dt);
 	bool CleanUp();
-	 bool LoadAnimations();
+	Animation LoadAnimations(p2SString name);
 	 bool CreateCol();
 	bool PostUpdate();
 

@@ -31,6 +31,17 @@ bool j1Player::Start()
 	pugi::xml_document	player_file;
 	pugi::xml_parse_result result = player_file.load_file(String_docXml.GetString());
 
+	ptexture = App->tex->Load("textures/skeleton.png");
+
+
+	if (ptexture == nullptr) {
+		LOG("Error loading player texture!");
+		ret = false;
+	}
+	else {
+		LOG("Loaded player texture succesfully");
+	}
+
 	if (result)
 	{
 		player_node = player_file.child("player");
@@ -41,7 +52,11 @@ bool j1Player::Start()
 		initialPos.x= player_node.child("player1").attribute("Start_pos_x").as_float();
 		initialPos.y = player_node.child("player1").attribute("Start_pos_y").as_float();
 
-		ret = LoadAnimations();
+		PlayerIdle = LoadAnimations("idle");
+		PlayerWalk = LoadAnimations("walking");
+		PlayerJump = LoadAnimations("jump");
+		PlayerAttack = LoadAnimations("attack");
+		PlayerDeath = LoadAnimations("death");
 		ret = CreateCol();
 		
 		
@@ -56,35 +71,24 @@ bool j1Player::Start()
 
 	return ret;
 }
- bool j1Player::LoadAnimations()
+ Animation j1Player::LoadAnimations(p2SString name)
 {
 	bool ret = true;
 	pugi::xml_node p1_node = player_node.child("player1").child("animation");
-
-	
-	ptexture = App->tex->Load("textures/skeleton.png");
-
-
-	if (ptexture == nullptr) {
-		LOG("Error loading player texture!");
-		ret = false;
-	}
-	else {
-		LOG("Loaded player texture succesfully");
-	}
+	Animation anim_aux;
 
 	SDL_Rect frameRect;
-	for (pugi::xml_node frame = p1_node.child("idle").child("frame"); frame; frame = frame.next_sibling("frame"))
+	for (pugi::xml_node frame = p1_node.child(name.GetString()).child("frame"); frame; frame = frame.next_sibling("frame"))
 	{
-		
 		frameRect.x = frame.attribute("x").as_int();
 		frameRect.y = frame.attribute("y").as_int();
 		frameRect.w = frame.attribute("width").as_int();
 		frameRect.h = frame.attribute("height").as_int();
-		PlayerIdle.PushBack(frameRect);
+		anim_aux.PushBack(frameRect);
+		LOG("Animation: %s", name.GetString());
 	}
-	PlayerIdle.speed = 0.005f;
-	return ret;
+	anim_aux.speed = 0.2f;
+	return anim_aux;
 
 }
 inline bool j1Player::CreateCol()
