@@ -18,16 +18,57 @@
    </idle>
     
     <walking>
-      <frame x="2" y="0" width="14" height="31"/>
+      <frame x="2" y="64" width="14" height="31"/>
+      <frame x="33" y="64" width="14" height="31"/>
+      <frame x="67" y="63" width="13" height="32"/>
+      <frame x="100" y="64" width="12" height="31"/>
+      <frame x="130" y="65" width="13" height="30"/>
+      <frame x="160" y="64" width="16" height="31"/>
+      <frame x="192" y="64" width="19" height="31"/>
+      <frame x="224" y="63" width="20" height="32"/>
+      <frame x="257" y="64" width="19" height="31"/>
+      <frame x="290" y="65" width="17" height="30"/>
     </walking>
 
     <death>
-      <frame x="2" y="0" width="14" height="31"/>
+      <frame x="0" y="128" width="18" height="31"/>
+      <frame x="31" y="128" width="20" height="31"/>
+      <frame x="64" y="128" width="18" height="31"/>
+      <frame x="96" y="128" width="17" height="31"/>
+      <frame x="129" y="128" width="16" height="31"/>
+      <frame x="162" y="128" width="15" height="31"/>
+      <frame x="193" y="131" width="16" height="28"/>
+      <frame x="224" y="135" width="21" height="24"/>
+      <frame x="257" y="142" width="21" height="17"/>
+      <frame x="287" y="149" width="23" height="10"/>
     </death>
 
+    <jump>
+      <frame x="2" y="32" width="14" height="31"/>
+      <frame x="34" y="32" width="14" height="31"/>
+      <frame x="65" y="32" width="16" height="31"/>
+      <frame x="96" y="32" width="18" height="31"/>
+      <frame x="126" y="32" width="22" height="31"/>
+      <frame x="158" y="32" width="22" height="31"/>
+      <frame x="189" y="32" width="23" height="31"/>
+      <frame x="221" y="32" width="23" height="31"/>
+      <frame x="255" y="32" width="19" height="31"/>
+      <frame x="289" y="32" width="16" height="31"/>
+    </jump>
+
     <attack>
-      <frame x="2" y="0" width="14" height="31"/>
+      <frame x="2" y="96" width="14" height="31"/>
+      <frame x="35" y="96" width="15" height="31"/>
+      <frame x="67" y="96" width="18" height="31"/>
+      <frame x="99" y="96" width="21" height="31"/>
+      <frame x="131" y="95" width="22" height="32"/>
+      <frame x="163" y="95" width="21" height="31"/>
+      <frame x="195" y="95" width="22" height="32"/>
+      <frame x="227" y="96" width="21" height="32"/>
+      <frame x="260" y="96" width="16" height="31"/>
+      <frame x="291" y="96" width="15" height="31"/>
     </attack>
+    
   </animation>
     
   </player1>
