@@ -49,7 +49,7 @@ void j1Map::Draw()
 
 						iPoint mapPoint = MapToWorld(column, row);
 						SDL_Rect section = item_tileset->data->GetTileRect(layer->tiledata[Get(column, row)]);
- 						App->render->Blit(item_tileset->data->texture, mapPoint.x, mapPoint.y, &section, 1.0f);
+ 						App->render->Blit(item_tileset->data->texture, mapPoint.x, mapPoint.y, &section);
 
 					}
 

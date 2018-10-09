@@ -11,8 +11,16 @@
 
 
 class j1App;
-struct SDL_Texture;
-
+ struct SDL_Texture;
+ enum class AnimationState : uint
+{
+	ANIM_STATE_IDLE,
+	ANIM_STATE_WALK,
+	ANIM_STATE_JUMP,
+	ANIM_STATE_ATTACK,
+	ANIM_STATE_DEATH,
+	ANIM_STATE_SPAWN
+};
 class j1Player : public j1Module
 {
 private:
@@ -23,17 +31,23 @@ private:
 
 	float SpeedX=0.0f;
 	Uint32 currentTime;
+
+	AnimationState animState= AnimationState::ANIM_STATE_IDLE;
 	Animation PlayerIdle;
 	Animation PlayerWalk;
 	Animation PlayerJump;
 	Animation PlayerAttack;
 	Animation PlayerDeath;
+	Animation PlayerSpawn;
+
 
 	pugi::xml_node player_node;
 	SDL_Texture* ptexture=nullptr;
 	p2SString String_docXml;
 	Collider* ColliderPlayer=nullptr;
 
+	Animation LoadAnimations(p2SString name);
+	bool CreateCol();
 public:
 	bool activeGravity=true;
 
@@ -46,8 +60,6 @@ public:
 	bool PreUpdate();
 	bool Update(float dt);
 	bool CleanUp();
-	Animation LoadAnimations(p2SString name);
-	 bool CreateCol();
 	bool PostUpdate();
 
 	/*bool Load(pugi::xml_node&);*/

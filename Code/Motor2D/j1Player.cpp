@@ -57,6 +57,7 @@ bool j1Player::Start()
 		PlayerJump = LoadAnimations("jump");
 		PlayerAttack = LoadAnimations("attack");
 		PlayerDeath = LoadAnimations("death");
+		PlayerSpawn = LoadAnimations("spawn");
 		ret = CreateCol();
 		currentTime = SDL_GetTicks();
 		
@@ -113,33 +114,37 @@ inline bool j1Player::CreateCol()
 bool j1Player::PreUpdate()
 {
 	//Player input-------------------------------------------------------------------
-	if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_DOWN && App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_IDLE)
+	
+	if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT /*&& App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_IDLE*/)
 	{
-		if(SpeedX<0.5f)
+		animState = AnimationState::ANIM_STATE_WALK;
 		SpeedX = 0.5f;
-		
+		instantPos.x += SpeedX;
 	}
 		
-	if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_DOWN && App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_IDLE)
+	if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT /*&& App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_IDLE*/)
 	{
-		if (SpeedX> -0.5f)
+		animState = AnimationState::ANIM_STATE_WALK;
 		SpeedX = -0.5f;
+		instantPos.x += SpeedX;
 
 	}
 
-	if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_IDLE && App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_IDLE)
+
+	if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_IDLE && App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_IDLE || App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT && App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
 	{
+		animState = AnimationState::ANIM_STATE_IDLE;
 		SpeedX = 0.0f;
 	}
 
-
+	
 	//Gravity ------------------------------------------------------------------------
 	if(activeGravity)
 	{
 		instantPos.y += /*initialPos.y +*/ App->map->gravity /**(SDL_GetTicks() - currentTime)*/;
 	}
 
-	instantPos.x += SpeedX;
+	
 
 	/*instantPos.x = initialPos.x + SpeedX* ( SDL_GetTicks()-currentTime);*/
 
@@ -148,9 +153,21 @@ bool j1Player::PreUpdate()
 }
 bool j1Player::Update(float dt)
 {
-	SDL_Rect CurrentFrame = PlayerIdle.GetCurrentFrame();
+	SDL_Rect CurrentFrame;
+	if (animState == AnimationState::ANIM_STATE_IDLE)
+	{
+	   CurrentFrame = PlayerIdle.GetCurrentFrame();
+	}
+	if (animState == AnimationState::ANIM_STATE_WALK)
+	{
+		CurrentFrame = PlayerWalk.GetCurrentFrame();
+	}
 
-	App->render->Blit(ptexture,instantPos.x-CurrentFrame.w/2,instantPos.y-CurrentFrame.h,&CurrentFrame,1.0f);
+	if(SpeedX<0.0f)
+	App->render->Blit(ptexture,instantPos.x-CurrentFrame.w/2,instantPos.y-CurrentFrame.h,&CurrentFrame,SDL_RendererFlip::SDL_FLIP_HORIZONTAL);
+	else
+		App->render->Blit(ptexture, instantPos.x - CurrentFrame.w / 2, instantPos.y - CurrentFrame.h, &CurrentFrame);
+
 	ColliderPlayer->SetPos(instantPos.x + offset.x - CurrentFrame.w / 2, instantPos.y - CurrentFrame.h);
 	ColliderPlayer->SetMeasurements(CurrentFrame.w-6, CurrentFrame.h);
 
