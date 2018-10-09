@@ -66,11 +66,11 @@
       <frame x="129" y="128" width="16" height="31"/>
       <frame x="162" y="128" width="15" height="31"/>
       <frame x="193" y="131" width="16" height="28"/>
-      
       <frame x="224" y="135" width="21" height="24"/>
       <frame x="257" y="142" width="21" height="17"/>
       <frame x="287" y="149" width="23" height="10"/>
     </death>
+    
     
     <spawn>
       <frame x="287" y="149" width="23" height="10"/>
@@ -82,8 +82,6 @@
       <frame x="96" y="128" width="17" height="31"/>
       <frame x="64" y="128" width="18" height="31"/>
       <frame x="31" y="128" width="20" height="31"/>
-      <frame x="0" y="128" width="18" height="31"/>
-      
     </spawn>
   </animation>
     

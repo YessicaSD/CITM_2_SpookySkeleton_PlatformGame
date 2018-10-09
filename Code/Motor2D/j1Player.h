@@ -32,7 +32,7 @@ private:
 	float SpeedX=0.0f;
 	Uint32 currentTime;
 
-	AnimationState animState= AnimationState::ANIM_STATE_IDLE;
+	AnimationState animState = AnimationState::ANIM_STATE_SPAWN;
 	Animation PlayerIdle;
 	Animation PlayerWalk;
 	Animation PlayerJump;
@@ -61,7 +61,7 @@ public:
 	bool Update(float dt);
 	bool CleanUp();
 	bool PostUpdate();
-
+	void SpawnPlayer();
 	/*bool Load(pugi::xml_node&);*/
 	//bool Save(pugi::xml_node&) const;
 

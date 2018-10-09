@@ -88,7 +88,7 @@ bool j1Player::Start()
 		anim_aux.PushBack(frameRect);
 		LOG("Animation: %s", name.GetString());
 	}
-	anim_aux.speed = 0.2f;
+	anim_aux.speed = 0.1f;
 	return anim_aux;
 
 }
@@ -114,28 +114,31 @@ inline bool j1Player::CreateCol()
 bool j1Player::PreUpdate()
 {
 	//Player input-------------------------------------------------------------------
+	if (animState != AnimationState::ANIM_STATE_SPAWN && animState != AnimationState::ANIM_STATE_DEATH)
+	{
+		if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT /*&& App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_IDLE*/)
+		{
+			animState = AnimationState::ANIM_STATE_WALK;
+			SpeedX = 0.5f;
+			instantPos.x += SpeedX;
+		}
+
+		if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT /*&& App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_IDLE*/)
+		{
+			animState = AnimationState::ANIM_STATE_WALK;
+			SpeedX = -0.5f;
+			instantPos.x += SpeedX;
+
+		}
+
+
+		if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_IDLE && App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_IDLE || App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT && App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
+		{
+			animState = AnimationState::ANIM_STATE_IDLE;
+			SpeedX = 0.0f;
+		}
+	}
 	
-	if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT /*&& App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_IDLE*/)
-	{
-		animState = AnimationState::ANIM_STATE_WALK;
-		SpeedX = 0.5f;
-		instantPos.x += SpeedX;
-	}
-		
-	if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT /*&& App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_IDLE*/)
-	{
-		animState = AnimationState::ANIM_STATE_WALK;
-		SpeedX = -0.5f;
-		instantPos.x += SpeedX;
-
-	}
-
-
-	if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_IDLE && App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_IDLE || App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT && App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
-	{
-		animState = AnimationState::ANIM_STATE_IDLE;
-		SpeedX = 0.0f;
-	}
 
 	
 	//Gravity ------------------------------------------------------------------------
@@ -162,7 +165,18 @@ bool j1Player::Update(float dt)
 	{
 		CurrentFrame = PlayerWalk.GetCurrentFrame();
 	}
+	if (animState == AnimationState::ANIM_STATE_SPAWN)
+	{
+		if (PlayerSpawn.Finished())
+		{
+			animState = AnimationState::ANIM_STATE_IDLE;
+			PlayerSpawn.loop = 0;
+		}
 
+		else
+		CurrentFrame = PlayerSpawn.GetCurrentFrame();
+
+	}
 	if(SpeedX<0.0f)
 	App->render->Blit(ptexture,instantPos.x-CurrentFrame.w/2,instantPos.y-CurrentFrame.h,&CurrentFrame,SDL_RendererFlip::SDL_FLIP_HORIZONTAL);
 	else
@@ -184,4 +198,9 @@ bool j1Player::CleanUp()
 	App->tex->UnLoad(ptexture);
 	ColliderPlayer->to_delete = true;
 	return true;
+}
+void j1Player::SpawnPlayer()
+{
+	animState = AnimationState::ANIM_STATE_SPAWN;
+	ColliderPlayer->type = COLLIDER_TYPE::COLLIDER_GOD;
 }
