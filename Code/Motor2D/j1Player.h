@@ -24,6 +24,7 @@ private:
 	float SpeedX=0.0f;
 	Uint32 currentTime;
 	Animation PlayerIdle;
+
 	pugi::xml_node player_node;
 	SDL_Texture* ptexture=nullptr;
 	p2SString String_docXml;
