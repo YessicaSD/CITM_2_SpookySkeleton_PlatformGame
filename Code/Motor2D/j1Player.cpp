@@ -21,8 +21,7 @@ bool j1Player:: Awake (pugi::xml_node &node)
 }
 void j1Player::Init()
 {
-	instantPos.x = 0;
-	instantPos.y = 0;
+	
 	active = true;
 }
 bool j1Player::Start()
@@ -35,6 +34,13 @@ bool j1Player::Start()
 	if (result)
 	{
 		player_node = player_file.child("player");
+		
+		instantPos.x = player_node.child("player1").attribute("Start_pos_x").as_float();
+		instantPos.y = player_node.child("player1").attribute("Start_pos_y").as_float();
+
+		initialPos.x= player_node.child("player1").attribute("Start_pos_x").as_float();
+		initialPos.y = player_node.child("player1").attribute("Start_pos_y").as_float();
+
 		ret = LoadAnimations();
 		ret = CreateCol();
 		

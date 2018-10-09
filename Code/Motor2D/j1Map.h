@@ -99,7 +99,7 @@ class j1Map : public j1Module
 public:
 
 	MapData data;
-	float gravity=0.25;
+	float gravity=1.0f;
 	inline uint Get(int x, int y) const
 	{return  (y * data.width + x);}
 
