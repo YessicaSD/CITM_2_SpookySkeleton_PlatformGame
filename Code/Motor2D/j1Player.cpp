@@ -27,6 +27,7 @@ void j1Player::Init()
 bool j1Player::Start()
 {
 	bool ret = false;
+	animState = AnimationState::ANIM_STATE_IDLE;
 	//Loading file player xml --------------------------------------------------------------
 	pugi::xml_document	player_file;
 	pugi::xml_parse_result result = player_file.load_file(String_docXml.GetString());
@@ -46,11 +47,8 @@ bool j1Player::Start()
 	{
 		player_node = player_file.child("player");
 		
-		instantPos.x = player_node.child("player1").attribute("Start_pos_x").as_float();
-		instantPos.y = player_node.child("player1").attribute("Start_pos_y").as_float();
-
-		/*initialPos.x= player_node.child("player1").attribute("Start_pos_x").as_float();
-		initialPos.y = player_node.child("player1").attribute("Start_pos_y").as_float();*/
+		flPosPlayer.x = player_node.child("player1").attribute("Start_pos_x").as_float();
+		flPosPlayer.y = player_node.child("player1").attribute("Start_pos_y").as_float();
 
 		PlayerIdle = LoadAnimations("idle");
 		PlayerWalk = LoadAnimations("walking");
@@ -98,12 +96,13 @@ inline bool j1Player::CreateCol()
 	offset.x = 3;
 	offset.y = 0;
 	SDL_Rect playerRect;
-	playerRect.x = instantPos.x+offset.x;
-	playerRect.y = instantPos.y;
+	playerRect.x = flPosPlayer.x+offset.x;
+	playerRect.y = flPosPlayer.y;
 	playerRect.w = player_node.child("player1").child("collider").attribute("w").as_int();
 	playerRect.h = player_node.child("player1").child("collider").attribute("h").as_int();
-
+	SDL_Rect pos = { flPosPlayer.x, flPosPlayer.y,1,1};
 	ColliderPlayer = App->collision->AddCollider(playerRect, COLLIDER_PLAYER, App->player1);
+	ColliderPos = App->collision->AddCollider(pos, COLLIDER_ENEMY, App->player1);
 	if (ColliderPlayer != nullptr)
 		ret = true;
 
@@ -120,14 +119,14 @@ bool j1Player::PreUpdate()
 		{
 			animState = AnimationState::ANIM_STATE_WALK;
 			SpeedX = 0.5f;
-			instantPos.x += SpeedX;
+			flPosPlayer.x += SpeedX;
 		}
 
 		if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT /*&& App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_IDLE*/)
 		{
 			animState = AnimationState::ANIM_STATE_WALK;
 			SpeedX = -0.5f;
-			instantPos.x += SpeedX;
+			flPosPlayer.x += SpeedX;
 
 		}
 		
@@ -142,19 +141,42 @@ bool j1Player::PreUpdate()
 			animState = AnimationState::ANIM_STATE_DEATH;
 			SpeedX = 0.0f;
 		}
+		if (App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT)
+		{
+			flPosPlayer.y += 1;
+		}
+		if (App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT)
+		{
+			flPosPlayer.y -= 1;
+		}
+		if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
+		{
+			if (!jumping)
+			{
+				jumping = true;
+				currentTime = SDL_GetTicks();
+			/*	flPosPlayer.y = flPosPlayer.y;*/
+				initial_JumpVelosity = -50.0f;
+			}
+			
+		}
+
 	}
 	
+
 
 	
 	//Gravity ------------------------------------------------------------------------
-	if(activeGravity)
-	{
-		instantPos.y += /*initialPos.y +*/ App->map->gravity /**(SDL_GetTicks() - currentTime)*/;
-	}
-
+	
+		/*JumpVelocity = (App->map->gravity*(SDL_GetTicks() - currentTime)) / 2;
+		instantPos.y = initialPos.y + (initial_JumpVelosity *(SDL_GetTicks() - currentTime) + JumpVelocity);*/
+	
 	
 
-	/*instantPos.x = initialPos.x + SpeedX* ( SDL_GetTicks()-currentTime);*/
+	
+	
+	LOG("%f", initial_JumpVelosity);
+	
 
 	
 	return true;
@@ -197,13 +219,16 @@ bool j1Player::Update(float dt)
 
 	}
 	if(SpeedX<0.0f)
-	App->render->Blit(ptexture,instantPos.x-CurrentFrame.w/2,instantPos.y-CurrentFrame.h,&CurrentFrame,SDL_RendererFlip::SDL_FLIP_HORIZONTAL);
+	App->render->Blit(ptexture, flPosPlayer.x-CurrentFrame.w/2, flPosPlayer.y-CurrentFrame.h,&CurrentFrame,SDL_RendererFlip::SDL_FLIP_HORIZONTAL);
 	else
-		App->render->Blit(ptexture, instantPos.x - CurrentFrame.w / 2, instantPos.y - CurrentFrame.h, &CurrentFrame);
+		App->render->Blit(ptexture, flPosPlayer.x - CurrentFrame.w / 2, flPosPlayer.y - CurrentFrame.h, &CurrentFrame);
 
-	ColliderPlayer->SetPos(instantPos.x + offset.x - CurrentFrame.w / 2, instantPos.y - CurrentFrame.h);
+	PlayerMesure.x = CurrentFrame.w;
+	PlayerMesure.y = CurrentFrame.h;
+
+	ColliderPlayer->SetPos(flPosPlayer.x + offset.x - CurrentFrame.w / 2, flPosPlayer.y - CurrentFrame.h);
 	ColliderPlayer->SetMeasurements(CurrentFrame.w-6, CurrentFrame.h);
-
+	ColliderPos->SetPos(flPosPlayer.x , flPosPlayer.y );
 	return true;
 }
 
@@ -222,4 +247,46 @@ void j1Player::SpawnPlayer()
 {
 	animState = AnimationState::ANIM_STATE_SPAWN;
 	ColliderPlayer->type = COLLIDER_TYPE::COLLIDER_GOD;
+}
+
+void j1Player::OnCollision(Collider* c1, Collider* c2)
+{
+
+	LOG("player wall");
+	switch (c2->type)
+	{
+	case COLLIDER_WALL:
+
+		//The player have collisioned with a side stand
+		if (flPosPlayer.x <= c2->rect.x)
+		{
+			flPosPlayer.x = c2->rect.x- PlayerMesure.x/2;
+		}
+		else if(flPosPlayer.x >= c2->rect.x + c2->rect.w)
+		{
+			flPosPlayer.x = c2->rect.x + c2->rect.w + PlayerMesure.x / 2;
+		}
+		else
+		{
+			if (flPosPlayer.y > c2->rect.y + c2->rect.h)
+			{
+				flPosPlayer.y = c2->rect.y + c2->rect.h + PlayerMesure.y;
+
+			}
+			else
+			{
+				flPosPlayer.y = c2->rect.y ;
+			}
+		}
+			
+		
+	
+			break;
+	default:
+		break;
+	}
+	
+	
+	
+
 }

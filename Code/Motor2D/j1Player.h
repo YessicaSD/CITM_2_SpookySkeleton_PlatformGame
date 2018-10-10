@@ -10,6 +10,7 @@
 #include "Animation.h"
 
 
+
 class j1App;
  struct SDL_Texture;
  enum class AnimationState : uint
@@ -23,15 +24,22 @@ class j1App;
 };
 class j1Player : public j1Module
 {
+public:
+	fPoint flPosPlayer;
 private:
 	
-	fPoint initialPos;
-	fPoint instantPos;
+	
+	
 	fPoint offset;
-
+	fPoint PlayerMesure;
+	
 	float SpeedX=0.0f;
 	Uint32 currentTime;
-
+	float JumpVelocity = 0.0f;
+	float initial_JumpVelosity = 0.0f;
+	bool jumping=false;
+	
+	//Animations--------------------------------------
 	AnimationState animState = AnimationState::ANIM_STATE_SPAWN;
 	Animation PlayerIdle;
 	Animation PlayerWalk;
@@ -45,12 +53,12 @@ private:
 	SDL_Texture* ptexture=nullptr;
 	p2SString String_docXml;
 	Collider* ColliderPlayer=nullptr;
-
+	Collider* ColliderPos = nullptr;
 	Animation LoadAnimations(p2SString name);
 	bool CreateCol();
 public:
 	bool activeGravity=true;
-
+	
 
 public:
 	j1Player();
@@ -62,6 +70,7 @@ public:
 	bool CleanUp();
 	bool PostUpdate();
 	void SpawnPlayer();
+	void j1Player::OnCollision(Collider* c1, Collider* c2);
 	/*bool Load(pugi::xml_node&);*/
 	//bool Save(pugi::xml_node&) const;
 
