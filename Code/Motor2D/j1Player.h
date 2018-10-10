@@ -12,10 +12,11 @@
 
 class j1App;
  struct SDL_Texture;
- enum class AnimationState : uint
+ enum player_state 
 {
 	ANIM_STATE_IDLE,
-	ANIM_STATE_WALK,
+	ANIM_STATE_WALK_RIGHT,
+	ANIM_STATE_WALK_LEFT,
 	ANIM_STATE_JUMP,
 	ANIM_STATE_ATTACK,
 	ANIM_STATE_DEATH,
@@ -32,14 +33,14 @@ private:
 	float SpeedX=0.0f;
 	Uint32 currentTime;
 
-	AnimationState animState = AnimationState::ANIM_STATE_SPAWN;
+
 	Animation PlayerIdle;
 	Animation PlayerWalk;
 	Animation PlayerJump;
 	Animation PlayerAttack;
 	Animation PlayerDeath;
 	Animation PlayerSpawn;
-
+	player_state state = ANIM_STATE_IDLE;
 
 	pugi::xml_node player_node;
 	SDL_Texture* ptexture=nullptr;
@@ -48,6 +49,9 @@ private:
 
 	Animation LoadAnimations(p2SString name);
 	bool CreateCol();
+	void CheckState();
+	void PerformActions();
+
 public:
 	bool activeGravity=true;
 
