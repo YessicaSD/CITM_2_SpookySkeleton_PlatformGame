@@ -130,11 +130,16 @@ bool j1Player::PreUpdate()
 			instantPos.x += SpeedX;
 
 		}
-
-
+		
 		if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_IDLE && App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_IDLE || App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT && App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
 		{
 			animState = AnimationState::ANIM_STATE_IDLE;
+			SpeedX = 0.0f;
+		}
+
+		if (App->input->GetKey(SDL_SCANCODE_D) == KEY_DOWN)
+		{
+			animState = AnimationState::ANIM_STATE_DEATH;
 			SpeedX = 0.0f;
 		}
 	}
@@ -164,6 +169,19 @@ bool j1Player::Update(float dt)
 	if (animState == AnimationState::ANIM_STATE_WALK)
 	{
 		CurrentFrame = PlayerWalk.GetCurrentFrame();
+	}
+	if (animState == AnimationState::ANIM_STATE_DEATH)
+	{
+		CurrentFrame = PlayerDeath.GetCurrentFrame();
+		if (PlayerDeath.Finished())
+		{
+			PlayerDeath.Reset();
+			animState = AnimationState::ANIM_STATE_IDLE;
+		}
+		
+		
+			
+		
 	}
 	if (animState == AnimationState::ANIM_STATE_SPAWN)
 	{
