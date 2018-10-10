@@ -37,6 +37,10 @@ struct MapLayer
 			delete tiledata;
 		}
 	}
+	inline uint Get(int x, int y) const
+	{
+		return tiledata[(y*width) + x];
+	}
 };
 
 
@@ -100,8 +104,7 @@ public:
 
 	MapData data;
 	float gravity=1.0f;
-	inline uint Get(int x, int y) const
-	{return  (y * data.width + x);}
+	
 
 	j1Map();
 
@@ -133,7 +136,7 @@ private:
 	bool LoadTilesetImage(pugi::xml_node& tileset_node, TileSet* set);
     bool LoadLayer(pugi::xml_node& node, MapLayer* layer);
 	bool LoadCollision(pugi::xml_node& coll_node, Object_Layer* collision);
-	
+	TileSet* GetTilesetFromTileId(int id) const;
 
 
 

@@ -33,8 +33,8 @@ void j1Map::Draw()
 	if(map_loaded == false)
 		return;
 
-	for (p2List_item<TileSet*>* item_tileset = data.tilesets.start;item_tileset!=NULL;item_tileset=item_tileset->next)
-	{
+	/*for (p2List_item<TileSet*>* item_tileset = data.tilesets.start;item_tileset!=NULL;item_tileset=item_tileset->next)*/
+	
 		for (p2List_item<MapLayer*>* item_layer = data.layers.start; item_layer!=NULL; item_layer = item_layer->next)
 		{
 			MapLayer* layer = item_layer->data;
@@ -43,13 +43,16 @@ void j1Map::Draw()
 			{
 				for (uint column = 0; column<data.width; column++)
 				{
-
-					if (layer->tiledata[Get(column, row)] != 0)
+					int tile_id = layer->Get(column, row);
+					if (tile_id>0)
 					{
-
-						iPoint mapPoint = MapToWorld(column, row);
-						SDL_Rect section = item_tileset->data->GetTileRect(layer->tiledata[Get(column, row)]);
- 						App->render->Blit(item_tileset->data->texture, mapPoint.x, mapPoint.y, &section);
+						TileSet* tileset = GetTilesetFromTileId(tile_id);
+						if (tileset != nullptr)
+						{
+							iPoint mapPoint = MapToWorld(column, row);
+							SDL_Rect section = tileset->GetTileRect(tile_id);
+							App->render->Blit(tileset->texture, mapPoint.x, mapPoint.y, &section);
+						}
 
 					}
 
@@ -57,10 +60,18 @@ void j1Map::Draw()
 			}
 
 		}
-	}
+	
 	
 }
 
+TileSet* j1Map::GetTilesetFromTileId(int id) const
+{
+	// TODO 3: Complete this method so we pick the right
+	// Tileset based on a tile id
+	p2List_item<TileSet*>* tileset = data.tilesets.end;
+	for (tileset; id < tileset->data->firstgid; tileset = tileset->prev);
+	return tileset->data;
+}
 
 iPoint j1Map::MapToWorld(int x, int y) const
 {
