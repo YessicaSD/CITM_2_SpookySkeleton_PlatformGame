@@ -162,6 +162,7 @@ bool j1Player::PreUpdate()
 bool j1Player::Update(float dt)
 {
 	SDL_Rect CurrentFrame;
+
 	if (animState == AnimationState::ANIM_STATE_IDLE)
 	{
 	   CurrentFrame = PlayerIdle.GetCurrentFrame();
