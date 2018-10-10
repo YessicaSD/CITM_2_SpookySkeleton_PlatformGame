@@ -220,7 +220,16 @@ void j1Player::CheckState()
 void j1Player::PerformActions()
 {
 	SDL_Rect CurrentFrame;
+
 	switch (state)
+
+
+	if (animState == AnimationState::ANIM_STATE_IDLE)
+	{
+	   CurrentFrame = PlayerIdle.GetCurrentFrame();
+	}
+	if (animState == AnimationState::ANIM_STATE_WALK)
+
 	{
 	case ANIM_STATE_SPAWN:
 		CurrentFrame = PlayerSpawn.GetCurrentFrame();
