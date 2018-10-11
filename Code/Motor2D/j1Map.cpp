@@ -410,6 +410,11 @@ void j1Map::OnCollision(Collider* c1, Collider* c2)
 {
 	if (c2->type == COLLIDER_PLAYER)
 	{
+		if (App->player1->jumping)
+		{
+			App->player1->jumping = false;
+			App->player1->Speed.y = 0.0f;
+		}
 		if (App->player1->instantPos.y > c1->rect.y + c1->rect.h)
 		{
 			/*instantPos.y = c2->rect.y + c2->rect.h + 14;*/

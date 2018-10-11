@@ -59,7 +59,8 @@ bool j1Player::Start()
 		PlayerSpawn = LoadAnimations("spawn");
 		ret = CreateCol();
 		currentTime = SDL_GetTicks();
-		
+		Speed.x = 0.0f;
+		Speed.y = 0.0f;
 
 	}
 
@@ -138,14 +139,14 @@ bool j1Player::Update(float dt)
 		if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT /*&& App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_IDLE*/)
 		{
 			animState = AnimationState::ANIM_STATE_WALK;
-			Speed.x = 0.5f;
+			Speed.x = 1.0f;
 			instantPos.x += Speed.x;
 		}
 
 		if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT /*&& App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_IDLE*/)
 		{
 			animState = AnimationState::ANIM_STATE_WALK;
-			Speed.x = -0.5f;
+			Speed.x = -1.0f;
 			instantPos.x += Speed.x;
 
 		}
@@ -180,7 +181,8 @@ bool j1Player::Update(float dt)
 		{
 			if (!jumping)
 			{
-				Speed.y = 1;
+				Speed.y = -4.0f;
+				jumping = true;
 			}
 			
 
@@ -188,7 +190,16 @@ bool j1Player::Update(float dt)
 		}
 	}
 
+	if(jumping)
+		{
+		
+			if (Speed.y != 0.0f)
+			{
+				Speed.y += 0.1f;
+			}
 
+		}
+	instantPos.y += Speed.y;
 
 	//Gravity ------------------------------------------------------------------------
 	if (moveDown)
@@ -196,10 +207,16 @@ bool j1Player::Update(float dt)
 		instantPos.y += 0.25;
 	}
 
+	
+	return true;
+}
+
+bool j1Player::PostUpdate()
+{
 	SDL_Rect CurrentFrame;
 	if (animState == AnimationState::ANIM_STATE_IDLE)
 	{
-	   CurrentFrame = PlayerIdle.GetCurrentFrame();
+		CurrentFrame = PlayerIdle.GetCurrentFrame();
 	}
 	if (animState == AnimationState::ANIM_STATE_WALK)
 	{
@@ -214,22 +231,18 @@ bool j1Player::Update(float dt)
 		}
 
 		else
-		CurrentFrame = PlayerSpawn.GetCurrentFrame();
-		App->audio->PlayFx(death,0);
+			CurrentFrame = PlayerSpawn.GetCurrentFrame();
+		App->audio->PlayFx(death, 0);
 
 	}
-	if(Speed.x<0.0f)
-	App->render->Blit(ptexture,instantPos.x-CurrentFrame.w/2,instantPos.y-CurrentFrame.h,&CurrentFrame,SDL_RendererFlip::SDL_FLIP_HORIZONTAL);
+	if (Speed.x<0.0f)
+		App->render->Blit(ptexture, instantPos.x - CurrentFrame.w / 2, instantPos.y - CurrentFrame.h, &CurrentFrame, SDL_RendererFlip::SDL_FLIP_HORIZONTAL);
 	else
 		App->render->Blit(ptexture, instantPos.x - CurrentFrame.w / 2, instantPos.y - CurrentFrame.h, &CurrentFrame);
 
-	ColliderPlayer->SetPos(instantPos.x - CurrentFrame.w / 2 +2 , instantPos.y -/*- CurrentFrame.h*/31);
-	ColliderPlayerPos->SetPos(instantPos.x , instantPos.y );
-	return true;
-}
+	ColliderPlayer->SetPos(instantPos.x - CurrentFrame.w / 2 + 2, instantPos.y -/*- CurrentFrame.h*/31);
+	ColliderPlayerPos->SetPos(instantPos.x, instantPos.y);
 
-bool j1Player::PostUpdate()
-{
 	moveDown = true;
 	return true;
 };
