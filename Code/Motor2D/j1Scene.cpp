@@ -31,7 +31,7 @@ bool j1Scene::Awake()
 bool j1Scene::Start()
 {
 	App->map->Load("Level1.tmx");
-	App->audio->PlayMusic("audio/music/spooky_skeletons.ogg");
+	//App->audio->PlayMusic("audio/music/spooky_skeletons.ogg");
 	return true;
 }
 

@@ -88,6 +88,10 @@ bool j1Collision:: PreUpdate()
 					c2->callback->OnCollision(c2, c1);
 				}
 			}
+			else
+			{
+				c1->callback->OffCollision(c1);
+			}
 		}
 	}
 	// Remove all colliders scheduled for deletion---------------------------------------------

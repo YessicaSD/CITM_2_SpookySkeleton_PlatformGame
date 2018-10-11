@@ -243,7 +243,7 @@ bool j1Player::PostUpdate()
 	ColliderPlayer->SetPos(instantPos.x - CurrentFrame.w / 2 + 2, instantPos.y -/*- CurrentFrame.h*/31);
 	ColliderPlayerPos->SetPos(instantPos.x, instantPos.y);
 
-	moveDown = true;
+	
 	return true;
 };
 bool j1Player::CleanUp()
@@ -261,7 +261,7 @@ void j1Player::SpawnPlayer()
 
 void j1Player::OnCollision(Collider* c1, Collider* c2)
 {
-
+	
 	LOG("player wall");
 	switch (c2->type)
 	{
@@ -278,17 +278,17 @@ void j1Player::OnCollision(Collider* c1, Collider* c2)
 		}
 		else
 		{
-			//if (instantPos.y > c2->rect.y + c2->rect.h)
-			//{
-			//	/*instantPos.y = c2->rect.y + c2->rect.h + 14;*/
-			//	activeGravity = false;
-
-			//}
-			/*else
+			if (instantPos.y > c2->rect.y + c2->rect.h)
 			{
-				instantPos.y = c2->rect.y ;
-				activeGravity = false;
-			}*/
+				instantPos.y = c2->rect.y + c2->rect.h + 14;
+			
+
+			}
+			else
+			{
+				instantPos.y = c2->rect.y;
+			
+			}
 		}
 
 
@@ -301,4 +301,8 @@ void j1Player::OnCollision(Collider* c1, Collider* c2)
 
 
 
+}
+void j1Player::OffCollision(Collider* c1)
+{
+	this->moveDown = true;
 }
