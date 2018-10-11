@@ -30,7 +30,7 @@ bool j1Map::Awake(pugi::xml_node& config)
 
 bool j1Map::Draw()
 {
-	/*if (map_loaded == false)
+	if (map_loaded == false)
 		return false;
 
 
@@ -55,7 +55,7 @@ bool j1Map::Draw()
 			}
 		}
 
-	}*/
+	}
 
 	return true;
 }
@@ -219,7 +219,7 @@ bool j1Map::Load(const char* file_name)
 			p2List_item<Object*>* item_obj = item_coll->data->object.start;
 			while (item_obj != NULL)
 			{
-				/*LOG("collision width: %d collision height: %d", item_obj->data->rect.w, item_obj->data->rect.h);*/
+				
 				item_obj = item_obj->next;
 			}
 			item_coll = item_coll->next;
@@ -321,8 +321,8 @@ bool j1Map::LoadTilesetImage(pugi::xml_node& tileset_node, TileSet* set)
 			set->tex_height = h;
 		}
 
-		set->num_tiles_width = (set->tex_width /*- 2 * set->margin*/) / (set->tile_width /*+ set->spacing*/);
-		set->num_tiles_height = (set->tex_height /*- 2 * set->margin*/) / (set->tile_height /*+ set->spacing*/);
+		set->num_tiles_width = (set->tex_width ) / (set->tile_width );
+		set->num_tiles_height = (set->tex_height ) / (set->tile_height);
 		LOG("PERFECT PARSING TILESET WITH PATH: %s", image.attribute("source").as_string());
 	}
 
