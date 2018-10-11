@@ -138,15 +138,15 @@ bool j1Player::Update(float dt)
 		if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT /*&& App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_IDLE*/)
 		{
 			animState = AnimationState::ANIM_STATE_WALK;
-			SpeedX = 0.5f;
-			instantPos.x += SpeedX;
+			Speed.x = 0.5f;
+			instantPos.x += Speed.x;
 		}
 
 		if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT /*&& App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_IDLE*/)
 		{
 			animState = AnimationState::ANIM_STATE_WALK;
-			SpeedX = -0.5f;
-			instantPos.x += SpeedX;
+			Speed.x = -0.5f;
+			instantPos.x += Speed.x;
 
 		}
 
@@ -154,7 +154,7 @@ bool j1Player::Update(float dt)
 		if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_IDLE && App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_IDLE || App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT && App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
 		{
 			animState = AnimationState::ANIM_STATE_IDLE;
-			SpeedX = 0.0f;
+			Speed.x = 0.0f;
 		}
 		if (App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT /*&& App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_IDLE*/)
 		{
@@ -174,6 +174,16 @@ bool j1Player::Update(float dt)
 				instantPos.y += 0.5;
 			}
 		
+
+		}
+		if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
+		{
+			if (!jumping)
+			{
+				Speed.y = 1;
+			}
+			
+
 
 		}
 	}
@@ -208,7 +218,7 @@ bool j1Player::Update(float dt)
 		App->audio->PlayFx(death,0);
 
 	}
-	if(SpeedX<0.0f)
+	if(Speed.x<0.0f)
 	App->render->Blit(ptexture,instantPos.x-CurrentFrame.w/2,instantPos.y-CurrentFrame.h,&CurrentFrame,SDL_RendererFlip::SDL_FLIP_HORIZONTAL);
 	else
 		App->render->Blit(ptexture, instantPos.x - CurrentFrame.w / 2, instantPos.y - CurrentFrame.h, &CurrentFrame);
@@ -247,11 +257,11 @@ void j1Player::OnCollision(Collider* c1, Collider* c2)
 		//The player have collisioned with a side stand
 		if (instantPos.x < c2->rect.x)
 		{
-			instantPos.x = c2->rect.x - PlayerMesure.x / 2 - 1 ;
+			instantPos.x = c2->rect.x - 4;
 		}
 		else if (instantPos.x - 7 > c2->rect.x + c2->rect.w)
 		{
-			instantPos.x = c2->rect.x + c2->rect.w + PlayerMesure.x / 2 + 1 ;
+			instantPos.x = c2->rect.x + c2->rect.w ;
 		}
 		else
 		{

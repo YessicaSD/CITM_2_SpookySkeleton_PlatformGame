@@ -28,9 +28,9 @@ class j1Player : public j1Module
 	fPoint initialPos;
 	fPoint instantPos;
 	fPoint offset;
-	fPoint PlayerMesure;
 	bool moveDown;
-	float SpeedX=0.0f;
+	bool jumping;
+	fPoint Speed;
 	Uint32 currentTime;
 
 
