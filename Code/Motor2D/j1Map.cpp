@@ -408,14 +408,22 @@ bool j1Map::LoadLayer(pugi::xml_node& node, MapLayer* layer)
 
 void j1Map::OnCollision(Collider* c1, Collider* c2)
 {
-	/*App->player1->activeGravity = false;
-	fPoint objectPos;
-	objectPos.x = c2->rect.x + c2->rect.w / 2;
-	objectPos.y = c2->rect.y + c2->rect.h;
-	if (objectPos.y > c1->rect.y && objectPos.y < (c1->rect.y + c1->rect.h / 2))
+	if (c2->type == COLLIDER_PLAYER)
 	{
-		App->player1.
-		c2->SetPos(objectPos.x, c1->rect.y);
+		if (App->player1->instantPos.y > c1->rect.y + c1->rect.h)
+		{
+			/*instantPos.y = c2->rect.y + c2->rect.h + 14;*/
+			/*activeGravity = false;*/
+			App->player1->moveDown = true;
+		}
+		else
+		{
+
+		  /*instantPos.y = c2->rect.y ;*/
+		  App->player1->moveDown = false;
+		}
+	
+		
 	}
-*/
+
 }

@@ -23,15 +23,17 @@ class j1App;
 };
 class j1Player : public j1Module
 {
-private:
+ public:
 	
 	fPoint initialPos;
 	fPoint instantPos;
 	fPoint offset;
 	fPoint PlayerMesure;
-	
+	bool moveDown;
 	float SpeedX=0.0f;
 	Uint32 currentTime;
+
+
 
 	AnimationState animState = AnimationState::ANIM_STATE_SPAWN;
 	Animation PlayerIdle;
@@ -40,17 +42,19 @@ private:
 	Animation PlayerAttack;
 	Animation PlayerDeath;
 	Animation PlayerSpawn;
-	unsigned int death;
+	uint death;
 
 	pugi::xml_node player_node;
 	SDL_Texture* ptexture=nullptr;
+
+
+
 	p2SString String_docXml;
 	Collider* ColliderPlayer=nullptr;
+	Collider* ColliderPlayerPos = nullptr;
 
 	Animation LoadAnimations(p2SString name);
 	bool CreateCol();
-public:
-	bool activeGravity=true;
 
 
 public:
