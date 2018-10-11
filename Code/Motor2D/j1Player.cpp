@@ -114,6 +114,18 @@ inline bool j1Player::CreateCol()
 
 bool j1Player::PreUpdate()
 {
+	activeGravity = true;
+	
+
+	
+
+	
+
+	
+	return true;
+}
+bool j1Player::Update(float dt)
+{
 	//Player input-------------------------------------------------------------------
 	if (animState != AnimationState::ANIM_STATE_SPAWN && animState != AnimationState::ANIM_STATE_DEATH)
 	{
@@ -141,7 +153,7 @@ bool j1Player::PreUpdate()
 		if (App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT /*&& App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_IDLE*/)
 		{
 			animState = AnimationState::ANIM_STATE_WALK;
-			
+
 			instantPos.y -= 0.5;
 
 
@@ -155,21 +167,15 @@ bool j1Player::PreUpdate()
 
 		}
 	}
-	
 
-	
+
+
 	//Gravity ------------------------------------------------------------------------
+	if (activeGravity)
+	{
+		instantPos.y += 0.25;
+	}
 
-
-	
-
-	
-
-	
-	return true;
-}
-bool j1Player::Update(float dt)
-{
 	SDL_Rect CurrentFrame;
 	if (animState == AnimationState::ANIM_STATE_IDLE)
 	{
@@ -192,21 +198,22 @@ bool j1Player::Update(float dt)
 		App->audio->PlayFx(death,0);
 
 	}
-	if(SpeedX<0.0f)
-	App->render->Blit(ptexture,instantPos.x-CurrentFrame.w/2,instantPos.y-CurrentFrame.h,&CurrentFrame,SDL_RendererFlip::SDL_FLIP_HORIZONTAL);
-	else
-		App->render->Blit(ptexture, instantPos.x - CurrentFrame.w / 2, instantPos.y - CurrentFrame.h, &CurrentFrame);
+	//if(SpeedX<0.0f)
+	///*App->render->Blit(ptexture,instantPos.x-CurrentFrame.w/2,instantPos.y-CurrentFrame.h,&CurrentFrame,SDL_RendererFlip::SDL_FLIP_HORIZONTAL);*/
+	//else
+	///*	App->render->Blit(ptexture, instantPos.x - CurrentFrame.w / 2, instantPos.y - CurrentFrame.h, &CurrentFrame);*/
 
-	ColliderPlayer->SetPos(instantPos.x + offset.x - CurrentFrame.w / 2, instantPos.y - CurrentFrame.h);
-	ColliderPlayer->SetMeasurements(CurrentFrame.w-6, CurrentFrame.h);
-	PlayerMesure.x = CurrentFrame.w;
+	ColliderPlayer->SetPos(instantPos.x - /*CurrentFrame.w / 2*/14, instantPos.y -/*- CurrentFrame.h*/31);
+	//ColliderPlayer->SetMeasurements(CurrentFrame.w-6, CurrentFrame.h);
+	/*PlayerMesure.x = CurrentFrame.w;
 	PlayerMesure.y = CurrentFrame.h;
+*/
 	return true;
 }
 
 bool j1Player::PostUpdate()
 {
-	activeGravity = true;
+	
 	return true;
 };
 bool j1Player::CleanUp()
@@ -231,11 +238,11 @@ void j1Player::OnCollision(Collider* c1, Collider* c2)
 	case COLLIDER_WALL:
 
 		//The player have collisioned with a side stand
-		if (instantPos.x <= c2->rect.x)
+		if (instantPos.x < c2->rect.x)
 		{
 			instantPos.x = c2->rect.x - PlayerMesure.x / 2 - 1 ;
 		}
-		else if (instantPos.x >= c2->rect.x + c2->rect.w)
+		else if (instantPos.x - 7 > c2->rect.x + c2->rect.w)
 		{
 			instantPos.x = c2->rect.x + c2->rect.w + PlayerMesure.x / 2 + 1 ;
 		}
@@ -243,12 +250,14 @@ void j1Player::OnCollision(Collider* c1, Collider* c2)
 		{
 			if (instantPos.y > c2->rect.y + c2->rect.h)
 			{
-				instantPos.y = c2->rect.y + c2->rect.h + PlayerMesure.y;
+				instantPos.y = c2->rect.y + c2->rect.h + 14;
+				activeGravity = false;
 
 			}
 			else
 			{
-				instantPos.y = c2->rect.y;
+				instantPos.y = c2->rect.y ;
+				activeGravity = false;
 			}
 		}
 
