@@ -234,7 +234,11 @@ bool j1App::PostUpdate()
 		}
 
 		ret = item->data->PostUpdate();
-		ret = item->data->Draw();
+		if (ret)
+		{
+			ret = item->data->Draw();
+		}
+		
 	}
 
 	return ret;

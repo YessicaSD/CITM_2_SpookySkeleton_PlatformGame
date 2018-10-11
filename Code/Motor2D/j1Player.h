@@ -25,11 +25,12 @@ class j1Player : public j1Module
 {
  public:
 	
-	fPoint initialPos;
-	fPoint instantPos;
+	
+	fPoint flPos;
 	fPoint offset;
 	bool moveDown;
 	bool jumping;
+	bool debugMode = false;
 	fPoint Speed;
 	Uint32 currentTime;
 
@@ -55,7 +56,7 @@ class j1Player : public j1Module
 
 	Animation LoadAnimations(p2SString name);
 	bool CreateCol();
-
+	void DebugModeInput();
 
 public:
 	j1Player();
@@ -63,6 +64,7 @@ public:
 	bool Awake(pugi::xml_node&);
 	bool Start();
 
+	bool PreUpdate();
 	bool Update(float dt);
 	bool CleanUp();
 	bool PostUpdate();

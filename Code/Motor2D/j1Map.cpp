@@ -30,7 +30,7 @@ bool j1Map::Awake(pugi::xml_node& config)
 
 bool j1Map::Draw()
 {
-	if (map_loaded == false)
+	/*if (map_loaded == false)
 		return false;
 
 
@@ -55,7 +55,7 @@ bool j1Map::Draw()
 			}
 		}
 
-	}
+	}*/
 
 	return true;
 }
@@ -248,31 +248,6 @@ bool j1Map::LoadMap()
 		data.height = map.attribute("height").as_uint();
 		data.tile_width = map.attribute("tilewidth").as_uint();
 		data.tile_height = map.attribute("tileheight").as_uint();
-		/*p2SString bg_color(map.attribute("backgroundcolor").as_string());*/
-
-		/*data.background_color.r = 0;
-		data.background_color.g = 0;
-		data.background_color.b = 0;
-		data.background_color.a = 0;*/
-
-		/*	if(bg_color.Length() > 0)
-		{
-		p2SString red, green, blue;
-		bg_color.SubString(1, 2, red);
-		bg_color.SubString(3, 4, green);
-		bg_color.SubString(5, 6, blue);
-
-		int v = 0;
-
-		sscanf_s(red.GetString(), "%x", &v);
-		if(v >= 0 && v <= 255) data.background_color.r = v;
-
-		sscanf_s(green.GetString(), "%x", &v);
-		if(v >= 0 && v <= 255) data.background_color.g = v;
-
-		sscanf_s(blue.GetString(), "%x", &v);
-		if(v >= 0 && v <= 255) data.background_color.b = v;
-		}*/
 
 		p2SString orientation(map.attribute("orientation").as_string());
 
@@ -408,26 +383,38 @@ bool j1Map::LoadLayer(pugi::xml_node& node, MapLayer* layer)
 
 void j1Map::OnCollision(Collider* c1, Collider* c2)
 {
+
 	if (c2->type == COLLIDER_PLAYER)
 	{
-		if (App->player1->jumping)
+		Collider* wall = c1;
+		Collider* colPlayer = c2;
+		//The player is on the wall
+		if (App->player1->flPos.y - 5 <= wall->rect.y && colPlayer->rect.x <= wall->rect.x + wall->rect.w   && colPlayer->rect.x + colPlayer->rect.w >= wall->rect.x)
 		{
-			App->player1->jumping = false;
-			App->player1->Speed.y = 0.0f;
+				App->player1->moveDown = false;
+				App->player1->Speed.y = 0.0f;
+				App->player1->flPos.y = wall->rect.y;
+				App->player1->jumping = false;
 		}
-		if (App->player1->instantPos.y > c1->rect.y + c1->rect.h)
+			
+		
+		// The player collide with the left side of the wall
+		if (App->player1->flPos.x < wall->rect.x )
 		{
-			/*instantPos.y = c2->rect.y + c2->rect.h + 14;*/
-			/*activeGravity = false;*/
-			App->player1->moveDown = true;
+			App->player1->flPos.x = wall->rect.x - 4;
 		}
-		else
-		{
 
-		  /*instantPos.y = c2->rect.y ;*/
-		  App->player1->moveDown = false;
+		// The player collide with the left side of the wall
+		if (App->player1->flPos.x > wall->rect.x + wall->rect.w)
+		{
+			App->player1->flPos.x = wall->rect.x + wall->rect.w + 4;
 		}
-	
+
+		// The player is under the wall
+		if (App->player1->flPos.y > wall->rect.y + wall->rect.h && colPlayer->rect.x+colPlayer->rect.w -5 > wall->rect.x && colPlayer->rect.x + 5< wall->rect.x+wall->rect.w)
+		{
+			App->player1->flPos.y = wall->rect.y + wall->rect.h + 31;
+		}
 		
 	}
 

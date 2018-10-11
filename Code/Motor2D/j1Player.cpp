@@ -47,8 +47,8 @@ bool j1Player::Start()
 	{
 		player_node = player_file.child("player");
 		
-		instantPos.x = player_node.child("player1").attribute("Start_pos_x").as_float();
-		instantPos.y = player_node.child("player1").attribute("Start_pos_y").as_float();
+		flPos.x = player_node.child("player1").attribute("Start_pos_x").as_float();
+		flPos.y = player_node.child("player1").attribute("Start_pos_y").as_float();
 
 
 		PlayerIdle = LoadAnimations("idle");
@@ -98,14 +98,14 @@ inline bool j1Player::CreateCol()
 	offset.x = 3;
 	offset.y = 0;
 	SDL_Rect playerRect;
-	playerRect.x = instantPos.x+offset.x;
-	playerRect.y = instantPos.y;
+	playerRect.x = flPos.x+offset.x;
+	playerRect.y = flPos.y;
 	playerRect.w = player_node.child("player1").child("collider").attribute("w").as_int();
 	playerRect.h = player_node.child("player1").child("collider").attribute("h").as_int();
 
 	SDL_Rect playerPos;
-	playerPos.x = instantPos.x;
-	playerPos.y = instantPos.y;
+	playerPos.x = flPos.x;
+	playerPos.y = flPos.y;
 	playerPos.w = 5;
 	playerPos.h = 5;
 
@@ -118,82 +118,98 @@ inline bool j1Player::CreateCol()
 
 	return ret;
 }
-
+bool j1Player::PreUpdate()
+{
+	if (App->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN)
+	{
+		if (debugMode)
+			debugMode = false;
+		else
+			debugMode = true;
+	}
+	return true;
+}
 bool j1Player::Update(float dt)
 {
-	
-	//Player input-------------------------------------------------------------------
-	if (animState != AnimationState::ANIM_STATE_SPAWN && animState != AnimationState::ANIM_STATE_DEATH)
+	if (!debugMode)
 	{
-		if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT /*&& App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_IDLE*/)
+		//Player input-------------------------------------------------------------------
+		if (animState != AnimationState::ANIM_STATE_SPAWN && animState != AnimationState::ANIM_STATE_DEATH)
 		{
-			animState = AnimationState::ANIM_STATE_WALK;
-			Speed.x = 1.0f;
-			instantPos.x += Speed.x;
-		}
+			if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT /*&& App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_IDLE*/)
+			{
+				animState = AnimationState::ANIM_STATE_WALK;
+				Speed.x = 1.0f;
+				flPos.x += Speed.x;
+			}
 
-		if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT /*&& App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_IDLE*/)
-		{
-			animState = AnimationState::ANIM_STATE_WALK;
-			Speed.x = -1.0f;
-			instantPos.x += Speed.x;
+			if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT /*&& App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_IDLE*/)
+			{
+				animState = AnimationState::ANIM_STATE_WALK;
+				Speed.x = -1.0f;
+				flPos.x += Speed.x;
 
-		}
-
-
-		if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_IDLE && App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_IDLE || App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT && App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
-		{
-			animState = AnimationState::ANIM_STATE_IDLE;
-			Speed.x = 0.0f;
-		}
-		if (App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT /*&& App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_IDLE*/)
-		{
-			animState = AnimationState::ANIM_STATE_WALK;
-
-			instantPos.y -= 0.5;
+			}
 
 
-		}
-
-		if (App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT /*&& App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_IDLE*/)
-		{
-			if (moveDown)
+			if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_IDLE && App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_IDLE || App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT && App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
+			{
+				animState = AnimationState::ANIM_STATE_IDLE;
+				Speed.x = 0.0f;
+			}
+			if (App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT /*&& App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_IDLE*/)
 			{
 				animState = AnimationState::ANIM_STATE_WALK;
 
-				instantPos.y += 0.5;
+				flPos.y -= 0.5;
+
+
 			}
 
-
-		}
-		if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
-		{
-			if (!jumping)
+			if (App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT /*&& App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_IDLE*/)
 			{
-				Speed.y = -5.0f;
-				jumping = true;
+				if (moveDown)
+				{
+					animState = AnimationState::ANIM_STATE_WALK;
+
+					flPos.y += 0.5;
+				}
+
+
+			}
+			if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
+			{
+				if (!jumping)
+				{
+					Speed.y = -5.0f;
+					jumping = true;
+				}
+
+
+
+			}
+		}
+
+		if (jumping)
+		{
+
+			if (Speed.y != 0.0f)
+			{
+				Speed.y += 0.1f;
 			}
 
-
-
 		}
-	}
+		flPos.y += Speed.y;
 
-	if (jumping)
-	{
-
-		if (Speed.y != 0.0f)
+		//Gravity ------------------------------------------------------------------------
+		if (moveDown)
 		{
-			Speed.y += 0.1f;
+			flPos.y += 1.5f;
 		}
-
 	}
-	instantPos.y += Speed.y;
-
-	//Gravity ------------------------------------------------------------------------
-	if (moveDown)
+	else
 	{
-		instantPos.y += 1.5f;
+	 DebugModeInput();
 	}
 
 
@@ -232,12 +248,12 @@ bool j1Player::Draw()
 
 	}
 	if (Speed.x<0.0f)
-		App->render->Blit(ptexture, instantPos.x - CurrentFrame.w / 2, instantPos.y - CurrentFrame.h, &CurrentFrame, SDL_RendererFlip::SDL_FLIP_HORIZONTAL);
+		App->render->Blit(ptexture, flPos.x - CurrentFrame.w / 2, flPos.y - CurrentFrame.h, &CurrentFrame, SDL_RendererFlip::SDL_FLIP_HORIZONTAL);
 	else
-		App->render->Blit(ptexture, instantPos.x - CurrentFrame.w / 2, instantPos.y - CurrentFrame.h, &CurrentFrame);
+		App->render->Blit(ptexture, flPos.x - CurrentFrame.w / 2, flPos.y - CurrentFrame.h, &CurrentFrame);
 
-	ColliderPlayer->SetPos(instantPos.x - 4, instantPos.y -31);
-	ColliderPlayerPos->SetPos(instantPos.x, instantPos.y);
+	ColliderPlayer->SetPos(flPos.x - 4, flPos.y -31);
+	ColliderPlayerPos->SetPos(flPos.x, flPos.y);
 	return true;
 }
 bool j1Player::CleanUp()
@@ -262,28 +278,7 @@ void j1Player::OnCollision(Collider* c1, Collider* c2)
 	case COLLIDER_WALL:
 
 		//The player have collisioned with a side stand
-		if (instantPos.x < c2->rect.x)
-		{
-			instantPos.x = c2->rect.x - 4;
-		}
-		else if (instantPos.x - 7 > c2->rect.x + c2->rect.w)
-		{
-			instantPos.x = c2->rect.x + c2->rect.w ;
-		}
-		else
-		{
-			if (instantPos.y > c2->rect.y + c2->rect.h)
-			{
-				instantPos.y = c2->rect.y + c2->rect.h + 14;
-			
-
-			}
-			else
-			{
-				instantPos.y = c2->rect.y;
-			
-			}
-		}
+		
 
 
 
@@ -299,4 +294,23 @@ void j1Player::OnCollision(Collider* c1, Collider* c2)
 void j1Player::OffCollision(Collider* c1)
 {
 	this->moveDown = true;
+}
+void j1Player::DebugModeInput()
+{
+	if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT)
+	{
+		flPos.y -= 1;
+	}
+	if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT)
+	{
+		flPos.y += 1;
+	}
+	if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
+	{
+		flPos.x -= 1;
+	}
+	if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
+	{
+		flPos.x += 1;
+	}
 }
