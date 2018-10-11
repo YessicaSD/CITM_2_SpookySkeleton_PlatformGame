@@ -181,7 +181,7 @@ bool j1Player::Update(float dt)
 		{
 			if (!jumping)
 			{
-				Speed.y = -4.0f;
+				Speed.y = -5.0f;
 				jumping = true;
 			}
 			
@@ -204,7 +204,7 @@ bool j1Player::Update(float dt)
 	//Gravity ------------------------------------------------------------------------
 	if (moveDown)
 	{
-		instantPos.y += 0.25;
+		instantPos.y += 1.5f;
 	}
 
 	
