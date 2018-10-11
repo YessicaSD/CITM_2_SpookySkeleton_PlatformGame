@@ -114,7 +114,7 @@ public:
 	bool Awake(pugi::xml_node& conf);
 
 	// Called each loop iteration
-	void Draw();
+	bool Draw();
 
 	// Called before quitting
 	bool CleanUp();

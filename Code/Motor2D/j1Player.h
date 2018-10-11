@@ -62,13 +62,14 @@ public:
 	void Init();
 	bool Awake(pugi::xml_node&);
 	bool Start();
-	bool PreUpdate();
+
 	bool Update(float dt);
 	bool CleanUp();
 	bool PostUpdate();
 	void SpawnPlayer();
 	void OnCollision(Collider* c1, Collider* c2);
 	void OffCollision(Collider* c1);
+	bool Draw();
 	/*bool Load(pugi::xml_node&);*/
 	//bool Save(pugi::xml_node&) const;
 

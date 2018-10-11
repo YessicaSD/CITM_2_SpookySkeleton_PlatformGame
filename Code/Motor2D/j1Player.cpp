@@ -119,20 +119,9 @@ inline bool j1Player::CreateCol()
 	return ret;
 }
 
-bool j1Player::PreUpdate()
-{
-	
-	
-
-	
-
-	
-
-	
-	return true;
-}
 bool j1Player::Update(float dt)
 {
+	
 	//Player input-------------------------------------------------------------------
 	if (animState != AnimationState::ANIM_STATE_SPAWN && animState != AnimationState::ANIM_STATE_DEATH)
 	{
@@ -174,7 +163,7 @@ bool j1Player::Update(float dt)
 
 				instantPos.y += 0.5;
 			}
-		
+
 
 		}
 		if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
@@ -184,21 +173,21 @@ bool j1Player::Update(float dt)
 				Speed.y = -5.0f;
 				jumping = true;
 			}
-			
+
 
 
 		}
 	}
 
-	if(jumping)
-		{
-		
-			if (Speed.y != 0.0f)
-			{
-				Speed.y += 0.1f;
-			}
+	if (jumping)
+	{
 
+		if (Speed.y != 0.0f)
+		{
+			Speed.y += 0.1f;
 		}
+
+	}
 	instantPos.y += Speed.y;
 
 	//Gravity ------------------------------------------------------------------------
@@ -207,11 +196,18 @@ bool j1Player::Update(float dt)
 		instantPos.y += 1.5f;
 	}
 
-	
+
 	return true;
 }
 
 bool j1Player::PostUpdate()
+{
+	
+
+	
+	return true;
+};
+bool j1Player::Draw()
 {
 	SDL_Rect CurrentFrame;
 	if (animState == AnimationState::ANIM_STATE_IDLE)
@@ -240,12 +236,10 @@ bool j1Player::PostUpdate()
 	else
 		App->render->Blit(ptexture, instantPos.x - CurrentFrame.w / 2, instantPos.y - CurrentFrame.h, &CurrentFrame);
 
-	ColliderPlayer->SetPos(instantPos.x - CurrentFrame.w / 2 + 2, instantPos.y -/*- CurrentFrame.h*/31);
+	ColliderPlayer->SetPos(instantPos.x - 4, instantPos.y -31);
 	ColliderPlayerPos->SetPos(instantPos.x, instantPos.y);
-
-	
 	return true;
-};
+}
 bool j1Player::CleanUp()
 {
 	App->tex->UnLoad(ptexture);

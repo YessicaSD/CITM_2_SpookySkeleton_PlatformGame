@@ -28,10 +28,10 @@ bool j1Map::Awake(pugi::xml_node& config)
 	return ret;
 }
 
-void j1Map::Draw()
+bool j1Map::Draw()
 {
 	if (map_loaded == false)
-		return;
+		return false;
 
 
 	for (p2List_item<MapLayer*>* item_layer = data.layers.start; item_layer; item_layer = item_layer->next)
@@ -57,7 +57,7 @@ void j1Map::Draw()
 
 	}
 
-
+	return true;
 }
 TileSet* j1Map::GetTilesetFromTileId(int id) const
 {
