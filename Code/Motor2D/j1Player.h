@@ -40,7 +40,7 @@ private:
 	Animation PlayerAttack;
 	Animation PlayerDeath;
 	Animation PlayerSpawn;
-
+	unsigned int death;
 
 	pugi::xml_node player_node;
 	SDL_Texture* ptexture=nullptr;

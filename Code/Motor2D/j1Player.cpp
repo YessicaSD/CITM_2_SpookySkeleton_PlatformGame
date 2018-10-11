@@ -6,6 +6,7 @@
 #include "j1Input.h"
 #include "j1Collision.h"
 #include "j1Map.h"
+#include "j1Audio.h"
 j1Player::j1Player() : j1Module()
 {
 	active = false;
@@ -32,7 +33,7 @@ bool j1Player::Start()
 	pugi::xml_parse_result result = player_file.load_file(String_docXml.GetString());
 
 	ptexture = App->tex->Load("textures/skeleton.png");
-
+	death = App->audio->LoadFx("audio/fx/death.wav");
 
 	if (ptexture == nullptr) {
 		LOG("Error loading player texture!");
@@ -188,6 +189,7 @@ bool j1Player::Update(float dt)
 
 		else
 		CurrentFrame = PlayerSpawn.GetCurrentFrame();
+		App->audio->PlayFx(death,0);
 
 	}
 	if(SpeedX<0.0f)
@@ -210,6 +212,7 @@ bool j1Player::PostUpdate()
 bool j1Player::CleanUp()
 {
 	App->tex->UnLoad(ptexture);
+	
 	ColliderPlayer->to_delete = true;
 	return true;
 }
