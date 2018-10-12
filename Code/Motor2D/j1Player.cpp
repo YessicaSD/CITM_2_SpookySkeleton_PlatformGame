@@ -62,7 +62,7 @@ bool j1Player::Start()
 		currentTime = SDL_GetTicks();
 		Speed.x = 0.0f;
 		Speed.y = 0.0f;
-
+		
 	}
 
 	else
@@ -208,14 +208,15 @@ bool j1Player::Update(float dt)
 		{
 			flPos.y += 1.5f;
 		}
+		App->render->camera.x = (flPos.x - 60) * App->win->GetScale();
+		App->render->camera.y = (flPos.y-300)* App->win->GetScale();
 	}
 	else
 	{
 	 DebugModeInput();
 	}
 	
-		App->render->camera.x = (flPos.x - 60) * App->win->GetScale();
-	
+		
 	
 
 	return true;
