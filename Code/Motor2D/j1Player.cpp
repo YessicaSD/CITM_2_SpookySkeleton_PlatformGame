@@ -206,17 +206,30 @@ bool j1Player::Update(float dt)
 		//Gravity ------------------------------------------------------------------------
 		if (moveDown)
 		{
+
 			flPos.y += 1.5f;
 		}
-		App->render->camera.x = (flPos.x - 60) * App->win->GetScale();
-		App->render->camera.y = (flPos.y-300)* App->win->GetScale();
+		if ( (flPos.x * App->win->GetScale()) >  (( App->render->camera.w / 4) * App->win->GetScale())   )
+		{
+			if(  (flPos.x * App->win->GetScale())   <     ( (App->map->data.tile_width*App->map->data.width)  -(App->render->camera.w / 4) )  * App->win->GetScale())
+			App->render->camera.x = (flPos.x - App->render->camera.w / 4) * App->win->GetScale();
+
+		}
+		
+		if (((flPos.y - 300)* App->win->GetScale())>0 )
+		{
+			App->render->camera.y = (flPos.y - 300)* App->win->GetScale();
+			
+		}
+		
 	}
 	else
 	{
 	 DebugModeInput();
 	}
 	
-		
+	LOG("%f", flPos.y*App->win->GetScale());
+	//LOG("%f", App->render->camera.h);
 	
 
 	return true;
