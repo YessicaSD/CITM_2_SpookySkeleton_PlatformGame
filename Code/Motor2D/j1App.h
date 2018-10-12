@@ -12,9 +12,11 @@ class j1Render;
 class j1Textures;
 class j1Audio;
 class j1Scene;
+class j1Scene2;
 class j1Map;
 class j1Player;
 class j1Collision;
+class j1FadeToBlack;
 
 class j1App
 {
@@ -84,9 +86,11 @@ public:
 	j1Textures*			tex = nullptr;
 	j1Audio*			audio = nullptr;
 	j1Scene*			scene = nullptr;
+	j1Scene2*			scene2 = nullptr;
 	j1Map*				map = nullptr;
 	j1Player*			player1 = nullptr;
 	j1Collision*		collision = nullptr;
+	j1FadeToBlack*		fade = nullptr;
 private:
 
 	p2List<j1Module*>	modules;

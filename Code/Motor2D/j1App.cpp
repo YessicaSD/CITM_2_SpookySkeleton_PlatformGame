@@ -9,7 +9,9 @@
 #include "j1Textures.h"
 #include "j1Audio.h"
 #include "j1Scene.h"
+#include "j1Scene2.h"
 #include "j1Map.h"
+#include "j1FadeToBlack.h"
 #include "j1App.h"
 #include  "j1Collision.h"
 #include "j1Player.h"
@@ -26,9 +28,11 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	tex = new j1Textures();
 	audio = new j1Audio();
 	scene = new j1Scene();
+	scene2 = new j1Scene2();
 	map = new j1Map();
 	player1 = new j1Player();
 	collision = new j1Collision();
+	fade = new j1FadeToBlack();
 
 	// Ordered for awake / Start / Update
 	// Reverse order of CleanUp
@@ -38,12 +42,18 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	
 	AddModule(audio);
 	AddModule(map);
+	AddModule(scene2);
 	AddModule(scene);
+	AddModule(fade);
 	AddModule(player1);
 	AddModule(collision);
 
 	// render last to swap buffer
 	AddModule(render);
+
+	
+	scene2->Disable();
+	
 }
 
 // Destructor
