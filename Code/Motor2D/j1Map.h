@@ -86,7 +86,7 @@ struct MapData
 	uint					height;
 	uint					tile_width;
 	uint					tile_height;
-	/*SDL_Color			background_color;*/
+	SDL_Color			background_color;
 	MapTypes			type;
 	p2List<TileSet*>tilesets;
 	p2List<MapLayer*> layers;

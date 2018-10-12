@@ -37,7 +37,6 @@ bool j1Map::Draw()
 	for (p2List_item<MapLayer*>* item_layer = data.layers.start; item_layer; item_layer = item_layer->next)
 	{
 
-
 		for (uint row = 0; row<data.height; row++)
 		{
 			for (uint column = 0; column<data.width; column++)
@@ -53,6 +52,7 @@ bool j1Map::Draw()
 				}
 
 			}
+
 		}
 
 	}
@@ -248,7 +248,31 @@ bool j1Map::LoadMap()
 		data.height = map.attribute("height").as_uint();
 		data.tile_width = map.attribute("tilewidth").as_uint();
 		data.tile_height = map.attribute("tileheight").as_uint();
+		/*p2SString bg_color(map.attribute("backgroundcolor").as_string());
+		data.background_color.r = 0;
+		data.background_color.g = 0;
+		data.background_color.b = 0;
+		data.background_color.a = 0;
 
+		if (bg_color.Length() > 0)
+		{
+			p2SString red, green, blue;
+			bg_color.SubString(1, 2, red);
+			bg_color.SubString(3, 4, green);
+			bg_color.SubString(5, 6, blue);
+
+			int v = 0;
+
+			sscanf_s(red.GetString(), "%x", &v);
+			if (v >= 0 && v <= 255) data.background_color.r = v;
+
+			sscanf_s(green.GetString(), "%x", &v);
+			if (v >= 0 && v <= 255) data.background_color.g = v;
+
+			sscanf_s(blue.GetString(), "%x", &v);
+			if (v >= 0 && v <= 255) data.background_color.b = v;
+		}
+*/
 		p2SString orientation(map.attribute("orientation").as_string());
 
 		if (orientation == "orthogonal")

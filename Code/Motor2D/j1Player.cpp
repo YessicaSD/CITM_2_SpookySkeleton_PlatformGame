@@ -244,7 +244,7 @@ bool j1Player::Draw()
 
 		else
 			CurrentFrame = PlayerSpawn.GetCurrentFrame();
-		App->audio->PlayFx(death, 0);
+		
 
 	}
 	if (Speed.x<0.0f)
