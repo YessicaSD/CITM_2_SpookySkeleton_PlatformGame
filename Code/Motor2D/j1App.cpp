@@ -40,17 +40,20 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(win);
 	AddModule(tex);
 	AddModule(audio);
+	
+	
+	
+	AddModule(scene2);
+	AddModule(scene);
 	AddModule(map);
+
 	AddModule(fade);
 	AddModule(player1);
 	AddModule(collision);
 	// render last to swap buffer
 	AddModule(render);
-	AddModule(scene2);
-	AddModule(scene);
-	
 
-	scene->Disable();
+	scene2->Disable();
 	
 
 	
