@@ -266,6 +266,14 @@ bool j1Player::Draw()
 		
 
 	}
+	if (jumping)
+	{
+		CurrentFrame = PlayerJump.GetCurrentFrame();
+	}
+	if (!jumping)
+	{
+		PlayerJump.Reset();
+	}
 	if (Speed.x<0.0f)
 		App->render->Blit(ptexture, flPos.x - CurrentFrame.w / 2, flPos.y - CurrentFrame.h, &CurrentFrame, SDL_RendererFlip::SDL_FLIP_HORIZONTAL);
 	else
