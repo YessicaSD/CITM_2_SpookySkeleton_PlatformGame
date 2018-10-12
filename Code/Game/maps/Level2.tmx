@@ -3014,7 +3014,7 @@
    <tile gid="0"/>
   </data>
  </layer>
- <objectgroup color="#ff0000" name="Capa de Objetos 1">
+ <objectgroup color="#ff0000" name="Wall">
   <object id="1" x="0" y="449" width="160.5" height="31"/>
   <object id="2" x="160.333" y="458.667" width="10" height="24"/>
   <object id="3" x="170.75" y="464.25" width="9" height="15.75"/>
