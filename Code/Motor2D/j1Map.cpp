@@ -248,6 +248,22 @@ bool j1Map::LoadMap()
 		data.height = map.attribute("height").as_uint();
 		data.tile_width = map.attribute("tilewidth").as_uint();
 		data.tile_height = map.attribute("tileheight").as_uint();
+		for (pugi::xml_node nodeProperties = map.child("properties").child("property"); nodeProperties; nodeProperties = nodeProperties.next_sibling("property"))
+		{
+			p2SString nameProperty = nodeProperties.attribute("name").as_string();
+			if (nameProperty == "PlayerPos_x")
+			{
+				App->player1->flPos.x = nodeProperties.attribute("value").as_float();
+
+			}
+			if (nameProperty == "PlayerPos_y")
+			{
+				App->player1->flPos.y = nodeProperties.attribute("value").as_float();
+
+			}
+			
+		}
+		
 		/*p2SString bg_color(map.attribute("backgroundcolor").as_string());
 		data.background_color.r = 0;
 		data.background_color.g = 0;

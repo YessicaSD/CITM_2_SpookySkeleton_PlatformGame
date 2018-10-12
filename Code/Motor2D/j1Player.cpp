@@ -47,8 +47,8 @@ bool j1Player::Start()
 	{
 		player_node = player_file.child("player");
 		
-		flPos.x = player_node.child("player1").attribute("Start_pos_x").as_float();
-		flPos.y = player_node.child("player1").attribute("Start_pos_y").as_float();
+		/*flPos.x = player_node.child("player1").attribute("Start_pos_x").as_float();
+		flPos.y = player_node.child("player1").attribute("Start_pos_y").as_float();*/
 
 
 		PlayerIdle = LoadAnimations("idle");
@@ -141,6 +141,7 @@ bool j1Player::Update(float dt)
 				animState = AnimationState::ANIM_STATE_WALK;
 				Speed.x = 1.0f;
 				flPos.x += Speed.x;
+				
 			}
 
 			if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT /*&& App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_IDLE*/)
@@ -211,7 +212,7 @@ bool j1Player::Update(float dt)
 	{
 	 DebugModeInput();
 	}
-
+	App->render->camera.x -= Speed.x*2;
 
 	return true;
 }
@@ -272,21 +273,6 @@ void j1Player::SpawnPlayer()
 void j1Player::OnCollision(Collider* c1, Collider* c2)
 {
 	
-	LOG("player wall");
-	switch (c2->type)
-	{
-	case COLLIDER_WALL:
-
-		//The player have collisioned with a side stand
-		
-
-
-
-		break;
-	default:
-		break;
-	}
-
 
 
 
@@ -299,18 +285,26 @@ void j1Player::DebugModeInput()
 {
 	if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT)
 	{
-		flPos.y -= 1;
+		animState = AnimationState::ANIM_STATE_WALK;
+		Speed.y = -5.0f;
+		flPos.y += Speed.y;
 	}
 	if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT)
 	{
-		flPos.y += 1;
+		animState = AnimationState::ANIM_STATE_WALK;
+		Speed.y = +5.0f;
+		flPos.y += Speed.y;
 	}
 	if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
 	{
-		flPos.x -= 1;
+		animState = AnimationState::ANIM_STATE_WALK;
+		Speed.x = -5.0f;
+		flPos.x += Speed.x;
 	}
 	if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
 	{
-		flPos.x += 1;
+		animState = AnimationState::ANIM_STATE_WALK;
+		Speed.x = 5.0f;
+		flPos.x += Speed.x;
 	}
 }

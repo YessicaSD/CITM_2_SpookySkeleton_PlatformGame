@@ -3015,8 +3015,11 @@
   </data>
  </layer>
  <objectgroup color="#ff0000" name="Wall">
-  <object id="1" x="0" y="449" width="191.833" height="31"/>
-  <object id="5" x="224.333" y="416.667" width="31" height="29.5"/>
+  <object id="1" x="0" y="449" width="160.5" height="31"/>
+  <object id="2" x="160.333" y="458.667" width="10" height="24"/>
+  <object id="3" x="170.75" y="464.25" width="9" height="15.75"/>
+  <object id="4" x="180.5" y="469" width="10.5" height="12.75"/>
+  <object id="5" x="225" y="416" width="31" height="29.5"/>
   <object id="6" x="320" y="384.5" width="31" height="30.5"/>
   <object id="7" x="416.5" y="416.5" width="62" height="31"/>
   <object id="8" x="545.5" y="447.5" width="93" height="32"/>
