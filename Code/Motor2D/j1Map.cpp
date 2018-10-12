@@ -248,9 +248,10 @@ bool j1Map::LoadMap()
 		data.height = map.attribute("height").as_uint();
 		data.tile_width = map.attribute("tilewidth").as_uint();
 		data.tile_height = map.attribute("tileheight").as_uint();
+		p2SString nameProperty;
 		for (pugi::xml_node nodeProperties = map.child("properties").child("property"); nodeProperties; nodeProperties = nodeProperties.next_sibling("property"))
 		{
-			p2SString nameProperty = nodeProperties.attribute("name").as_string();
+			nameProperty = nodeProperties.attribute("name").as_string();
 			if (nameProperty == "PlayerPos_x")
 			{
 				App->player1->flPos.x = nodeProperties.attribute("value").as_float();

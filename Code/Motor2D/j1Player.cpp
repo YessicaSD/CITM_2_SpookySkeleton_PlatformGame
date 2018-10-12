@@ -7,6 +7,7 @@
 #include "j1Collision.h"
 #include "j1Map.h"
 #include "j1Audio.h"
+#include "j1Window.h"
 j1Player::j1Player() : j1Module()
 {
 	active = false;
@@ -212,7 +213,10 @@ bool j1Player::Update(float dt)
 	{
 	 DebugModeInput();
 	}
-	App->render->camera.x -= Speed.x*2;
+	
+		App->render->camera.x = (flPos.x - 60) * App->win->GetScale();
+	
+	
 
 	return true;
 }

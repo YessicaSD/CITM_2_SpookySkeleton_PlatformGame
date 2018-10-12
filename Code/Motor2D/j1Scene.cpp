@@ -53,16 +53,16 @@ bool j1Scene::Update(float dt)
 
 	//Camera controls -----------------------------------------------------
 	if(App->input->GetKey(SDL_SCANCODE_KP_8) == KEY_REPEAT)
-		App->render->camera.y += 5;
-
-	if(App->input->GetKey(SDL_SCANCODE_KP_5) == KEY_REPEAT)
 		App->render->camera.y -= 5;
 
+	if(App->input->GetKey(SDL_SCANCODE_KP_5) == KEY_REPEAT)
+		App->render->camera.y += 5;
+
 	if(App->input->GetKey(SDL_SCANCODE_KP_4) == KEY_REPEAT)
-		App->render->camera.x += 5;
+		App->render->camera.x -= 5;
 
 	if(App->input->GetKey(SDL_SCANCODE_KP_6) == KEY_REPEAT)
-		App->render->camera.x -= 5;
+		App->render->camera.x += 5;
 
 	
 	
