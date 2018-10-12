@@ -39,20 +39,20 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(input);
 	AddModule(win);
 	AddModule(tex);
-	
 	AddModule(audio);
 	AddModule(map);
-	AddModule(scene2);
-	AddModule(scene);
 	AddModule(fade);
 	AddModule(player1);
 	AddModule(collision);
-
 	// render last to swap buffer
 	AddModule(render);
-
+	AddModule(scene2);
+	AddModule(scene);
 	
-	scene2->Disable();
+
+	scene->Disable();
+	
+
 	
 }
 
@@ -102,10 +102,12 @@ bool j1App::Awake()
 		p2List_item<j1Module*>* item;
 		item = modules.start;
 
-		while(item != NULL && ret == true)
+		while(item != NULL && ret == true )
 		{
-			ret = item->data->Awake(config.child(item->data->name.GetString()));
-
+			if (item->data->IsEnabled())
+			{
+				ret = item->data->Awake(config.child(item->data->name.GetString()));
+			}
 			
 			item = item->next;
 		}
@@ -117,13 +119,17 @@ bool j1App::Awake()
 // Called before the first frame
 bool j1App::Start()
 {
+	
 	bool ret = true;
 	p2List_item<j1Module*>* item;
 	item = modules.start;
 
-	while(item != NULL && ret == true)
+	while(item != NULL && ret == true )
 	{
-		ret = item->data->Start();
+		if (item->data->IsEnabled())
+		{
+			ret = item->data->Start();
+		}
 		item = item->next;
 	}
 
@@ -136,7 +142,7 @@ bool j1App::Update()
 	bool ret = true;
 	PrepareUpdate();
 
-	if(input->GetWindowEvent(WE_QUIT) == true)
+	if(input->GetWindowEvent(WE_QUIT) == true )
 		ret = false;
 
 	if(ret == true)
@@ -192,13 +198,16 @@ bool j1App::PreUpdate()
 
 	for(item = modules.start; item != NULL && ret == true; item = item->next)
 	{
-		pModule = item->data;
+		if (item->data->IsEnabled())
+		{
+			pModule = item->data;
 
-		if(pModule->active == false) {
-			continue;
+			if (pModule->active == false) {
+				continue;
+			}
+
+			ret = item->data->PreUpdate();
 		}
-
-		ret = item->data->PreUpdate();
 	}
 
 	return ret;
@@ -214,13 +223,16 @@ bool j1App::DoUpdate()
 
 	for(item = modules.start; item != NULL && ret == true; item = item->next)
 	{
-		pModule = item->data;
+		if (item->data->IsEnabled())
+		{
+			pModule = item->data;
 
-		if(pModule->active == false) {
-			continue;
+			if (pModule->active == false) {
+				continue;
+			}
+
+			ret = item->data->Update(dt);
 		}
-
-		ret = item->data->Update(dt);
 	}
 
 	return ret;
@@ -233,20 +245,22 @@ bool j1App::PostUpdate()
 	p2List_item<j1Module*>* item;
 	j1Module* pModule = NULL;
 
-	for(item = modules.start; item != NULL && ret == true; item = item->next)
+	for(item = modules.start; item != NULL && ret == true ; item = item->next)
 	{
-		pModule = item->data;
-
-		if(pModule->active == false) {
-			continue;
-		}
-
-		ret = item->data->PostUpdate();
-		if (ret)
+		if (item->data->IsEnabled())
 		{
-			ret = item->data->Draw();
+			pModule = item->data;
+
+			if (pModule->active == false) {
+				continue;
+			}
+
+			ret = item->data->PostUpdate();
+			if (ret)
+			{
+				ret = item->data->Draw();
+			}
 		}
-		
 	}
 
 	return ret;

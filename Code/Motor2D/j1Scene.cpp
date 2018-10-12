@@ -68,7 +68,7 @@ bool j1Scene::Update(float dt)
 	if (App->input->GetKey(SDL_SCANCODE_F) == KEY_REPEAT)
 	{
 		App->fade->FadeToBlack(App->scene, App->scene2, 0.50f);
-		LOG("YOU PRESSED F FOR FADETOBLACK")
+		LOG("YOU PRESSED F FOR FADETOBLACK");
 	}
 
 	p2SString title("Map:%dx%d Tiles:%dx%d Tilesets:%d",
