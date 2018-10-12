@@ -209,11 +209,7 @@ bool j1Player::Update(float dt)
 
 			flPos.y += 1.5f;
 		}
-		/*if ( (flPos.x * App->win->GetScale()) >  (( App->render->camera.w / 4) * App->win->GetScale())  && (flPos.x * App->win->GetScale())   <     ((App->map->data.tile_width*App->map->data.width) - (App->render->camera.w / 4))  * App->win->GetScale())
-		{
-			App->render->camera.x = ((flPos.x - App->render->camera.w / 4 )* App->win->GetScale()) ;
-			
-		}*/
+	
 	
 
 		if ((flPos.x + distansToCam.x)* App->win->GetScale() > 0  && (App->map->data.tile_width*App->map->data.width) * App->win->GetScale() > (((flPos.x + distansToCam.x)* App->win->GetScale()) + App->render->camera.w) )
@@ -234,9 +230,7 @@ bool j1Player::Update(float dt)
 	{
 	 DebugModeInput();
 	}
-	LOG("PLayer.x %f", flPos.x);
-	/*LOG("%f", flPos.y*App->win->GetScale());*/
-	//LOG("%f", App->render->camera.h);
+	
 	
 
 	return true;
