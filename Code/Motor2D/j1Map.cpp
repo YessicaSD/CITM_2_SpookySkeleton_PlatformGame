@@ -463,7 +463,7 @@ void j1Map::OnCollision(Collider* c1, Collider* c2)
 		Collider* wall = c1;
 		Collider* colPlayer = c2;
 		//The player is on the wall
- 		if (App->player1->flPos.y - 5 <= wall->rect.y && colPlayer->rect.x <= wall->rect.x + wall->rect.w   && colPlayer->rect.x + colPlayer->rect.w  >= wall->rect.x)
+ 		if (colPlayer->rect.y <= wall->rect.y && colPlayer->rect.x <= wall->rect.x + wall->rect.w   && colPlayer->rect.x + colPlayer->rect.w  >= wall->rect.x)
 		{
 				App->player1->moveDown = false;
 				App->player1->Speed.y = 0.0f;
