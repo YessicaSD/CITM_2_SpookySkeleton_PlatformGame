@@ -28,12 +28,12 @@ class j1Player : public j1Module
 	
 	fPoint flPos;
 	fPoint offset;
+	fPoint distansToCam;
 	bool moveDown;
 	bool jumping;
 	bool debugMode = false;
 	fPoint Speed;
-	Uint32 currentTime;
-
+	
 
 
 	AnimationState animState = AnimationState::ANIM_STATE_SPAWN;

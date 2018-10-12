@@ -59,7 +59,7 @@ bool j1Player::Start()
 		PlayerDeath = LoadAnimations("death");
 		PlayerSpawn = LoadAnimations("spawn");
 		ret = CreateCol();
-		currentTime = SDL_GetTicks();
+		
 		Speed.x = 0.0f;
 		Speed.y = 0.0f;
 		
@@ -209,26 +209,33 @@ bool j1Player::Update(float dt)
 
 			flPos.y += 1.5f;
 		}
-		if ( (flPos.x * App->win->GetScale()) >  (( App->render->camera.w / 4) * App->win->GetScale())   )
+		/*if ( (flPos.x * App->win->GetScale()) >  (( App->render->camera.w / 4) * App->win->GetScale())  && (flPos.x * App->win->GetScale())   <     ((App->map->data.tile_width*App->map->data.width) - (App->render->camera.w / 4))  * App->win->GetScale())
 		{
-			if(  (flPos.x * App->win->GetScale())   <     ( (App->map->data.tile_width*App->map->data.width)  -(App->render->camera.w / 4) )  * App->win->GetScale())
-			App->render->camera.x = (flPos.x - App->render->camera.w / 4) * App->win->GetScale();
+			App->render->camera.x = ((flPos.x - App->render->camera.w / 4 )* App->win->GetScale()) ;
+			
+		}*/
+	
+
+		if ((flPos.x + distansToCam.x)* App->win->GetScale() > 0  && (App->map->data.tile_width*App->map->data.width) * App->win->GetScale() > (((flPos.x + distansToCam.x)* App->win->GetScale()) + App->render->camera.w) )
+		{
+			App->render->camera.x = ((flPos.x + distansToCam.x)* App->win->GetScale());
 
 		}
-		
-		if (((flPos.y - 300)* App->win->GetScale())>0 )
+		if(    (flPos.y + distansToCam.y) <= ((App->map->data.height * App->map->data.tile_height)*App->win->GetScale() - App->render->camera.h) && (flPos.y + distansToCam.y) > 0 )
 		{
-			App->render->camera.y = (flPos.y - 300)* App->win->GetScale();
-			
+				App->render->camera.y = (flPos.y + distansToCam.y);
 		}
+			
+			
+		
 		
 	}
 	else
 	{
 	 DebugModeInput();
 	}
-	
-	LOG("%f", flPos.y*App->win->GetScale());
+	LOG("PLayer.x %f", flPos.x);
+	/*LOG("%f", flPos.y*App->win->GetScale());*/
 	//LOG("%f", App->render->camera.h);
 	
 

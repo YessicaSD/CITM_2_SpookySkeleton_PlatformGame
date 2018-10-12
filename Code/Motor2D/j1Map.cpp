@@ -183,6 +183,9 @@ bool j1Map::Load(const char* file_name)
 		}
 	}
 
+	// Load properties  -----------------------------------------
+		LoadProperties(map_file.child("map").child("properties").child("property"));
+	
 	if (ret == true)
 	{
 		LOG("Successfully parsed map XML file: %s", file_name);
@@ -422,6 +425,36 @@ bool j1Map::LoadLayer(pugi::xml_node& node, MapLayer* layer)
 	return true;
 }
 
+void j1Map::LoadProperties(pugi::xml_node& node)
+{
+	p2SString nameProperty;
+	for (pugi::xml_node& nodeProperties = node; node; nodeProperties = node.next_sibling("property"))
+	{
+		nameProperty = nodeProperties.attribute("name").as_string();
+		if (nameProperty == "PlayerPos_x")
+		{
+			App->player1->flPos.x = node.attribute("value").as_float();
+
+		}
+		if (nameProperty == "PlayerPos_y")
+		{
+			App->player1->flPos.y = node.attribute("value").as_float();
+
+		}
+		if (nameProperty == "Distant_to_camera_from_player_x")
+		{
+			App->player1->distansToCam.x = node.attribute("value").as_float();
+
+		}
+		if (nameProperty == "Distant_to_camera_from_player_y")
+		{
+			App->player1->distansToCam.y = node.attribute("value").as_float();
+
+		}
+	}
+
+}
+
 void j1Map::OnCollision(Collider* c1, Collider* c2)
 {
 
@@ -430,7 +463,7 @@ void j1Map::OnCollision(Collider* c1, Collider* c2)
 		Collider* wall = c1;
 		Collider* colPlayer = c2;
 		//The player is on the wall
-		if (App->player1->flPos.y - 5 <= wall->rect.y && colPlayer->rect.x <= wall->rect.x + wall->rect.w   && colPlayer->rect.x + colPlayer->rect.w >= wall->rect.x)
+ 		if (App->player1->flPos.y - 5 <= wall->rect.y && colPlayer->rect.x <= wall->rect.x + wall->rect.w   && colPlayer->rect.x + colPlayer->rect.w >= wall->rect.x)
 		{
 				App->player1->moveDown = false;
 				App->player1->Speed.y = 0.0f;

@@ -136,7 +136,7 @@ private:
 	bool LoadLayer(pugi::xml_node& node, MapLayer* layer);
 	bool LoadCollision(pugi::xml_node& coll_node, Object_Layer* collision);
 	TileSet* GetTilesetFromTileId(int id) const;
-
+	void LoadProperties(pugi::xml_node& node);
 
 
 };
