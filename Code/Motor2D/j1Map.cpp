@@ -488,7 +488,7 @@ void j1Map::OnCollision(Collider* c1, Collider* c2)
 
 	if ((c2->type == COLLIDER_PLAYER || c2->type==COLLIDER_GOD) )
 	{
-		if (c1->type==COLLIDER_WALL)
+		if (c1->type==COLLIDER_WALL || c1->type == COLLIDER_ENEMY)
 		{
 			Collider* wall = c1;
 			Collider* colPlayer = c2;

@@ -91,7 +91,7 @@ bool j1Player::Start()
 		frameRect.w = frame.attribute("width").as_int();
 		frameRect.h = frame.attribute("height").as_int();
 		anim_aux.PushBack(frameRect);
-		LOG("Animation: %s", name.GetString());
+		
 	}
 	anim_aux.speed = 0.1f;
 	return anim_aux;
