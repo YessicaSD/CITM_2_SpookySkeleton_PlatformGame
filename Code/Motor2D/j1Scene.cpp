@@ -9,6 +9,7 @@
 #include "j1Map.h"
 #include "j1Scene.h"
 #include "j1Scene2.h"
+#include "j1Player.h"
 #include "ModuleFadeToBack.h"
 
 j1Scene::j1Scene() : j1Module()
@@ -69,6 +70,10 @@ bool j1Scene::Update(float dt)
 	{
 		App->fade->FadeToBlack(App->scene, App->scene2);
 		LOG("YOU PRESSED F FOR FADETOBLACK");
+	}
+	if (App->player1->flPos.x >= (App->map->data.width*App->map->data.tile_width)-(3*App->map->data.tile_width))
+	{
+		App->fade->FadeToBlack(App->scene, App->scene2);
 	}
 
 	p2SString title("Map:%dx%d Tiles:%dx%d Tilesets:%d",

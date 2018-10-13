@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="100" height="15" tilewidth="32" tileheight="32" nextobjectid="76">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="100" height="15" tilewidth="32" tileheight="32" nextobjectid="78">
  <properties>
   <property name="Distant_to_camera_from_player_x" type="float" value="-60"/>
   <property name="Distant_to_camera_from_player_y" type="float" value="-250"/>
@@ -2145,11 +2145,11 @@
    <tile gid="27"/>
    <tile gid="28"/>
    <tile gid="29"/>
-   <tile gid="0"/>
    <tile gid="7"/>
    <tile gid="8"/>
    <tile gid="9"/>
    <tile gid="10"/>
+   <tile gid="0"/>
    <tile gid="71"/>
    <tile gid="72"/>
    <tile gid="73"/>
@@ -2245,21 +2245,21 @@
    <tile gid="37"/>
    <tile gid="38"/>
    <tile gid="39"/>
-   <tile gid="0"/>
    <tile gid="17"/>
    <tile gid="18"/>
    <tile gid="19"/>
    <tile gid="20"/>
+   <tile gid="0"/>
    <tile gid="81"/>
    <tile gid="82"/>
    <tile gid="83"/>
    <tile gid="84"/>
    <tile gid="85"/>
+   <tile gid="0"/>
    <tile gid="7"/>
    <tile gid="8"/>
    <tile gid="9"/>
    <tile gid="10"/>
-   <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="217"/>
@@ -2345,21 +2345,21 @@
    <tile gid="0"/>
    <tile gid="210"/>
    <tile gid="211"/>
-   <tile gid="0"/>
    <tile gid="27"/>
    <tile gid="28"/>
    <tile gid="29"/>
    <tile gid="30"/>
+   <tile gid="0"/>
    <tile gid="91"/>
    <tile gid="92"/>
    <tile gid="93"/>
    <tile gid="94"/>
    <tile gid="95"/>
+   <tile gid="0"/>
    <tile gid="17"/>
    <tile gid="18"/>
    <tile gid="19"/>
    <tile gid="20"/>
-   <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
@@ -2445,21 +2445,21 @@
    <tile gid="0"/>
    <tile gid="217"/>
    <tile gid="218"/>
-   <tile gid="0"/>
    <tile gid="37"/>
    <tile gid="38"/>
    <tile gid="39"/>
    <tile gid="40"/>
+   <tile gid="0"/>
    <tile gid="101"/>
    <tile gid="102"/>
    <tile gid="103"/>
    <tile gid="104"/>
    <tile gid="105"/>
+   <tile gid="0"/>
    <tile gid="27"/>
    <tile gid="28"/>
    <tile gid="29"/>
    <tile gid="30"/>
-   <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
@@ -2556,10 +2556,10 @@
    <tile gid="114"/>
    <tile gid="115"/>
    <tile gid="37"/>
+   <tile gid="37"/>
    <tile gid="38"/>
    <tile gid="39"/>
    <tile gid="40"/>
-   <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
@@ -4136,7 +4136,7 @@
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
-   <tile gid="0"/>
+   <tile gid="178"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
@@ -4585,6 +4585,7 @@
   <object id="55" x="1506" y="256" width="27.3333" height="92"/>
   <object id="56" x="1699" y="1.5" width="122.5" height="59.5"/>
   <object id="65" x="1569.33" y="320" width="28.6667" height="28.6667"/>
+  <object id="76" x="2689.67" y="320.667" width="29.3333" height="28.6667"/>
  </objectgroup>
  <objectgroup name="Death">
   <object id="67" x="161" y="359" width="28" height="24"/>
@@ -4595,5 +4596,12 @@
   <object id="73" x="2176.91" y="327.273" width="27.8182" height="24.3636"/>
   <object id="74" x="2561.75" y="229.75" width="26.5" height="25.75"/>
   <object id="75" x="2914" y="295" width="27" height="24"/>
+ </objectgroup>
+ <objectgroup name="Win">
+  <object id="77" x="3105" y="1" width="33" height="479">
+   <properties>
+    <property name="parallax" type="float" value="1"/>
+   </properties>
+  </object>
  </objectgroup>
 </map>

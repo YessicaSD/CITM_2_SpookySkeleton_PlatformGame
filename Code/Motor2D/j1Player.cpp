@@ -183,7 +183,7 @@ bool j1Player::Update(float dt)
 			{
 				if (!jumping)
 				{
-					Speed.y = -5.0f;
+					Speed.y = -5.2f;
 					jumping = true;
 				}
 
