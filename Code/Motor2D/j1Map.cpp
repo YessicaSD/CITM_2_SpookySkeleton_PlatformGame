@@ -9,6 +9,7 @@
 #include "j1Scene.h"
 #include "ModuleFadeToBack.h"
 #include "j1Scene2.h"
+#include "j1Window.h"
 #include <math.h>
 
 j1Map::j1Map() : j1Module(), map_loaded(false)
@@ -468,12 +469,13 @@ void j1Map::LoadProperties(pugi::xml_node& node)
 		if (nameProperty == "Distant_to_camera_from_player_x")
 		{
 			App->player1->distansToCam.x = node.attribute("value").as_float();
+			App->render->camera.x = ((App->player1->flPos.x + App->player1->distansToCam.x)* App->win->GetScale());
 
 		}
 		if (nameProperty == "Distant_to_camera_from_player_y")
 		{
 			App->player1->distansToCam.y = node.attribute("value").as_float();
-
+			App->render->camera.y = (App->player1->flPos.y + App->player1->distansToCam.y);
 		}
 	}
 
