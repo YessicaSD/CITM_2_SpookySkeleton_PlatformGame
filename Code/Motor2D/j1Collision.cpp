@@ -11,41 +11,32 @@ j1Collision::j1Collision()
 {
 	for (uint i = 0; i < MAX_COLLIDERS; ++i)
 		colliders[i] = nullptr;
-	//Collider none-----------------------------------------------------
-	matrix[COLLIDER_IGNORE_HIT][COLLIDER_IGNORE_HIT] = false;
-	matrix[COLLIDER_IGNORE_HIT][COLLIDER_WALL] = false;
-	matrix[COLLIDER_IGNORE_HIT][COLLIDER_PLAYER] = false;
-	matrix[COLLIDER_IGNORE_HIT][COLLIDER_ENEMY] = false;
-	matrix[COLLIDER_IGNORE_HIT][COLLIDER_GOD] = false;
+
+	for (uint i =0; i<COLLIDER_MAX; ++i)
+	{
+		for (uint j = 0; j<COLLIDER_MAX; ++j)
+		{
+			matrix[i][j] = false;
+		}
+	}
 
 	//Collider wall-----------------------------------------------------
-	matrix[COLLIDER_WALL][COLLIDER_IGNORE_HIT] = false;
-	matrix[COLLIDER_WALL][COLLIDER_WALL] = false;
 	matrix[COLLIDER_WALL][COLLIDER_PLAYER] = true;
-	matrix[COLLIDER_WALL][COLLIDER_ENEMY] = false;
 	matrix[COLLIDER_WALL][COLLIDER_GOD] = true;
 
 	//Collider player---------------------------------------------------
-	matrix[COLLIDER_PLAYER][COLLIDER_IGNORE_HIT] = false;
 	matrix[COLLIDER_PLAYER][COLLIDER_WALL] = true;
-	matrix[COLLIDER_PLAYER][COLLIDER_PLAYER] = false;
 	matrix[COLLIDER_PLAYER][COLLIDER_ENEMY] = true;
-	matrix[COLLIDER_PLAYER][COLLIDER_GOD] = false;
-
-
+	matrix[COLLIDER_PLAYER][COLLIDER_RESPAWN] = true;
+	
 	//Collider enemy ----------------------------------------------
-	matrix[COLLIDER_ENEMY][COLLIDER_IGNORE_HIT] = false;
-	matrix[COLLIDER_ENEMY][COLLIDER_WALL] = false;
 	matrix[COLLIDER_ENEMY][COLLIDER_PLAYER] = true;
-	matrix[COLLIDER_ENEMY][COLLIDER_ENEMY] = false;
-	matrix[COLLIDER_ENEMY][COLLIDER_GOD] = false;
 
 	//Collider God--------------------------------------------------------
-	matrix[COLLIDER_GOD][COLLIDER_IGNORE_HIT] = false;
-	matrix[COLLIDER_GOD][COLLIDER_WALL] = false;
-	matrix[COLLIDER_GOD][COLLIDER_PLAYER] = false;
-	matrix[COLLIDER_GOD][COLLIDER_ENEMY] = true;
+	matrix[COLLIDER_GOD][COLLIDER_WALL] = true;
 
+	//Collider respawn ---------------------------------------------------
+	matrix[COLLIDER_RESPAWN][COLLIDER_PLAYER] = true;
 
 }
 j1Collision::~j1Collision()
@@ -78,6 +69,7 @@ bool j1Collision:: PreUpdate()
 
 			if (c1->CheckCollision(c2->rect) == true)
 			{
+				
 				if (matrix[c1->type][c2->type] && c1->callback)
 				{
 					c1->callback->OnCollision(c1, c2);
@@ -136,6 +128,10 @@ bool j1Collision::PostUpdate()
 			break;
 		case COLLIDER_ENEMY: // red
 			App->render->DrawQuad(colliders[i]->rect, 255, 0, 0, alpha);
+			break;
+
+		case COLLIDER_RESPAWN: // red
+			App->render->DrawQuad(colliders[i]->rect, 125,125, 0, alpha);
 			break;
 		
 
