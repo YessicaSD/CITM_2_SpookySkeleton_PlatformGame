@@ -61,6 +61,7 @@ bool j1Player::Start()
 		PlayerJump = LoadAnimations("jump");
 		PlayerAttack = LoadAnimations("attack");
 		PlayerDeath = LoadAnimations("death");
+		PlayerDeath.loop = false;
 		PlayerSpawn = LoadAnimations("spawn");
 		ret = CreateCol();
 		
@@ -228,7 +229,7 @@ bool j1Player::Update(float dt)
 	 DebugModeInput();
 	}
 	
-	
+	ColliderPlayer->SetPos(flPos.x - 4, flPos.y - 31);
 
 	return true;
 }
@@ -263,16 +264,23 @@ bool j1Player::PostUpdate()
 bool j1Player::Draw()
 {
 	SDL_Rect CurrentFrame;
-	if (animState == AnimationState::ANIM_STATE_IDLE)
+	switch (animState)
 	{
+	case AnimationState::ANIM_STATE_IDLE:
 		CurrentFrame = PlayerIdle.GetCurrentFrame();
-	}
-	if (animState == AnimationState::ANIM_STATE_WALK)
-	{
+		break;
+	case AnimationState::ANIM_STATE_WALK:
 		CurrentFrame = PlayerWalk.GetCurrentFrame();
-	}
-	if (animState == AnimationState::ANIM_STATE_SPAWN)
-	{
+		break;
+	case AnimationState::ANIM_STATE_JUMP:
+		CurrentFrame = PlayerJump.GetCurrentFrame();
+		break;
+	case AnimationState::ANIM_STATE_ATTACK:
+		break;
+	case AnimationState::ANIM_STATE_DEATH:
+		CurrentFrame = PlayerDeath.GetCurrentFrame();
+		break;
+	case AnimationState::ANIM_STATE_SPAWN:
 		if (PlayerSpawn.Finished())
 		{
 			animState = AnimationState::ANIM_STATE_IDLE;
@@ -281,23 +289,22 @@ bool j1Player::Draw()
 
 		else
 			CurrentFrame = PlayerSpawn.GetCurrentFrame();
-		
+		break;
 
 	}
-	if (jumping)
-	{
-		CurrentFrame = PlayerJump.GetCurrentFrame();
-	}
+	
+	
 	if (!jumping)
 	{
 		PlayerJump.Reset();
 	}
 	if (Speed.x<0.0f)
 		App->render->Blit(ptexture, flPos.x - CurrentFrame.w / 2, flPos.y - CurrentFrame.h, &CurrentFrame, SDL_RendererFlip::SDL_FLIP_HORIZONTAL);
+	
 	else
 		App->render->Blit(ptexture, flPos.x - CurrentFrame.w / 2, flPos.y - CurrentFrame.h, &CurrentFrame);
 
-	ColliderPlayer->SetPos(flPos.x - 4, flPos.y -31);
+	
 	
 	return true;
 }
@@ -324,10 +331,8 @@ void j1Player::SpawnPlayer()
 void j1Player::OnCollision(Collider* c1, Collider* c2)
 {
 	
-
-
-
 }
+
 void j1Player::OffCollision(Collider* c1)
 {
 	this->moveDown = true;

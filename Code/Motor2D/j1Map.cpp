@@ -521,7 +521,10 @@ void j1Map::OnCollision(Collider* c1, Collider* c2)
 				App->player1->Speed.y = 0.0f;
 			}
 		}
-		
+		if (c1->type == COLLIDER_ENEMY)
+		{
+			App->player1->animState = AnimationState::ANIM_STATE_DEATH;
+		}
 
 		if (c1->type==COLLIDER_RESPAWN)
 		{
