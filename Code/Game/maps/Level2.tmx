@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.0" orientation="orthogonal" renderorder="right-down" width="100" height="20" tilewidth="32" tileheight="32" nextobjectid="80">
  <properties>
-  <property name="Distant_to_camera_from_player_x" type="float" value="-140"/>
+  <property name="Distant_to_camera_from_player_x" type="float" value="-60"/>
   <property name="Distant_to_camera_from_player_y" type="float" value="-180"/>
   <property name="PlayerPos_x" type="float" value="60"/>
   <property name="PlayerPos_y" type="float" value="419"/>

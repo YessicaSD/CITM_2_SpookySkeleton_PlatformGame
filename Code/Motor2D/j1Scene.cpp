@@ -34,8 +34,8 @@ bool j1Scene::Awake()
 bool j1Scene::Start()
 {
 	App->map->Load("Level1.tmx");
-	App->player1->Enable();
-	//App->audio->PlayMusic("audio/music/spooky_skeletons.ogg");
+	//App->player1->Enable();
+	App->audio->PlayMusic("audio/music/spooky_skeletons.ogg");
 	return true;
 }
 
@@ -67,11 +67,7 @@ bool j1Scene::Update(float dt)
 
 	if(App->input->GetKey(SDL_SCANCODE_KP_6) == KEY_REPEAT)
 		App->render->camera.x += 5;
-	if (App->input->GetKey(SDL_SCANCODE_F) == KEY_REPEAT)
-	{
-		App->fade->FadeToBlack(App->scene, App->scene2);
-		LOG("YOU PRESSED F FOR FADETOBLACK");
-	}
+
 	if (App->player1->flPos.x >= (App->map->data.width*App->map->data.tile_width)-(3*App->map->data.tile_width))
 	{
 		App->fade->FadeToBlack(App->scene, App->scene2);
