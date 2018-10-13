@@ -65,7 +65,8 @@ bool j1Scene2::Update(float dt)
 
 	if (App->input->GetKey(SDL_SCANCODE_KP_6) == KEY_REPEAT)
 		App->render->camera.x += 5;
-	if (App->input->GetKey(SDL_SCANCODE_F6) == KEY_REPEAT)
+
+	if (App->input->GetKey(SDL_SCANCODE_F) == KEY_REPEAT)
 		App->fade->FadeToBlack(App->scene2, App->scene);
 
 
@@ -94,6 +95,6 @@ bool j1Scene2::PostUpdate()
 bool j1Scene2::CleanUp()
 {
 	LOG("Freeing scene");
-
+	App->map->CleanUp();
 	return true;
 }

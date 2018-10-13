@@ -95,24 +95,31 @@ bool j1Map::CleanUp()
 	LOG("Unloading map");
 
 	// Remove all tilesets----------------------------------------------------------------------------------
-	for (p2List_item<TileSet*>* item = data.tilesets.start; item; item = item->next)
+
+	for (p2List_item<TileSet*>* item = data.tilesets.end; item; item = item->prev)
 	{
+		
 		RELEASE(item->data);
 	}
 	data.tilesets.clear();
 
 
 	// Removed all layers----------------------------------------------------------------------------------
-	for (p2List_item<MapLayer*>* Layer_item = data.layers.start; Layer_item; Layer_item = Layer_item->next)
+	for (p2List_item<MapLayer*>* Layer_item = data.layers.end; Layer_item; Layer_item = Layer_item->prev)
 	{
 		RELEASE(Layer_item->data);
 	}
 	data.layers.clear();
 
 	//Removed Col------------------------------------------------------------------------------------------
-	for (p2List_item<Object_Layer*>* Col_item = data.collisions.start; Col_item; Col_item = Col_item->next)
+	for (p2List_item<Object_Layer*>* Col_layer = data.collisions.end; Col_layer; Col_layer = Col_layer->prev)
 	{
-		RELEASE(Col_item->data);
+		
+		for (p2List_item<Object*>* Col_item = Col_layer->data->object.end;   Col_item;  Col_item = Col_item->prev)
+		{
+			Col_item->data->colWall->to_delete = true;
+		}
+		RELEASE(Col_layer->data);
 	}
 	data.collisions.clear();
 

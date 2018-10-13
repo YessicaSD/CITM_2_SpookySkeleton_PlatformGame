@@ -2,14 +2,12 @@
 #include "j1App.h"
 #include "j1Render.h"
 #include "p2Log.h"
-ModuleFadeToBlack::ModuleFadeToBlack()
-{
-	
-	
-}
+
 
 ModuleFadeToBlack::~ModuleFadeToBlack()
-{}
+{
+
+}
 
 // Load assets
 bool ModuleFadeToBlack::Start()
@@ -60,11 +58,6 @@ bool  ModuleFadeToBlack::Update(float dt)
 	} break;
 	}
 
-	
-
-	//Original
-	//SDL_SetRenderDrawColor(App->render->renderer, 0, 0, 0, (Uint8)(normalized * 255.0f));
-	//SDL_RenderFillRect(App->render->renderer, &screen);
 
 	return true;
 }

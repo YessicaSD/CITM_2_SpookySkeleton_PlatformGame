@@ -13,6 +13,7 @@ struct Object
 	Collider*   colWall = nullptr;
 	~Object()
 	{
+		
 		delete[] colWall;
 	}
 
@@ -22,6 +23,7 @@ struct Object_Layer
 {
 	p2SString			name;
 	p2List<Object*>		object;
+
 };
 
 struct MapLayer

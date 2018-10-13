@@ -7,7 +7,6 @@
 class ModuleFadeToBlack : public j1Module
 {
 public:
-	ModuleFadeToBlack();
 	~ModuleFadeToBlack();
 
 	bool Start();
