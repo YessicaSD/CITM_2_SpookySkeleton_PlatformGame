@@ -47,8 +47,8 @@ bool j1Map::Draw()
 					iPoint mapPoint = MapToWorld(column, row);
 					TileSet* tileset = GetTilesetFromTileId(id);
 					SDL_Rect section = tileset->GetTileRect(id);
-					App->render->Blit(tileset->texture, mapPoint.x, mapPoint.y, &section);
-
+					App->render->Blit(tileset->texture, mapPoint.x, mapPoint.y, &section,SDL_FLIP_NONE, item_layer->data->parallax_velocity);
+					
 				}
 
 			}
@@ -422,7 +422,7 @@ bool j1Map::LoadLayer(pugi::xml_node& node, MapLayer* layer)
 	layer->name = node.attribute("name").as_string();
 	layer->width = node.attribute("width").as_uint();
 	layer->height = node.attribute("height").as_uint();
-
+	layer->parallax_velocity = node.child("properties").child("property").attribute("value").as_float();
 	layer->tiledata = new uint[layer->width*layer->height];
 	memset(layer->tiledata, 0u, sizeof(uint)*layer->height*layer->width);
 
