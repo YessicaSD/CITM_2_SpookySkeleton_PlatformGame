@@ -9,7 +9,7 @@
 #include "j1Map.h"
 #include "j1Scene.h"
 #include "j1Scene2.h"
-#include "j1FadeToBlack.h"
+#include "ModuleFadeToBack.h"
 
 j1Scene::j1Scene() : j1Module()
 {
@@ -67,7 +67,7 @@ bool j1Scene::Update(float dt)
 		App->render->camera.x += 5;
 	if (App->input->GetKey(SDL_SCANCODE_F) == KEY_REPEAT)
 	{
-		App->fade->FadeToBlack(App->scene, App->scene2, 0.50f);
+		App->fade->FadeToBlack(App->scene, App->scene2);
 		LOG("YOU PRESSED F FOR FADETOBLACK");
 	}
 

@@ -16,7 +16,7 @@ class j1Scene2;
 class j1Map;
 class j1Player;
 class j1Collision;
-class j1FadeToBlack;
+class ModuleFadeToBlack;
 
 class j1App
 {
@@ -90,7 +90,7 @@ public:
 	j1Map*				map = nullptr;
 	j1Player*			player1 = nullptr;
 	j1Collision*		collision = nullptr;
-	j1FadeToBlack*		fade = nullptr;
+	ModuleFadeToBlack*		fade = nullptr;
 private:
 
 	p2List<j1Module*>	modules;

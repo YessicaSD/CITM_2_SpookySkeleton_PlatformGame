@@ -11,7 +11,7 @@
 #include "j1Scene.h"
 #include "j1Scene2.h"
 #include "j1Map.h"
-#include "j1FadeToBlack.h"
+#include "ModuleFadeToBack.h"
 #include "j1App.h"
 #include  "j1Collision.h"
 #include "j1Player.h"
@@ -32,7 +32,7 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	map = new j1Map();
 	player1 = new j1Player();
 	collision = new j1Collision();
-	fade = new j1FadeToBlack();
+	fade = new ModuleFadeToBlack();
 
 	// Ordered for awake / Start / Update
 	// Reverse order of CleanUp
@@ -40,8 +40,6 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(win);
 	AddModule(tex);
 	AddModule(audio);
-	
-	
 	
 	AddModule(scene2);
 	AddModule(scene);
@@ -53,7 +51,9 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	// render last to swap buffer
 	AddModule(render);
 
-	scene->Disable();
+
+
+	
 	
 
 	
@@ -122,8 +122,10 @@ bool j1App::Awake()
 // Called before the first frame
 bool j1App::Start()
 {
-	
 	bool ret = true;
+
+	scene2->Disable();
+
 	p2List_item<j1Module*>* item;
 	item = modules.start;
 

@@ -40,11 +40,11 @@
     <ClCompile Include="j1Collision.cpp">
       <Filter>Desenvolupament  ========\Modules</Filter>
     </ClCompile>
-    <ClCompile Include="j1FadeToBlack.cpp">
-      <Filter>Desenvolupament  ========\Modules</Filter>
-    </ClCompile>
     <ClCompile Include="j1Scene2.cpp">
       <Filter>Desenvolupament  ========\Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="ModuleFadeToBlack.cpp">
+      <Filter>Desenvolupament  ========\Modules</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -108,11 +108,11 @@
     <ClInclude Include="j1Collision.h">
       <Filter>Desenvolupament  ========\Modules</Filter>
     </ClInclude>
-    <ClInclude Include="j1FadeToBlack.h">
-      <Filter>Desenvolupament  ========\Modules</Filter>
-    </ClInclude>
     <ClInclude Include="j1Scene2.h">
       <Filter>Desenvolupament  ========\Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="ModuleFadeToBack.h">
+      <Filter>Desenvolupament  ========\Modules</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
