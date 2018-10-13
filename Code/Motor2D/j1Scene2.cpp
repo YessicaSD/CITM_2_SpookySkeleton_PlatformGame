@@ -9,6 +9,7 @@
 #include "j1Map.h"
 #include "j1Scene.h"
 #include "j1Scene2.h"
+#include "j1Player.h"
 #include "ModuleFadeToBack.h"
 
 j1Scene2::j1Scene2() : j1Module()
@@ -34,6 +35,7 @@ bool j1Scene2::Start()
 {
 	App->map->Load("Level2.tmx");
 	//App->audio->PlayMusic("audio/music/spooky_skeletons.ogg");
+	App->player1->Enable();
 	return true;
 }
 

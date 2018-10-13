@@ -1,5 +1,6 @@
 #include "j1Player.h"
 #include "p2Log.h"
+
 #include "j1App.h"
 #include "j1Textures.h"
 #include "j1Render.h"
@@ -8,6 +9,9 @@
 #include "j1Map.h"
 #include "j1Audio.h"
 #include "j1Window.h"
+#include "j1Scene.h"
+#include "j1Scene2.h"
+#include "ModuleFadeToBack.h"
 j1Player::j1Player() : j1Module()
 {
 	active = false;
@@ -104,15 +108,8 @@ inline bool j1Player::CreateCol()
 	playerRect.w = player_node.child("player1").child("collider").attribute("w").as_int();
 	playerRect.h = player_node.child("player1").child("collider").attribute("h").as_int();
 
-	SDL_Rect playerPos;
-	playerPos.x = flPos.x;
-	playerPos.y = flPos.y;
-	playerPos.w = 5;
-	playerPos.h = 5;
-
-
 	ColliderPlayer = App->collision->AddCollider(playerRect, COLLIDER_PLAYER, App->player1);
-	ColliderPlayerPos = App->collision->AddCollider(playerPos, COLLIDER_ENEMY, App->player1);
+	
 	if (ColliderPlayer != nullptr)
 		ret = true;
 
@@ -183,7 +180,7 @@ bool j1Player::Update(float dt)
 			{
 				if (!jumping)
 				{
-					Speed.y = -5.2f;
+					Speed.y = -5.0f;
 					jumping = true;
 				}
 
@@ -207,7 +204,7 @@ bool j1Player::Update(float dt)
 		if (moveDown)
 		{
 
-			flPos.y += 1.5f;
+			flPos.y += 1.0f;
 		}
 	
 	
@@ -238,8 +235,28 @@ bool j1Player::Update(float dt)
 
 bool j1Player::PostUpdate()
 {
-	
-
+	if (App->input->GetKey(SDL_SCANCODE_F3))
+	{
+		if (App->scene->IsEnabled())
+		{
+			App->fade->FadeToBlack(App->scene, App->scene);
+		}
+		else
+		{
+			App->fade->FadeToBlack(App->scene2, App->scene);
+		}
+	}
+	if (App->input->GetKey(SDL_SCANCODE_F4))
+	{
+		if (App->scene2->IsEnabled())
+		{
+			App->fade->FadeToBlack(App->scene2, App->scene2);
+		}
+		else
+		{
+			App->fade->FadeToBlack(App->scene, App->scene2);
+		}
+	}
 	
 	return true;
 };
@@ -281,7 +298,7 @@ bool j1Player::Draw()
 		App->render->Blit(ptexture, flPos.x - CurrentFrame.w / 2, flPos.y - CurrentFrame.h, &CurrentFrame);
 
 	ColliderPlayer->SetPos(flPos.x - 4, flPos.y -31);
-	ColliderPlayerPos->SetPos(flPos.x, flPos.y);
+	
 	return true;
 }
 bool j1Player::CleanUp()
@@ -295,11 +312,6 @@ bool j1Player::CleanUp()
 		ColliderPlayer = nullptr;
 	}
 
-	if (ColliderPlayerPos != nullptr)
-	{
-		ColliderPlayerPos->to_delete = true;
-		ColliderPlayerPos = nullptr;
-	}
 	
 	return true;
 }

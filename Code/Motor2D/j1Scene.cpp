@@ -34,6 +34,7 @@ bool j1Scene::Awake()
 bool j1Scene::Start()
 {
 	App->map->Load("Level1.tmx");
+	App->player1->Enable();
 	//App->audio->PlayMusic("audio/music/spooky_skeletons.ogg");
 	return true;
 }
@@ -93,6 +94,8 @@ bool j1Scene::PostUpdate()
 
 	if(App->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN)
 		ret = false;
+
+	
 
 	return ret;
 }

@@ -10,6 +10,8 @@
 #include "ModuleFadeToBack.h"
 #include "j1Scene2.h"
 #include "j1Window.h"
+
+
 #include <math.h>
 
 j1Map::j1Map() : j1Module(), map_loaded(false)
@@ -531,6 +533,8 @@ void j1Map::OnCollision(Collider* c1, Collider* c2)
 			{
 				App->fade->FadeToBlack(App->scene2, App->scene2);
 			}
+				App->player1->Disable();
+	
 		}
 	}
 

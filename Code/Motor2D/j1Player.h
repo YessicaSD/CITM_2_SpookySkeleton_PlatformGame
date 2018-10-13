@@ -52,7 +52,7 @@ class j1Player : public j1Module
 
 	p2SString String_docXml;
 	Collider* ColliderPlayer=nullptr;
-	Collider* ColliderPlayerPos = nullptr;
+	
 
 	Animation LoadAnimations(p2SString name);
 	bool CreateCol();

@@ -139,6 +139,7 @@ public:
 	bool Load(const char* path);
 	iPoint MapToWorld(int x, int y) const;
 	void OnCollision(Collider*, Collider*);
+	
 
 private:
 
