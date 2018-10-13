@@ -90,7 +90,11 @@ bool j1Collision:: PreUpdate()
 			}
 			else
 			{
-				c1->callback->OffCollision(c1);
+				if (c1->callback != nullptr)
+				{
+					c1->callback->OffCollision(c1);
+				}
+				
 			}
 		}
 	}

@@ -288,7 +288,19 @@ bool j1Player::CleanUp()
 {
 	App->tex->UnLoad(ptexture);
 	
-	ColliderPlayer->to_delete = true;
+	
+	if (ColliderPlayer!=nullptr)
+	{
+		ColliderPlayer->to_delete = true;
+		ColliderPlayer = nullptr;
+	}
+
+	if (ColliderPlayerPos != nullptr)
+	{
+		ColliderPlayerPos->to_delete = true;
+		ColliderPlayerPos = nullptr;
+	}
+	
 	return true;
 }
 void j1Player::SpawnPlayer()

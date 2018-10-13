@@ -112,16 +112,20 @@ bool j1Map::CleanUp()
 	data.layers.clear();
 
 	//Removed Col------------------------------------------------------------------------------------------
-	for (p2List_item<Object_Layer*>* Col_layer = data.collisions.end; Col_layer; Col_layer = Col_layer->prev)
+	for (p2List_item<Object_Layer*>* Col_layer = data.collition_layers.end; Col_layer; Col_layer = Col_layer->prev)
 	{
 		
-		for (p2List_item<Object*>* Col_item = Col_layer->data->object.end;   Col_item;  Col_item = Col_item->prev)
+		for (p2List_item<Collider*>* Col_item = Col_layer->data->col.end;   Col_item;  Col_item = Col_item->prev)
 		{
-			Col_item->data->colWall->to_delete = true;
+			Col_item->data->to_delete = true;
+			Col_item->data = nullptr;
+			
 		}
+		Col_layer->data->col.clear();
 		RELEASE(Col_layer->data);
 	}
-	data.collisions.clear();
+
+	data.collition_layers.clear();
 
 	// Clean up the pugui tree
 	map_file.reset();
@@ -186,7 +190,8 @@ bool j1Map::Load(const char* file_name)
 		ret = LoadCollision(collision, coll);
 		if (ret == true)
 		{
-			data.collisions.add(coll);
+			data.collition_layers.add(coll);
+			
 		}
 	}
 
@@ -219,14 +224,15 @@ bool j1Map::Load(const char* file_name)
 			LOG("tile width: %d tile height: %d", l->width, l->height);
 			item_layer = item_layer->next;
 		}
-
-		p2List_item<Object_Layer*>* item_coll = data.collisions.start;
+		
+		p2List_item<Object_Layer*>* item_coll = data.collition_layers.start;
 		while (item_coll != NULL)
 		{
+			
 			//Collision* c = item_coll->data;
 			LOG("Collision ----");
 			LOG("name: %s", item_coll->data->name.GetString());
-			p2List_item<Object*>* item_obj = item_coll->data->object.start;
+			p2List_item<Collider*>* item_obj = item_coll->data->col.start;
 			while (item_obj != NULL)
 			{
 				
@@ -391,10 +397,7 @@ bool j1Map::LoadCollision(pugi::xml_node& node, Object_Layer* object_layer)
 	for (pugi::xml_node object_node = node.child("object"); object_node != NULL; object_node = object_node.next_sibling("object"))
 	{
 
-		Object* item_object = new Object;
-		item_object->obj_id = object_node.attribute("id").as_int();
-
-
+		Collider* item_object = new Collider;
 		rect.w = object_node.attribute("width").as_float();
 		rect.h = object_node.attribute("height").as_float();
 		rect.x = object_node.attribute("x").as_float();
@@ -402,9 +405,10 @@ bool j1Map::LoadCollision(pugi::xml_node& node, Object_Layer* object_layer)
 
 		if (object_layer->name == "Wall")
 		{
-			item_object->colWall = App->collision->AddCollider(rect, COLLIDER_WALL, App->map);
+			item_object = App->collision->AddCollider(rect, COLLIDER_WALL, App->map);
 		}
-		object_layer->object.add(item_object);
+		object_layer->col.add(item_object);
+	
 		LOG("Perfect parsing of collision.tmx: Found the collisions");
 	}
 
