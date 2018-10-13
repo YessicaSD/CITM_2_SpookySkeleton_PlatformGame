@@ -5,25 +5,27 @@
 #include "p2List.h"
 #include "p2Point.h"
 #include "j1Module.h"
+#include "j1Collision.h"
+#include "j1App.h"
+#include "j1Textures.h"
 
 struct Collider;
-struct Object
-{
-	int			obj_id;
-	Collider*   colWall = nullptr;
-	Collider*	colSpike = nullptr;
-	~Object()
-	{
-		
-		delete[] colWall;
-	}
 
-};
+
 
 struct Object_Layer
 {
 	p2SString			name;
-	p2List<Object*>		object;
+	p2List<Collider*>		col;
+	~Object_Layer()
+	{
+		for (p2List_item<Collider*>* colItem = col.end; colItem; colItem = colItem->prev )
+		{
+			colItem->data->to_delete = true;
+			RELEASE(colItem->data);
+		}
+
+	}
 
 };
 
@@ -39,6 +41,7 @@ struct MapLayer
 		if (tiledata != nullptr)
 		{
 			delete tiledata;
+			tiledata = nullptr;
 		}
 	}
 };
@@ -74,6 +77,15 @@ struct TileSet
 		rect.y = margin + ((rect.h + spacing) * (tileId / num_tiles_width));
 		return rect;
 	}
+
+	
+	~TileSet()
+	{
+		if (texture != nullptr)
+		{
+			App->tex->UnLoad(texture);
+		}
+	}
 };
 
 enum MapTypes
@@ -92,9 +104,9 @@ struct MapData
 	uint					tile_height;
 	SDL_Color			background_color;
 	MapTypes			type;
-	p2List<TileSet*>tilesets;
-	p2List<MapLayer*> layers;
-	p2List<Object_Layer*>collisions;
+	p2List<TileSet*>   tilesets;
+	p2List<MapLayer*>   layers;
+	p2List<Object_Layer*>  collition_layers;
 };
 
 // ----------------------------------------------------

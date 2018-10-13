@@ -14,6 +14,11 @@ struct Collider;
 
 class j1Module
 {
+public:
+
+	p2SString	name;
+	bool		active;
+
 private:
 	bool enabled = true;
 
@@ -101,10 +106,6 @@ public:
 	virtual void OnCollision(Collider*, Collider*) {}
 	virtual void OffCollision(Collider*) {}
 
-public:
-
-	p2SString	name;
-	bool		active;
 
 
 };
