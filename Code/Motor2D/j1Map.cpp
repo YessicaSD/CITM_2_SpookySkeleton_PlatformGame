@@ -117,9 +117,10 @@ bool j1Map::CleanUp()
 		
 		for (p2List_item<Collider*>* Col_item = Col_layer->data->col.end;   Col_item;  Col_item = Col_item->prev)
 		{
+
 			Col_item->data->to_delete = true;
 			Col_item->data = nullptr;
-			
+
 		}
 		Col_layer->data->col.clear();
 		RELEASE(Col_layer->data);
@@ -407,9 +408,16 @@ bool j1Map::LoadCollision(pugi::xml_node& node, Object_Layer* object_layer)
 		{
 			item_object = App->collision->AddCollider(rect, COLLIDER_WALL, App->map);
 		}
+
 		object_layer->col.add(item_object);
 	
-		LOG("Perfect parsing of collision.tmx: Found the collisions");
+		/*if (object_layer->name == "Death")
+		{
+			item_object->colSpike = App->collision->AddCollider(rect, COLLIDER_ENEMY, App->map);
+		}*/
+	/*	object_layer->object.add(item_object);*/
+
+		
 	}
 
 	return ret;

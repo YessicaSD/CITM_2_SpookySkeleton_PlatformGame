@@ -11,6 +11,8 @@
 
 struct Collider;
 
+
+
 struct Object_Layer
 {
 	p2SString			name;
