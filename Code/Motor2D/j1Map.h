@@ -11,6 +11,7 @@ struct Object
 {
 	int			obj_id;
 	Collider*   colWall = nullptr;
+	Collider*	colSpike = nullptr;
 	~Object()
 	{
 		
