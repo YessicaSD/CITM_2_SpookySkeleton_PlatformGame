@@ -157,14 +157,7 @@ bool j1Player::Update(float dt)
 				animState = AnimationState::ANIM_STATE_IDLE;
 				Speed.x = 0.0f;
 			}
-			if (App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT /*&& App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_IDLE*/)
-			{
-				animState = AnimationState::ANIM_STATE_WALK;
-
-				flPos.y -= 0.5;
-
-
-			}
+		
 
 			if (App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT /*&& App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_IDLE*/)
 			{
@@ -272,13 +265,21 @@ bool j1Player::Draw()
 	case AnimationState::ANIM_STATE_WALK:
 		CurrentFrame = PlayerWalk.GetCurrentFrame();
 		break;
-	case AnimationState::ANIM_STATE_JUMP:
-		CurrentFrame = PlayerJump.GetCurrentFrame();
-		break;
 	case AnimationState::ANIM_STATE_ATTACK:
 		break;
 	case AnimationState::ANIM_STATE_DEATH:
+		death_anim = true;
 		CurrentFrame = PlayerDeath.GetCurrentFrame();
+		if (PlayerDeath.Finished())
+		{
+			if (App->scene->IsEnabled())
+			{
+				death_anim = false;
+				App->fade->FadeToBlack(App->scene, App->scene);
+			}
+			animState = AnimationState::ANIM_STATE_IDLE;
+		}
+		
 		break;
 	case AnimationState::ANIM_STATE_SPAWN:
 		if (PlayerSpawn.Finished())
@@ -293,10 +294,17 @@ bool j1Player::Draw()
 
 	}
 	
-	
+	if (jumping)
+	{
+		CurrentFrame = PlayerJump.GetCurrentFrame();
+	}
 	if (!jumping)
 	{
 		PlayerJump.Reset();
+	}
+	if (!death_anim)
+	{
+		PlayerDeath.Reset();
 	}
 	if (Speed.x<0.0f)
 		App->render->Blit(ptexture, flPos.x - CurrentFrame.w / 2, flPos.y - CurrentFrame.h, &CurrentFrame, SDL_RendererFlip::SDL_FLIP_HORIZONTAL);

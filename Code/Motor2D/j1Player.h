@@ -31,6 +31,7 @@ class j1Player : public j1Module
 	fPoint distansToCam;
 	bool moveDown;
 	bool jumping;
+	bool death_anim;
 	bool debugMode = false;
 	fPoint Speed;
 	
