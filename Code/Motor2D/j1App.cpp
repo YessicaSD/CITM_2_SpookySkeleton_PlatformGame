@@ -44,10 +44,12 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(scene2);
 	AddModule(scene);
 	AddModule(map);
-
-	AddModule(fade);
 	AddModule(player1);
 	AddModule(collision);
+
+	AddModule(fade);
+	
+	
 	// render last to swap buffer
 	AddModule(render);
 
