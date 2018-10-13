@@ -409,15 +409,15 @@ bool j1Map::LoadCollision(pugi::xml_node& node, Object_Layer* object_layer)
 			item_object = App->collision->AddCollider(rect, COLLIDER_WALL, App->map);
 		}
 
-		object_layer->col.add(item_object);
-	
-		/*if (object_layer->name == "Death")
-		{
-			item_object->colSpike = App->collision->AddCollider(rect, COLLIDER_ENEMY, App->map);
-		}*/
-	/*	object_layer->object.add(item_object);*/
-
 		
+	
+		if (object_layer->name == "Death")
+		{
+			item_object = App->collision->AddCollider(rect, COLLIDER_ENEMY, App->map);
+		}
+
+		object_layer->col.add(item_object);
+
 	}
 
 	return ret;
