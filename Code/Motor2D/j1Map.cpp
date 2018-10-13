@@ -6,6 +6,9 @@
 #include "j1Map.h"
 #include "j1Collision.h"
 #include "j1Player.h"
+#include "j1Scene.h"
+#include "ModuleFadeToBack.h"
+#include "j1Scene2.h"
 #include <math.h>
 
 j1Map::j1Map() : j1Module(), map_loaded(false)
@@ -409,13 +412,15 @@ bool j1Map::LoadCollision(pugi::xml_node& node, Object_Layer* object_layer)
 			item_object = App->collision->AddCollider(rect, COLLIDER_WALL, App->map);
 		}
 
-		
-	
 		if (object_layer->name == "Death")
 		{
 			item_object = App->collision->AddCollider(rect, COLLIDER_ENEMY, App->map);
 		}
 
+		if (object_layer->name == "RestartLevel")
+		{
+			item_object = App->collision->AddCollider(rect, COLLIDER_RESPAWN, App->map);
+		}
 		object_layer->col.add(item_object);
 
 	}
@@ -477,39 +482,54 @@ void j1Map::LoadProperties(pugi::xml_node& node)
 void j1Map::OnCollision(Collider* c1, Collider* c2)
 {
 
-	if (c2->type == COLLIDER_PLAYER)
+	if ((c2->type == COLLIDER_PLAYER || c2->type==COLLIDER_GOD) )
 	{
-		Collider* wall = c1;
-		Collider* colPlayer = c2;
-		//The player is on the wall
- 		if (App->player1->flPos.y-colPlayer->rect.h/3 <= wall->rect.y && colPlayer->rect.x <= wall->rect.x + wall->rect.w   && colPlayer->rect.x + colPlayer->rect.w  >= wall->rect.x)
+		if (c1->type==COLLIDER_WALL)
 		{
+			Collider* wall = c1;
+			Collider* colPlayer = c2;
+			//The player is on the wall
+			if (App->player1->flPos.y - colPlayer->rect.h / 3 <= wall->rect.y && colPlayer->rect.x <= wall->rect.x + wall->rect.w   && colPlayer->rect.x + colPlayer->rect.w >= wall->rect.x)
+			{
 				App->player1->moveDown = false;
 				App->player1->Speed.y = 0.0f;
 				App->player1->flPos.y = wall->rect.y;
 				App->player1->jumping = false;
-		}
-			
-		
-		// The player collide with the left side of the wall
-		if (App->player1->flPos.x < wall->rect.x  && App->player1->flPos.y > wall->rect.y)
-		{
-			App->player1->flPos.x = wall->rect.x - colPlayer->rect.w / 2;
-		}
+			}
 
-		// The player collide with the left side of the wall
-		if (App->player1->flPos.x > wall->rect.x + wall->rect.w  && App->player1->flPos.y > wall->rect.y )
-		{
-			App->player1->flPos.x = wall->rect.x + wall->rect.w + colPlayer->rect.w / 2;
-		}
 
-		// The player is under the wall
-		if (App->player1->flPos.y > wall->rect.y + wall->rect.h && colPlayer->rect.x+colPlayer->rect.w -5 > wall->rect.x && colPlayer->rect.x + 5< wall->rect.x+wall->rect.w)
-		{
-			App->player1->flPos.y = wall->rect.y + wall->rect.h + colPlayer->rect.h +1;
-			App->player1->Speed.y = 0.0f;
+			// The player collide with the left side of the wall
+			if (App->player1->flPos.x < wall->rect.x  && App->player1->flPos.y > wall->rect.y)
+			{
+				App->player1->flPos.x = wall->rect.x - colPlayer->rect.w / 2;
+			}
+
+			// The player collide with the left side of the wall
+			if (App->player1->flPos.x > wall->rect.x + wall->rect.w  && App->player1->flPos.y > wall->rect.y)
+			{
+				App->player1->flPos.x = wall->rect.x + wall->rect.w + colPlayer->rect.w / 2;
+			}
+
+			// The player is under the wall
+			if (App->player1->flPos.y > wall->rect.y + wall->rect.h && colPlayer->rect.x + colPlayer->rect.w - 5 > wall->rect.x && colPlayer->rect.x + 5< wall->rect.x + wall->rect.w)
+			{
+				App->player1->flPos.y = wall->rect.y + wall->rect.h + colPlayer->rect.h + 1;
+				App->player1->Speed.y = 0.0f;
+			}
 		}
 		
+
+		if (c1->type==COLLIDER_RESPAWN)
+		{
+			if (App->scene->active)
+			{
+				App->fade->FadeToBlack(App->scene,App->scene);
+			}
+			else
+			{
+				App->fade->FadeToBlack(App->scene2, App->scene2);
+			}
+		}
 	}
 
 }

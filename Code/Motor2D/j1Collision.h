@@ -10,11 +10,12 @@
 
 enum COLLIDER_TYPE
 {
-	COLLIDER_IGNORE_HIT = 0,//A collider that doesn't generate any collision
+	COLLIDER_IGNORE_HIT = 0u,//A collider that doesn't generate any collision
 	COLLIDER_WALL,
 	COLLIDER_PLAYER,
 	COLLIDER_ENEMY,
 	COLLIDER_GOD,
+	COLLIDER_RESPAWN,
 	COLLIDER_MAX
 };
 
