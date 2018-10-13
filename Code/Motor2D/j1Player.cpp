@@ -277,6 +277,10 @@ bool j1Player::Draw()
 				death_anim = false;
 				App->fade->FadeToBlack(App->scene, App->scene);
 			}
+			else {
+				death_anim = false;
+				App->fade->FadeToBlack(App->scene2, App->scene2);
+			}
 			animState = AnimationState::ANIM_STATE_IDLE;
 		}
 		

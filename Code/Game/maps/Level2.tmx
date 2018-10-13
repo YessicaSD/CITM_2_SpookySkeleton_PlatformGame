@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="100" height="20" tilewidth="32" tileheight="32" nextobjectid="80">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="100" height="20" tilewidth="32" tileheight="32" nextobjectid="81">
  <properties>
   <property name="Distant_to_camera_from_player_x" type="float" value="-60"/>
   <property name="Distant_to_camera_from_player_y" type="float" value="-180"/>
@@ -6108,5 +6108,8 @@
     <property name="parallax" type="float" value="1"/>
    </properties>
   </object>
+ </objectgroup>
+ <objectgroup name="RestartLevel">
+  <object id="80" x="0" y="523" width="377" height="57"/>
  </objectgroup>
 </map>

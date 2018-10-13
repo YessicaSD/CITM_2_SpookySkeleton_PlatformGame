@@ -70,7 +70,7 @@ bool j1Scene2::Update(float dt)
 
 	if (App->player1->flPos.x >= (App->map->data.width*App->map->data.tile_width) - (3 * App->map->data.tile_width))
 	{
-		App->fade->FadeToBlack(App->scene2, App->scene2);
+		App->fade->FadeToBlack(App->scene2, App->scene);
 	}
 
 
@@ -103,6 +103,6 @@ bool j1Scene2::CleanUp()
 	{
 		App->map->CleanUp();
 	}
-	
+	App->scene2->Disable();
 	return true;
 }
