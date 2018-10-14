@@ -127,8 +127,9 @@ private:
 public:
 
 	MapData data;
-	
+	uint SavedLevel = 1;
 	uint num_thismaplvl = 1;
+
 	inline uint Get(int x, int y) const
 	{
 		return  (y * data.width + x);
@@ -168,7 +169,8 @@ public:
 		atualSceneItem = item_scene;
 		return item_scene;
 	}
-
+	bool Load(pugi::xml_node&);
+	bool Save(pugi::xml_node&) const;
 
 private:
 

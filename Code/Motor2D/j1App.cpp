@@ -94,6 +94,8 @@ bool j1App::Awake()
 		app_config = config.child("app");
 		title.create(app_config.child("title").child_value());
 		organization.create(app_config.child("organization").child_value());
+		load_game.create(app_config.child("saveFile").child_value());
+		save_game.create(app_config.child("saveFile").child_value());
 	}
 
 	if(ret == true)
@@ -311,17 +313,14 @@ const char* j1App::GetOrganization() const
 // Load / Save
 void j1App::LoadGame()
 {
-	// we should be checking if that file actually exist
-	// from the "GetSaveGames" list
+	
 	want_to_load = true;
 }
 
 // ---------------------------------------
 void j1App::SaveGame() const
 {
-	// we should be checking if that file actually exist
-	// from the "GetSaveGames" list ... should we overwrite ?
-
+	
 	want_to_save = true;
 }
 

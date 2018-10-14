@@ -25,7 +25,7 @@ class j1Player : public j1Module
 {
  public:
 	
-	
+	 fPoint flplayerPosSaved;
 	fPoint flPos;
 	fPoint offset;
 	fPoint distansToCam;
@@ -72,7 +72,8 @@ public:
 	bool CleanUp();
 	bool PostUpdate();
 	void SpawnPlayer();
-	
+	bool Load(pugi::xml_node&);
+	bool Save(pugi::xml_node&) const;
 
 	bool Draw();
 	/*bool Load(pugi::xml_node&);*/

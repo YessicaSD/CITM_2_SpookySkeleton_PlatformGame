@@ -366,3 +366,17 @@ void j1Player::DebugModeInput()
 		flPos.x += Speed.x;
 	}
 }
+bool j1Player::Load(pugi::xml_node& nodePlayer)
+{
+	flplayerPosSaved.x = nodePlayer.child("position").attribute("x").as_float();
+	flplayerPosSaved.y = nodePlayer.child("position").attribute("y").as_float();
+	App->fade->FadeToBlack(App->map->SavedLevel);
+	return true;
+}
+bool j1Player::Save(pugi::xml_node&  nodePlayer) const
+{
+	pugi::xml_node play = nodePlayer.append_child("position");
+	play.attribute("x").set_value(flPos.x);
+	play.attribute("y").set_value(flPos.y);
+	return true;
+}
