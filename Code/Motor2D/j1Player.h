@@ -73,7 +73,7 @@ public:
 	bool Update(float dt);
 	bool CleanUp();
 	bool PostUpdate();
-	void SpawnPlayer();
+
 	bool Load(pugi::xml_node&);
 	bool Save(pugi::xml_node&) const;
 	inline void SetPosPlayer_x(float x)

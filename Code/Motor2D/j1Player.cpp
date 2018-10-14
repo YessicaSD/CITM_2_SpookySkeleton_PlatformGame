@@ -61,6 +61,7 @@ bool j1Player::Start()
 		PlayerDeath = LoadAnimations("death");
 		PlayerDeath.loop = false;
 		PlayerSpawn = LoadAnimations("spawn");
+		PlayerSpawn.loop = false;
 		ret = CreateCol();
 		if (!loading)
 		{
@@ -151,6 +152,7 @@ bool j1Player::Update(float dt)
 		{
 			if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT /*&& App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_IDLE*/)
 			{
+
 				animState = AnimationState::ANIM_STATE_WALK;
 				speed.x = 2.0f;
 				flPos.x += speed.x;
@@ -166,14 +168,15 @@ bool j1Player::Update(float dt)
 			}
 
 
-			if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_IDLE && App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_IDLE || App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT && App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
+			if ( animState!= AnimationState::ANIM_STATE_ATTACK && App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_IDLE && App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_IDLE || App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT && App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
 			{
+				
 				animState = AnimationState::ANIM_STATE_IDLE;
 				speed.x = 0.0f;
 			}
 		
 
-			if (App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT /*&& App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_IDLE*/)
+			if (App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT)
 			{
 				if (moveDown)
 				{
@@ -200,7 +203,12 @@ bool j1Player::Update(float dt)
 
 			if (App->input->GetKey(SDL_SCANCODE_Z) == KEY_DOWN)
 			{
-				animState = AnimationState::ANIM_STATE_ATTACK;
+				if (animState != AnimationState::ANIM_STATE_ATTACK)
+				{
+					PlayerAttack.Reset();
+					animState = AnimationState::ANIM_STATE_ATTACK;
+				}
+				
 			}
 
 		}
@@ -259,7 +267,12 @@ bool j1Player::Draw()
 		CurrentFrame = PlayerWalk.GetCurrentFrame();
 		break;
 	case AnimationState::ANIM_STATE_ATTACK:
-		attack = true;
+		CurrentFrame = PlayerAttack.GetCurrentFrame();
+		if (PlayerAttack.Finished())
+		{
+		
+			animState = AnimationState::ANIM_STATE_IDLE;
+		}
 		break;
 	case AnimationState::ANIM_STATE_DEATH:
 		if (death_fx)
@@ -293,19 +306,9 @@ bool j1Player::Draw()
 		}
 		CurrentFrame = PlayerJump.GetCurrentFrame();
 		break;
+	
 	}
-	if (attack)
-	{
-		CurrentFrame = PlayerAttack.GetCurrentFrame();
-		if (PlayerAttack.Finished())
-		{
-			attack = false;
-		}
-	}
-	if (!attack)
-	{
-		PlayerAttack.Reset();
-	}
+	
 	//if (canJump)
 	//{
 	//	
@@ -338,11 +341,7 @@ bool j1Player::CleanUp()
 	
 	return true;
 }
-void j1Player::SpawnPlayer()
-{
-	animState = AnimationState::ANIM_STATE_SPAWN;
-	ColliderPlayer->type = COLLIDER_TYPE::COLLIDER_GOD;
-}
+
 
 
 
