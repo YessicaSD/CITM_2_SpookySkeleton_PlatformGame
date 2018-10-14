@@ -29,11 +29,11 @@ class j1Player : public j1Module
 	fPoint flPos;
 	fPoint offset;
 	fPoint distansToCam;
-	bool moveDown;
-	bool jumping;
-	bool attack;
-	bool death_fx;
-	bool jump_fx;
+	bool moveDown=true;
+	bool canJump=true;
+	bool attack=false;
+	bool death_fx=false;
+	bool jump_fx=false;
 	bool debugMode = false;
 	bool fading = false;
 	bool loading=false;
@@ -93,6 +93,7 @@ public:
 		}
 	}
 	bool Draw();
+	
 	/*bool Load(pugi::xml_node&);*/
 	//bool Save(pugi::xml_node&) const;
 

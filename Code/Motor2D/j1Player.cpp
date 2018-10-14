@@ -79,8 +79,6 @@ bool j1Player::Start()
 		App->render->camera.y = ((flPos.y + distansToCam.y));
 		speed.x = 0.0f;
 		speed.y = 0.0f;
-		animState = AnimationState::ANIM_STATE_SPAWN;
-		
 		loading = false;
 	}
 
@@ -188,11 +186,12 @@ bool j1Player::Update(float dt)
 			}
 			if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
 			{
-				jump_fx = true;
-				if (!jumping)
+				if (canJump)
 				{
-					speed.y = -5.0f;
-					jumping = true;
+					jump_fx = true;
+					speed.y = -5.3f;
+					animState = AnimationState::ANIM_STATE_JUMP;
+					canJump = false;
 				}
 
 
@@ -243,7 +242,9 @@ bool j1Player::Update(float dt)
 
 bool j1Player::PostUpdate()
 {
+
 	this->moveDown = true;
+	canJump = false;
 	return true;
 };
 bool j1Player::Draw()
@@ -283,6 +284,15 @@ bool j1Player::Draw()
 		else
 			CurrentFrame = PlayerSpawn.GetCurrentFrame();
 		break;
+	case AnimationState::ANIM_STATE_JUMP:
+
+		if (jump_fx)
+		{
+			App->audio->PlayFx(jump);
+			jump_fx = false;
+		}
+		CurrentFrame = PlayerJump.GetCurrentFrame();
+		break;
 	}
 	if (attack)
 	{
@@ -296,20 +306,14 @@ bool j1Player::Draw()
 	{
 		PlayerAttack.Reset();
 	}
-	if (jumping)
-	{
-		
-		if (jump_fx)
-		{
-			App->audio->PlayFx(jump);
-			jump_fx = false;
-		}
-		CurrentFrame = PlayerJump.GetCurrentFrame();
-	}
-	if (!jumping)
-	{
-		PlayerJump.Reset();
-	}
+	//if (canJump)
+	//{
+	//	
+	//}
+	//if (!canJump)
+	//{
+	//	PlayerJump.Reset();
+	//}
 	if (speed.x<0.0f)
 		App->render->Blit(ptexture, flPos.x - CurrentFrame.w / 2, flPos.y - CurrentFrame.h, &CurrentFrame, SDL_RendererFlip::SDL_FLIP_HORIZONTAL);
 	

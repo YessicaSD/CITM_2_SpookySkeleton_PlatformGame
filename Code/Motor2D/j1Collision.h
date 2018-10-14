@@ -98,7 +98,7 @@ public:
 	
 
 	// Called each loop iteration
-	 bool Update(float dt);
+	 bool PreUpdate();
 
 	// Called each loop iteration
 	bool PostUpdate();

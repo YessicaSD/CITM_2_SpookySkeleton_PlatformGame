@@ -38,10 +38,6 @@ bool  ModuleFadeToBlack::Update(float dt)
 
 			App->map->Disable();
 			App->map->Enable();
-
-			
-			// ---
-
 			total_time += total_time;
 			start_time = SDL_GetTicks();
 			current_step = fade_step::fade_from_black;
@@ -50,6 +46,7 @@ bool  ModuleFadeToBlack::Update(float dt)
 
 	case fade_step::fade_from_black:
 	{
+		App->player1->animState = AnimationState::ANIM_STATE_SPAWN;
 		App->player1->fading = false;
 		normalized = 1.0f - normalized;
 

@@ -561,14 +561,15 @@ void j1Map::OnCollision(Collider* c1, Collider* c2)
 		{
 			Collider* wall = c1;
 			Collider* colPlayer = c2;
-
+			
 			//The player is on the ground
 			if (App->player1->flPos.y - colPlayer->rect.h / 3 <= wall->rect.y && colPlayer->rect.x <= wall->rect.x + wall->rect.w   && colPlayer->rect.x + colPlayer->rect.w >= wall->rect.x)
 			{
 				App->player1->moveDown = false;
 				App->player1->speed.y = 0.0f;
 				App->player1->SetPosPlayer_y(wall->rect.y + 1);
-				App->player1->jumping = false;
+				App->player1->canJump = true;
+				
 			}
 
 
@@ -606,7 +607,7 @@ void j1Map::OnCollision(Collider* c1, Collider* c2)
 						App->player1->moveDown = false;
 						App->player1->speed.y = 0.0f;
 						App->player1->SetPosPlayer_y(wall->rect.y + 1);
-						App->player1->jumping = false;
+						App->player1->canJump = true;
 					}
 				}
 			}
