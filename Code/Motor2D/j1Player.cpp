@@ -61,6 +61,7 @@ bool j1Player::Start()
 		PlayerWalk = LoadAnimations("walking");
 		PlayerJump = LoadAnimations("jump");
 		PlayerAttack = LoadAnimations("attack");
+		PlayerAttack.loop = false;
 		PlayerDeath = LoadAnimations("death");
 		PlayerDeath.loop = false;
 		PlayerSpawn = LoadAnimations("spawn");
@@ -120,7 +121,7 @@ bool j1Player::Start()
 }
 bool j1Player::PreUpdate()
 {
-	if (App->input->GetKey(SDL_SCANCODE_F3) == KEY_DOWN)
+	if (App->input->GetKey(SDL_SCANCODE_F10) == KEY_DOWN)
 	{
 		if (debugMode)
 			debugMode = false;
@@ -188,7 +189,7 @@ bool j1Player::Update(float dt)
 
 			if (App->input->GetKey(SDL_SCANCODE_Z) == KEY_DOWN)
 			{
-				attack = true;
+				animState = AnimationState::ANIM_STATE_ATTACK;
 			}
 
 		}
@@ -253,11 +254,7 @@ bool j1Player::Draw()
 		CurrentFrame = PlayerWalk.GetCurrentFrame();
 		break;
 	case AnimationState::ANIM_STATE_ATTACK:
-		/*if (PlayerAttack.Finished())
-		{
-			animState = AnimationState::ANIM_STATE_IDLE;
-		}
-		CurrentFrame = PlayerAttack.GetCurrentFrame();*/
+		attack = true;
 		break;
 	case AnimationState::ANIM_STATE_DEATH:
 		if (death_fx)

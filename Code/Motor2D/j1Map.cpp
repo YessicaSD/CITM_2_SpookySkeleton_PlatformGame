@@ -83,7 +83,7 @@ bool j1Map::Update(float dt)
 	}
 	if (App->input->GetKey(SDL_SCANCODE_F2))
 	{
-		App->fade->FadeToBlack(2);
+		App->fade->FadeToBlack(num_thismaplvl);
 	}
 
 	/*p2SString title("Map:%dx%d Tiles:%dx%d Tilesets:%d",
