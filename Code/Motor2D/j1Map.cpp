@@ -8,9 +8,7 @@
 
 #include "j1Collision.h"
 #include "j1Player.h"
-#include "j1Scene.h"
 #include "ModuleFadeToBack.h"
-#include "j1Scene2.h"
 #include "j1Window.h"
 #include "j1Input.h"
 #include "j1Audio.h"
@@ -84,12 +82,12 @@ bool j1Map::Update(float dt)
 		App->render->camera.x += 5;
 
 
-	p2SString title("Map:%dx%d Tiles:%dx%d Tilesets:%d",
+	/*p2SString title("Map:%dx%d Tiles:%dx%d Tilesets:%d",
 		App->map->data.width, App->map->data.height,
 		App->map->data.tile_width, App->map->data.tile_height,
-		App->map->data.tilesets.count());
+		App->map->data.tilesets.count());*/
 
-	App->win->SetTitle(title.GetString());
+	App->win->SetTitle("Spooky_Skeleton");
 	return true;
 }
 

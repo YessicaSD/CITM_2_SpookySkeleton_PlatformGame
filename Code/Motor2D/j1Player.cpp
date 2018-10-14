@@ -9,8 +9,6 @@
 #include "j1Map.h"
 #include "j1Audio.h"
 #include "j1Window.h"
-#include "j1Scene.h"
-#include "j1Scene2.h"
 #include "ModuleFadeToBack.h"
 j1Player::j1Player() : j1Module()
 {
@@ -119,7 +117,7 @@ bool j1Player::Start()
 }
 bool j1Player::PreUpdate()
 {
-	if (App->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN)
+	if (App->input->GetKey(SDL_SCANCODE_F3) == KEY_DOWN)
 	{
 		if (debugMode)
 			debugMode = false;
