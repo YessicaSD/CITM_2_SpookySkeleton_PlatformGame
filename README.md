@@ -25,7 +25,7 @@ https://github.com/YessicaSD/PlatformGame
 ## How to play:
 
 
-## Debugging Controls:
+### Debugging Controls:
 
 [ESC] = Exit
 
