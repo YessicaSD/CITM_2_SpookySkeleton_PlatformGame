@@ -185,6 +185,12 @@ bool j1Player::Update(float dt)
 
 
 			}
+
+			if (App->input->GetKey(SDL_SCANCODE_Z) == KEY_DOWN)
+			{
+				attack = true;
+			}
+
 		}
 
 		if (jumping)
@@ -233,29 +239,6 @@ bool j1Player::Update(float dt)
 
 bool j1Player::PostUpdate()
 {
-	if (App->input->GetKey(SDL_SCANCODE_F3))
-	{
-		/*if (App->scene->IsEnabled())
-		{
-			App->fade->FadeToBlack(App->scene, App->scene);
-		}
-		else
-		{
-			App->fade->FadeToBlack(App->scene2, App->scene);
-		}*/
-	}
-	if (App->input->GetKey(SDL_SCANCODE_F4))
-	{
-		/*if (App->scene2->IsEnabled())
-		{
-			App->fade->FadeToBlack(App->scene2, App->scene2);
-		}
-		else
-		{
-			App->fade->FadeToBlack(App->scene, App->scene2);
-		}*/
-	}
-	
 	return true;
 };
 bool j1Player::Draw()
@@ -270,6 +253,11 @@ bool j1Player::Draw()
 		CurrentFrame = PlayerWalk.GetCurrentFrame();
 		break;
 	case AnimationState::ANIM_STATE_ATTACK:
+		/*if (PlayerAttack.Finished())
+		{
+			animState = AnimationState::ANIM_STATE_IDLE;
+		}
+		CurrentFrame = PlayerAttack.GetCurrentFrame();*/
 		break;
 	case AnimationState::ANIM_STATE_DEATH:
 		if (death_fx)
@@ -294,9 +282,19 @@ bool j1Player::Draw()
 		else
 			CurrentFrame = PlayerSpawn.GetCurrentFrame();
 		break;
-
 	}
-	
+	if (attack)
+	{
+		CurrentFrame = PlayerAttack.GetCurrentFrame();
+		if (PlayerAttack.Finished())
+		{
+			attack = false;
+		}
+	}
+	if (!attack)
+	{
+		PlayerAttack.Reset();
+	}
 	if (jumping)
 	{
 		
