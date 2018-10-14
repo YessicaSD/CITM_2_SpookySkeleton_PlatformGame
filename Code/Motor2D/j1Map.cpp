@@ -42,15 +42,17 @@ bool j1Map::Awake(pugi::xml_node& config)
 		scene->musicPath = scene_node.attribute("music").as_string();
 		data.scenes_List.add(scene);
 	}
-	
+	activateScene(1);
 	return ret;
 }
 
 bool j1Map::Start()
 {
-	
-	p2List_item<Scenes*>* lvlActive = activateScene(1);
-	LOG("%s", lvlActive->data->level_tmx.GetString());
+	p2List_item<Scenes*>* lvlActive;
+	for ( lvlActive = data.scenes_List.start; lvlActive->data->active==false && lvlActive!=NULL;lvlActive= lvlActive->next)
+	{
+		
+	}
 	App->map->Load(lvlActive->data->level_tmx.GetString());
 	App->audio->PlayMusic(lvlActive->data->musicPath.GetString());
 	
@@ -209,7 +211,7 @@ bool j1Map::CleanUp()
 
 	// Clean up the pugui tree
 	map_file.reset();
-
+	App->player1->Disable();
 	return true;
 }
 
