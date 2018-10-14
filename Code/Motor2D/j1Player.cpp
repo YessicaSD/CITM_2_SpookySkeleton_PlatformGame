@@ -224,6 +224,8 @@ bool j1Player::Update(float dt)
 		flPos.y += speed.y;
 	
 
+
+		//Camera----------------------------------------------------------------------------------
 		if ((flPos.x + distansToCam.x)* App->win->GetScale() > 0  && (App->map->data.tile_width*App->map->data.width) * App->win->GetScale() > (((flPos.x + distansToCam.x)* App->win->GetScale()) + App->render->camera.w) )
 		{
 			App->render->camera.x = ((flPos.x + distansToCam.x)* App->win->GetScale());
@@ -234,9 +236,6 @@ bool j1Player::Update(float dt)
 				App->render->camera.y = (flPos.y + distansToCam.y);
 		}
 			
-			
-		
-		
 	}
 	else
 	{
@@ -309,14 +308,6 @@ bool j1Player::Draw()
 	
 	}
 	
-	//if (canJump)
-	//{
-	//	
-	//}
-	//if (!canJump)
-	//{
-	//	PlayerJump.Reset();
-	//}
 	if (speed.x<0.0f)
 		App->render->Blit(ptexture, flPos.x - CurrentFrame.w / 2, flPos.y - CurrentFrame.h, &CurrentFrame, SDL_RendererFlip::SDL_FLIP_HORIZONTAL);
 	

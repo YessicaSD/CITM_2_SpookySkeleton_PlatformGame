@@ -175,7 +175,7 @@ public:
 			{
 			item_scene->data->active = false;
 		}
-		for (item_scene = data.scenes_List.start; item_scene->data->levelnum!=lvlnum; item_scene = item_scene->next)
+		for (item_scene = data.scenes_List.start; item_scene->data->levelnum!=lvlnum && item_scene !=nullptr ; item_scene = item_scene->next)
 		{	}
 		item_scene->data->active = true;
 		atualSceneItem = item_scene;

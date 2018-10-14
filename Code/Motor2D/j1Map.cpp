@@ -117,11 +117,11 @@ bool j1Map::PostUpdate()
 {
 	bool ret = true;
 
-	if (App->input->GetKey(SDL_SCANCODE_F5))
+	if (App->input->GetKey(SDL_SCANCODE_F5) == KEY_DOWN)
 	{
 		App->SaveGame();
 	}
-	if (App->input->GetKey(SDL_SCANCODE_F6))
+	if (App->input->GetKey(SDL_SCANCODE_F6) == KEY_DOWN)
 	{
 		App->LoadGame();
 	}
@@ -628,7 +628,7 @@ void j1Map::OnCollision(Collider* c1, Collider* c2)
 }
 bool j1Map::Load(pugi::xml_node&nodeMap)
 {
-	num_thismaplvl = nodeMap.child("lvl").attribute("num").as_uint();
+	SavedLevel = nodeMap.child("lvl").attribute("num").as_uint();
 
 	return true;
 }
@@ -637,6 +637,7 @@ bool j1Map::Save(pugi::xml_node& map) const
 {
 	LOG("Saved level %i", num_thismaplvl);
 	pugi::xml_node play = map.append_child("lvl");
-	map.attribute("num").set_value(num_thismaplvl);
+	play.append_attribute("num").set_value(num_thismaplvl);
+	
 	return true;
 }
