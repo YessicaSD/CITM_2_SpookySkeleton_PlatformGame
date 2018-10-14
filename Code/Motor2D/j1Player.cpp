@@ -80,7 +80,7 @@ bool j1Player::Start()
 		Speed.x = 0.0f;
 		Speed.y = 0.0f;
 		animState = AnimationState::ANIM_STATE_SPAWN;
-		fading = false;
+		
 		loading = false;
 	}
 
@@ -391,6 +391,7 @@ bool j1Player::Save(pugi::xml_node&  nodePlayer) const
 	pugi::xml_node play = nodePlayer.append_child("position");
 	play.append_attribute("x");
 	play.attribute("x").set_value(flPos.x);
+
 	play.append_attribute("y");
 	play.attribute("y").set_value(flPos.y);
 	return true;
