@@ -82,7 +82,6 @@
     <ClCompile Include="j1Audio.cpp" />
     <ClCompile Include="j1Input.cpp" />
     <ClCompile Include="j1Map.cpp" />
-    <ClCompile Include="j1Scene.cpp" />
     <ClCompile Include="j1Player.cpp" />
     <ClCompile Include="j1Scene2.cpp" />
     <ClCompile Include="ModuleFadeToBlack.cpp" />
@@ -96,7 +95,6 @@
     <ClInclude Include="Animation.h" />
     <ClInclude Include="j1Collision.h" />
     <ClInclude Include="j1Map.h" />
-    <ClInclude Include="j1Scene.h" />
     <ClInclude Include="j1Player.h" />
     <ClInclude Include="j1Scene2.h" />
     <ClInclude Include="ModuleFadeToBack.h" />

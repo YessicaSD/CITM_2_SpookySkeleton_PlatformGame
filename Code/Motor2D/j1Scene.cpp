@@ -31,13 +31,7 @@ bool j1Scene::Awake()
 }
 
 // Called before the first frame
-bool j1Scene::Start()
-{
-	App->map->Load("Level1.tmx");
-	App->player1->Enable();
-	App->audio->PlayMusic("audio/music/spooky_skeletons.ogg");
-	return true;
-}
+
 
 // Called each loop iteration
 bool j1Scene::PreUpdate()
@@ -48,53 +42,19 @@ bool j1Scene::PreUpdate()
 // Called each loop iteration
 bool j1Scene::Update(float dt)
 {
-	//Load and save game---------------------------------------------------
-	if(App->input->GetKey(SDL_SCANCODE_L) == KEY_DOWN)
-		App->LoadGame();
-
-	if(App->input->GetKey(SDL_SCANCODE_S) == KEY_DOWN)
-		App->SaveGame();
-
-	//Camera controls -----------------------------------------------------
-	if(App->input->GetKey(SDL_SCANCODE_KP_8) == KEY_REPEAT)
-		App->render->camera.y -= 5;
-
-	if(App->input->GetKey(SDL_SCANCODE_KP_5) == KEY_REPEAT)
-		App->render->camera.y += 5;
-
-	if(App->input->GetKey(SDL_SCANCODE_KP_4) == KEY_REPEAT)
-		App->render->camera.x -= 5;
-
-	if(App->input->GetKey(SDL_SCANCODE_KP_6) == KEY_REPEAT)
-		App->render->camera.x += 5;
-
-	if (App->player1->flPos.x >= (App->map->data.width*App->map->data.tile_width)-(3*App->map->data.tile_width))
+	
+	/*if (App->player1->flPos.x >= (App->map->data.width*App->map->data.tile_width)-(3*App->map->data.tile_width))
 	{
 		App->fade->FadeToBlack(App->scene, App->scene2);
-	}
+	}*/
 
-	p2SString title("Map:%dx%d Tiles:%dx%d Tilesets:%d",
-					App->map->data.width, App->map->data.height,
-					App->map->data.tile_width, App->map->data.tile_height,
-					App->map->data.tilesets.count());
-
-	App->win->SetTitle(title.GetString());
+	
 
 	return true;
 }
 
 // Called each loop iteration
-bool j1Scene::PostUpdate()
-{
-	bool ret = true;
 
-	if(App->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN)
-		ret = false;
-
-	
-
-	return ret;
-}
 
 // Called before quitting
 bool j1Scene::CleanUp()

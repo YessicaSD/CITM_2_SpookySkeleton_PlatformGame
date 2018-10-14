@@ -1,17 +1,19 @@
+#include "j1Map.h"
 #include "p2Defs.h"
 #include "p2Log.h"
 #include "j1App.h"
+
 #include "j1Render.h"
 #include "j1Textures.h"
-#include "j1Map.h"
+
 #include "j1Collision.h"
 #include "j1Player.h"
 #include "j1Scene.h"
 #include "ModuleFadeToBack.h"
 #include "j1Scene2.h"
 #include "j1Window.h"
-
-
+#include "j1Input.h"
+#include "j1Audio.h"
 #include <math.h>
 
 j1Map::j1Map() : j1Module(), map_loaded(false)
@@ -23,6 +25,7 @@ j1Map::j1Map() : j1Module(), map_loaded(false)
 j1Map::~j1Map()
 {}
 
+
 // Called before render is available
 bool j1Map::Awake(pugi::xml_node& config)
 {
@@ -30,6 +33,72 @@ bool j1Map::Awake(pugi::xml_node& config)
 	bool ret = true;
 
 	folder.create(config.child("folder").child_value());
+	for (pugi::xml_node scene_node = config.child("scenes"); scene_node; scene_node = scene_node.next_sibling("scenes"))
+	{
+		Scenes* scene = new Scenes();
+		scene->levelnum = scene_node.attribute("lvlnum").as_uint();
+		
+		scene->level_tmx = scene_node.attribute("tmx").as_string();
+		scene->musicPath = scene_node.attribute("music").as_string();
+		data.scenes_List.add(scene);
+	}
+	
+	return ret;
+}
+
+bool j1Map::Start()
+{
+	
+	p2List_item<Scenes*>* lvlActive = activateScene(1);
+	LOG("%s", lvlActive->data->level_tmx.GetString());
+	App->map->Load(lvlActive->data->level_tmx.GetString());
+	App->audio->PlayMusic(lvlActive->data->musicPath.GetString());
+	
+	App->player1->Enable();
+	
+	return true;
+}
+
+bool j1Map::Update(float dt)
+{
+	//Load and save game---------------------------------------------------
+	if (App->input->GetKey(SDL_SCANCODE_L) == KEY_DOWN)
+		App->LoadGame();
+
+	if (App->input->GetKey(SDL_SCANCODE_S) == KEY_DOWN)
+		App->SaveGame();
+
+	//Camera controls -----------------------------------------------------
+	if (App->input->GetKey(SDL_SCANCODE_KP_8) == KEY_REPEAT)
+		App->render->camera.y -= 5;
+
+	if (App->input->GetKey(SDL_SCANCODE_KP_5) == KEY_REPEAT)
+		App->render->camera.y += 5;
+
+	if (App->input->GetKey(SDL_SCANCODE_KP_4) == KEY_REPEAT)
+		App->render->camera.x -= 5;
+
+	if (App->input->GetKey(SDL_SCANCODE_KP_6) == KEY_REPEAT)
+		App->render->camera.x += 5;
+
+
+	p2SString title("Map:%dx%d Tiles:%dx%d Tilesets:%d",
+		App->map->data.width, App->map->data.height,
+		App->map->data.tile_width, App->map->data.tile_height,
+		App->map->data.tilesets.count());
+
+	App->win->SetTitle(title.GetString());
+	return true;
+}
+
+bool j1Map::PostUpdate()
+{
+	bool ret = true;
+
+	if (App->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN)
+		ret = false;
+
+
 
 	return ret;
 }
@@ -48,12 +117,16 @@ bool j1Map::Draw()
 			for (uint column = 0; column<data.width; column++)
 			{
 				uint id = item_layer->data->tiledata[Get(column, row)];
-				if (id > 0)
+				if (id > 0 )
 				{
 					iPoint mapPoint = MapToWorld(column, row);
-					TileSet* tileset = GetTilesetFromTileId(id);
-					SDL_Rect section = tileset->GetTileRect(id);
-					App->render->Blit(tileset->texture, mapPoint.x, mapPoint.y, &section,SDL_FLIP_NONE, item_layer->data->parallax_velocity);
+					/*if (mapPoint.x >=App->render->camera.x && mapPoint.x<App->render->camera.x + App->render->camera.w / App->win->GetScale())
+					{*/
+						TileSet* tileset = GetTilesetFromTileId(id);
+						SDL_Rect section = tileset->GetTileRect(id);
+						App->render->Blit(tileset->texture, mapPoint.x, mapPoint.y, &section, SDL_FLIP_NONE, item_layer->data->parallax_velocity);
+				/*	}*/
+				
 					
 				}
 
@@ -288,31 +361,7 @@ bool j1Map::LoadMap()
 			
 		}
 		
-		/*p2SString bg_color(map.attribute("backgroundcolor").as_string());
-		data.background_color.r = 0;
-		data.background_color.g = 0;
-		data.background_color.b = 0;
-		data.background_color.a = 0;
-
-		if (bg_color.Length() > 0)
-		{
-			p2SString red, green, blue;
-			bg_color.SubString(1, 2, red);
-			bg_color.SubString(3, 4, green);
-			bg_color.SubString(5, 6, blue);
-
-			int v = 0;
-
-			sscanf_s(red.GetString(), "%x", &v);
-			if (v >= 0 && v <= 255) data.background_color.r = v;
-
-			sscanf_s(green.GetString(), "%x", &v);
-			if (v >= 0 && v <= 255) data.background_color.g = v;
-
-			sscanf_s(blue.GetString(), "%x", &v);
-			if (v >= 0 && v <= 255) data.background_color.b = v;
-		}
-*/
+	
 		p2SString orientation(map.attribute("orientation").as_string());
 
 		if (orientation == "orthogonal")
@@ -528,7 +577,7 @@ void j1Map::OnCollision(Collider* c1, Collider* c2)
 
 		if (c1->type==COLLIDER_RESPAWN)
 		{
-			if (App->scene->active)
+			/*if (App->scene->active)
 			{
 				App->fade->FadeToBlack(App->scene,App->scene);
 			}
@@ -537,7 +586,7 @@ void j1Map::OnCollision(Collider* c1, Collider* c2)
 				App->fade->FadeToBlack(App->scene2, App->scene2);
 			}
 				App->player1->Disable();
-	
+	*/
 		}
 	}
 

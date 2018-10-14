@@ -10,7 +10,14 @@
 #include "j1Textures.h"
 
 struct Collider;
+struct Scenes
+{
+	bool active=false;
+	uint levelnum=0;
+	p2SString level_tmx;
+	p2SString musicPath;
 
+};
 
 
 struct Object_Layer
@@ -102,11 +109,12 @@ struct MapData
 	uint					height;
 	uint					tile_width;
 	uint					tile_height;
-	SDL_Color			background_color;
-	MapTypes			type;
-	p2List<TileSet*>   tilesets;
-	p2List<MapLayer*>   layers;
-	p2List<Object_Layer*>  collition_layers;
+	SDL_Color				background_color;
+	MapTypes				type;
+	p2List<TileSet*>		tilesets;
+	p2List<MapLayer*>		layers;
+	p2List<Object_Layer*>   collition_layers;
+	p2List<Scenes*>			scenes_List;
 };
 
 // ----------------------------------------------------
@@ -128,7 +136,9 @@ public:
 
 	// Called before render is available
 	bool Awake(pugi::xml_node& conf);
-
+	bool Start();
+	bool Update(float dt);
+	bool PostUpdate();
 	// Called each loop iteration
 	bool Draw();
 
@@ -139,7 +149,20 @@ public:
 	bool Load(const char* path);
 	iPoint MapToWorld(int x, int y) const;
 	void OnCollision(Collider*, Collider*);
-	
+	p2List_item<Scenes*>* activateScene(uint lvlnum)
+	{
+		p2List_item<Scenes*>* item_scene;
+		
+		for(item_scene= data.scenes_List.start; item_scene; item_scene= item_scene->next   )
+			{
+			item_scene->data->active = false;
+		}
+		for (item_scene = data.scenes_List.start; item_scene->data->levelnum!=lvlnum; item_scene = item_scene->next)
+		{	}
+		item_scene->data->active = true;
+		return item_scene;
+	}
+
 
 private:
 

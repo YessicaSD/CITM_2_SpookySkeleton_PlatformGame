@@ -104,7 +104,7 @@ public:
 
 	// Callbacks ---
 	virtual void OnCollision(Collider*, Collider*) {}
-	virtual void OffCollision(Collider*) {}
+	
 
 
 

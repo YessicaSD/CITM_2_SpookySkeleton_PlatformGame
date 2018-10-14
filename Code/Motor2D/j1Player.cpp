@@ -98,7 +98,7 @@ bool j1Player::Start()
 	return anim_aux;
 
 }
-inline bool j1Player::CreateCol()
+ bool j1Player::CreateCol()
 {
 	bool ret = false;
 	offset.x = 3;
@@ -126,6 +126,7 @@ bool j1Player::PreUpdate()
 		else
 			debugMode = true;
 	}
+	this->moveDown = true;
 	return true;
 }
 bool j1Player::Update(float dt)
@@ -231,25 +232,25 @@ bool j1Player::PostUpdate()
 {
 	if (App->input->GetKey(SDL_SCANCODE_F3))
 	{
-		if (App->scene->IsEnabled())
+		/*if (App->scene->IsEnabled())
 		{
 			App->fade->FadeToBlack(App->scene, App->scene);
 		}
 		else
 		{
 			App->fade->FadeToBlack(App->scene2, App->scene);
-		}
+		}*/
 	}
 	if (App->input->GetKey(SDL_SCANCODE_F4))
 	{
-		if (App->scene2->IsEnabled())
+		/*if (App->scene2->IsEnabled())
 		{
 			App->fade->FadeToBlack(App->scene2, App->scene2);
 		}
 		else
 		{
 			App->fade->FadeToBlack(App->scene, App->scene2);
-		}
+		}*/
 	}
 	
 	return true;
@@ -272,7 +273,7 @@ bool j1Player::Draw()
 		CurrentFrame = PlayerDeath.GetCurrentFrame();
 		if (PlayerDeath.Finished())
 		{
-			if (App->scene->IsEnabled())
+			/*if (App->scene->IsEnabled())
 			{
 				death_anim = false;
 				App->fade->FadeToBlack(App->scene, App->scene);
@@ -281,7 +282,7 @@ bool j1Player::Draw()
 				death_anim = false;
 				App->fade->FadeToBlack(App->scene2, App->scene2);
 			}
-			animState = AnimationState::ANIM_STATE_IDLE;
+			animState = AnimationState::ANIM_STATE_IDLE;*/
 		}
 		
 		break;
@@ -347,7 +348,7 @@ void j1Player::OnCollision(Collider* c1, Collider* c2)
 
 void j1Player::OffCollision(Collider* c1)
 {
-	this->moveDown = true;
+	
 }
 void j1Player::DebugModeInput()
 {
