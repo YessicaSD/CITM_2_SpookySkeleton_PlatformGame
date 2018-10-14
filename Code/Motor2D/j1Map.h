@@ -10,13 +10,18 @@
 #include "j1Textures.h"
 
 struct Collider;
+struct SceneProp
+{
+	fPoint PlayerPos;
+	fPoint CameraPos;
+};
 struct Scenes
 {
 	bool active=false;
 	uint levelnum=0;
 	p2SString level_tmx;
 	p2SString musicPath;
-
+	SceneProp SceneProperties;
 };
 
 
@@ -71,8 +76,7 @@ struct TileSet
 	uint					tex_height = 0;
 	uint					num_tiles_width = 0;
 	uint					num_tiles_height = 0;
-	uint					offset_x = 0;
-	uint					offset_y = 0;
+
 
 	SDL_Rect Rectfind(uint tileId)
 	{
@@ -84,8 +88,6 @@ struct TileSet
 		rect.y = margin + ((rect.h + spacing) * (tileId / num_tiles_width));
 		return rect;
 	}
-
-	
 	~TileSet()
 	{
 		if (texture != nullptr)
@@ -105,11 +107,11 @@ enum MapTypes
 // ----------------------------------------------------
 struct MapData
 {
+	float gravity = 1.5f;
 	uint					width;
 	uint					height;
 	uint					tile_width;
 	uint					tile_height;
-	SDL_Color				background_color;
 	MapTypes				type;
 	p2List<TileSet*>		tilesets;
 	p2List<MapLayer*>		layers;
@@ -120,11 +122,13 @@ struct MapData
 // ----------------------------------------------------
 class j1Map : public j1Module
 {
+private:
+	p2List_item<Scenes*>* atualSceneItem=nullptr;
 public:
 
 	MapData data;
-	float gravity = 0.5f;
-	uint thismaplvl = 1;
+	
+	uint num_thismaplvl = 1;
 	inline uint Get(int x, int y) const
 	{
 		return  (y * data.width + x);
@@ -161,6 +165,7 @@ public:
 		for (item_scene = data.scenes_List.start; item_scene->data->levelnum!=lvlnum; item_scene = item_scene->next)
 		{	}
 		item_scene->data->active = true;
+		atualSceneItem = item_scene;
 		return item_scene;
 	}
 
@@ -170,6 +175,7 @@ private:
 	pugi::xml_document	map_file;
 	p2SString			folder;
 	bool				map_loaded;
+
 	uint i = 0;
 	bool LoadMap();
 	bool LoadTilesetDetails(pugi::xml_node& tileset_node, TileSet* set);

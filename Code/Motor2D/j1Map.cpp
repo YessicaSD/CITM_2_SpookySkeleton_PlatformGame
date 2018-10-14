@@ -41,23 +41,15 @@ bool j1Map::Awake(pugi::xml_node& config)
 		scene->musicPath = scene_node.attribute("music").as_string();
 		data.scenes_List.add(scene);
 	}
-	activateScene(1);
+	atualSceneItem = activateScene(1);
 	return ret;
 }
 
 bool j1Map::Start()
 {
+	App->map->Load(atualSceneItem->data->level_tmx.GetString());
+	App->audio->PlayMusic(atualSceneItem->data->musicPath.GetString());
 	App->player1->Enable();
-
-	p2List_item<Scenes*>* lvlActive;
-	for ( lvlActive = data.scenes_List.start; lvlActive->data->active==false && lvlActive!=NULL;lvlActive= lvlActive->next)
-	{
-		
-	}
-	App->map->Load(lvlActive->data->level_tmx.GetString());
-	App->audio->PlayMusic(lvlActive->data->musicPath.GetString());
-	
-	
 	
 	return true;
 }
@@ -407,17 +399,6 @@ bool j1Map::LoadTilesetDetails(pugi::xml_node& tileset_node, TileSet* set)
 	set->margin = tileset_node.attribute("margin").as_int();
 	set->spacing = tileset_node.attribute("spacing").as_int();
 	pugi::xml_node offset = tileset_node.child("tileoffset");
-
-	if (offset != NULL)
-	{
-		set->offset_x = offset.attribute("x").as_int();
-		set->offset_y = offset.attribute("y").as_int();
-	}
-	else
-	{
-		set->offset_x = 0;
-		set->offset_y = 0;
-	}
 
 	return ret;
 }
