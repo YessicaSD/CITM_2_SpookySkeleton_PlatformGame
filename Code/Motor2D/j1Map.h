@@ -124,6 +124,7 @@ public:
 
 	MapData data;
 	float gravity = 0.5f;
+	uint thismaplvl = 1;
 	inline uint Get(int x, int y) const
 	{
 		return  (y * data.width + x);
