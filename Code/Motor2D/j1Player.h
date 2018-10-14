@@ -70,8 +70,8 @@ public:
 	bool CleanUp();
 	bool PostUpdate();
 	void SpawnPlayer();
-	void OnCollision(Collider* c1, Collider* c2);
-	void OffCollision(Collider* c1);
+	
+
 	bool Draw();
 	/*bool Load(pugi::xml_node&);*/
 	//bool Save(pugi::xml_node&) const;

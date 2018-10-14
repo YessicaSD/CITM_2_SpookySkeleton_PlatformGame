@@ -147,7 +147,7 @@ public:
 
 	// Load new map
 	bool Load(const char* path);
-	iPoint MapToWorld(int x, int y) const;
+	inline iPoint MapToWorld(int x, int y) const;
 	void OnCollision(Collider*, Collider*);
 	p2List_item<Scenes*>* activateScene(uint lvlnum)
 	{

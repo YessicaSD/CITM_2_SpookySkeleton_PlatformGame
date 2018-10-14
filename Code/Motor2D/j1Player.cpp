@@ -65,7 +65,7 @@ bool j1Player::Start()
 		
 		Speed.x = 0.0f;
 		Speed.y = 0.0f;
-		
+		animState = AnimationState::ANIM_STATE_SPAWN;
 	}
 
 	else
@@ -129,6 +129,7 @@ bool j1Player::PreUpdate()
 }
 bool j1Player::Update(float dt)
 {
+	LOG("PLAYER_POS.X %f", flPos.x);
 	if (!debugMode)
 	{
 		//Player input-------------------------------------------------------------------
@@ -339,15 +340,9 @@ void j1Player::SpawnPlayer()
 	ColliderPlayer->type = COLLIDER_TYPE::COLLIDER_GOD;
 }
 
-void j1Player::OnCollision(Collider* c1, Collider* c2)
-{
-	
-}
 
-void j1Player::OffCollision(Collider* c1)
-{
-	
-}
+
+
 void j1Player::DebugModeInput()
 {
 	if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT)
