@@ -94,15 +94,11 @@ public:
 		return true;
 	}
 
-	// Called each loop iteration
-	 bool PreUpdate();
+	
 	
 
 	// Called each loop iteration
-	bool Update(float dt)
-	{
-		return true;
-	}
+	 bool Update(float dt);
 
 	// Called each loop iteration
 	bool PostUpdate();

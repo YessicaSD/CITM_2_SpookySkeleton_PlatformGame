@@ -108,7 +108,7 @@ enum MapTypes
 // ----------------------------------------------------
 struct MapData
 {
-	float gravity = 1.5f;
+	float gravity = 0.2f;
 	uint					width;
 	uint					height;
 	uint					tile_width;

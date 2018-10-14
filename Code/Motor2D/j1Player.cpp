@@ -77,8 +77,8 @@ bool j1Player::Start()
 		distansToCam.y = App->map->returnCameraPos().y;
 		App->render->camera.x = ((flPos.x + distansToCam.x));
 		App->render->camera.y = ((flPos.y + distansToCam.y));
-		Speed.x = 0.0f;
-		Speed.y = 0.0f;
+		speed.x = 0.0f;
+		speed.y = 0.0f;
 		animState = AnimationState::ANIM_STATE_SPAWN;
 		
 		loading = false;
@@ -140,7 +140,7 @@ bool j1Player::PreUpdate()
 		else
 			debugMode = true;
 	}
-	this->moveDown = true;
+	
 	return true;
 }
 bool j1Player::Update(float dt)
@@ -154,16 +154,16 @@ bool j1Player::Update(float dt)
 			if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT /*&& App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_IDLE*/)
 			{
 				animState = AnimationState::ANIM_STATE_WALK;
-				Speed.x = 1.0f;
-				flPos.x += Speed.x;
+				speed.x = 2.0f;
+				flPos.x += speed.x;
 				
 			}
 
 			if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT /*&& App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_IDLE*/)
 			{
 				animState = AnimationState::ANIM_STATE_WALK;
-				Speed.x = -1.0f;
-				flPos.x += Speed.x;
+				speed.x = -2.0f;
+				flPos.x += speed.x;
 
 			}
 
@@ -171,7 +171,7 @@ bool j1Player::Update(float dt)
 			if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_IDLE && App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_IDLE || App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT && App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
 			{
 				animState = AnimationState::ANIM_STATE_IDLE;
-				Speed.x = 0.0f;
+				speed.x = 0.0f;
 			}
 		
 
@@ -191,7 +191,7 @@ bool j1Player::Update(float dt)
 				jump_fx = true;
 				if (!jumping)
 				{
-					Speed.y = -5.2f;
+					speed.y = -5.0f;
 					jumping = true;
 				}
 
@@ -206,24 +206,15 @@ bool j1Player::Update(float dt)
 
 		}
 
-		if (jumping)
-		{
-
-			if (Speed.y != 0.0f)
-			{
-				Speed.y += 0.1f;
-			}
-
-		}
-		flPos.y += Speed.y;
+		
+		
 
 		//Gravity ------------------------------------------------------------------------
-		if (moveDown && !fading)
+		if (moveDown && !fading && speed.y < 3.0f)
 		{
-
-			flPos.y += App->map->data.gravity;
+			speed.y += App->map->data.gravity;
 		}
-	
+		flPos.y += speed.y;
 	
 
 		if ((flPos.x + distansToCam.x)* App->win->GetScale() > 0  && (App->map->data.tile_width*App->map->data.width) * App->win->GetScale() > (((flPos.x + distansToCam.x)* App->win->GetScale()) + App->render->camera.w) )
@@ -252,6 +243,7 @@ bool j1Player::Update(float dt)
 
 bool j1Player::PostUpdate()
 {
+	this->moveDown = true;
 	return true;
 };
 bool j1Player::Draw()
@@ -318,7 +310,7 @@ bool j1Player::Draw()
 	{
 		PlayerJump.Reset();
 	}
-	if (Speed.x<0.0f)
+	if (speed.x<0.0f)
 		App->render->Blit(ptexture, flPos.x - CurrentFrame.w / 2, flPos.y - CurrentFrame.h, &CurrentFrame, SDL_RendererFlip::SDL_FLIP_HORIZONTAL);
 	
 	else
@@ -356,26 +348,26 @@ void j1Player::DebugModeInput()
 	if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT)
 	{
 		animState = AnimationState::ANIM_STATE_WALK;
-		Speed.y = -5.0f;
-		flPos.y += Speed.y;
+		speed.y = -5.0f;
+		flPos.y += speed.y;
 	}
 	if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT)
 	{
 		animState = AnimationState::ANIM_STATE_WALK;
-		Speed.y = +5.0f;
-		flPos.y += Speed.y;
+		speed.y = +5.0f;
+		flPos.y += speed.y;
 	}
 	if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
 	{
 		animState = AnimationState::ANIM_STATE_WALK;
-		Speed.x = -5.0f;
-		flPos.x += Speed.x;
+		speed.x = -5.0f;
+		flPos.x += speed.x;
 	}
 	if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
 	{
 		animState = AnimationState::ANIM_STATE_WALK;
-		Speed.x = 5.0f;
-		flPos.x += Speed.x;
+		speed.x = 5.0f;
+		flPos.x += speed.x;
 	}
 }
 bool j1Player::Load(pugi::xml_node& nodePlayer)

@@ -48,7 +48,7 @@ j1Collision::~j1Collision()
 {
 
 }
-bool j1Collision:: PreUpdate()
+bool j1Collision:: Update(float dt)
 {
 	//LOG("Filled colliders %i", getFilledColNum());
 	// Calculate collisions
@@ -74,7 +74,7 @@ bool j1Collision:: PreUpdate()
 
 			if (c1->CheckCollision(c2->rect) == true)
 			{
-				
+
 				if (matrix[c1->type][c2->type] && c1->callback)
 				{
 					c1->callback->OnCollision(c1, c2);
@@ -85,7 +85,7 @@ bool j1Collision:: PreUpdate()
 					c2->callback->OnCollision(c2, c1);
 				}
 			}
-		
+
 		}
 	}
 	// Remove all colliders scheduled for deletion---------------------------------------------

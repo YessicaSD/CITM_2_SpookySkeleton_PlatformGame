@@ -561,12 +561,13 @@ void j1Map::OnCollision(Collider* c1, Collider* c2)
 		{
 			Collider* wall = c1;
 			Collider* colPlayer = c2;
-			//The player is on the wall
+
+			//The player is on the ground
 			if (App->player1->flPos.y - colPlayer->rect.h / 3 <= wall->rect.y && colPlayer->rect.x <= wall->rect.x + wall->rect.w   && colPlayer->rect.x + colPlayer->rect.w >= wall->rect.x)
 			{
 				App->player1->moveDown = false;
-				App->player1->Speed.y = 0.0f;
-				App->player1->SetPosPlayer_y(wall->rect.y);
+				App->player1->speed.y = 0.0f;
+				App->player1->SetPosPlayer_y(wall->rect.y + 1);
 				App->player1->jumping = false;
 			}
 
@@ -587,7 +588,7 @@ void j1Map::OnCollision(Collider* c1, Collider* c2)
 			if (App->player1->flPos.y > wall->rect.y + wall->rect.h && colPlayer->rect.x + colPlayer->rect.w - 5 > wall->rect.x && colPlayer->rect.x + 5< wall->rect.x + wall->rect.w)
 			{
 				App->player1->SetPosPlayer_y(wall->rect.y + wall->rect.h + colPlayer->rect.h);
-				App->player1->Speed.y = 0.0f;
+				App->player1->speed.y = 0.0f;
 			}
 		}
 
@@ -595,7 +596,7 @@ void j1Map::OnCollision(Collider* c1, Collider* c2)
 		{
 			for (p2List_item<Object_Layer*>* item_special= data.collition_layers.start;item_special;item_special=item_special->next)
 			{
-				if (App->player1->Speed.y > item_special->data->special_coll)
+				if (App->player1->speed.y > item_special->data->special_coll)
 				{
 					Collider* wall = c1;
 					Collider* colPlayer = c2;
@@ -603,8 +604,8 @@ void j1Map::OnCollision(Collider* c1, Collider* c2)
 					if (App->player1->flPos.y - colPlayer->rect.h / 3 <= wall->rect.y && colPlayer->rect.x <= wall->rect.x + wall->rect.w   && colPlayer->rect.x + colPlayer->rect.w >= wall->rect.x)
 					{
 						App->player1->moveDown = false;
-						App->player1->Speed.y = 0.0f;
-						App->player1->SetPosPlayer_y(wall->rect.y);
+						App->player1->speed.y = 0.0f;
+						App->player1->SetPosPlayer_y(wall->rect.y + 1);
 						App->player1->jumping = false;
 					}
 				}
