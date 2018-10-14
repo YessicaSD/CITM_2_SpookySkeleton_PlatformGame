@@ -467,6 +467,7 @@ bool j1Map::LoadCollision(pugi::xml_node& node, Object_Layer* object_layer)
 	SDL_Rect	rect;
 
 	object_layer->name = node.attribute("name").as_string();
+	object_layer->special_coll = node.attribute("gravity_change").as_int();
 	LOG("%s", object_layer->name.GetString());
 
 	for (pugi::xml_node object_node = node.child("object"); object_node != NULL; object_node = object_node.next_sibling("object"))
@@ -595,17 +596,20 @@ void j1Map::OnCollision(Collider* c1, Collider* c2)
 		}
 		if (c1->type==COLLIDER_SPECIAL)
 		{
-			if (App->player1->Speed.y > -2)
+			for (p2List_item<Object_Layer*>* item_special= data.collition_layers.start;item_special;item_special=item_special->next)
 			{
-				Collider* wall = c1;
-				Collider* colPlayer = c2;
-				//The player is on the wall
-				if (App->player1->flPos.y - colPlayer->rect.h / 3 <= wall->rect.y && colPlayer->rect.x <= wall->rect.x + wall->rect.w   && colPlayer->rect.x + colPlayer->rect.w >= wall->rect.x)
+				if (App->player1->Speed.y > item_special->data->special_coll)
 				{
-					App->player1->moveDown = false;
-					App->player1->Speed.y = 0.0f;
-					App->player1->SetPosPlayer_y(wall->rect.y);
-					App->player1->jumping = false;
+					Collider* wall = c1;
+					Collider* colPlayer = c2;
+					//The player is on the wall
+					if (App->player1->flPos.y - colPlayer->rect.h / 3 <= wall->rect.y && colPlayer->rect.x <= wall->rect.x + wall->rect.w   && colPlayer->rect.x + colPlayer->rect.w >= wall->rect.x)
+					{
+						App->player1->moveDown = false;
+						App->player1->Speed.y = 0.0f;
+						App->player1->SetPosPlayer_y(wall->rect.y);
+						App->player1->jumping = false;
+					}
 				}
 			}
 		}

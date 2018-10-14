@@ -28,6 +28,7 @@ struct Scenes
 struct Object_Layer
 {
 	p2SString			name;
+	int					special_coll;
 	p2List<Collider*>		col;
 	~Object_Layer()
 	{
