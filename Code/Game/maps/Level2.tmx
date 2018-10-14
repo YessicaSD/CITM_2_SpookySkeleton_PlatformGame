@@ -1320,10 +1320,10 @@
    <tile gid="330"/>
    <tile gid="331"/>
    <tile gid="332"/>
-   <tile gid="28"/>
-   <tile gid="28"/>
-   <tile gid="29"/>
-   <tile gid="30"/>
+   <tile gid="335"/>
+   <tile gid="335"/>
+   <tile gid="335"/>
+   <tile gid="335"/>
    <tile gid="337"/>
    <tile gid="338"/>
    <tile gid="339"/>
@@ -1422,7 +1422,7 @@
    <tile gid="352"/>
    <tile gid="353"/>
    <tile gid="354"/>
-   <tile gid="38"/>
+   <tile gid="335"/>
    <tile gid="356"/>
    <tile gid="357"/>
    <tile gid="358"/>
@@ -6110,6 +6110,6 @@
   </object>
  </objectgroup>
  <objectgroup name="RestartLevel">
-  <object id="80" x="0" y="523" width="377" height="57"/>
+  <object id="80" x="0" y="523" width="3200" height="57"/>
  </objectgroup>
 </map>

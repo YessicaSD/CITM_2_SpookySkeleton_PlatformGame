@@ -90,7 +90,7 @@ bool j1Map::Update(float dt)
 		App->fade->FadeToBlack(2);
 	}
 	
-	if (App->player1->flPos.x >= (data.width*data.tile_width))
+	if (App->player1->flPos.x >= (data.width*data.tile_width)-2*data.tile_width)
 	{
 		for (p2List_item<Scenes*>* item_scene = data.scenes_List.start;item_scene;item_scene=item_scene->next)
 		{
@@ -588,16 +588,7 @@ void j1Map::OnCollision(Collider* c1, Collider* c2)
 
 		if (c1->type==COLLIDER_RESPAWN)
 		{
-			/*if (App->scene->active)
-			{
-				App->fade->FadeToBlack(App->scene,App->scene);
-			}
-			else
-			{
-				App->fade->FadeToBlack(App->scene2, App->scene2);
-			}
-				App->player1->Disable();
-	*/
+			App->fade->FadeToBlack(num_thismaplvl);
 		}
 	}
 
