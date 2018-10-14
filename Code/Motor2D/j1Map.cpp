@@ -14,6 +14,7 @@
 #include "j1Audio.h"
 #include <math.h>
 
+
 j1Map::j1Map() : j1Module(), map_loaded(false)
 {
 	name.create("map");
@@ -46,6 +47,8 @@ bool j1Map::Awake(pugi::xml_node& config)
 
 bool j1Map::Start()
 {
+	App->player1->Enable();
+
 	p2List_item<Scenes*>* lvlActive;
 	for ( lvlActive = data.scenes_List.start; lvlActive->data->active==false && lvlActive!=NULL;lvlActive= lvlActive->next)
 	{
@@ -54,7 +57,7 @@ bool j1Map::Start()
 	App->map->Load(lvlActive->data->level_tmx.GetString());
 	App->audio->PlayMusic(lvlActive->data->musicPath.GetString());
 	
-	App->player1->Enable();
+	
 	
 	return true;
 }
@@ -155,7 +158,7 @@ TileSet* j1Map::GetTilesetFromTileId(int id) const
 }
 
 
-iPoint j1Map::MapToWorld(int x, int y) const
+inline iPoint j1Map::MapToWorld(int x, int y) const
 {
 	iPoint ret;
 
@@ -182,7 +185,7 @@ bool j1Map::CleanUp()
 	LOG("Unloading map");
 
 	// Remove all tilesets----------------------------------------------------------------------------------
-
+	App->player1->Disable();
 	for (p2List_item<TileSet*>* item = data.tilesets.end; item; item = item->prev)
 	{
 		
@@ -217,7 +220,7 @@ bool j1Map::CleanUp()
 
 	// Clean up the pugui tree
 	map_file.reset();
-	App->player1->Disable();
+	
 	return true;
 }
 
