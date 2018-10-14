@@ -9,10 +9,10 @@
 	</map>
 	<:anonymous />
 	<player>
-		<position />
+		<position x="296" y="385.5" />
 	</player>
-	<:anonymous />
+	<fade />
 	<renderer>
-		<camera x="520" y="135" />
+		<camera x="472" y="135" />
 	</renderer>
 </game_state>

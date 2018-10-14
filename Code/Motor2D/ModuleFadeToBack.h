@@ -7,6 +7,10 @@
 class ModuleFadeToBlack : public j1Module
 {
 public:
+	ModuleFadeToBlack()
+	{
+		name.create("fade");
+	}
 	~ModuleFadeToBlack();
 
 	bool Start();
