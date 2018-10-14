@@ -85,7 +85,21 @@ bool j1Map::Update(float dt)
 	{
 		App->fade->FadeToBlack(num_thismaplvl);
 	}
-
+	
+	if (App->player1->flPos.x >= (data.width*data.tile_width))
+	{
+		for (p2List_item<Scenes*>* item_scene = data.scenes_List.start;item_scene;item_scene=item_scene->next)
+		{
+			if (item_scene->data->levelnum == 1)
+			{
+				App->fade->FadeToBlack(2);
+			}
+			else if (item_scene->data->levelnum == 2)
+			{
+				App->fade->FadeToBlack(1);
+			}
+		}
+	}
 	/*p2SString title("Map:%dx%d Tiles:%dx%d Tilesets:%d",
 		App->map->data.width, App->map->data.height,
 		App->map->data.tile_width, App->map->data.tile_height,
