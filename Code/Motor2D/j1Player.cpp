@@ -18,7 +18,8 @@ j1Player::j1Player() : j1Module()
 bool j1Player:: Awake (pugi::xml_node &node) 
 {
 	LOG("Init SDL player");
-	
+	death = App->audio->LoadFx("audio/fx/smw_stomp_bones.wav");
+	jump = App->audio->LoadFx("audio/fx/jump.wav");
 	String_docXml.create( node.child_value());
 	
 	return true;
@@ -34,9 +35,10 @@ bool j1Player::Start()
 	//Loading file player xml --------------------------------------------------------------
 	pugi::xml_document	player_file;
 	pugi::xml_parse_result result = player_file.load_file(String_docXml.GetString());
-
+	death_fx = true;
+	jump_fx = true;
 	ptexture = App->tex->Load("textures/skeleton.png");
-	death = App->audio->LoadFx("audio/fx/death.wav");
+	
 
 	if (ptexture == nullptr) {
 		LOG("Error loading player texture!");
@@ -172,6 +174,7 @@ bool j1Player::Update(float dt)
 			}
 			if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
 			{
+				jump_fx = true;
 				if (!jumping)
 				{
 					Speed.y = -5.0f;
@@ -268,7 +271,11 @@ bool j1Player::Draw()
 	case AnimationState::ANIM_STATE_ATTACK:
 		break;
 	case AnimationState::ANIM_STATE_DEATH:
-		death_anim = true;
+		if (death_fx)
+		{
+			App->audio->PlayFx(death);
+			death_fx = false;
+		}
 		CurrentFrame = PlayerDeath.GetCurrentFrame();
 		if (PlayerDeath.Finished())
 		{
@@ -300,15 +307,17 @@ bool j1Player::Draw()
 	
 	if (jumping)
 	{
+		
+		if (jump_fx)
+		{
+			App->audio->PlayFx(jump);
+			jump_fx = false;
+		}
 		CurrentFrame = PlayerJump.GetCurrentFrame();
 	}
 	if (!jumping)
 	{
 		PlayerJump.Reset();
-	}
-	if (!death_anim)
-	{
-		PlayerDeath.Reset();
 	}
 	if (Speed.x<0.0f)
 		App->render->Blit(ptexture, flPos.x - CurrentFrame.w / 2, flPos.y - CurrentFrame.h, &CurrentFrame, SDL_RendererFlip::SDL_FLIP_HORIZONTAL);

@@ -31,7 +31,8 @@ class j1Player : public j1Module
 	fPoint distansToCam;
 	bool moveDown;
 	bool jumping;
-	bool death_anim;
+	bool death_fx;
+	bool jump_fx;
 	bool debugMode = false;
 	fPoint Speed;
 	
@@ -44,7 +45,7 @@ class j1Player : public j1Module
 	Animation PlayerAttack;
 	Animation PlayerDeath;
 	Animation PlayerSpawn;
-	uint death;
+	uint death, jump;
 
 	pugi::xml_node player_node;
 	SDL_Texture* ptexture=nullptr;
