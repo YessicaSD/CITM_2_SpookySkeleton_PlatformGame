@@ -2,7 +2,7 @@
 #include "j1App.h"
 #include "j1Render.h"
 #include "p2Log.h"
-
+#include "j1Map.h"
 
 ModuleFadeToBlack::~ModuleFadeToBlack()
 {
@@ -35,11 +35,10 @@ bool  ModuleFadeToBlack::Update(float dt)
 		{
 			// TODO 3: enable / disable the modules received when FadeToBlacks() gets called
 
-			to_disable->Disable();
-			to_enable->Enable();
+			App->map->Disable();
+			App->map->Enable();
 
-			to_disable = nullptr;
-			to_enable = nullptr;
+			
 			// ---
 
 			total_time += total_time;
@@ -67,7 +66,7 @@ bool ModuleFadeToBlack::Draw()
 	App->render->DrawQuad(screen, 0, 0, 0, (Uint8)(normalized * 255.0f));
 	return true;
 }
-bool ModuleFadeToBlack:: FadeToBlack(j1Module* module_off, j1Module* module_on, float time) {
+bool ModuleFadeToBlack:: FadeToBlack(uint lvlnum, float time) {
 	bool ret = false;
 
 	if (current_step == fade_step::none)
@@ -75,8 +74,7 @@ bool ModuleFadeToBlack:: FadeToBlack(j1Module* module_off, j1Module* module_on, 
 		current_step = fade_step::fade_to_black;
 		start_time = SDL_GetTicks();
 		total_time = (Uint32)(time * 0.5f * 1000.0f);
-		to_enable = module_on;
-		to_disable = module_off;
+		App->map->activateScene(lvlnum);
 		ret = true;
 	}
 

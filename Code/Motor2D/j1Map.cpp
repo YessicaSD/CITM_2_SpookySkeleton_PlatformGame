@@ -81,6 +81,14 @@ bool j1Map::Update(float dt)
 	if (App->input->GetKey(SDL_SCANCODE_KP_6) == KEY_REPEAT)
 		App->render->camera.x += 5;
 
+	if (App->input->GetKey(SDL_SCANCODE_F1))
+	{
+		App->fade->FadeToBlack(1);
+	}
+	if (App->input->GetKey(SDL_SCANCODE_F2))
+	{
+		App->fade->FadeToBlack(2);
+	}
 
 	/*p2SString title("Map:%dx%d Tiles:%dx%d Tilesets:%d",
 		App->map->data.width, App->map->data.height,

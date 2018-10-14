@@ -11,7 +11,7 @@ public:
 
 	bool Start();
 	bool Update(float dt);
-	bool FadeToBlack(j1Module* module_off, j1Module* module_on, float time = 2.0f);
+	bool FadeToBlack(uint lvlnum, float time=2.0f);
 	bool Draw();
 private:
 
@@ -26,8 +26,8 @@ private:
 	Uint32 total_time = 0;
 	SDL_Rect screen;
 	float normalized;
-	j1Module* to_enable = nullptr;
-	j1Module* to_disable = nullptr;
+	
+	
 };
 
 #endif //__MODULEFADETOBLACK_H__
