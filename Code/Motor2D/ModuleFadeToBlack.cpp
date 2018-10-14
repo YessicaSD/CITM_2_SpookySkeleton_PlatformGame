@@ -75,7 +75,9 @@ bool ModuleFadeToBlack:: FadeToBlack(uint lvlnum, float time) {
 		current_step = fade_step::fade_to_black;
 		start_time = SDL_GetTicks();
 		total_time = (Uint32)(time * 0.5f * 1000.0f);
+		App->map->Thislvl = lvlnum;
 		App->map->activateScene(lvlnum);
+		
 		ret = true;
 	}
 

@@ -87,6 +87,7 @@ bool j1Map::Update(float dt)
 	if (App->input->GetKey(SDL_SCANCODE_F1))
 	{
 		App->fade->FadeToBlack(1);
+		
 	}
 	if (App->input->GetKey(SDL_SCANCODE_F2))
 	{
