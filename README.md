@@ -1,9 +1,11 @@
-# Spooky Scary Skeleton - PlatformGame
+# Spooky Skeleton - PlatformGame
 
 ## Introduction
+Spooky Skeleton is a horitzontal-scorilling platform game in 2D.
 
+There is one playable character, a skeleton, and two different levels with a spooky atmosphere.
 
-## How to play:
+The first level is set inside a cave, and the second level is set in the outside of that cave.
 
 
 ### Find this project in github:
@@ -20,13 +22,38 @@ https://github.com/YessicaSD/PlatformGame
 
 
 
+## How to play:
 
-Debugging Controls:
-Camera controls:
-- Up: Numeric keypad 8
-- Down: Numeric keypad 5
-- Left: Numeric keypad 4
-- Right: Numeric keypad 6
 
-- F2: show/hide colliders
+## Debugging Controls:
+
+[ESC] = Exit
+
+[F1]  = Start from the very first level
+
+[F2]  = Start from the beginning of the current level
+
+[F5]  = Save the current state
+
+[F6]  = Load the previous state
+
+[F8]  = Load Level 2
+
+[F9]  = Show collisions
+
+[F10] = God mode
+
+
+### Player Control
+
+[UP] = Up
+
+[DOWN] = Down
+
+[LEFT] = Left
+
+[RIGHT] = Right
+
+[SPACE] = Jump
+
 
