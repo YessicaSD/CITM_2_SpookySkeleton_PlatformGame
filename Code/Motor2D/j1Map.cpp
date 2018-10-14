@@ -85,6 +85,10 @@ bool j1Map::Update(float dt)
 	{
 		App->fade->FadeToBlack(num_thismaplvl);
 	}
+	if (App->input->GetKey(SDL_SCANCODE_F8))
+	{
+		App->fade->FadeToBlack(2);
+	}
 	
 	if (App->player1->flPos.x >= (data.width*data.tile_width))
 	{
