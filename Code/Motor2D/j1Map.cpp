@@ -565,7 +565,7 @@ void j1Map::OnCollision(Collider* c1, Collider* c2)
 			{
 				App->player1->moveDown = false;
 				App->player1->Speed.y = 0.0f;
-				App->player1->flPos.y = wall->rect.y;
+				App->player1->SetPosPlayer_y(wall->rect.y);
 				App->player1->jumping = false;
 			}
 
@@ -573,19 +573,19 @@ void j1Map::OnCollision(Collider* c1, Collider* c2)
 			// The player collide with the left side of the wall
 			if (App->player1->flPos.x < wall->rect.x  && App->player1->flPos.y > wall->rect.y)
 			{
-				App->player1->flPos.x = wall->rect.x - colPlayer->rect.w / 2;
+				App->player1->SetPosPlayer_x(wall->rect.x - colPlayer->rect.w / 2);
 			}
 
 			// The player collide with the left side of the wall
 			if (App->player1->flPos.x > wall->rect.x + wall->rect.w  && App->player1->flPos.y > wall->rect.y)
 			{
-				App->player1->flPos.x = wall->rect.x + wall->rect.w + colPlayer->rect.w / 2;
+				App->player1->SetPosPlayer_x(wall->rect.x + wall->rect.w + colPlayer->rect.w / 2);
 			}
 
 			// The player is under the wall
 			if (App->player1->flPos.y > wall->rect.y + wall->rect.h && colPlayer->rect.x + colPlayer->rect.w - 5 > wall->rect.x && colPlayer->rect.x + 5< wall->rect.x + wall->rect.w)
 			{
-				App->player1->flPos.y = wall->rect.y + wall->rect.h + colPlayer->rect.h + 1;
+				App->player1->SetPosPlayer_y(wall->rect.y + wall->rect.h + colPlayer->rect.h);
 				App->player1->Speed.y = 0.0f;
 			}
 		}

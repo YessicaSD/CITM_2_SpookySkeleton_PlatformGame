@@ -70,6 +70,8 @@ bool j1Player::Start()
 		Speed.x = 0.0f;
 		Speed.y = 0.0f;
 		animState = AnimationState::ANIM_STATE_SPAWN;
+		fading = false;
+		loading = false;
 	}
 
 	else
@@ -133,7 +135,7 @@ bool j1Player::PreUpdate()
 }
 bool j1Player::Update(float dt)
 {
-	LOG("PLAYER_POS.X %f", flPos.x);
+	
 	if (!debugMode)
 	{
 		//Player input-------------------------------------------------------------------
@@ -206,7 +208,7 @@ bool j1Player::Update(float dt)
 		flPos.y += Speed.y;
 
 		//Gravity ------------------------------------------------------------------------
-		if (moveDown)
+		if (moveDown && !fading)
 		{
 
 			flPos.y += App->map->data.gravity;

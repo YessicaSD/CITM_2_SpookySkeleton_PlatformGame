@@ -35,6 +35,8 @@ class j1Player : public j1Module
 	bool death_fx;
 	bool jump_fx;
 	bool debugMode = false;
+	bool fading = false;
+	bool loading;
 	fPoint Speed;
 	
 
@@ -74,7 +76,22 @@ public:
 	void SpawnPlayer();
 	bool Load(pugi::xml_node&);
 	bool Save(pugi::xml_node&) const;
+	inline void SetPosPlayer_x(float x)
+	{
+		if (!fading)
+		{
+			flPos.x = x;
 
+		}
+	}
+	inline void SetPosPlayer_y(float y)
+	{
+		if (!fading)
+		{
+
+			flPos.y = y;
+		}
+	}
 	bool Draw();
 	/*bool Load(pugi::xml_node&);*/
 	//bool Save(pugi::xml_node&) const;
