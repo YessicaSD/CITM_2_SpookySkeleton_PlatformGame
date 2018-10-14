@@ -6048,7 +6048,7 @@
   <object id="66" x="1185.33" y="416" width="93.3333" height="32"/>
   <object id="68" x="1759.34" y="416.334" width="32" height="30.3334"/>
  </objectgroup>
- <objectgroup name="Special">
+ <objectgroup name="Special" gravity_change="-2">
   <object id="81" x="224" y="416.333" width="32" height="31.6667"/>
   <object id="82" x="320" y="383.667" width="31.6667" height="32.3333"/>
   <object id="83" x="416.333" y="415.333" width="63.3333" height="32.3333"/>
