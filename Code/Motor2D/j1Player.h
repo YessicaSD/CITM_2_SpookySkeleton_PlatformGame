@@ -45,7 +45,7 @@ class j1Player : public j1Module
 	Animation PlayerAttack;
 	Animation PlayerDeath;
 	Animation PlayerSpawn;
-	uint death, jump;
+	uint death_anim_fx, jump, death;
 
 	pugi::xml_node player_node;
 	SDL_Texture* ptexture=nullptr;

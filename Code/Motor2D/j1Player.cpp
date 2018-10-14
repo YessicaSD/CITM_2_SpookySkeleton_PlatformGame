@@ -18,8 +18,9 @@ j1Player::j1Player() : j1Module()
 bool j1Player:: Awake (pugi::xml_node &node) 
 {
 	LOG("Init SDL player");
-	death = App->audio->LoadFx("audio/fx/smw_stomp_bones.wav");
+	death_anim_fx = App->audio->LoadFx("audio/fx/smw_stomp_bones.wav");
 	jump = App->audio->LoadFx("audio/fx/jump.wav");
+	death = App->audio->LoadFx("audio/fx/death.wav");
 	String_docXml.create( node.child_value());
 	
 	return true;
@@ -273,22 +274,13 @@ bool j1Player::Draw()
 	case AnimationState::ANIM_STATE_DEATH:
 		if (death_fx)
 		{
-			App->audio->PlayFx(death);
+			App->audio->PlayFx(death_anim_fx);
 			death_fx = false;
 		}
 		CurrentFrame = PlayerDeath.GetCurrentFrame();
 		if (PlayerDeath.Finished())
 		{
-			/*if (App->scene->IsEnabled())
-			{
-				death_anim = false;
-				App->fade->FadeToBlack(App->scene, App->scene);
-			}
-			else {
-				death_anim = false;
-				App->fade->FadeToBlack(App->scene2, App->scene2);
-			}
-			animState = AnimationState::ANIM_STATE_IDLE;*/
+			App->fade->FadeToBlack(App->map->num_thismaplvl);
 		}
 		
 		break;
