@@ -24,10 +24,15 @@ j1Collision::j1Collision()
 	matrix[COLLIDER_WALL][COLLIDER_PLAYER] = true;
 	matrix[COLLIDER_WALL][COLLIDER_GOD] = true;
 
+	//Collider special-------------------------------------------------
+	matrix[COLLIDER_SPECIAL][COLLIDER_PLAYER] = true;
+	matrix[COLLIDER_SPECIAL][COLLIDER_GOD] = true;
+
 	//Collider player---------------------------------------------------
 	matrix[COLLIDER_PLAYER][COLLIDER_WALL] = true;
 	matrix[COLLIDER_PLAYER][COLLIDER_ENEMY] = true;
 	matrix[COLLIDER_PLAYER][COLLIDER_RESPAWN] = true;
+	matrix[COLLIDER_PLAYER][COLLIDER_SPECIAL] = true;
 	
 	//Collider enemy ----------------------------------------------
 	matrix[COLLIDER_ENEMY][COLLIDER_PLAYER] = true;
@@ -126,7 +131,9 @@ bool j1Collision::PostUpdate()
 		case COLLIDER_RESPAWN: // red
 			App->render->DrawQuad(colliders[i]->rect, 125,125, 0, alpha);
 			break;
-		
+		case COLLIDER_SPECIAL: //purple
+			App->render->DrawQuad(colliders[i]->rect, 125, 0, 125, alpha);
+			break;
 
 		}
 	}

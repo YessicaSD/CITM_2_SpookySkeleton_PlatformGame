@@ -492,6 +492,10 @@ bool j1Map::LoadCollision(pugi::xml_node& node, Object_Layer* object_layer)
 		{
 			item_object = App->collision->AddCollider(rect, COLLIDER_RESPAWN, App->map);
 		}
+		if (object_layer->name == "Special")
+		{
+			item_object = App->collision->AddCollider(rect, COLLIDER_SPECIAL, App->map);
+		}
 		object_layer->col.add(item_object);
 
 	}
@@ -589,6 +593,23 @@ void j1Map::OnCollision(Collider* c1, Collider* c2)
 				App->player1->Speed.y = 0.0f;
 			}
 		}
+		if (c1->type==COLLIDER_SPECIAL)
+		{
+			if (App->player1->Speed.y > -2)
+			{
+				Collider* wall = c1;
+				Collider* colPlayer = c2;
+				//The player is on the wall
+				if (App->player1->flPos.y - colPlayer->rect.h / 3 <= wall->rect.y && colPlayer->rect.x <= wall->rect.x + wall->rect.w   && colPlayer->rect.x + colPlayer->rect.w >= wall->rect.x)
+				{
+					App->player1->moveDown = false;
+					App->player1->Speed.y = 0.0f;
+					App->player1->SetPosPlayer_y(wall->rect.y);
+					App->player1->jumping = false;
+				}
+			}
+		}
+
 		if (c1->type == COLLIDER_ENEMY)
 		{
 			App->player1->animState = AnimationState::ANIM_STATE_DEATH;
