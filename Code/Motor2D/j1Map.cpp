@@ -57,10 +57,10 @@ bool j1Map::Start()
 bool j1Map::Update(float dt)
 {
 	//Load and save game---------------------------------------------------
-	if (App->input->GetKey(SDL_SCANCODE_L) == KEY_DOWN)
+	if (App->input->GetKey(SDL_SCANCODE_F6) == KEY_DOWN)
 		App->LoadGame();
 
-	if (App->input->GetKey(SDL_SCANCODE_S) == KEY_DOWN)
+	if (App->input->GetKey(SDL_SCANCODE_F5) == KEY_DOWN)
 		App->SaveGame();
 
 	//Camera controls -----------------------------------------------------
