@@ -12,6 +12,7 @@ ModuleFadeToBlack::~ModuleFadeToBlack()
 // Load assets
 bool ModuleFadeToBlack::Start()
 {
+	
 	screen = { 0, 0, App->render->camera.w , App->render->camera.h };
 	LOG("Preparing Fade Screen");
 	SDL_SetRenderDrawBlendMode(App->render->renderer, SDL_BLENDMODE_BLEND);
@@ -63,7 +64,7 @@ bool  ModuleFadeToBlack::Update(float dt)
 bool ModuleFadeToBlack::Draw()
 {
 	// Finally render the black square with alpha on the screen
-	App->render->DrawQuad(screen, 0, 0, 0, (Uint8)(normalized * 255.0f));
+	App->render->DrawQuad(screen, 0, 0, 0, (Uint8)(normalized * 255.0f),true,false);
 	return true;
 }
 bool ModuleFadeToBlack:: FadeToBlack(uint lvlnum, float time) {
