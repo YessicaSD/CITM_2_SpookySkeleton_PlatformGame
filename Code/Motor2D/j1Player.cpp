@@ -201,7 +201,7 @@ bool j1Player::Update(float dt)
 		if (moveDown)
 		{
 
-			flPos.y += 1.0f;
+			flPos.y += App->map->data.gravity;
 		}
 	
 	

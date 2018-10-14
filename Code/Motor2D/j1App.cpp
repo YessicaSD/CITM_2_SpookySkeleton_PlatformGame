@@ -120,8 +120,6 @@ bool j1App::Start()
 {
 	bool ret = true;
 
-	/*scene2->Disable();*/
-
 	p2List_item<j1Module*>* item;
 	item = modules.start;
 
