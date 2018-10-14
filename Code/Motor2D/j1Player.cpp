@@ -53,10 +53,6 @@ bool j1Player::Start()
 	{
 		player_node = player_file.child("player");
 		
-		/*flPos.x = player_node.child("player1").attribute("Start_pos_x").as_float();
-		flPos.y = player_node.child("player1").attribute("Start_pos_y").as_float();*/
-
-
 		PlayerIdle = LoadAnimations("idle");
 		PlayerWalk = LoadAnimations("walking");
 		PlayerJump = LoadAnimations("jump");
@@ -66,7 +62,21 @@ bool j1Player::Start()
 		PlayerDeath.loop = false;
 		PlayerSpawn = LoadAnimations("spawn");
 		ret = CreateCol();
-		
+		if (!loading)
+		{
+			flPos.x = App->map->returnPlayerPos().x;
+			flPos.y = App->map->returnPlayerPos().y;
+		}
+		else
+		{
+
+			flPos.x = flplayerPosSaved.x;
+			flPos.y = flplayerPosSaved.y;
+		}
+		distansToCam.x = App->map->returnCameraPos().x;
+		distansToCam.y = App->map->returnCameraPos().y;
+		App->render->camera.x = ((flPos.x + distansToCam.x));
+		App->render->camera.y = ((flPos.y + distansToCam.y));
 		Speed.x = 0.0f;
 		Speed.y = 0.0f;
 		animState = AnimationState::ANIM_STATE_SPAWN;
@@ -370,6 +380,7 @@ void j1Player::DebugModeInput()
 }
 bool j1Player::Load(pugi::xml_node& nodePlayer)
 {
+	App->player1->loading = true;
 	flplayerPosSaved.x = nodePlayer.child("position").attribute("x").as_float();
 	flplayerPosSaved.y = nodePlayer.child("position").attribute("y").as_float();
 	App->fade->FadeToBlack(App->map->SavedLevel);

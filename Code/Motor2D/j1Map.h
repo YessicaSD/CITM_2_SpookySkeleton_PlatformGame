@@ -21,7 +21,7 @@ struct Scenes
 	uint levelnum=0;
 	p2SString level_tmx;
 	p2SString musicPath;
-	SceneProp SceneProperties;
+	
 };
 
 
@@ -118,6 +118,7 @@ struct MapData
 	p2List<MapLayer*>		layers;
 	p2List<Object_Layer*>   collition_layers;
 	p2List<Scenes*>			scenes_List;
+	SceneProp SceneProperties;
 };
 
 // ----------------------------------------------------
@@ -156,6 +157,16 @@ public:
 	bool Load(const char* path);
 	inline iPoint MapToWorld(int x, int y) const;
 	void OnCollision(Collider*, Collider*);
+
+	fPoint returnPlayerPos()const
+	{
+		return data.SceneProperties.PlayerPos;
+	}
+	fPoint returnCameraPos()const
+	{
+		return data.SceneProperties.CameraPos;
+	}
+
 	p2List_item<Scenes*>* activateScene(uint lvlnum)
 	{
 		p2List_item<Scenes*>* item_scene;

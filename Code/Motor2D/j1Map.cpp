@@ -532,30 +532,26 @@ void j1Map::LoadProperties(pugi::xml_node& node)
 	{
 		nameProperty = nodeProperties.attribute("name").as_string();
 		if (nameProperty == "PlayerPos_x")
-		{
-			App->player1->flPos.x = node.attribute("value").as_float();
+			data.SceneProperties.PlayerPos.x = node.attribute("value").as_float();
 
-		}
 		if (nameProperty == "PlayerPos_y")
-		{
-			App->player1->flPos.y = node.attribute("value").as_float();
+			data.SceneProperties.PlayerPos.y = node.attribute("value").as_float();
 
-		}
+
 		if (nameProperty == "Distant_to_camera_from_player_x")
 		{
-			App->player1->distansToCam.x = node.attribute("value").as_float();
-			App->render->camera.x = ((App->player1->flPos.x + App->player1->distansToCam.x)* App->win->GetScale());
+			data.SceneProperties.CameraPos.x = node.attribute("value").as_float();
+
 
 		}
 		if (nameProperty == "Distant_to_camera_from_player_y")
 		{
-			App->player1->distansToCam.y = node.attribute("value").as_float();
-			App->render->camera.y = (App->player1->flPos.y + App->player1->distansToCam.y);
+			data.SceneProperties.CameraPos.y = node.attribute("value").as_float();
+
 		}
 	}
 
 }
-
 void j1Map::OnCollision(Collider* c1, Collider* c2)
 {
 
@@ -594,6 +590,7 @@ void j1Map::OnCollision(Collider* c1, Collider* c2)
 				App->player1->Speed.y = 0.0f;
 			}
 		}
+
 		if (c1->type==COLLIDER_SPECIAL)
 		{
 			for (p2List_item<Object_Layer*>* item_special= data.collition_layers.start;item_special;item_special=item_special->next)
@@ -613,6 +610,7 @@ void j1Map::OnCollision(Collider* c1, Collider* c2)
 				}
 			}
 		}
+
 
 		if (c1->type == COLLIDER_ENEMY)
 		{

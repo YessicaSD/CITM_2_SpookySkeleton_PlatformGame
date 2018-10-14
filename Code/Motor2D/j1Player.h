@@ -36,7 +36,7 @@ class j1Player : public j1Module
 	bool jump_fx;
 	bool debugMode = false;
 	bool fading = false;
-	bool loading;
+	bool loading=false;
 	fPoint Speed;
 	
 
