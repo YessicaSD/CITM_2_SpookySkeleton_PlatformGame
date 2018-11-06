@@ -9,7 +9,7 @@
 #include "SDL/include/SDL.h"
 #pragma comment( lib, "SDL/libx86/SDL2.lib" )
 #pragma comment( lib, "SDL/libx86/SDL2main.lib" )
-
+#define fps 30
 enum MainState
 {
 	CREATE = 1,
@@ -30,12 +30,17 @@ int main(int argc, char* args[])
 	LOG("%f", variable);
 	MainState state = MainState::CREATE;
 	int result = EXIT_FAILURE;
-
+	Uint32 starting_tick;
 	while(state != EXIT)
 	{
+		starting_tick = SDL_GetTicks();
 		switch(state)
 		{
-
+			default:
+				 LOG("Exiting with errors :(");
+				 result = EXIT_FAILURE;
+				 state = EXIT;
+			break;
 			// Allocate the engine --------------------------------------------
 			case CREATE:
 			LOG("CREATION PHASE ===============================");
@@ -104,10 +109,13 @@ int main(int argc, char* args[])
 			state = EXIT;
 			break;
 		}
+
+		if ((1000 / fps) > SDL_GetTicks() - starting_tick)
+		{
+			SDL_Delay((1000 / fps) - (SDL_GetTicks() - starting_tick));
+		}
 	}
 
 	LOG("... Bye! :)\n");
-
-	// Dump memory leaks
 	return result;
 }

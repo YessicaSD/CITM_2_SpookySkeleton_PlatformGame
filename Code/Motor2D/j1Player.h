@@ -25,8 +25,9 @@ class j1Player : public j1Module
 {
  public:
 	
-	 fPoint flplayerPosSaved;
+	fPoint flplayerPosSaved;
 	fPoint flPos;
+	fPoint flSpeed;
 	fPoint offset;
 	fPoint distansToCam;
 	bool moveDown=true;
@@ -94,8 +95,7 @@ public:
 	}
 	bool Draw();
 	
-	/*bool Load(pugi::xml_node&);*/
-	//bool Save(pugi::xml_node&) const;
+
 
 };
 

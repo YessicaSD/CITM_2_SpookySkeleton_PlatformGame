@@ -5,14 +5,14 @@
 	<textures />
 	<audio />
 	<map>
-		<lvl num="2" />
+		<lvl num="1" />
 	</map>
 	<player>
-		<position x="590" y="448" />
+		<position x="60" y="385" />
 	</player>
 	<:anonymous />
 	<fade />
 	<renderer>
-		<camera x="1060" y="268" />
+		<camera x="0" y="135" />
 	</renderer>
 </game_state>
