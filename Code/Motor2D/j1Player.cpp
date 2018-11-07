@@ -268,36 +268,41 @@ void j1Player::OnCollision(Collider * c1, Collider * c2)
 			}
 		}
 
-		//if (c1->type == COLLIDER_SPECIAL)
-		//{
-		//	for (p2List_item<Object_Layer*>* item_special = data.collition_layers.start; item_special; item_special = item_special->next)
-		//	{
-		//		if (App->player1->speed.y > item_special->data->special_coll)
-		//		{
-		//			Collider* wall = c1;
-		//			Collider* colPlayer = c2;
-		//			//The player is on the wall
-		//			if (App->player1->flPos.y - colPlayer->rect.h / 3 <= wall->rect.y && colPlayer->rect.x <= wall->rect.x + wall->rect.w   && colPlayer->rect.x + colPlayer->rect.w >= wall->rect.x)
-		//			{
-		//				App->player1->moveDown = false;
-		//				App->player1->speed.y = 0.0f;
-		//				App->player1->SetPosPlayer_y(wall->rect.y + 1);
-		//				App->player1->canJump = true;
-		//			}
-		//		}
-		//	}
-		//}
+		if (c2->type == COLLIDER_SPECIAL)
+		{
+			
+				if (App->player1->speed.y >= 0)
+				{
+					Collider* wall = c2;
+					Collider* colPlayer = c1;
+					//The player is on the wall
+					if (App->player1->flPos.y - colPlayer->rect.h / 3 <= wall->rect.y && colPlayer->rect.x <= wall->rect.x + wall->rect.w   && colPlayer->rect.x + colPlayer->rect.w >= wall->rect.x)
+					{
+						if (PlayerState == PlayerState::STATE_JUMP)
+						{
+							PlayerState = STATE_IDLE;
+						}
+
+						App->player1->moveDown = false;
+						App->player1->canJump = true;
+						App->player1->speed.y = 0.0F;
+						
+						
+					}
+				}
+			
+		}
 
 
-	/*	if (c1->type == COLLIDER_ENEMY)
+		if (c2->type == COLLIDER_ENEMY)
 		{
 			App->player1->PlayerState = PlayerState::STATE_DEATH;
 		}
 
-		if (c1->type == COLLIDER_RESPAWN)
+		if (c2->type == COLLIDER_RESPAWN)
 		{
 			App->fade->FadeToBlack(App->map->num_thismaplvl);
-		}*/
+		}
 	
 
 }
