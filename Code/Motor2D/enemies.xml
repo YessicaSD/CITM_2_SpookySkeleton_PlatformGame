@@ -1,0 +1,18 @@
+<enemies>
+
+  <skeleton_bat Start_pos_x="300" Start_pos_y="200"  >
+    <collider w="10" h="18"/>
+    <animation>
+
+      <image source="textures/skeleton_bat.png"/>
+      <fly>
+        <frame x="0" y="0" width="28" height="27"/>
+        <frame x="29" y="0" width="25" height="30"/>
+        <frame x="55" y="0" width="27" height="25"/>
+      </fly>
+
+
+    </animation>
+  </skeleton_bat>
+  
+</enemies>
