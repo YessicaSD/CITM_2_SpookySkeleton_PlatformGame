@@ -79,16 +79,7 @@ struct TileSet
 	uint					num_tiles_height = 0;
 
 
-	SDL_Rect Rectfind(uint tileId)
-	{
-		tileId - 1;
-		SDL_Rect rect;
-		rect.w = tex_width;
-		rect.h = tex_height;
-		rect.x = margin + ((rect.w + spacing) * (tileId % num_tiles_width));
-		rect.y = margin + ((rect.h + spacing) * (tileId / num_tiles_width));
-		return rect;
-	}
+
 	~TileSet()
 	{
 		if (texture != nullptr)
