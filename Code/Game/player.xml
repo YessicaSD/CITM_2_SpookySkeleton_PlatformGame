@@ -13,8 +13,8 @@
      <frame x="194" y="0" width="14" height="31"/>
      <frame x="258" y="0" width="14" height="31"/>
      <frame x="290" y="0" width="14" height="31"/>
-      <frame x="2" y="32" width="14" height="31"/>
-    
+     <frame x="2" y="32" width="14" height="31"/>
+ 
    </idle>
     
     <walking>

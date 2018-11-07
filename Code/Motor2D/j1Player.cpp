@@ -107,7 +107,7 @@ bool j1Player::Start()
 		anim_aux.PushBack(frameRect);
 		
 	}
-	anim_aux.speed = 0.1f;
+	anim_aux.speed = 0.1F;
 	return anim_aux;
 
 }
@@ -134,10 +134,7 @@ bool j1Player::PreUpdate()
 {
 	if (App->input->GetKey(SDL_SCANCODE_F10) == KEY_DOWN)
 	{
-		if (debugMode)
-			debugMode = false;
-		else
-			debugMode = true;
+		debugMode = !debugMode;
 	}
 	
 	return true;
@@ -172,7 +169,7 @@ bool j1Player::Update(float dt)
 			{
 				
 				animState = AnimationState::ANIM_STATE_IDLE;
-				speed.x = 0.0f;
+				speed.x = 0.0F;
 			}
 		
 
@@ -182,7 +179,7 @@ bool j1Player::Update(float dt)
 				{
 					animState = AnimationState::ANIM_STATE_WALK;
 
-					flPos.y += 0.5;
+					flPos.y += 0.5F;
 				}
 
 
@@ -192,7 +189,7 @@ bool j1Player::Update(float dt)
 				if (canJump)
 				{
 					jump_fx = true;
-					speed.y = -5.3f;
+					speed.y = -5.3F;
 					animState = AnimationState::ANIM_STATE_JUMP;
 					canJump = false;
 				}
