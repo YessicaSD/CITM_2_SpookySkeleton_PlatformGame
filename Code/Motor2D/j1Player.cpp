@@ -172,7 +172,7 @@ bool j1Player::Update(float dt)
 			{
 				
 				animState = AnimationState::ANIM_STATE_IDLE;
-				speed.x = 0.0f;
+				speed.x = 0.0F;
 			}
 		
 
@@ -182,7 +182,7 @@ bool j1Player::Update(float dt)
 				{
 					animState = AnimationState::ANIM_STATE_WALK;
 
-					flPos.y += 0.5;
+					flPos.y += 0.5F;
 				}
 
 
@@ -192,7 +192,7 @@ bool j1Player::Update(float dt)
 				if (canJump)
 				{
 					jump_fx = true;
-					speed.y = -5.3f;
+					speed.y = -5.3F;
 					animState = AnimationState::ANIM_STATE_JUMP;
 					canJump = false;
 				}
