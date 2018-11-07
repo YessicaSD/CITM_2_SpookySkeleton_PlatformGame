@@ -12,7 +12,7 @@
 
 class j1App;
  struct SDL_Texture;
- enum class PlayerState : uint
+ enum PlayerState : uint
 {
 	STATE_IDLE,
 	STATE_WALK,
@@ -74,9 +74,11 @@ public:
 	bool Start();
 
 	bool PreUpdate();
+	void OnCollision(Collider* c1, Collider* c2) override;
 	bool Update(float dt);
-	bool CleanUp();
 	bool PostUpdate();
+	bool CleanUp();
+
 
 	bool Load(pugi::xml_node&);
 	bool Save(pugi::xml_node&) const;
@@ -92,7 +94,6 @@ public:
 	{
 		if (!fading)
 		{
-
 			flPos.y = y;
 		}
 	}

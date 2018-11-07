@@ -74,7 +74,7 @@ public:
 	~j1Collision();
 
 	Collider* AddCollider(SDL_Rect rect, COLLIDER_TYPE type, j1Module* callback);
-	bool CheckCollision(const SDL_Rect& r) const;
+	
 	
 
 	void Init()

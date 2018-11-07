@@ -130,7 +130,8 @@ bool j1Player::Start()
 }
 bool j1Player::PreUpdate()
 {
-	
+	this->moveDown = true;
+
 	if (App->input->GetKey(SDL_SCANCODE_F10) == KEY_DOWN)
 	{
 		debugMode = !debugMode;
@@ -214,9 +215,93 @@ bool j1Player::PreUpdate()
 	{
 		DebugModeInput();
 	}
+	if (PlayerState == PlayerState::STATE_DEATH)
+	{
+		speed.x = 0.0F;
+		speed.y = 0.0F;
+	}
 
+	ColliderPlayer->SetPos((flPos.x+speed.x) - 4, (flPos.y + speed.y) - 31);
 	return true;
 }
+
+void j1Player::OnCollision(Collider * c1, Collider * c2)
+{
+		if (c2->type == COLLIDER_WALL)
+		{
+			Collider* wall = c2;
+			Collider* colPlayer = c1;
+
+			
+			//The player is on the ground
+			if (App->player1->flPos.y - colPlayer->rect.h / 3 <= wall->rect.y && colPlayer->rect.x <= wall->rect.x + wall->rect.w   && colPlayer->rect.x + colPlayer->rect.w >= wall->rect.x)
+			{
+				if (PlayerState == PlayerState::STATE_JUMP)
+				{
+					PlayerState = STATE_IDLE;
+				}
+
+				App->player1->moveDown = false;
+				speed.y = 0.0F;
+				App->player1->canJump = true;
+
+			}
+
+
+			// The player collide with the left side of the wall
+			if (App->player1->flPos.x < wall->rect.x  && App->player1->flPos.y > wall->rect.y)
+			{
+				App->player1->SetPosPlayer_x(wall->rect.x - colPlayer->rect.w / 2);
+			}
+
+			// The player collide with the left side of the wall
+			if (App->player1->flPos.x > wall->rect.x + wall->rect.w  && App->player1->flPos.y > wall->rect.y)
+			{
+				App->player1->SetPosPlayer_x(wall->rect.x + wall->rect.w + colPlayer->rect.w / 2);
+			}
+
+			// The player is under the wall
+			if (App->player1->flPos.y > wall->rect.y + wall->rect.h && colPlayer->rect.x + colPlayer->rect.w - 5 > wall->rect.x && colPlayer->rect.x + 5< wall->rect.x + wall->rect.w)
+			{
+				App->player1->SetPosPlayer_y(wall->rect.y + wall->rect.h + colPlayer->rect.h);
+				App->player1->speed.y = 0.0f;
+			}
+		}
+
+		//if (c1->type == COLLIDER_SPECIAL)
+		//{
+		//	for (p2List_item<Object_Layer*>* item_special = data.collition_layers.start; item_special; item_special = item_special->next)
+		//	{
+		//		if (App->player1->speed.y > item_special->data->special_coll)
+		//		{
+		//			Collider* wall = c1;
+		//			Collider* colPlayer = c2;
+		//			//The player is on the wall
+		//			if (App->player1->flPos.y - colPlayer->rect.h / 3 <= wall->rect.y && colPlayer->rect.x <= wall->rect.x + wall->rect.w   && colPlayer->rect.x + colPlayer->rect.w >= wall->rect.x)
+		//			{
+		//				App->player1->moveDown = false;
+		//				App->player1->speed.y = 0.0f;
+		//				App->player1->SetPosPlayer_y(wall->rect.y + 1);
+		//				App->player1->canJump = true;
+		//			}
+		//		}
+		//	}
+		//}
+
+
+	/*	if (c1->type == COLLIDER_ENEMY)
+		{
+			App->player1->PlayerState = PlayerState::STATE_DEATH;
+		}
+
+		if (c1->type == COLLIDER_RESPAWN)
+		{
+			App->fade->FadeToBlack(App->map->num_thismaplvl);
+		}*/
+	
+
+}
+
 bool j1Player::Update(float dt)
 {
 	if (!debugMode)
@@ -224,21 +309,17 @@ bool j1Player::Update(float dt)
 		flPos += speed;
 	
 		////Gravity ------------------------------------------------------------------------
-		//if (moveDown && !fading && speed.y < 3.0F)
-		//{
-		//	speed.y += App->map->data.gravity;
-		//
-		//}
+		if (moveDown && !fading && speed.y < 3.0F)
+		{
+			speed.y += App->map->data.gravity;
+		
+		}
 
 	}
-	
 
 	if (!debugMode)
 	{
 		
-	
-	
-
 		//Camera----------------------------------------------------------------------------------
 		if ((flPos.x + distansToCam.x)* App->win->GetScale() > 0  && (App->map->data.tile_width*App->map->data.width) * App->win->GetScale() > (((flPos.x + distansToCam.x)* App->win->GetScale()) + App->render->camera.w) )
 		{
@@ -260,7 +341,7 @@ bool j1Player::Update(float dt)
 bool j1Player::PostUpdate()
 {
 
-	this->moveDown = true;
+	
 	
 	return true;
 };
