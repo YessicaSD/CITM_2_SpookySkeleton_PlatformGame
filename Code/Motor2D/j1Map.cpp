@@ -566,7 +566,7 @@ void j1Map::OnCollision(Collider* c1, Collider* c2)
 			if (App->player1->flPos.y - colPlayer->rect.h / 3 <= wall->rect.y && colPlayer->rect.x <= wall->rect.x + wall->rect.w   && colPlayer->rect.x + colPlayer->rect.w >= wall->rect.x)
 			{
 				App->player1->moveDown = false;
-				App->player1->speed.y = 0.0f;
+				/*App->player1->speed.y = 0.0f;*/
 				App->player1->SetPosPlayer_y(wall->rect.y + 1);
 				App->player1->canJump = true;
 				
@@ -616,7 +616,7 @@ void j1Map::OnCollision(Collider* c1, Collider* c2)
 
 		if (c1->type == COLLIDER_ENEMY)
 		{
-			App->player1->animState = AnimationState::ANIM_STATE_DEATH;
+			App->player1->PlayerState = PlayerState::STATE_DEATH;
 		}
 
 		if (c1->type==COLLIDER_RESPAWN)

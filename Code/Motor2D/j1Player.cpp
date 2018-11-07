@@ -27,7 +27,6 @@ bool j1Player:: Awake (pugi::xml_node &node)
 }
 void j1Player::Init()
 {
-	
 	active = true;
 }
 bool j1Player::Start()
@@ -78,8 +77,8 @@ bool j1Player::Start()
 		distansToCam.y = App->map->returnCameraPos().y;
 		App->render->camera.x = ((flPos.x + distansToCam.x));
 		App->render->camera.y = ((flPos.y + distansToCam.y));
-		speed.x = 0.0f;
-		speed.y = 0.0f;
+		speed.x = 0.0F;
+		speed.y = 0.0F;
 		loading = false;
 	}
 
@@ -93,7 +92,6 @@ bool j1Player::Start()
 }
  Animation j1Player::LoadAnimations(p2SString name)
 {
-	bool ret = true;
 	pugi::xml_node p1_node = player_node.child("player1").child("animation");
 	Animation anim_aux;
 
@@ -108,8 +106,8 @@ bool j1Player::Start()
 		
 	}
 	anim_aux.speed = 0.1F;
-	return anim_aux;
 
+	return anim_aux;
 }
  bool j1Player::CreateCol()
 {
@@ -132,95 +130,114 @@ bool j1Player::Start()
 }
 bool j1Player::PreUpdate()
 {
+	
 	if (App->input->GetKey(SDL_SCANCODE_F10) == KEY_DOWN)
 	{
 		debugMode = !debugMode;
 	}
+
+	if (!debugMode)
+	{
+		if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
+		{
+			if (PlayerState == PlayerState::STATE_IDLE)
+			{
+				PlayerState = PlayerState::STATE_WALK;
+				right = true;
+				speed.x = 2.0F;
+			}
+			else if (PlayerState == PlayerState::STATE_JUMP)
+			{
+				right = true;
+				speed.x = 2.0F;
+			}
+		}
+		if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_UP)
+		{
+			speed.x = 0.0F;
+			if (PlayerState == PlayerState::STATE_WALK)
+			{
+				PlayerState = PlayerState::STATE_IDLE;
+				
+			}
 	
+		}
+
+		if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT)
+		{
+			if (PlayerState == PlayerState::STATE_IDLE)
+			{
+				PlayerState = PlayerState::STATE_WALK;
+				right = false;
+				speed.x = -2.0F;
+			}
+			else if (PlayerState == PlayerState::STATE_JUMP)
+			{
+				right = false;
+				speed.x = -2.0F;
+			}
+
+		}
+		if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_UP)
+		{
+			speed.x = 0;
+			if (PlayerState == PlayerState::STATE_WALK)
+			{
+				PlayerState = PlayerState::STATE_IDLE;
+			}
+		}
+
+		if(App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
+		{
+			if (PlayerState == PlayerState::STATE_IDLE || PlayerState == PlayerState::STATE_WALK)
+			{
+				if (canJump)
+				{
+					PlayerState = PlayerState::STATE_JUMP;
+					jump_fx = true;
+					speed.y = -5.3F;
+					canJump = false;
+				}
+			}
+		}
+
+		if (App->input->GetKey(SDL_SCANCODE_Q) == KEY_DOWN)
+		{
+			if (PlayerState == PlayerState::STATE_IDLE || PlayerState == PlayerState::STATE_WALK)
+			{
+				speed.x = 0;
+				PlayerState = PlayerState::STATE_ATTACK;
+			}
+		}
+	}
+	else
+	{
+		DebugModeInput();
+	}
+
 	return true;
 }
 bool j1Player::Update(float dt)
 {
-	
 	if (!debugMode)
 	{
-		//Player input-------------------------------------------------------------------
-		if (animState != AnimationState::ANIM_STATE_SPAWN && animState != AnimationState::ANIM_STATE_DEATH)
-		{
-			if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT /*&& App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_IDLE*/)
-			{
+		flPos += speed;
+	
+		////Gravity ------------------------------------------------------------------------
+		//if (moveDown && !fading && speed.y < 3.0F)
+		//{
+		//	speed.y += App->map->data.gravity;
+		//
+		//}
 
-				animState = AnimationState::ANIM_STATE_WALK;
-				speed.x = 2.0f;
-				flPos.x += speed.x;
-				
-			}
-
-			if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT /*&& App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_IDLE*/)
-			{
-				animState = AnimationState::ANIM_STATE_WALK;
-				speed.x = -2.0f;
-				flPos.x += speed.x;
-
-			}
-
-
-			if ( animState!= AnimationState::ANIM_STATE_ATTACK && App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_IDLE && App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_IDLE || App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT && App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
-			{
-				
-				animState = AnimationState::ANIM_STATE_IDLE;
-				speed.x = 0.0F;
-			}
-		
-
-			if (App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT)
-			{
-				if (moveDown)
-				{
-					animState = AnimationState::ANIM_STATE_WALK;
-
-					flPos.y += 0.5F;
-				}
-
-
-			}
-			if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
-			{
-				if (canJump)
-				{
-					jump_fx = true;
-					speed.y = -5.3F;
-					animState = AnimationState::ANIM_STATE_JUMP;
-					canJump = false;
-				}
-
-
-
-			}
-
-			if (App->input->GetKey(SDL_SCANCODE_Z) == KEY_DOWN)
-			{
-				if (animState != AnimationState::ANIM_STATE_ATTACK)
-				{
-					PlayerAttack.Reset();
-					animState = AnimationState::ANIM_STATE_ATTACK;
-				}
-				
-			}
-
-		}
-
-		
-		
-
-		//Gravity ------------------------------------------------------------------------
-		if (moveDown && !fading && speed.y < 3.0f)
-		{
-			speed.y += App->map->data.gravity;
-		}
-		flPos.y += speed.y;
+	}
 	
 
+	if (!debugMode)
+	{
+		
+	
+	
 
 		//Camera----------------------------------------------------------------------------------
 		if ((flPos.x + distansToCam.x)* App->win->GetScale() > 0  && (App->map->data.tile_width*App->map->data.width) * App->win->GetScale() > (((flPos.x + distansToCam.x)* App->win->GetScale()) + App->render->camera.w) )
@@ -234,10 +251,6 @@ bool j1Player::Update(float dt)
 		}
 			
 	}
-	else
-	{
-	 DebugModeInput();
-	}
 	
 	ColliderPlayer->SetPos(flPos.x - 4, flPos.y - 31);
 
@@ -248,29 +261,30 @@ bool j1Player::PostUpdate()
 {
 
 	this->moveDown = true;
-	canJump = false;
+	
 	return true;
 };
 bool j1Player::Draw()
 {
+	bool ret = true;
 	SDL_Rect CurrentFrame;
-	switch (animState)
+	switch (PlayerState)
 	{
-	case AnimationState::ANIM_STATE_IDLE:
+	case PlayerState::STATE_IDLE:
 		CurrentFrame = PlayerIdle.GetCurrentFrame();
 		break;
-	case AnimationState::ANIM_STATE_WALK:
+	case PlayerState::STATE_WALK:
 		CurrentFrame = PlayerWalk.GetCurrentFrame();
 		break;
-	case AnimationState::ANIM_STATE_ATTACK:
+	case PlayerState::STATE_ATTACK:
 		CurrentFrame = PlayerAttack.GetCurrentFrame();
 		if (PlayerAttack.Finished())
 		{
 		
-			animState = AnimationState::ANIM_STATE_IDLE;
+			PlayerState = PlayerState::STATE_IDLE;
 		}
 		break;
-	case AnimationState::ANIM_STATE_DEATH:
+	case PlayerState::STATE_DEATH:
 		if (death_fx)
 		{
 			App->audio->PlayFx(death_anim_fx);
@@ -283,17 +297,17 @@ bool j1Player::Draw()
 		}
 		
 		break;
-	case AnimationState::ANIM_STATE_SPAWN:
+	case PlayerState::STATE_SPAWN:
 		if (PlayerSpawn.Finished())
 		{
-			animState = AnimationState::ANIM_STATE_IDLE;
+			PlayerState = PlayerState::STATE_IDLE;
 			PlayerSpawn.loop = 0;
 		}
 
 		else
 			CurrentFrame = PlayerSpawn.GetCurrentFrame();
 		break;
-	case AnimationState::ANIM_STATE_JUMP:
+	case PlayerState::STATE_JUMP:
 
 		if (jump_fx)
 		{
@@ -302,18 +316,21 @@ bool j1Player::Draw()
 		}
 		CurrentFrame = PlayerJump.GetCurrentFrame();
 		break;
+	default:
+		ret = false;
+		break;
 	
 	}
 	
-	if (speed.x<0.0f)
-		App->render->Blit(ptexture, flPos.x - CurrentFrame.w / 2, flPos.y - CurrentFrame.h, &CurrentFrame, SDL_RendererFlip::SDL_FLIP_HORIZONTAL);
+	if (speed.x<0.0F)
+		ret=App->render->Blit(ptexture, flPos.x - CurrentFrame.w / 2, flPos.y - CurrentFrame.h, &CurrentFrame, SDL_RendererFlip::SDL_FLIP_HORIZONTAL);
 	
 	else
-		App->render->Blit(ptexture, flPos.x - CurrentFrame.w / 2, flPos.y - CurrentFrame.h, &CurrentFrame);
+		ret= App->render->Blit(ptexture, flPos.x - CurrentFrame.w / 2, flPos.y - CurrentFrame.h, &CurrentFrame);
 
 	
 	
-	return true;
+	return ret;
 }
 bool j1Player::CleanUp()
 {
@@ -338,25 +355,25 @@ void j1Player::DebugModeInput()
 {
 	if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT)
 	{
-		animState = AnimationState::ANIM_STATE_WALK;
+		PlayerState = PlayerState::STATE_WALK;
 		speed.y = -5.0f;
 		flPos.y += speed.y;
 	}
 	if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT)
 	{
-		animState = AnimationState::ANIM_STATE_WALK;
+		PlayerState = PlayerState::STATE_WALK;
 		speed.y = +5.0f;
 		flPos.y += speed.y;
 	}
 	if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
 	{
-		animState = AnimationState::ANIM_STATE_WALK;
+		PlayerState = PlayerState::STATE_WALK;
 		speed.x = -5.0f;
 		flPos.x += speed.x;
 	}
 	if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
 	{
-		animState = AnimationState::ANIM_STATE_WALK;
+		PlayerState = PlayerState::STATE_WALK;
 		speed.x = 5.0f;
 		flPos.x += speed.x;
 	}

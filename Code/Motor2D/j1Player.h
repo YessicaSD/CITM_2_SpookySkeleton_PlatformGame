@@ -12,22 +12,25 @@
 
 class j1App;
  struct SDL_Texture;
- enum class AnimationState : uint
+ enum class PlayerState : uint
 {
-	ANIM_STATE_IDLE,
-	ANIM_STATE_WALK,
-	ANIM_STATE_JUMP,
-	ANIM_STATE_ATTACK,
-	ANIM_STATE_DEATH,
-	ANIM_STATE_SPAWN
+	STATE_IDLE,
+	STATE_WALK,
+	STATE_JUMP,
+	STATE_ATTACK,
+	STATE_DEATH,
+	STATE_SPAWN
 };
 class j1Player : public j1Module
 {
+
  public:
-	
+	 fPoint flPos;
+	 fPoint speed;
+	 bool right = true;
+
 	fPoint flplayerPosSaved;
-	fPoint flPos;
-	fPoint flSpeed;
+	
 	fPoint offset;
 	fPoint distansToCam;
 	bool moveDown=true;
@@ -38,11 +41,11 @@ class j1Player : public j1Module
 	bool debugMode = false;
 	bool fading = false;
 	bool loading=false;
-	fPoint speed;
+	
 	
 
 
-	AnimationState animState = AnimationState::ANIM_STATE_SPAWN;
+	PlayerState PlayerState = PlayerState::STATE_SPAWN;
 	Animation PlayerIdle;
 	Animation PlayerWalk;
 	Animation PlayerJump;
