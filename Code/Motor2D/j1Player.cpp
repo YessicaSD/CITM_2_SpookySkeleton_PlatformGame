@@ -107,7 +107,7 @@ bool j1Player::Start()
 		anim_aux.PushBack(frameRect);
 		
 	}
-	anim_aux.speed = 0.1f;
+	anim_aux.speed = 0.1F;
 	return anim_aux;
 
 }
@@ -134,10 +134,7 @@ bool j1Player::PreUpdate()
 {
 	if (App->input->GetKey(SDL_SCANCODE_F10) == KEY_DOWN)
 	{
-		if (debugMode)
-			debugMode = false;
-		else
-			debugMode = true;
+		debugMode = !debugMode;
 	}
 	
 	return true;
