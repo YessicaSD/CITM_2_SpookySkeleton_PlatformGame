@@ -98,20 +98,16 @@ bool j1App::Awake()
 		organization.create(app_config.child("organization").child_value());
 		load_game.create(app_config.child("saveFile").child_value());
 		save_game.create(app_config.child("saveFile").child_value());
+	
+		framerate = config.child("app").attribute("framerate_cap").as_uint();
 	}
 
 	if(ret == true)
 	{
-		p2List_item<j1Module*>* item;
-		item = modules.start;
-
+		p2List_item<j1Module*>* item = modules.start;
 		while(item != NULL && ret == true )
 		{
-			if (item->data->IsEnabled())
-			{
-				ret = item->data->Awake(config.child(item->data->name.GetString()));
-			}
-			
+			ret = item->data->Awake(config.child(item->data->name.GetString()));
 			item = item->next;
 		}
 	}
@@ -124,15 +120,11 @@ bool j1App::Start()
 {
 	bool ret = true;
 
-	p2List_item<j1Module*>* item;
-	item = modules.start;
+	p2List_item<j1Module*>* item = modules.start;
 
 	while(item != NULL && ret == true )
 	{
-		if (item->data->IsEnabled())
-		{
-			ret = item->data->Start();
-		}
+		ret = item->data->Start();
 		item = item->next;
 	}
 
@@ -179,6 +171,13 @@ pugi::xml_node j1App::LoadConfig(pugi::xml_document& config_file) const
 // ---------------------------------------------
 void j1App::PrepareUpdate()
 {
+	frame_count++;
+	last_sec_frame_count++;
+
+	if (avg_fps != 0.0F)
+		dt = (1000.0F / avg_fps) / 1000.0F;
+
+	frame_time.Start();
 }
 
 // ---------------------------------------------
@@ -189,6 +188,37 @@ void j1App::FinishUpdate()
 
 	if(want_to_load == true)
 		LoadGameNow();
+
+	// Framerate calculations --
+
+	if (last_sec_frame_time.Read() > 1000)
+	{
+		last_sec_frame_time.Start();
+		prev_last_sec_frame_count = last_sec_frame_count;
+		last_sec_frame_count = 0;
+	}
+
+	avg_fps = float(frame_count) / startup_time.ReadSec();
+	float seconds_since_startup = startup_time.ReadSec();
+	uint32 last_frame_ms = frame_time.Read();
+	uint32 frames_on_last_update = prev_last_sec_frame_count;
+
+	static char WinTitle[256];
+	sprintf_s(WinTitle, 256, "Spooky_Skeleton _ Av.FPS: %.2f Last Frame Ms: %02u Last sec frames: %i  Time since startup: %.3f Frame Count: %lu ",
+		avg_fps, last_frame_ms, frames_on_last_update, seconds_since_startup, frame_count);
+	App->win->SetTitle(WinTitle);
+
+	j1PerfTimer timer;
+	
+	if (last_frame_ms < (1000 / framerate))
+	{
+		SDL_Delay((1000 / framerate) - last_frame_ms);
+	}
+	float timewait = ((1000 / framerate) - last_frame_ms);
+	
+	LOG("We wait for %f and got back %f", timewait, timer.ReadMs());
+
+
 }
 
 // Call modules before each loop iteration

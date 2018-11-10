@@ -9,7 +9,7 @@
 #include "SDL/include/SDL.h"
 #pragma comment( lib, "SDL/libx86/SDL2.lib" )
 #pragma comment( lib, "SDL/libx86/SDL2main.lib" )
-#define fps 30
+
 enum MainState
 {
 	CREATE = 1,
@@ -110,10 +110,6 @@ int main(int argc, char* args[])
 			break;
 		}
 
-		if ((1000 / fps) > SDL_GetTicks() - starting_tick)
-		{
-			SDL_Delay((1000 / fps) - (SDL_GetTicks() - starting_tick));
-		}
 	}
 
 	LOG("... Bye! :)\n");

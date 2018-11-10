@@ -105,12 +105,7 @@ bool j1Map::Update(float dt)
 			}
 		}
 	}
-	/*p2SString title("Map:%dx%d Tiles:%dx%d Tilesets:%d",
-		App->map->data.width, App->map->data.height,
-		App->map->data.tile_width, App->map->data.tile_height,
-		App->map->data.tilesets.count());*/
 
-	App->win->SetTitle("Spooky_Skeleton");
 	return true;
 }
 
