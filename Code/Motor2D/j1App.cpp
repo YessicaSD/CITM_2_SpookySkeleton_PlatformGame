@@ -13,6 +13,7 @@
 #include "j1App.h"
 #include  "j1Collision.h"
 #include "j1Player.h"
+#include "j1Entity.h"
 
 // Constructor
 j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
@@ -29,6 +30,7 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	player1 = new j1Player();
 	collision = new j1Collision();
 	fade = new ModuleFadeToBlack();
+	entity = new j1Entity();
 
 	// Ordered for awake / Start / Update
 	// Reverse order of CleanUp

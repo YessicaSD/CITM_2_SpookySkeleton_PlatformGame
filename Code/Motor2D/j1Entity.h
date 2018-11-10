@@ -10,13 +10,13 @@
 
 struct SDL_Texture;
 
-enum Entity_State : uint
+/*enum Entity_State
 {
 	STATE_IDLE,
-	STATE_WALK,
-	STATE_ATTACK,
+	STATE_WALK, 
 	STATE_DEATH,
-};
+	STATE_ATTACK
+};*/
 
 class j1Entity :public j1Module
 {
@@ -28,12 +28,13 @@ public:
 
 	Animation LoadAnimations(p2SString name);
 
+	// EntityState = Entity_State::STATE_IDLE;
 	Animation EntityIdle;
 	Animation EntityWalk;
 	Animation EntityDeath;
 	Animation EntityAttack;
 
-
+	
 
 
 

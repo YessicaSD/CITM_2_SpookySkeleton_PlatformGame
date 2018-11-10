@@ -8,6 +8,7 @@
 
 #include "j1Collision.h"
 #include "j1Player.h"
+#include "j1Entity.h"
 #include "ModuleFadeToBack.h"
 #include "j1Window.h"
 #include "j1Input.h"
@@ -50,7 +51,7 @@ bool j1Map::Start()
 	App->map->Load(atualSceneItem->data->level_tmx.GetString());
 	App->audio->PlayMusic(atualSceneItem->data->musicPath.GetString());
 	App->player1->Enable();
-	
+	App->entity->Enable();
 	return true;
 }
 
@@ -205,6 +206,7 @@ bool j1Map::CleanUp()
 
 	// Remove all tilesets----------------------------------------------------------------------------------
 	App->player1->Disable();
+	App->entity->Disable();
 	for (p2List_item<TileSet*>* item = data.tilesets.end; item; item = item->prev)
 	{
 		

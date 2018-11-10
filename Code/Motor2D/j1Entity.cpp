@@ -50,11 +50,17 @@ bool j1Entity::Start()
 	{
 		entity_node = entity_file.child("enemies");
 
+		EntityIdle = LoadAnimations("idle");
+		EntityWalk = LoadAnimations("walking");
+		EntityDeath = LoadAnimations("death");
+		EntityAttack = LoadAnimations("attack");
+
 	}
 
 	else
 	{
-
+		LOG("entity %s", result.description());
+		return ret;
 	}
 }
 
@@ -82,35 +88,43 @@ Animation j1Entity::LoadAnimations(p2SString name)
 
 bool j1Entity::PreUpdate()
 {
-
+	return true;
 }
 
 bool j1Entity::Update(float dt)
 {
-
+	return true;
 }
 
 bool j1Entity::PostUpdate()
 {
+	Draw();
 
+	return true;
 }
 
 bool j1Entity::Draw()
 {
-
+	return true;
 }
 
 bool j1Entity::CleanUp()
 {
+	if (entity_texture != nullptr)
+	{
+		App->tex->UnLoad(entity_texture);
+		entity_texture = nullptr;
+	}
 
+	return true;
 }
 
 bool j1Entity::Load(pugi::xml_node&)
 {
-
+	return true;
 }
 
 bool j1Entity::Save(pugi::xml_node&  nodePlayer) const
 {
-
+	return true;
 }
