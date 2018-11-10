@@ -1,0 +1,17 @@
+<enemies>
+  <image source="textures/enemies.png"/>
+
+  <enemy Start_pos_x="300" Start_pos_y="200"  >
+    <collider w="10" h="18"/>
+    <animation>
+
+      <idle>
+        <frame x="0" y="143" width="28" height="27"/>
+        <frame x="29" y="143" width="25" height="30"/>
+        <frame x="55" y="143" width="27" height="25"/>
+      </idle>
+
+    </animation>
+  </enemy>
+
+</enemies>

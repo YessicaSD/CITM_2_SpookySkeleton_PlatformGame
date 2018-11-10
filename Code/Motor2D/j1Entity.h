@@ -40,24 +40,19 @@ public:
 
 public:
 	j1Entity();
-	bool Awake(pugi::xml_node&);
+	bool Awake(pugi::xml_node&) override;
 	void Init();
-	bool Start();
+	bool Start() override;
 
-	bool PreUpdate();
-	bool Update(float dt);
-	bool PostUpdate();
-	bool CleanUp();
+	bool PreUpdate() override;
+	bool Update(float dt) override;
+	bool PostUpdate() override;
+	bool CleanUp()override;
+	bool Draw() override;
 
-
-	bool Load(pugi::xml_node&);
-	bool Save(pugi::xml_node&) const;
-
-
-private:
-	bool Draw();
-
-
+	bool Load(pugi::xml_node&) override;
+	bool Save(pugi::xml_node&) const override;
+	
 };
 
 #endif // __j1ENTITY_H__

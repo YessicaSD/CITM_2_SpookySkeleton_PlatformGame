@@ -10,10 +10,11 @@
 #include "ModuleFadeToBack.h"
 #include "j1Collision.h"
 #include "j1Render.h"
+#include "j1Player.h"
 
 j1Entity::j1Entity():j1Module()
 {
-	name.create("entity");
+	name.create("enemies");
 }
 
 bool j1Entity::Awake(pugi::xml_node&node)
@@ -25,16 +26,16 @@ bool j1Entity::Awake(pugi::xml_node&node)
 
 void j1Entity::Init()
 {
-
+	active = true;
 }
 
 bool j1Entity::Start()
 {
-	bool ret = false;
+	bool ret = true;
 	//Loading file entity xml --------------------------------------------------------------
-	pugi::xml_parse_result result = entity_file.load_file(String_docXml.GetString());
+	pugi::xml_parse_result result = entity_file.load_file("enemies.xml");
 	entity_node = entity_file.child("enemies");
-	entity_texture = App->tex->Load(entity_node.child("image").attribute("source").value());
+	entity_texture = App->tex->Load("textures/enemies.png");
 
 	if (entity_texture == nullptr)
 	{
@@ -48,20 +49,20 @@ bool j1Entity::Start()
 
 	if (result)
 	{
-		entity_node = entity_file.child("enemies");
 
 		EntityIdle = LoadAnimations("idle");
-		EntityWalk = LoadAnimations("walking");
+		/*EntityWalk = LoadAnimations("walking");
 		EntityDeath = LoadAnimations("death");
-		EntityAttack = LoadAnimations("attack");
+		EntityAttack = LoadAnimations("attack");*/
 
 	}
 
 	else
 	{
 		LOG("entity %s", result.description());
-		return ret;
 	}
+	
+	return ret;
 }
 
 Animation j1Entity::LoadAnimations(p2SString name)
@@ -79,6 +80,7 @@ Animation j1Entity::LoadAnimations(p2SString name)
 			frameRect.w = frame.attribute("width").as_int();
 			frameRect.h = frame.attribute("height").as_int();
 			anim_entity.PushBack(frameRect);
+			LOG("CORRECT LOAD OF THE ANIMATION WITH: %i  , %i     ,%i       ,%i    COMPONENTS", frameRect.x, frameRect.y, frameRect.w, frameRect.h);
 		}
 
 	}
@@ -98,14 +100,17 @@ bool j1Entity::Update(float dt)
 
 bool j1Entity::PostUpdate()
 {
-	Draw();
+	
 
 	return true;
 }
 
 bool j1Entity::Draw()
 {
-	return true;
+	bool ret = true;
+	SDL_Rect CurrentFrame = EntityIdle.GetCurrentFrame();
+	ret = App->render->Blit(entity_texture, App->player1->flPos.x - CurrentFrame.w / 2, App->player1->flPos.y - CurrentFrame.h, &CurrentFrame);
+	return ret;
 }
 
 bool j1Entity::CleanUp()
