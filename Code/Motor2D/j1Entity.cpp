@@ -84,7 +84,7 @@ Animation j1Entity::LoadAnimations(p2SString name)
 		}
 
 	}
-	anim_entity.speed = 0.1f;
+	anim_entity.speed = 0.2f;
 	return anim_entity;
 }
 
@@ -109,7 +109,7 @@ bool j1Entity::Draw()
 {
 	bool ret = true;
 	SDL_Rect CurrentFrame = EntityIdle.GetCurrentFrame();
-	ret = App->render->Blit(entity_texture, App->player1->flPos.x - CurrentFrame.w / 2, App->player1->flPos.y - CurrentFrame.h, &CurrentFrame);
+	ret = App->render->Blit(entity_texture, 300, 200, &CurrentFrame);
 	return ret;
 }
 
