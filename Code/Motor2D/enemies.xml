@@ -1,21 +1,20 @@
 <enemies>
-
-  <skeleton_bat Start_pos_x="300" Start_pos_y="200"  >
+  <image source="textures/enemies.png"/>
+  
+  <enemy Start_pos_x="300" Start_pos_y="200"  >
     <collider w="10" h="18"/>
     <animation>
 
-      <image source="textures/enemies.png"/>
       <idle>
         <frame x="0" y="143" width="28" height="27"/>
         <frame x="29" y="143" width="25" height="30"/>
         <frame x="55" y="143" width="27" height="25"/>
       </idle>
 
-
     </animation>
-  </skeleton_bat>
+  </enemy>
 
-  <zombie Start_pos_x="400" Start_pos_y="200">
+  <enemy Start_pos_x="400" Start_pos_y="200">
     <collider w="10" h="18"/>
     <animation>
       
@@ -62,15 +61,53 @@
        <frame x="586" y="32" width="33" height="25"/>
        <frame x="620" y="32" width="34" height="25"/>
       </walk>
-  
+
+      <death>
+         <frame x="0" y="65" width="30" height="26"/>
+         <frame x="73" y="65" width="26" height="26"/>
+         <frame x="146" y="65" width="20" height="26"/>
+         <frame x="218" y="66" width="20" height="25"/>
+         <frame x="290" y="66" width="25" height="25"/>
+         <frame x="363" y="66" width="24" height="25"/>
+         <frame x="434" y="66" width="26" height="25"/>
+         <frame x="507" y="65" width="30" height="26"/>
+         <frame x="579" y="67" width="33" height="24"/>
+         <frame x="651" y="74" width="40" height="17"/>
+         <frame x="723" y="82" width="42" height="9"/>
+         <frame x="795" y="84" width="42" height="7"/>
+         <frame x="867" y="86" width="42" height="5"/>
+      </death>
+
+      <attack>
+        <frame x="0" y="110" width="30" height="26"/>
+        <frame x="56" y="110" width="30" height="26"/>
+        <frame x="116" y="101" width="29" height="35"/>
+        <frame x="172" y="101" width="29" height="35"/>
+        <frame x="223" y="101" width="30" height="35"/>
+        <frame x="279" y="101" width="30" height="35"/>
+        <frame x="335" y="101" width="32" height="35"/>
+        <frame x="404" y="108" width="30" height="31"/>
+        <frame x="462" y="112" width="28" height="27"/>
+        <frame x="518" y="115" width="28" height="23"/>
+        <frame x="574" y="115" width="28" height="23"/>
+        <frame x="630" y="114" width="26" height="25"/>
+        <frame x="686" y="111" width="23" height="25"/>
+        <frame x="742" y="111" width="25" height="26"/>
+        <frame x="798" y="111" width="29" height="26"/>
+        <frame x="854" y="111" width="16" height="25"/>
+        <frame x="909" y="111" width="20" height="25"/>
+        <frame x="954" y="111" width="28" height="26"/>
+        <frame x="1007" y="111" width="31" height="26"/>
+        <frame x="1064" y="110" width="30" height="26"/>
+      </attack>
   
   
     </animation>
-  </zombie>
+  </enemy>
 
   
     
-  <spikes Start_pos_x="500" Start_pos_y="200">
+  <enemy Start_pos_x="500" Start_pos_y="200">
      <collider w="10" h="18"/>
     <animation>
 
@@ -78,12 +115,15 @@
       <idle>
         <frame x="99" y="143" width="29" height="15"/>
         <frame x="129" y="143" width="30" height="15"/>
+       </idle>
+
+      <walk>
         <frame x="160" y="143" width="32" height="15"/>
         <frame x="193" y="143" width="27" height="25"/>
-        </idle>
+      </walk>
     
     </animation>
-  </spikes>
+  </enemy>
 
 
 </enemies>
