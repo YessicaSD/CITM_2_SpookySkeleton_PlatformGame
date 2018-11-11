@@ -1,5 +1,5 @@
 <player>
-  <player1 Start_pos_x="50" Start_pos_y="150"  >
+  <player1 Start_pos_x="50" Start_pos_y="150" Speed_x="100" Speed_y="30" >
     <collider w="8" h="32"/>
   <animation>
     

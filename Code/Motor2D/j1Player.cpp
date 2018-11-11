@@ -17,13 +17,21 @@ j1Player::j1Player() : j1Module()
 }
 bool j1Player:: Awake (pugi::xml_node &node) 
 {
+	bool ret = true;
 	LOG("Init SDL player");
 	death_anim_fx = App->audio->LoadFx("audio/fx/smw_stomp_bones.wav");
 	jump = App->audio->LoadFx("audio/fx/jump.wav");
 	death = App->audio->LoadFx("audio/fx/death.wav");
-	String_docXml.create( node.child_value());
 	
-	return true;
+	pugi::xml_parse_result result;
+	if( player_file.load_file(node.child_value()) == NULL)
+	{
+		LOG("player %s", result.description());
+		return ret = false;
+	}
+
+
+	return ret;
 }
 void j1Player::Init()
 {
@@ -31,27 +39,17 @@ void j1Player::Init()
 }
 bool j1Player::Start()
 {
-	bool ret = false;
-	//Loading file player xml --------------------------------------------------------------
-	pugi::xml_document	player_file;
-	pugi::xml_parse_result result = player_file.load_file(String_docXml.GetString());
+	bool ret = true;
+
 	death_fx = true;
 	jump_fx = true;
-	ptexture = App->tex->Load("textures/skeleton.png");
 	
-
-	if (ptexture == nullptr) {
+	if ((ptexture = App->tex->Load("textures/skeleton.png")) == nullptr) {
 		LOG("Error loading player texture!");
-		ret = false;
+		return ret = false;
 	}
-	else {
-		LOG("Loaded player texture succesfully");
-	}
-
-	if (result)
-	{
 		player_node = player_file.child("player");
-		
+
 		PlayerIdle = LoadAnimations("idle");
 		PlayerWalk = LoadAnimations("walking");
 		PlayerJump = LoadAnimations("jump");
@@ -69,25 +67,16 @@ bool j1Player::Start()
 		}
 		else
 		{
-
 			flPos.x = flplayerPosSaved.x;
 			flPos.y = flplayerPosSaved.y;
 		}
-		distansToCam.x = App->map->returnCameraPos().x;
-		distansToCam.y = App->map->returnCameraPos().y;
-		App->render->camera.x = ((flPos.x + distansToCam.x));
-		App->render->camera.y = ((flPos.y + distansToCam.y));
-		speed.x = 0.0F;
-		speed.y = 0.0F;
+		distansToCam = App->map->returnCameraPos();
+
+		App->render->camera.x = (flPos.x + distansToCam.x);
+		App->render->camera.y = (flPos.y + distansToCam.y);
+		speed = { 0.0F,  0.0F };
 		loading = false;
-	}
-
-	else
-	{
-		LOG("player %s", result.description());
-		return ret;
-	}
-
+	
 	return ret;
 }
  Animation j1Player::LoadAnimations(p2SString name)
@@ -178,7 +167,7 @@ bool j1Player::PreUpdate(float dt)
 			&& canJump)
 				{
 					PlayerState = PlayerState::STATE_JUMP;
-					speed.y = -5.3F;
+					speed.y = -30.0F;
 					canJump = false;
 					App->audio->PlayFx(jump);
 				
@@ -249,7 +238,7 @@ void j1Player::OnCollision(Collider * c1, Collider * c2)
 			
 			if (PlayerIsUnder)
 			{
-				App->player1->speed.y = (otherColl->rect.y + otherColl->rect.h) - (flPos.y- colPlayer->rect.h);
+				App->player1->speed.y = (otherColl->rect.y + otherColl->rect.h) - ((int)flPos.y- colPlayer->rect.h);
 			}
 		}
 
@@ -288,7 +277,7 @@ bool j1Player::Update(float dt)
 		////Gravity ------------------------------------------------------------------------
 		if (moveDown && !fading && speed.y < 3.0F)
 		{
-			speed.y += App->map->data.gravity * dt;
+			speed.y += App->map->data.gravity * dt ;
 		
 		}
 

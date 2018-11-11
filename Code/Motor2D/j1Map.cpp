@@ -146,14 +146,11 @@ bool j1Map::Draw()
 				if (id > 0 )
 				{
 					iPoint mapPoint = MapToWorld(column, row);
-					/*if (mapPoint.x >=App->render->camera.x && mapPoint.x<App->render->camera.x + App->render->camera.w / App->win->GetScale())
-					{*/
+					
 						TileSet* tileset = GetTilesetFromTileId(id);
 						SDL_Rect section = tileset->GetTileRect(id);
 						App->render->Blit(tileset->texture, mapPoint.x, mapPoint.y, &section, SDL_FLIP_NONE, item_layer->data->parallax_velocity);
-				/*	}*/
 				
-					
 				}
 
 			}

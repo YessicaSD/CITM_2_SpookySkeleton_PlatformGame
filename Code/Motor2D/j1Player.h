@@ -27,6 +27,7 @@ class j1Player : public j1Module
  public:
 	 fPoint flPos = { 0.0F,0.0F };
 	 fPoint speed = {0.0F,0.0F};
+	 fPoint MaxSpeed;
 	 bool right = true;
 
 	fPoint flplayerPosSaved;
@@ -43,6 +44,7 @@ class j1Player : public j1Module
 	bool loading=false;
 	
 	
+	pugi::xml_document	player_file;
 
 
 	PlayerState PlayerState = PlayerState::STATE_SPAWN;
