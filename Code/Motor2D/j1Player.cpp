@@ -128,7 +128,7 @@ bool j1Player::Start()
 
 	return ret;
 }
-bool j1Player::PreUpdate()
+bool j1Player::PreUpdate(float dt)
 {
 	this->moveDown = true;
 
@@ -141,17 +141,16 @@ bool j1Player::PreUpdate()
 	{
 		if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
 		{
+			if (PlayerState == PlayerState::STATE_IDLE || PlayerState == PlayerState::STATE_JUMP)
+			{
+				right = true;
+				speed.x = 2.0F;
+			}
+
 			if (PlayerState == PlayerState::STATE_IDLE)
-			{
 				PlayerState = PlayerState::STATE_WALK;
-				right = true;
-				speed.x = 2.0F;
-			}
-			else if (PlayerState == PlayerState::STATE_JUMP)
-			{
-				right = true;
-				speed.x = 2.0F;
-			}
+			
+		
 		}
 		if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_UP)
 		{
@@ -408,12 +407,11 @@ bool j1Player::Draw()
 	
 	}
 	
-	if (speed.x<0.0F)
-		ret=App->render->Blit(ptexture, flPos.x - CurrentFrame.w / 2, flPos.y - CurrentFrame.h, &CurrentFrame, SDL_RendererFlip::SDL_FLIP_HORIZONTAL);
+	if (right)
+		ret = App->render->Blit(ptexture, flPos.x - CurrentFrame.w / 2, flPos.y - CurrentFrame.h, &CurrentFrame);
 	
-	else
-		ret= App->render->Blit(ptexture, flPos.x - CurrentFrame.w / 2, flPos.y - CurrentFrame.h, &CurrentFrame);
-
+	else	
+		ret = App->render->Blit(ptexture, flPos.x - CurrentFrame.w / 2, flPos.y - CurrentFrame.h, &CurrentFrame, SDL_RendererFlip::SDL_FLIP_HORIZONTAL);
 	
 	
 	return ret;

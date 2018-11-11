@@ -44,7 +44,7 @@ public:
 	void Init();
 	bool Start() override;
 
-	bool PreUpdate() override;
+	bool PreUpdate(float dt) override;
 	bool Update(float dt) override;
 	bool PostUpdate() override;
 	bool CleanUp()override;

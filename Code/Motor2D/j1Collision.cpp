@@ -48,7 +48,7 @@ j1Collision::~j1Collision()
 {
 
 }
-bool j1Collision:: PreUpdate()
+bool j1Collision:: PreUpdate(float dt)
 {
 	//LOG("Filled colliders %i", getFilledColNum());
 	// Calculate collisions

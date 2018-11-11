@@ -88,7 +88,7 @@ Animation j1Entity::LoadAnimations(p2SString name)
 	return anim_entity;
 }
 
-bool j1Entity::PreUpdate()
+bool j1Entity::PreUpdate(float dt)
 {
 	return true;
 }

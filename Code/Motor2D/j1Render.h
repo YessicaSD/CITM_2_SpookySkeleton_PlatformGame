@@ -21,9 +21,9 @@ public:
 	bool Start();
 
 	// Called each loop iteration
-	bool PreUpdate();
-	bool Update(float dt);
-	bool PostUpdate();
+	bool PreUpdate(float dt) override;
+	bool Update(float dt) override;
+	bool PostUpdate() override;
 
 	// Called before quitting
 	bool CleanUp();

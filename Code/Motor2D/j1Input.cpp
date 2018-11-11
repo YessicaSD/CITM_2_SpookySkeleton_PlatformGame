@@ -46,7 +46,7 @@ bool j1Input::Start()
 }
 
 // Called each loop iteration
-bool j1Input::PreUpdate()
+bool j1Input::PreUpdate(float dt)
 {
 	static SDL_Event event;
 	

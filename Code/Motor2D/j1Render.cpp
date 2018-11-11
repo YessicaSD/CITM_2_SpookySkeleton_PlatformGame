@@ -61,7 +61,7 @@ bool j1Render::Start()
 }
 
 // Called each loop iteration
-bool j1Render::PreUpdate()
+bool j1Render::PreUpdate(float dt)
 {
 	SDL_RenderClear(renderer);
 	return true;

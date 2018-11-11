@@ -11,8 +11,6 @@ uint64 j1PerfTimer::frequency = 0;
 // ---------------------------------------------
 j1PerfTimer::j1PerfTimer()
 {
-	// TODO 2: Fill Constructor, Start(),ReadMs() and ReadTicks() methods
-	// they are simple, one line each!
 	frequency = SDL_GetPerformanceFrequency();
 	Start();
 }

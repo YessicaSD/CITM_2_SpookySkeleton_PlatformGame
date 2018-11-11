@@ -13,8 +13,8 @@ public:
 	}
 	~ModuleFadeToBlack();
 
-	bool Start();
-	bool Update(float dt);
+	bool Start() override;
+	bool Update(float dt) override;
 	bool FadeToBlack(uint lvlnum, float time=2.0f);
 	bool Draw();
 private:

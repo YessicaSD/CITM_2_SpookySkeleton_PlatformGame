@@ -42,7 +42,7 @@ public:
 	bool Start();
 
 	// Called each loop iteration
-	bool PreUpdate();
+	bool PreUpdate(float dt) override;
 
 	// Called before quitting
 	bool CleanUp();

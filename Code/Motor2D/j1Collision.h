@@ -99,13 +99,13 @@ public:
 	
 
 	// Called each loop iteration
-	 bool PreUpdate();
+	 bool PreUpdate(float dt) override;
 
 	// Called each loop iteration
-	bool PostUpdate();
+	bool PostUpdate()override;
 
 	// Called before quitting
-	bool CleanUp();
+	bool CleanUp() override;
 
 
 

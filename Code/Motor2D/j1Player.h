@@ -73,9 +73,9 @@ public:
 	bool Awake(pugi::xml_node&);
 	bool Start();
 
-	bool PreUpdate();
+	bool PreUpdate(float dt) override;
 	void OnCollision(Collider* c1, Collider* c2) override;
-	bool Update(float dt);
+	bool Update(float dt) override;
 	bool PostUpdate();
 	bool CleanUp();
 
