@@ -34,7 +34,8 @@ public:
 	Animation EntityDeath;
 	Animation EntityAttack;
 
-	
+	bool entity_spawn;
+	fPoint Entity_Pos;
 
 
 

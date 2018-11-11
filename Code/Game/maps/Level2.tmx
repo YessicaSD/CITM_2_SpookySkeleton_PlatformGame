@@ -5,6 +5,8 @@
   <property name="Distant_to_camera_from_player_y" type="float" value="-180"/>
   <property name="PlayerPos_x" type="float" value="60"/>
   <property name="PlayerPos_y" type="float" value="419"/>
+   <property name="EntityPos_x" type="float" value="500"/>
+   <property name="EntityPos_y" type="float" value="300"/>
  </properties>
  <tileset firstgid="1" name="sprite_wb" tilewidth="32" tileheight="32" spacing="1" margin="1" tilecount="72" columns="9">
   <image source="sprite_wb.png" width="298" height="265"/>

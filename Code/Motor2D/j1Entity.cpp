@@ -109,7 +109,7 @@ bool j1Entity::Draw()
 {
 	bool ret = true;
 	SDL_Rect CurrentFrame = EntityIdle.GetCurrentFrame();
-	ret = App->render->Blit(entity_texture, 300, 200, &CurrentFrame);
+	ret = App->render->Blit(entity_texture, Entity_Pos.x, Entity_Pos.y, &CurrentFrame);
 	return ret;
 }
 

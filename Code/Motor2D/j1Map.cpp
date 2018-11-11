@@ -80,7 +80,6 @@ bool j1Map::Update(float dt)
 	if (App->input->GetKey(SDL_SCANCODE_F1))
 	{
 		App->fade->FadeToBlack(1);
-		
 	}
 	if (App->input->GetKey(SDL_SCANCODE_F2))
 	{
@@ -89,6 +88,7 @@ bool j1Map::Update(float dt)
 	if (App->input->GetKey(SDL_SCANCODE_F8))
 	{
 		App->fade->FadeToBlack(2);
+		
 	}
 	
 	if (App->player1->flPos.x >= (data.width*data.tile_width)-2*data.tile_width)
@@ -375,6 +375,8 @@ bool j1Map::LoadMap()
 		for (pugi::xml_node nodeProperties = map.child("properties").child("property"); nodeProperties; nodeProperties = nodeProperties.next_sibling("property"))
 		{
 			nameProperty = nodeProperties.attribute("name").as_string();
+
+			//Load players's initial position
 			if (nameProperty == "PlayerPos_x")
 			{
 				App->player1->flPos.x = nodeProperties.attribute("value").as_float();
@@ -383,6 +385,19 @@ bool j1Map::LoadMap()
 			if (nameProperty == "PlayerPos_y")
 			{
 				App->player1->flPos.y = nodeProperties.attribute("value").as_float();
+
+			}
+
+			//Load enemy's initial position
+			if (nameProperty == "EntityPos_x")
+			{
+				App->entity->Entity_Pos.x = nodeProperties.attribute("value").as_float();
+
+			}
+
+			if (nameProperty == "EntityPos_y")
+			{
+				App->entity->Entity_Pos.y = nodeProperties.attribute("value").as_float();
 
 			}
 			
