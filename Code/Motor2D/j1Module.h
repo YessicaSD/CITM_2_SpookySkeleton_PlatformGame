@@ -61,7 +61,7 @@ public:
 	{
 		return true;
 	}
-	virtual bool Draw()
+	virtual bool Draw(float dt)
 	{
 		return true;
 	}

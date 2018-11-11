@@ -105,10 +105,10 @@ bool j1Entity::PostUpdate()
 	return true;
 }
 
-bool j1Entity::Draw()
+bool j1Entity::Draw(float dt)
 {
 	bool ret = true;
-	SDL_Rect CurrentFrame = EntityIdle.GetCurrentFrame();
+	SDL_Rect CurrentFrame = EntityIdle.GetCurrentFrame(dt);
 	ret = App->render->Blit(entity_texture, Entity_Pos.x, Entity_Pos.y, &CurrentFrame);
 	return ret;
 }

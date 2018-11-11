@@ -134,15 +134,15 @@ public:
 	virtual ~j1Map();
 
 	// Called before render is available
-	bool Awake(pugi::xml_node& conf);
-	bool Start();
-	bool Update(float dt);
-	bool PostUpdate();
+	bool Awake(pugi::xml_node& conf)override;
+	bool Start() override;
+	bool Update(float dt) override;
+	bool PostUpdate() override;
 	// Called each loop iteration
-	bool Draw();
+	bool Draw(float dt) override;
 
 	// Called before quitting
-	bool CleanUp();
+	bool CleanUp() override;
 
 	// Load new map
 	bool Load(const char* path);

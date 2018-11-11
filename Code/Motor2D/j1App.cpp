@@ -284,7 +284,7 @@ bool j1App::PostUpdate()
 			ret = item->data->PostUpdate();
 			if (ret)
 			{
-			   item->data->Draw();
+			   item->data->Draw(dt);
 			}
 		}
 	}

@@ -75,7 +75,7 @@ public:
 	void OnCollision(Collider* c1, Collider* c2) override;
 	bool Update(float dt) override;
 	bool CleanUp();
-
+	bool Draw(float dt) override;
 
 	bool Load(pugi::xml_node&);
 	bool Save(pugi::xml_node&) const;
@@ -94,7 +94,7 @@ public:
 			flPos.y = y;
 		}
 	}
-	bool Draw();
+	
 	
 
 

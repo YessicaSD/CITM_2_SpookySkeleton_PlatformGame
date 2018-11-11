@@ -129,7 +129,7 @@ bool j1Map::PostUpdate()
 	return ret;
 }
 
-bool j1Map::Draw()
+bool j1Map::Draw(float dt)
 {
 	if (map_loaded == false)
 		return false;

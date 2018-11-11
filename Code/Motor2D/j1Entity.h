@@ -49,7 +49,7 @@ public:
 	bool Update(float dt) override;
 	bool PostUpdate() override;
 	bool CleanUp()override;
-	bool Draw() override;
+	bool Draw(float dt) override;
 
 	bool Load(pugi::xml_node&) override;
 	bool Save(pugi::xml_node&) const override;

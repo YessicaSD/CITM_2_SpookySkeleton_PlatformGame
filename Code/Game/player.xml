@@ -1,11 +1,11 @@
 <player>
-  <player1 Start_pos_x="50" Start_pos_y="150" Speed_x="100" Speed_y="150" >
+  <player1 Start_pos_x="50" Start_pos_y="150" Speed_x="60" Speed_y="130" >
     <collider w="8" h="32"/>
   <animation>
     
     <image source="textures/skeleton.png"/>
 
-    <idle>
+    <idle anim_speed="1.0">
       <frame x="2" y="0" width="14" height="31"/>
      <frame x="34" y="0" width="14" height="31"/>
      <frame x="66" y="0" width="14" height="31"/>
@@ -17,7 +17,7 @@
  
    </idle>
     
-    <walking>
+    <walking anim_speed="7.0">
       <frame x="2" y="64" width="14" height="31"/>
       <frame x="33" y="64" width="14" height="31"/>
       <frame x="67" y="63" width="13" height="32"/>
@@ -32,7 +32,7 @@
 
     
 
-    <jump>
+    <jump anim_speed="5.0">
       <frame x="2" y="32" width="14" height="31"/>
       <frame x="34" y="32" width="14" height="31"/>
       <frame x="65" y="32" width="16" height="31"/>
@@ -45,7 +45,7 @@
       <frame x="289" y="32" width="16" height="31"/>
     </jump>
 
-    <attack anim_speed="0.5">
+    <attack anim_speed="5.0">
       <frame x="2" y="96" width="14" height="31"/>
       <frame x="35" y="96" width="15" height="31"/>
       <frame x="67" y="96" width="18" height="31"/>
@@ -58,7 +58,7 @@
       <frame x="291" y="96" width="15" height="31"/>
     </attack>
     
-    <death>
+    <death anim_speed="1.5">
       <frame x="0" y="128" width="18" height="31"/>
       <frame x="31" y="128" width="20" height="31"/>
       <frame x="64" y="128" width="18" height="31"/>
@@ -72,7 +72,7 @@
     </death>
     
     
-    <spawn>
+    <spawn anim_speed="1.5">
       <frame x="287" y="149" width="23" height="10"/>
       <frame x="257" y="142" width="21" height="17"/>
       <frame x="224" y="135" width="21" height="24"/>

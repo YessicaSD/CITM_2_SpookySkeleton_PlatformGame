@@ -88,11 +88,11 @@ bool j1Player::Start()
 }
  Animation j1Player::LoadAnimations(p2SString name)
 {
-	pugi::xml_node p1_node = player_node.child("player1").child("animation");
+	pugi::xml_node p1_node = player_node.child("player1").child("animation").child(name.GetString());
 	Animation anim_aux;
-
 	SDL_Rect frameRect;
-	for (pugi::xml_node frame = p1_node.child(name.GetString()).child("frame"); frame; frame = frame.next_sibling("frame"))
+
+	for (pugi::xml_node frame = p1_node.child("frame"); frame; frame = frame.next_sibling("frame"))
 	{
 		frameRect.x = frame.attribute("x").as_int();
 		frameRect.y = frame.attribute("y").as_int();
@@ -101,7 +101,7 @@ bool j1Player::Start()
 		anim_aux.PushBack(frameRect);
 		
 	}
-	anim_aux.speed = 0.1F;
+	anim_aux.speed = p1_node.attribute("anim_speed").as_float();
 
 	return anim_aux;
 }
@@ -310,29 +310,29 @@ bool j1Player::Update(float dt)
 	return true;
 }
 
-bool j1Player::Draw()
+bool j1Player::Draw(float dt)
 {
 	bool ret = true;
 	SDL_Rect CurrentFrame;
 	switch (PlayerState)
 	{
 	case PlayerState::STATE_IDLE:
-		CurrentFrame = PlayerIdle.GetCurrentFrame();
+		CurrentFrame = PlayerIdle.GetCurrentFrame(dt);
 		break;
 	case PlayerState::STATE_WALK:
-		CurrentFrame = PlayerWalk.GetCurrentFrame();
+		CurrentFrame = PlayerWalk.GetCurrentFrame(dt);
 		break;
 	case PlayerState::STATE_ATTACK:
-		CurrentFrame = PlayerAttack.GetCurrentFrame();
+		CurrentFrame = PlayerAttack.GetCurrentFrame(dt);
 		if (PlayerAttack.Finished())
 		{
-		
 			PlayerState = PlayerState::STATE_IDLE;
+			PlayerAttack.Reset();
 		}
 		break;
 	case PlayerState::STATE_DEATH:
 		
-		CurrentFrame = PlayerDeath.GetCurrentFrame();
+		CurrentFrame = PlayerDeath.GetCurrentFrame(dt);
 		if (PlayerDeath.Finished())
 		{
 			App->fade->FadeToBlack(App->map->num_thismaplvl);
@@ -346,12 +346,12 @@ bool j1Player::Draw()
 			PlayerSpawn.loop = 0;
 		}
 		else
-			CurrentFrame = PlayerSpawn.GetCurrentFrame();
+			CurrentFrame = PlayerSpawn.GetCurrentFrame(dt);
 		break;
 	case PlayerState::STATE_JUMP:
 
 		
-		CurrentFrame = PlayerJump.GetCurrentFrame();
+		CurrentFrame = PlayerJump.GetCurrentFrame(dt);
 		break;
 	default:
 		ret = false;
