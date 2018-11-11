@@ -222,10 +222,15 @@ void j1Player::OnCollision(Collider * c1, Collider * c2)
 {
 	Collider* colPlayer = c1;
 	Collider* otherColl = c2;
+
+	bool PlayerIsOn			= flPos.y <= otherColl->rect.y && flPos.x + 4 > otherColl->rect.x && flPos.x - 4 < otherColl->rect.x + otherColl->rect.w;
+	bool PlayerIsOnTheLeft	= flPos.x < otherColl->rect.x  && flPos.y > otherColl->rect.y;
+	bool PlayerIsOnTheRight = flPos.x > otherColl->rect.x + otherColl->rect.w  && flPos.y > otherColl->rect.y;
+	bool PlayerIsUnder		= flPos.y > otherColl->rect.y + otherColl->rect.h && colPlayer->rect.x + colPlayer->rect.w - 5 > otherColl->rect.x && colPlayer->rect.x + 5 < otherColl->rect.x + otherColl->rect.w;
+
 		if (c2->type == COLLIDER_WALL)
 		{
-			//The player is on the ground
-			if (App->player1->flPos.y - colPlayer->rect.h / 3 <= otherColl->rect.y && colPlayer->rect.x <= otherColl->rect.x + otherColl->rect.w   && colPlayer->rect.x + colPlayer->rect.w >= otherColl->rect.x)
+			if (PlayerIsOn)
 			{
 				if (PlayerState == PlayerState::STATE_JUMP)
 					PlayerState = STATE_IDLE;
@@ -233,59 +238,48 @@ void j1Player::OnCollision(Collider * c1, Collider * c2)
 				App->player1->moveDown = false;
 				App->player1->canJump = true;
 				speed.y = otherColl->rect.y - flPos.y;
-
 			}
 
-			// The player collide with the left side of the wall
-			if (App->player1->flPos.x < otherColl->rect.x  && App->player1->flPos.y > otherColl->rect.y)
+			if (PlayerIsOnTheLeft)
 			{
-				App->player1->SetPosPlayer_x(otherColl->rect.x - colPlayer->rect.w / 2);
+				speed.x = otherColl->rect.x - (flPos.x + 4)  ;
 			}
 
-			// The player collide with the left side of the wall
-			if (App->player1->flPos.x > otherColl->rect.x + otherColl->rect.w  && App->player1->flPos.y > otherColl->rect.y)
+			
+			if (PlayerIsOnTheRight)
 			{
-				App->player1->SetPosPlayer_x(otherColl->rect.x + otherColl->rect.w + colPlayer->rect.w / 2);
+				speed.x = (otherColl->rect.x + otherColl->rect.w) - (flPos.x - 4);
 			}
 
-			// The player is under the wall
-			if (App->player1->flPos.y > otherColl->rect.y + otherColl->rect.h && colPlayer->rect.x + colPlayer->rect.w - 5 > otherColl->rect.x && colPlayer->rect.x + 5< otherColl->rect.x + otherColl->rect.w)
+			
+			if (PlayerIsUnder)
 			{
-				App->player1->SetPosPlayer_y(otherColl->rect.y + otherColl->rect.h + colPlayer->rect.h);
-				App->player1->speed.y = 0.0F;
+				App->player1->speed.y = (otherColl->rect.y + otherColl->rect.h) - (flPos.y- colPlayer->rect.h);
 			}
 		}
 
 		if (c2->type == COLLIDER_SPECIAL &&
-				App->player1->speed.y >= 0)
-			{
-
-					//The player is on the wall
-					if (App->player1->flPos.y - colPlayer->rect.h / 3 <= otherColl->rect.y && colPlayer->rect.x <= otherColl->rect.x + otherColl->rect.w   && colPlayer->rect.x + colPlayer->rect.w >= otherColl->rect.x)
+				App->player1->speed.y >= 0 &&
+					PlayerIsOn)
 					{
 						if (PlayerState == PlayerState::STATE_JUMP)
-						{
 							PlayerState = STATE_IDLE;
-						}
-
+						
 						App->player1->moveDown = false;
 						App->player1->canJump = true;
 						App->player1->speed.y = 0.0F;
 		
 					}
 	
-			}
+			
 
 
 		if (otherColl->type == COLLIDER_ENEMY)
-		{
 			App->player1->PlayerState = PlayerState::STATE_DEATH;
-		}
+		
 
 		if (otherColl->type == COLLIDER_RESPAWN)
-		{
 			App->fade->FadeToBlack(App->map->num_thismaplvl);
-		}
 	
 
 }
