@@ -27,7 +27,7 @@ class j1Player : public j1Module
  public:
 	 fPoint flPos = { 0.0F,0.0F };
 	 fPoint speed = {0.0F,0.0F};
-	 fPoint MaxSpeed;
+	 fPoint maxSpeed;
 	 bool right = true;
 
 	fPoint flplayerPosSaved;
@@ -45,7 +45,7 @@ class j1Player : public j1Module
 	
 	
 	pugi::xml_document	player_file;
-
+	pugi::xml_node player_node;
 
 	PlayerState PlayerState = PlayerState::STATE_SPAWN;
 	Animation PlayerIdle;
@@ -57,14 +57,9 @@ class j1Player : public j1Module
 
 	uint death_anim_fx, jump, death;
 
-	pugi::xml_node player_node;
 	SDL_Texture* ptexture=nullptr;
 
 
-
-	p2SString String_docXml;
-	
-	
 
 	Animation LoadAnimations(p2SString name);
 	bool CreateCol();

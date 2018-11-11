@@ -22,14 +22,17 @@ bool j1Player:: Awake (pugi::xml_node &node)
 	death_anim_fx = App->audio->LoadFx("audio/fx/smw_stomp_bones.wav");
 	jump = App->audio->LoadFx("audio/fx/jump.wav");
 	death = App->audio->LoadFx("audio/fx/death.wav");
+
 	
-	pugi::xml_parse_result result;
-	if( player_file.load_file(node.child_value()) == NULL)
+	pugi::xml_parse_result result = player_file.load_file(node.child_value());
+
+	if( result == NULL)
 	{
 		LOG("player %s", result.description());
 		return ret = false;
 	}
 
+	player_node = player_file.child("player");
 
 	return ret;
 }
@@ -48,7 +51,7 @@ bool j1Player::Start()
 		LOG("Error loading player texture!");
 		return ret = false;
 	}
-		player_node = player_file.child("player");
+		
 
 		PlayerIdle = LoadAnimations("idle");
 		PlayerWalk = LoadAnimations("walking");
@@ -74,6 +77,10 @@ bool j1Player::Start()
 
 		App->render->camera.x = (flPos.x + distansToCam.x);
 		App->render->camera.y = (flPos.y + distansToCam.y);
+
+		maxSpeed = { player_node.child("player1").attribute("Speed_x").as_float(),
+			player_node.child("player1").attribute("Speed_y").as_float() };
+
 		speed = { 0.0F,  0.0F };
 		loading = false;
 	
@@ -129,7 +136,7 @@ bool j1Player::PreUpdate(float dt)
 			if (PlayerState == PlayerState::STATE_IDLE || PlayerState == PlayerState::STATE_JUMP)
 			{
 				right = true;
-				speed.x = 100.0F;
+				speed.x = maxSpeed.x;
 			}
 			if (PlayerState == PlayerState::STATE_IDLE)
 				PlayerState = PlayerState::STATE_WALK;
@@ -146,7 +153,7 @@ bool j1Player::PreUpdate(float dt)
 			if (PlayerState == PlayerState::STATE_IDLE || PlayerState == PlayerState::STATE_JUMP)
 			{
 				right = false;
-				speed.x = -100.0F;
+				speed.x = -maxSpeed.x;
 			}
 			if (PlayerState == PlayerState::STATE_IDLE)
 				PlayerState = PlayerState::STATE_WALK;
@@ -167,7 +174,7 @@ bool j1Player::PreUpdate(float dt)
 			&& canJump)
 				{
 					PlayerState = PlayerState::STATE_JUMP;
-					speed.y = -30.0F;
+					speed.y = -maxSpeed.y;
 					canJump = false;
 					App->audio->PlayFx(jump);
 				
@@ -176,7 +183,7 @@ bool j1Player::PreUpdate(float dt)
 		if (App->input->GetKey(SDL_SCANCODE_Q) == KEY_DOWN
 			&& (PlayerState == PlayerState::STATE_IDLE || PlayerState == PlayerState::STATE_WALK))
 			{
-				speed.x = 0;
+				speed.x = 0.0F;
 				PlayerState = PlayerState::STATE_ATTACK;
 			}
 
@@ -275,7 +282,7 @@ bool j1Player::Update(float dt)
 		flPos.x += speed.x * dt;
 		flPos.y += speed.y * dt;
 		////Gravity ------------------------------------------------------------------------
-		if (moveDown && !fading && speed.y < 3.0F)
+		if (moveDown && !fading )
 		{
 			speed.y += App->map->data.gravity * dt ;
 		
