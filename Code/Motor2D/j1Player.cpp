@@ -146,37 +146,27 @@ bool j1Player::PreUpdate(float dt)
 				right = true;
 				speed.x = 2.0F;
 			}
-
 			if (PlayerState == PlayerState::STATE_IDLE)
 				PlayerState = PlayerState::STATE_WALK;
-			
-		
 		}
 		if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_UP)
 		{
 			speed.x = 0.0F;
 			if (PlayerState == PlayerState::STATE_WALK)
-			{
 				PlayerState = PlayerState::STATE_IDLE;
-				
-			}
-	
 		}
 
 		if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT)
 		{
+			if (PlayerState == PlayerState::STATE_IDLE || PlayerState == PlayerState::STATE_JUMP)
+			{
+				right = false;
+				speed.x = -2.0F;
+			}
 			if (PlayerState == PlayerState::STATE_IDLE)
-			{
 				PlayerState = PlayerState::STATE_WALK;
-				right = false;
-				speed.x = -2.0F;
-			}
-			else if (PlayerState == PlayerState::STATE_JUMP)
-			{
-				right = false;
-				speed.x = -2.0F;
-			}
-
+			
+		
 		}
 		if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_UP)
 		{
@@ -187,38 +177,42 @@ bool j1Player::PreUpdate(float dt)
 			}
 		}
 
-		if(App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
-		{
-			if (PlayerState == PlayerState::STATE_IDLE || PlayerState == PlayerState::STATE_WALK)
-			{
-				if (canJump)
+		if(App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN 
+			&& (PlayerState == PlayerState::STATE_IDLE || PlayerState == PlayerState::STATE_WALK)
+			&& canJump)
 				{
 					PlayerState = PlayerState::STATE_JUMP;
-					jump_fx = true;
 					speed.y = -5.3F;
 					canJump = false;
+					App->audio->PlayFx(jump);
+				
 				}
-			}
-		}
-
-		if (App->input->GetKey(SDL_SCANCODE_Q) == KEY_DOWN)
-		{
-			if (PlayerState == PlayerState::STATE_IDLE || PlayerState == PlayerState::STATE_WALK)
+			
+		if (App->input->GetKey(SDL_SCANCODE_Q) == KEY_DOWN
+			&& (PlayerState == PlayerState::STATE_IDLE || PlayerState == PlayerState::STATE_WALK))
 			{
 				speed.x = 0;
 				PlayerState = PlayerState::STATE_ATTACK;
 			}
+
+		if (PlayerState == PlayerState::STATE_DEATH)
+		{
+			if (speed != fPoint(0.0F, 0.0F))
+				speed = fPoint(0.0F, 0.0F);
+
+			if (death_fx)
+			{
+				App->audio->PlayFx(death_anim_fx);
+				death_fx = false;
+			}
 		}
+		
 	}
 	else
 	{
 		DebugModeInput();
 	}
-	if (PlayerState == PlayerState::STATE_DEATH)
-	{
-		speed.x = 0.0F;
-		speed.y = 0.0F;
-	}
+	
 
 	ColliderPlayer->SetPos((flPos.x+speed.x) - 4, (flPos.y + speed.y) - 31);
 	return true;
@@ -226,56 +220,48 @@ bool j1Player::PreUpdate(float dt)
 
 void j1Player::OnCollision(Collider * c1, Collider * c2)
 {
+	Collider* colPlayer = c1;
+	Collider* otherColl = c2;
 		if (c2->type == COLLIDER_WALL)
 		{
-			Collider* wall = c2;
-			Collider* colPlayer = c1;
-
-			
 			//The player is on the ground
-			if (App->player1->flPos.y - colPlayer->rect.h / 3 <= wall->rect.y && colPlayer->rect.x <= wall->rect.x + wall->rect.w   && colPlayer->rect.x + colPlayer->rect.w >= wall->rect.x)
+			if (App->player1->flPos.y - colPlayer->rect.h / 3 <= otherColl->rect.y && colPlayer->rect.x <= otherColl->rect.x + otherColl->rect.w   && colPlayer->rect.x + colPlayer->rect.w >= otherColl->rect.x)
 			{
 				if (PlayerState == PlayerState::STATE_JUMP)
-				{
 					PlayerState = STATE_IDLE;
-				}
 
 				App->player1->moveDown = false;
-				speed.y = 0.0F;
 				App->player1->canJump = true;
+				speed.y = otherColl->rect.y - flPos.y;
 
 			}
 
-
 			// The player collide with the left side of the wall
-			if (App->player1->flPos.x < wall->rect.x  && App->player1->flPos.y > wall->rect.y)
+			if (App->player1->flPos.x < otherColl->rect.x  && App->player1->flPos.y > otherColl->rect.y)
 			{
-				App->player1->SetPosPlayer_x(wall->rect.x - colPlayer->rect.w / 2);
+				App->player1->SetPosPlayer_x(otherColl->rect.x - colPlayer->rect.w / 2);
 			}
 
 			// The player collide with the left side of the wall
-			if (App->player1->flPos.x > wall->rect.x + wall->rect.w  && App->player1->flPos.y > wall->rect.y)
+			if (App->player1->flPos.x > otherColl->rect.x + otherColl->rect.w  && App->player1->flPos.y > otherColl->rect.y)
 			{
-				App->player1->SetPosPlayer_x(wall->rect.x + wall->rect.w + colPlayer->rect.w / 2);
+				App->player1->SetPosPlayer_x(otherColl->rect.x + otherColl->rect.w + colPlayer->rect.w / 2);
 			}
 
 			// The player is under the wall
-			if (App->player1->flPos.y > wall->rect.y + wall->rect.h && colPlayer->rect.x + colPlayer->rect.w - 5 > wall->rect.x && colPlayer->rect.x + 5< wall->rect.x + wall->rect.w)
+			if (App->player1->flPos.y > otherColl->rect.y + otherColl->rect.h && colPlayer->rect.x + colPlayer->rect.w - 5 > otherColl->rect.x && colPlayer->rect.x + 5< otherColl->rect.x + otherColl->rect.w)
 			{
-				App->player1->SetPosPlayer_y(wall->rect.y + wall->rect.h + colPlayer->rect.h);
-				App->player1->speed.y = 0.0f;
+				App->player1->SetPosPlayer_y(otherColl->rect.y + otherColl->rect.h + colPlayer->rect.h);
+				App->player1->speed.y = 0.0F;
 			}
 		}
 
-		if (c2->type == COLLIDER_SPECIAL)
-		{
-			
-				if (App->player1->speed.y >= 0)
-				{
-					Collider* wall = c2;
-					Collider* colPlayer = c1;
+		if (c2->type == COLLIDER_SPECIAL &&
+				App->player1->speed.y >= 0)
+			{
+
 					//The player is on the wall
-					if (App->player1->flPos.y - colPlayer->rect.h / 3 <= wall->rect.y && colPlayer->rect.x <= wall->rect.x + wall->rect.w   && colPlayer->rect.x + colPlayer->rect.w >= wall->rect.x)
+					if (App->player1->flPos.y - colPlayer->rect.h / 3 <= otherColl->rect.y && colPlayer->rect.x <= otherColl->rect.x + otherColl->rect.w   && colPlayer->rect.x + colPlayer->rect.w >= otherColl->rect.x)
 					{
 						if (PlayerState == PlayerState::STATE_JUMP)
 						{
@@ -285,20 +271,18 @@ void j1Player::OnCollision(Collider * c1, Collider * c2)
 						App->player1->moveDown = false;
 						App->player1->canJump = true;
 						App->player1->speed.y = 0.0F;
-						
-						
+		
 					}
-				}
-			
-		}
+	
+			}
 
 
-		if (c2->type == COLLIDER_ENEMY)
+		if (otherColl->type == COLLIDER_ENEMY)
 		{
 			App->player1->PlayerState = PlayerState::STATE_DEATH;
 		}
 
-		if (c2->type == COLLIDER_RESPAWN)
+		if (otherColl->type == COLLIDER_RESPAWN)
 		{
 			App->fade->FadeToBlack(App->map->num_thismaplvl);
 		}
@@ -370,11 +354,7 @@ bool j1Player::Draw()
 		}
 		break;
 	case PlayerState::STATE_DEATH:
-		if (death_fx)
-		{
-			App->audio->PlayFx(death_anim_fx);
-			death_fx = false;
-		}
+		
 		CurrentFrame = PlayerDeath.GetCurrentFrame();
 		if (PlayerDeath.Finished())
 		{
@@ -388,17 +368,12 @@ bool j1Player::Draw()
 			PlayerState = PlayerState::STATE_IDLE;
 			PlayerSpawn.loop = 0;
 		}
-
 		else
 			CurrentFrame = PlayerSpawn.GetCurrentFrame();
 		break;
 	case PlayerState::STATE_JUMP:
 
-		if (jump_fx)
-		{
-			App->audio->PlayFx(jump);
-			jump_fx = false;
-		}
+		
 		CurrentFrame = PlayerJump.GetCurrentFrame();
 		break;
 	default:
