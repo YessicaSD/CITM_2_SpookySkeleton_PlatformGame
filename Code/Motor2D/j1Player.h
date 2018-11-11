@@ -25,14 +25,14 @@ class j1Player : public j1Module
 {
 
  public:
-	 fPoint flPos;
-	 fPoint speed;
+	 fPoint flPos = { 0.0F,0.0F };
+	 fPoint speed = {0.0F,0.0F};
 	 bool right = true;
 
 	fPoint flplayerPosSaved;
-	
-	fPoint offset;
 	fPoint distansToCam;
+	Collider* ColliderPlayer = nullptr;
+
 	bool moveDown=true;
 	bool canJump=true;
 	bool attack=false;
@@ -52,6 +52,7 @@ class j1Player : public j1Module
 	Animation PlayerAttack;
 	Animation PlayerDeath;
 	Animation PlayerSpawn;
+
 	uint death_anim_fx, jump, death;
 
 	pugi::xml_node player_node;
@@ -60,7 +61,7 @@ class j1Player : public j1Module
 
 
 	p2SString String_docXml;
-	Collider* ColliderPlayer=nullptr;
+	
 	
 
 	Animation LoadAnimations(p2SString name);
@@ -76,7 +77,6 @@ public:
 	bool PreUpdate(float dt) override;
 	void OnCollision(Collider* c1, Collider* c2) override;
 	bool Update(float dt) override;
-	bool PostUpdate();
 	bool CleanUp();
 
 

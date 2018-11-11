@@ -111,31 +111,27 @@ bool j1Player::Start()
 }
  bool j1Player::CreateCol()
 {
-	bool ret = false;
-	offset.x = 3;
-	offset.y = 0;
-	SDL_Rect playerRect;
-	playerRect.x = flPos.x+offset.x;
-	playerRect.y = flPos.y;
-	playerRect.w = player_node.child("player1").child("collider").attribute("w").as_int();
-	playerRect.h = player_node.child("player1").child("collider").attribute("h").as_int();
+	bool ret = true;
+	iPoint rectMesure = { player_node.child("player1").child("collider").attribute("w").as_int(),
+		player_node.child("player1").child("collider").attribute("h").as_int() };
 
-	ColliderPlayer = App->collision->AddCollider(playerRect, COLLIDER_PLAYER, App->player1);
+	SDL_Rect playerRect = { (flPos.x + rectMesure.x / 2), (flPos.y - rectMesure.y), rectMesure.x, rectMesure.y };
+
 	
-	if (ColliderPlayer != nullptr)
-		ret = true;
-
+	if ((ColliderPlayer = App->collision->AddCollider(playerRect, COLLIDER_PLAYER, App->player1)) == nullptr)
+	{
+		ret = false;
+		LOG("FAIL CREATING PLAYER COL");
+	}
 
 	return ret;
 }
 bool j1Player::PreUpdate(float dt)
 {
-	this->moveDown = true;
+	moveDown = true;
 
 	if (App->input->GetKey(SDL_SCANCODE_F10) == KEY_DOWN)
-	{
 		debugMode = !debugMode;
-	}
 
 	if (!debugMode)
 	{
@@ -144,7 +140,7 @@ bool j1Player::PreUpdate(float dt)
 			if (PlayerState == PlayerState::STATE_IDLE || PlayerState == PlayerState::STATE_JUMP)
 			{
 				right = true;
-				speed.x = 2.0F;
+				speed.x = 100.0F;
 			}
 			if (PlayerState == PlayerState::STATE_IDLE)
 				PlayerState = PlayerState::STATE_WALK;
@@ -161,7 +157,7 @@ bool j1Player::PreUpdate(float dt)
 			if (PlayerState == PlayerState::STATE_IDLE || PlayerState == PlayerState::STATE_JUMP)
 			{
 				right = false;
-				speed.x = -2.0F;
+				speed.x = -100.0F;
 			}
 			if (PlayerState == PlayerState::STATE_IDLE)
 				PlayerState = PlayerState::STATE_WALK;
@@ -213,8 +209,7 @@ bool j1Player::PreUpdate(float dt)
 		DebugModeInput();
 	}
 	
-
-	ColliderPlayer->SetPos((flPos.x+speed.x) - 4, (flPos.y + speed.y) - 31);
+	ColliderPlayer->SetPos((flPos.x+speed.x * dt) - ColliderPlayer->rect.w / 2, (flPos.y + speed.y * dt) - ColliderPlayer->rect.h);
 	return true;
 }
 
@@ -223,7 +218,7 @@ void j1Player::OnCollision(Collider * c1, Collider * c2)
 	Collider* colPlayer = c1;
 	Collider* otherColl = c2;
 
-	bool PlayerIsOn			= flPos.y <= otherColl->rect.y && flPos.x + 4 > otherColl->rect.x && flPos.x - 4 < otherColl->rect.x + otherColl->rect.w;
+	bool PlayerIsOn			= (int)flPos.y <= otherColl->rect.y && flPos.x + 4 > otherColl->rect.x && flPos.x - 4 < otherColl->rect.x + otherColl->rect.w;
 	bool PlayerIsOnTheLeft	= flPos.x < otherColl->rect.x  && flPos.y > otherColl->rect.y;
 	bool PlayerIsOnTheRight = flPos.x > otherColl->rect.x + otherColl->rect.w  && flPos.y > otherColl->rect.y;
 	bool PlayerIsUnder		= flPos.y > otherColl->rect.y + otherColl->rect.h && colPlayer->rect.x + colPlayer->rect.w - 5 > otherColl->rect.x && colPlayer->rect.x + 5 < otherColl->rect.x + otherColl->rect.w;
@@ -237,7 +232,7 @@ void j1Player::OnCollision(Collider * c1, Collider * c2)
 
 				App->player1->moveDown = false;
 				App->player1->canJump = true;
-				speed.y = otherColl->rect.y - flPos.y;
+				speed.y = otherColl->rect.y - (int)flPos.y;
 			}
 
 			if (PlayerIsOnTheLeft)
@@ -288,12 +283,12 @@ bool j1Player::Update(float dt)
 {
 	if (!debugMode)
 	{
-		flPos += speed;
-	
+		flPos.x += speed.x * dt;
+		flPos.y += speed.y * dt;
 		////Gravity ------------------------------------------------------------------------
 		if (moveDown && !fading && speed.y < 3.0F)
 		{
-			speed.y += App->map->data.gravity;
+			speed.y += App->map->data.gravity * dt;
 		
 		}
 
@@ -314,19 +309,11 @@ bool j1Player::Update(float dt)
 		}
 			
 	}
-	
-	ColliderPlayer->SetPos(flPos.x - 4, flPos.y - 31);
 
+	ColliderPlayer->SetPos(flPos.x  - ColliderPlayer->rect.w / 2, flPos.y - ColliderPlayer->rect.h);
 	return true;
 }
 
-bool j1Player::PostUpdate()
-{
-
-	
-	
-	return true;
-};
 bool j1Player::Draw()
 {
 	bool ret = true;

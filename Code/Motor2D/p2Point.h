@@ -59,6 +59,7 @@ public:
 		return(r);
 	}
 
+	
 	const p2Point& operator -=(const p2Point &v)
 	{
 		x -= v.x;
@@ -75,6 +76,8 @@ public:
 		return(*this);
 	}
 
+	
+
 	bool operator ==(const p2Point& v) const
 	{
 		return (x == v.x && y == v.y);
@@ -84,6 +87,8 @@ public:
 	{
 		return (x != v.x || y != v.y);
 	}
+
+	
 
 	// Utils ------------------------------------------------
 	bool IsZero() const
@@ -131,4 +136,4 @@ public:
 typedef p2Point<int> iPoint;
 typedef p2Point<float> fPoint;
 
-#endif // __P2POINT_H__
+#endif // __P2POINT_H
