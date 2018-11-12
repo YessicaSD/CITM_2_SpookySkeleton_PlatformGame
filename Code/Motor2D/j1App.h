@@ -19,7 +19,7 @@ class j1Map;
 class j1Player;
 class j1Collision;
 class ModuleFadeToBlack;
-class j1Entity;
+class ModuleEnemies;
 class EntityBat;
 class EntityZombie;
 class j1PathFinding;
@@ -93,7 +93,7 @@ public:
 	j1Audio*			audio = nullptr;
 	j1Map*				map = nullptr;
 	j1Player*			player1 = nullptr;
-	j1Entity*			entity = nullptr;
+	ModuleEnemies*		entity = nullptr;
 	EntityBat*			bat = nullptr;
 	EntityZombie*		zombie = nullptr;
 	j1Collision*		collision = nullptr;

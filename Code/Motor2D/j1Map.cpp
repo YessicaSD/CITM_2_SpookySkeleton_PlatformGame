@@ -8,7 +8,7 @@
 
 #include "j1Collision.h"
 #include "j1Player.h"
-#include "j1Entity.h"
+#include "j1ModuleEntity.h"
 #include "EntityBat.h"
 #include "EntityZombie.h"
 #include "ModuleFadeToBack.h"

@@ -13,7 +13,7 @@
 #include "j1App.h"
 #include  "j1Collision.h"
 #include "j1Player.h"
-#include "j1Entity.h"
+#include "j1ModuleEntity.h"
 #include "EntityBat.h"
 #include "EntityZombie.h"
 #include "j1Pathfinding.h"
@@ -32,7 +32,7 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	player1 = new j1Player();
 	collision = new j1Collision();
 	fade = new ModuleFadeToBlack();
-	entity = new j1Entity();
+	entity = new ModuleEnemies();
 	bat = new EntityBat();
 	zombie = new EntityZombie();
 	pathfinding = new j1PathFinding();
