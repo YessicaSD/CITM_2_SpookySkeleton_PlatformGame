@@ -125,7 +125,7 @@ bool j1Player::Start()
 bool j1Player::PreUpdate(float dt)
 {
 	moveDown = true;
-
+	this->dt = dt;
 	if (App->input->GetKey(SDL_SCANCODE_F10) == KEY_DOWN)
 		debugMode = !debugMode;
 
@@ -228,18 +228,18 @@ void j1Player::OnCollision(Collider * c1, Collider * c2)
 
 				App->player1->moveDown = false;
 				App->player1->canJump = true;
-				speed.y = otherColl->rect.y - (int)flPos.y;
+				speed.y = (otherColl->rect.y - (int)flPos.y)/dt;
 			}
 
 			if (PlayerIsOnTheLeft)
 			{
-				speed.x = otherColl->rect.x - (flPos.x + 4)  ;
+				speed.x = otherColl->rect.x - (flPos.x + colPlayer->rect.w/2)  ;
 			}
 
 			
 			if (PlayerIsOnTheRight)
 			{
-				speed.x = (otherColl->rect.x + otherColl->rect.w) - (flPos.x - 4);
+				speed.x = (otherColl->rect.x + otherColl->rect.w) - (flPos.x - colPlayer->rect.w / 2);
 			}
 
 			
@@ -258,7 +258,7 @@ void j1Player::OnCollision(Collider * c1, Collider * c2)
 						
 						App->player1->moveDown = false;
 						App->player1->canJump = true;
-						App->player1->speed.y = 0.0F;
+						speed.y = (otherColl->rect.y - (int)flPos.y) / dt;
 		
 					}
 	
