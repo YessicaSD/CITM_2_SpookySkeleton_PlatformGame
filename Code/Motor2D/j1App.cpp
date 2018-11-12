@@ -180,8 +180,8 @@ void j1App::PrepareUpdate()
 {
 	frame_count++;
 
-	if (avg_fps != 0.0F)
-		dt = (1000.0F / avg_fps) / 1000.0F;
+	if (framerate != 0.0F)
+		dt = (1000.0F / framerate) / 1000.0F;
 
 	frame_time.Start();
 }
