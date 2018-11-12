@@ -107,6 +107,17 @@ bool j1Render::Save(pugi::xml_node& data) const
 	return true;
 }
 
+iPoint j1Render::ScreenToWorld(int x, int y) const
+{
+	iPoint ret;
+	int scale = App->win->GetScale();
+
+	ret.x = (x - camera.x / scale);
+	ret.y = (y - camera.y / scale);
+
+	return ret;
+}
+
 void j1Render::SetBackgroundColor(SDL_Color color)
 {
 	background = color;

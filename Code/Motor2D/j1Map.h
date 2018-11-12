@@ -117,6 +117,7 @@ class j1Map : public j1Module
 {
 private:
 	p2List_item<Scenes*>* atualSceneItem=nullptr;
+	SDL_Texture* debug_tex = nullptr;
 public:
 
 	MapData data;
@@ -136,6 +137,7 @@ public:
 	// Called before render is available
 	bool Awake(pugi::xml_node& conf)override;
 	bool Start() override;
+	bool PreUpdate(float dt) override;
 	bool Update(float dt) override;
 	bool PostUpdate() override;
 	// Called each loop iteration
@@ -144,9 +146,12 @@ public:
 	// Called before quitting
 	bool CleanUp() override;
 
+
+
 	// Load new map
 	bool Load(const char* path);
-	inline iPoint MapToWorld(int x, int y) const;
+	iPoint MapToWorld(int x, int y) const;
+	iPoint WorldToMap(int x, int y) const;
 	void OnCollision(Collider*, Collider*);
 
 	fPoint returnPlayerPos()const

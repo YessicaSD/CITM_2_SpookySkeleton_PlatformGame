@@ -52,6 +52,13 @@ bool j1Map::Start()
 	App->audio->PlayMusic(atualSceneItem->data->musicPath.GetString());
 	App->player1->Enable();
 	App->entity->Enable();
+	debug_tex= App->tex->Load("maps/path2.png");
+	return true;
+}
+
+bool j1Map::PreUpdate(float dt)
+{
+	
 	return true;
 }
 
@@ -158,6 +165,13 @@ bool j1Map::Draw(float dt)
 		}
 
 	}
+	int x, y;
+	App->input->GetMousePosition(x, y);
+	iPoint p = App->render->ScreenToWorld(x, y);
+	p = App->map->WorldToMap(p.x, p.y);
+	p = App->map->MapToWorld(p.x, p.y);
+
+	App->render->Blit(debug_tex, p.x, p.y);
 
 	return true;
 }
@@ -176,6 +190,32 @@ inline iPoint j1Map::MapToWorld(int x, int y) const
 
 	ret.x = x * data.tile_width;
 	ret.y = y * data.tile_height;
+
+	return ret;
+}
+
+iPoint j1Map::WorldToMap(int x, int y) const
+{
+	iPoint ret(0, 0);
+
+	if (data.type == MAPTYPE_ORTHOGONAL)
+	{
+		ret.x = x / data.tile_width;
+		ret.y = y / data.tile_height;
+	}
+	else if (data.type == MAPTYPE_ISOMETRIC)
+	{
+
+		float half_width = data.tile_width * 0.5f;
+		float half_height = data.tile_height * 0.5f;
+		ret.x = int((x / half_width + y / half_height) / 2) - 1;
+		ret.y = int((y / half_height - (x / half_width)) / 2);
+	}
+	else
+	{
+		LOG("Unknown map type");
+		ret.x = x; ret.y = y;
+	}
 
 	return ret;
 }

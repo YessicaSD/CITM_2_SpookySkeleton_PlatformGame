@@ -20,6 +20,7 @@ class j1Player;
 class j1Collision;
 class ModuleFadeToBlack;
 class j1Entity;
+class j1PathFinding;
 
 class j1App
 {
@@ -92,8 +93,8 @@ public:
 	j1Player*			player1 = nullptr;
 	j1Entity*			entity = nullptr;
 	j1Collision*		collision = nullptr;
-	ModuleFadeToBlack*		fade = nullptr;
-	
+	ModuleFadeToBlack*	fade = nullptr;
+	j1PathFinding*		pathfinding = nullptr;
 
 private:
 
