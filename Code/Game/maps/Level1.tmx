@@ -5,8 +5,10 @@
   <property name="Distant_to_camera_from_player_y" type="float" value="-250"/>
   <property name="PlayerPos_x" type="float" value="60"/>
   <property name="PlayerPos_y" type="float" value="384"/>
-   <property name="EntityPos_x" type="float" value="300"/>
-   <property name="EntityPos_y" type="float" value="150"/>
+   <property name="BatPos_x" type="float" value="300"/>
+   <property name="BatPos_y" type="float" value="150"/>
+   <property name="ZombiePos_x" type="float" value="500"/>
+   <property name="ZombiePos_y" type="float" value="150"/>
  </properties>
  <tileset firstgid="1" name="Mazmorra" tilewidth="32" tileheight="32" spacing="2" margin="2" tilecount="160" columns="10">
   <image source="Mazmorra.png" trans="ff55ff" width="342" height="546"/>

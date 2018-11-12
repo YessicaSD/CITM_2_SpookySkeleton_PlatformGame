@@ -14,13 +14,13 @@
 
 j1Entity::j1Entity():j1Module()
 {
-	name.create("enemies");
+	/*name.create("enemies");*/
 }
 
 bool j1Entity::Awake(pugi::xml_node&node)
 {
 	LOG("Init Entity");
-	String_docXml.create(node.child_value());
+	/*String_docXml.create(node.child_value());*/
 	return true;
 }
 
@@ -32,40 +32,40 @@ void j1Entity::Init()
 bool j1Entity::Start()
 {
 	bool ret = true;
-	//Loading file entity xml --------------------------------------------------------------
-	pugi::xml_parse_result result = entity_file.load_file("enemies.xml");
-	entity_node = entity_file.child("enemies");
-	entity_texture = App->tex->Load("textures/enemies.png");
+	////Loading file entity xml --------------------------------------------------------------
+	//pugi::xml_parse_result result = entity_file.load_file("enemies.xml");
+	//entity_node = entity_file.child("enemies");
+	//entity_texture = App->tex->Load("textures/enemies.png");
 
-	if (entity_texture == nullptr)
-	{
-		LOG("Error loading player texture!");
-		ret = false;
-	}
-	else
-	{
-		LOG("Loaded player texture succesfully");
-	}
+	//if (entity_texture == nullptr)
+	//{
+	//	LOG("Error loading player texture!");
+	//	ret = false;
+	//}
+	//else
+	//{
+	//	LOG("Loaded player texture succesfully");
+	//}
 
-	if (result)
-	{
+	//if (result)
+	//{
 
-		EntityIdle = LoadAnimations("idle");
-		/*EntityWalk = LoadAnimations("walking");
-		EntityDeath = LoadAnimations("death");
-		EntityAttack = LoadAnimations("attack");*/
+	//	EntityIdle = LoadAnimations("idle");
+	//	EntityWalk = LoadAnimations("walking");
+	//	EntityDeath = LoadAnimations("death");
+	//	EntityAttack = LoadAnimations("attack");
 
-	}
+	//}
 
-	else
-	{
-		LOG("entity %s", result.description());
-	}
+	//else
+	//{
+	//	LOG("entity %s", result.description());
+	//}
 	
 	return ret;
 }
 
-Animation j1Entity::LoadAnimations(p2SString name)
+/*Animation j1Entity::LoadAnimations(p2SString name)
 {
 	Animation anim_entity;
 	SDL_Rect frameRect;
@@ -84,9 +84,9 @@ Animation j1Entity::LoadAnimations(p2SString name)
 		}
 
 	}
-	anim_entity.speed = 0.2f;
+	anim_entity.speed = 3.0f;
 	return anim_entity;
-}
+}*/
 
 bool j1Entity::PreUpdate(float dt)
 {
@@ -107,19 +107,19 @@ bool j1Entity::PostUpdate()
 
 bool j1Entity::Draw(float dt)
 {
-	bool ret = true;
+	/*bool ret = true;
 	SDL_Rect CurrentFrame = EntityIdle.GetCurrentFrame(dt);
-	ret = App->render->Blit(entity_texture, Entity_Pos.x, Entity_Pos.y, &CurrentFrame);
-	return ret;
+	ret = App->render->Blit(entity_texture, Entity_Pos.x, Entity_Pos.y, &CurrentFrame);*/
+	return true;
 }
 
 bool j1Entity::CleanUp()
 {
-	if (entity_texture != nullptr)
+	/*if (entity_texture != nullptr)
 	{
 		App->tex->UnLoad(entity_texture);
 		entity_texture = nullptr;
-	}
+	}*/
 
 	return true;
 }

@@ -20,6 +20,8 @@ class j1Player;
 class j1Collision;
 class ModuleFadeToBlack;
 class j1Entity;
+class EntityBat;
+class EntityZombie;
 class j1PathFinding;
 
 class j1App
@@ -92,6 +94,8 @@ public:
 	j1Map*				map = nullptr;
 	j1Player*			player1 = nullptr;
 	j1Entity*			entity = nullptr;
+	EntityBat*			bat = nullptr;
+	EntityZombie*		zombie = nullptr;
 	j1Collision*		collision = nullptr;
 	ModuleFadeToBlack*	fade = nullptr;
 	j1PathFinding*		pathfinding = nullptr;

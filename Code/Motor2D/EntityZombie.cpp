@@ -4,7 +4,7 @@
 #include "j1App.h"
 #include "j1Audio.h"
 #include "j1Entity.h"
-#include "EntityBat.h"
+#include "EntityZombie.h"
 #include "j1Input.h"
 #include "j1Map.h"
 #include "j1Textures.h"
@@ -13,24 +13,24 @@
 #include "j1Render.h"
 #include "j1Player.h"
 
-EntityBat::EntityBat()
+EntityZombie::EntityZombie()
 {
 	name.create("enemies");
 }
 
-bool EntityBat::Awake(pugi::xml_node &node)
+bool EntityZombie::Awake(pugi::xml_node &node)
 {
 	LOG("Init Entity");
 	String_docXml.create(node.child_value());
 	return true;
 }
 
-void EntityBat::Init()
+void EntityZombie::Init()
 {
 	active = true;
 }
 
-bool EntityBat::Start()
+bool EntityZombie::Start()
 {
 	bool ret = true;
 	//Loading file entity xml --------------------------------------------------------------
@@ -51,6 +51,9 @@ bool EntityBat::Start()
 	if (result)
 	{
 		EntityIdle = LoadAnimations("idle");
+		EntityWalk = LoadAnimations("walk");
+		EntityDeath = LoadAnimations("death");
+		EntityAttack = LoadAnimations("attack");
 	}
 
 	else
@@ -61,14 +64,14 @@ bool EntityBat::Start()
 }
 
 
-Animation EntityBat::LoadAnimations(p2SString name)
+Animation EntityZombie::LoadAnimations(p2SString name)
 {
 	Animation anim_entity;
 	SDL_Rect frameRect;
 
-	for (pugi::xml_node enemies_frame = entity_file.child("enemies").child("bat"); enemies_frame; enemies_frame = enemies_frame.next_sibling("bat"))
+	for (pugi::xml_node enemies_frame = entity_file.child("enemies").child("zombie"); enemies_frame; enemies_frame = enemies_frame.next_sibling("zombie"))
 	{
-		pugi::xml_node e_node = entity_node.child("bat").child("animation");
+		pugi::xml_node e_node = entity_node.child("zombie").child("animation");
 		for (pugi::xml_node frame = e_node.child(name.GetString()).child("frame"); frame; frame = frame.next_sibling("frame"))
 		{
 			frameRect.x = frame.attribute("x").as_int();
@@ -89,22 +92,22 @@ Animation EntityBat::LoadAnimations(p2SString name)
 
 
 
-bool EntityBat::PreUpdate(float dt)
+bool EntityZombie::PreUpdate(float dt)
 {
 	return true;
 }
 
-bool EntityBat::Update(float dt)
+bool EntityZombie::Update(float dt)
 {
 	return true;
 }
 
-bool EntityBat::PostUpdate()
+bool EntityZombie::PostUpdate()
 {
 	return true;
 }
 
-bool EntityBat::CleanUp()
+bool EntityZombie::CleanUp()
 {
 	if (entity_texture != nullptr)
 	{
@@ -114,21 +117,21 @@ bool EntityBat::CleanUp()
 	return true;
 }
 
-bool EntityBat::Draw(float dt)
+bool EntityZombie::Draw(float dt)
 {
 	bool ret = true;
-	SDL_Rect CurrentFrame = EntityIdle.GetCurrentFrame(dt);
-	ret = App->render->Blit(entity_texture, Bat_Pos.x, Bat_Pos.y, &CurrentFrame);
+	SDL_Rect CurrentFrame = EntityDeath.GetCurrentFrame(dt);
+	ret = App->render->Blit(entity_texture, Zombie_Pos.x, Zombie_Pos.y, &CurrentFrame);
 	return ret;
 }
 
-bool EntityBat::Load(pugi::xml_node &node)
+bool EntityZombie::Load(pugi::xml_node &node)
 {
 
 	return true;
 }
 
-bool EntityBat::Save(pugi::xml_node &node) const
+bool EntityZombie::Save(pugi::xml_node &node) const
 {
 	return true;
 }

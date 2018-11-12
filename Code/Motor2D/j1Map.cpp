@@ -9,6 +9,8 @@
 #include "j1Collision.h"
 #include "j1Player.h"
 #include "j1Entity.h"
+#include "EntityBat.h"
+#include "EntityZombie.h"
 #include "ModuleFadeToBack.h"
 #include "j1Window.h"
 #include "j1Input.h"
@@ -425,16 +427,28 @@ bool j1Map::LoadMap()
 
 			}
 
-			//Load enemy's initial position
-			if (nameProperty == "EntityPos_x")
+			//Load bat's initial position
+			if (nameProperty == "BatPos_x")
 			{
-				App->entity->Entity_Pos.x = nodeProperties.attribute("value").as_float();
+				App->bat->Bat_Pos.x = nodeProperties.attribute("value").as_float();
 
 			}
 
-			if (nameProperty == "EntityPos_y")
+			if (nameProperty == "BatPos_y")
 			{
-				App->entity->Entity_Pos.y = nodeProperties.attribute("value").as_float();
+				App->bat->Bat_Pos.y = nodeProperties.attribute("value").as_float();
+
+			}
+			//Load zombie's initial position
+			if (nameProperty == "ZombiePos_x")
+			{
+				App->zombie->Zombie_Pos.x = nodeProperties.attribute("value").as_float();
+
+			}
+
+			if (nameProperty == "ZombiePos_y")
+			{
+				App->zombie->Zombie_Pos.y = nodeProperties.attribute("value").as_float();
 
 			}
 			

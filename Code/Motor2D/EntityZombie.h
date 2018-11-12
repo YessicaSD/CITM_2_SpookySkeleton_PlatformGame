@@ -1,24 +1,9 @@
-#ifndef __J1ENTITY_H_
-#define __J1ENTITY_H_
+#ifndef ENTITYZOMBIE_H_
+#define ENTITYZOMBIE_H_
+#include "j1Entity.h"
+#include "p2Point.h"
 
-#include "j1Module.h"
-#include "Animation.h"
-#include "j1Collision.h"
-#include "p2DynArray.h"
-#include "p2List.h"
-#include "SDL/include/SDL_render.h"
-
-struct SDL_Texture;
-
-/*enum Entity_State
-{
-	STATE_IDLE,
-	STATE_WALK, 
-	STATE_DEATH,
-	STATE_ATTACK
-};*/
-
-class j1Entity :public j1Module
+class EntityZombie : public j1Entity
 {
 public:
 	p2SString String_docXml;
@@ -26,8 +11,20 @@ public:
 	pugi::xml_node entity_node;
 	pugi::xml_document	entity_file;
 
+	Animation LoadAnimations(p2SString name);
+	// EntityState = Entity_State::STATE_IDLE;
+	Animation Anim;
+	Animation EntityIdle;
+	Animation EntityWalk;
+	Animation EntityDeath;
+	Animation EntityAttack;
+
+	fPoint Zombie_Pos;
+
+
+
 public:
-	j1Entity();
+	EntityZombie();
 	bool Awake(pugi::xml_node&) override;
 	void Init();
 	bool Start() override;
@@ -40,7 +37,6 @@ public:
 
 	bool Load(pugi::xml_node&) override;
 	bool Save(pugi::xml_node&) const override;
-	
-};
 
-#endif // __j1ENTITY_H__
+};
+#endif // !ENTITYZOMBIE_H_
