@@ -29,6 +29,7 @@ public:
 	Animation LoadAnimations(p2SString name);
 
 	// EntityState = Entity_State::STATE_IDLE;
+	Animation Anim;
 	Animation EntityIdle;
 	Animation EntityWalk;
 	Animation EntityDeath;
