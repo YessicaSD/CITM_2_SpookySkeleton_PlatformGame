@@ -4,132 +4,38 @@
 #include "j1App.h"
 #include "j1Audio.h"
 #include "j1Entity.h"
-#include "j1Input.h"
-#include "j1Map.h"
 #include "j1Textures.h"
-#include "ModuleFadeToBack.h"
 #include "j1Collision.h"
 #include "j1Render.h"
-#include "j1Player.h"
 
-j1Entity::j1Entity():j1Module()
+
+j1Entity::j1Entity(int x, int y):position(x,y)
+{}
+
+j1Entity::~j1Entity()
 {
-	/*name.create("enemies");*/
+	if (collider != nullptr)
+		collider->to_delete = true;
 }
 
-bool j1Entity::Awake(pugi::xml_node&node)
+const Collider * j1Entity::GetCollider() const
 {
-	LOG("Init Entity");
-	/*String_docXml.create(node.child_value());*/
-	return true;
+	return collider;
 }
 
-void j1Entity::Init()
+void j1Entity::Draw(SDL_Texture * sprites)
 {
-	active = true;
-}
+	if (collider != nullptr)
+		collider->SetPos(position.x, position.y);
 
-bool j1Entity::Start()
-{
-	bool ret = true;
-	////Loading file entity xml --------------------------------------------------------------
-	//pugi::xml_parse_result result = entity_file.load_file("enemies.xml");
-	//entity_node = entity_file.child("enemies");
-	//entity_texture = App->tex->Load("textures/enemies.png");
-
-	//if (entity_texture == nullptr)
-	//{
-	//	LOG("Error loading player texture!");
-	//	ret = false;
-	//}
-	//else
-	//{
-	//	LOG("Loaded player texture succesfully");
-	//}
-
-	//if (result)
-	//{
-
-	//	EntityIdle = LoadAnimations("idle");
-	//	EntityWalk = LoadAnimations("walking");
-	//	EntityDeath = LoadAnimations("death");
-	//	EntityAttack = LoadAnimations("attack");
-
-	//}
-
-	//else
-	//{
-	//	LOG("entity %s", result.description());
-	//}
+	if (animation != nullptr)
+		
+		App->render->Blit(sprites, position.x, position.y, &(animation->GetCurrentFrame(App->dt)));
 	
-	return ret;
 }
 
-/*Animation j1Entity::LoadAnimations(p2SString name)
+void j1Entity::OnCollision(Collider * collider)
 {
-	Animation anim_entity;
-	SDL_Rect frameRect;
-
-	for (pugi::xml_node enemies_frame = entity_file.child("enemies").child("enemy"); enemies_frame; enemies_frame = enemies_frame.next_sibling("enemy"))
-	{
-		pugi::xml_node e_node = entity_node.child("enemy").child("animation");
-		for (pugi::xml_node frame = e_node.child(name.GetString()).child("frame"); frame; frame = frame.next_sibling("frame"))
-		{
-			frameRect.x = frame.attribute("x").as_int();
-			frameRect.y = frame.attribute("y").as_int();
-			frameRect.w = frame.attribute("width").as_int();
-			frameRect.h = frame.attribute("height").as_int();
-			anim_entity.PushBack(frameRect);
-			LOG("CORRECT LOAD OF THE ANIMATION WITH: %i  , %i     ,%i       ,%i    COMPONENTS", frameRect.x, frameRect.y, frameRect.w, frameRect.h);
-		}
-
-	}
-	anim_entity.speed = 3.0f;
-	return anim_entity;
-}*/
-
-bool j1Entity::PreUpdate(float dt)
-{
-	return true;
 }
 
-bool j1Entity::Update(float dt)
-{
-	return true;
-}
 
-bool j1Entity::PostUpdate()
-{
-	
-
-	return true;
-}
-
-bool j1Entity::Draw(float dt)
-{
-	/*bool ret = true;
-	SDL_Rect CurrentFrame = EntityIdle.GetCurrentFrame(dt);
-	ret = App->render->Blit(entity_texture, Entity_Pos.x, Entity_Pos.y, &CurrentFrame);*/
-	return true;
-}
-
-bool j1Entity::CleanUp()
-{
-	/*if (entity_texture != nullptr)
-	{
-		App->tex->UnLoad(entity_texture);
-		entity_texture = nullptr;
-	}*/
-
-	return true;
-}
-
-bool j1Entity::Load(pugi::xml_node&)
-{
-	return true;
-}
-
-bool j1Entity::Save(pugi::xml_node&  nodePlayer) const
-{
-	return true;
-}

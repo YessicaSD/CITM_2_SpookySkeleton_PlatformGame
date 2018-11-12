@@ -13,52 +13,38 @@
 #include "j1Render.h"
 #include "j1Player.h"
 
-EntityBat::EntityBat()
-{
-	name.create("enemies");
-}
 
-bool EntityBat::Awake(pugi::xml_node &node)
-{
-	LOG("Init Entity");
-	String_docXml.create(node.child_value());
-	return true;
-}
 
-void EntityBat::Init()
-{
-	active = true;
-}
 
-bool EntityBat::Start()
-{
-	bool ret = true;
-	//Loading file entity xml --------------------------------------------------------------
-	pugi::xml_parse_result result = entity_file.load_file("enemies.xml");
-	entity_node = entity_file.child("enemies");
-	entity_texture = App->tex->Load("textures/enemies.png");
-
-	if (entity_texture == nullptr)
-	{
-		LOG("Error loading player texture!");
-		ret = false;
-	}
-	else
-	{
-		LOG("Loaded player texture succesfully");
-	}
-
-	if (result)
-	{
-		EntityIdle = LoadAnimations("idle");
-	}
-
-	else
-	{
-		LOG("entity %s", result.description());
-	}
-	return true;
-}
+//bool EntityBat::Start()
+//{
+//	bool ret = true;
+//	//Loading file entity xml --------------------------------------------------------------
+//	pugi::xml_parse_result result = entity_file.load_file("enemies.xml");
+//	entity_node = entity_file.child("enemies");
+//	entity_texture = App->tex->Load("textures/enemies.png");
+//
+//	if (entity_texture == nullptr)
+//	{
+//		LOG("Error loading player texture!");
+//		ret = false;
+//	}
+//	else
+//	{
+//		LOG("Loaded player texture succesfully");
+//	}
+//
+//	if (result)
+//	{
+//		EntityIdle = LoadAnimations("idle");
+//	}
+//
+//	else
+//	{
+//		LOG("entity %s", result.description());
+//	}
+//	return true;
+//}
 
 
 Animation EntityBat::LoadAnimations(p2SString name)
@@ -80,55 +66,30 @@ Animation EntityBat::LoadAnimations(p2SString name)
 		}
 
 	}
-	anim_entity.speed = 3.0f;
+	anim_entity.speed = 3.0F;
 	return anim_entity;
 }
 
-
-
-
-
-
-bool EntityBat::PreUpdate(float dt)
+EntityBat::EntityBat(int x, int y) :j1Entity(x,y)
 {
-	return true;
 }
 
-bool EntityBat::Update(float dt)
-{
-	return true;
-}
+//bool EntityBat::CleanUp()
+//{
+//	if (entity_texture != nullptr)
+//	{
+//		App->tex->UnLoad(entity_texture);
+//		entity_texture = nullptr;
+//	}
+//	return true;
+//}
 
-bool EntityBat::PostUpdate()
-{
-	return true;
-}
+//bool EntityBat::Draw(float dt)
+//{
+//	bool ret = true;
+//	SDL_Rect CurrentFrame = EntityIdle.GetCurrentFrame(dt);
+//	ret = App->render->Blit(entity_texture, Bat_Pos.x, Bat_Pos.y, &CurrentFrame);
+//	return ret;
+//}
 
-bool EntityBat::CleanUp()
-{
-	if (entity_texture != nullptr)
-	{
-		App->tex->UnLoad(entity_texture);
-		entity_texture = nullptr;
-	}
-	return true;
-}
 
-bool EntityBat::Draw(float dt)
-{
-	bool ret = true;
-	SDL_Rect CurrentFrame = EntityIdle.GetCurrentFrame(dt);
-	ret = App->render->Blit(entity_texture, Bat_Pos.x, Bat_Pos.y, &CurrentFrame);
-	return ret;
-}
-
-bool EntityBat::Load(pugi::xml_node &node)
-{
-
-	return true;
-}
-
-bool EntityBat::Save(pugi::xml_node &node) const
-{
-	return true;
-}

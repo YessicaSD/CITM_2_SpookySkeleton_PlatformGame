@@ -24,19 +24,7 @@ public:
 
 
 public:
-	EntityZombie();
-	bool Awake(pugi::xml_node&) override;
-	void Init();
-	bool Start() override;
-
-	bool PreUpdate(float dt) override;
-	bool Update(float dt) override;
-	bool PostUpdate() override;
-	bool CleanUp()override;
-	bool Draw(float dt) override;
-
-	bool Load(pugi::xml_node&) override;
-	bool Save(pugi::xml_node&) const override;
-
+	EntityZombie(int x, int y);
+	
 };
 #endif // !ENTITYZOMBIE_H_

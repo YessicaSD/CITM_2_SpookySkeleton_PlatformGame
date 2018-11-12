@@ -3,43 +3,30 @@
 
 #include "j1Module.h"
 #include "Animation.h"
-#include "j1Collision.h"
 #include "p2DynArray.h"
 #include "p2List.h"
 #include "SDL/include/SDL_render.h"
 
 struct SDL_Texture;
+struct Collider;
 
-/*enum Entity_State
+class j1Entity 
 {
-	STATE_IDLE,
-	STATE_WALK, 
-	STATE_DEATH,
-	STATE_ATTACK
-};*/
-
-class j1Entity :public j1Module
-{
-public:
-	p2SString String_docXml;
-	SDL_Texture* entity_texture = nullptr;
-	pugi::xml_node entity_node;
-	pugi::xml_document	entity_file;
+protected: 
+	Animation * animation = nullptr;
+	Collider* collider = nullptr;
 
 public:
-	j1Entity();
-	bool Awake(pugi::xml_node&) override;
-	void Init();
-	bool Start() override;
+	iPoint position;
 
-	bool PreUpdate(float dt) override;
-	bool Update(float dt) override;
-	bool PostUpdate() override;
-	bool CleanUp()override;
-	bool Draw(float dt) override;
+public:
+	j1Entity(int x, int y);
+	virtual ~j1Entity();
+	const Collider* GetCollider() const;
 
-	bool Load(pugi::xml_node&) override;
-	bool Save(pugi::xml_node&) const override;
+	virtual void Move() {};
+	virtual void Draw(SDL_Texture* sprites);
+	virtual void OnCollision(Collider* collider);
 	
 };
 

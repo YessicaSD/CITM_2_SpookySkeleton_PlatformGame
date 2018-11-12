@@ -24,8 +24,8 @@ public:
 
 
 public:
-	EntityBat();
-	bool Awake(pugi::xml_node&) override;
+	EntityBat(int x,int y);
+	/*bool Awake(pugi::xml_node&) override;
 	void Init();
 	bool Start() override;
 
@@ -36,7 +36,7 @@ public:
 	bool Draw(float dt) override;
 
 	bool Load(pugi::xml_node&) override;
-	bool Save(pugi::xml_node&) const override;
+	bool Save(pugi::xml_node&) const override;*/
 
 };
 #endif // !ENTITYBAT_H_

@@ -427,30 +427,30 @@ bool j1Map::LoadMap()
 
 			}
 
-			//Load bat's initial position
-			if (nameProperty == "BatPos_x")
-			{
-				App->bat->Bat_Pos.x = nodeProperties.attribute("value").as_float();
+			////Load bat's initial position
+			//if (nameProperty == "BatPos_x")
+			//{
+			//	App->bat->Bat_Pos.x = nodeProperties.attribute("value").as_float();
 
-			}
+			//}
 
-			if (nameProperty == "BatPos_y")
-			{
-				App->bat->Bat_Pos.y = nodeProperties.attribute("value").as_float();
+			//if (nameProperty == "BatPos_y")
+			//{
+			//	App->bat->Bat_Pos.y = nodeProperties.attribute("value").as_float();
 
-			}
-			//Load zombie's initial position
-			if (nameProperty == "ZombiePos_x")
-			{
-				App->zombie->Zombie_Pos.x = nodeProperties.attribute("value").as_float();
+			//}
+			////Load zombie's initial position
+			//if (nameProperty == "ZombiePos_x")
+			//{
+			//	App->zombie->Zombie_Pos.x = nodeProperties.attribute("value").as_float();
 
-			}
+			//}
 
-			if (nameProperty == "ZombiePos_y")
-			{
-				App->zombie->Zombie_Pos.y = nodeProperties.attribute("value").as_float();
+			//if (nameProperty == "ZombiePos_y")
+			//{
+			//	App->zombie->Zombie_Pos.y = nodeProperties.attribute("value").as_float();
 
-			}
+			//}
 			
 		}
 		

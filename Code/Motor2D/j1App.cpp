@@ -14,9 +14,8 @@
 #include  "j1Collision.h"
 #include "j1Player.h"
 #include "j1ModuleEntity.h"
-#include "EntityBat.h"
-#include "EntityZombie.h"
 #include "j1Pathfinding.h"
+
 // Constructor
 j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 {
@@ -33,8 +32,6 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	collision = new j1Collision();
 	fade = new ModuleFadeToBlack();
 	entity = new ModuleEnemies();
-	bat = new EntityBat();
-	zombie = new EntityZombie();
 	pathfinding = new j1PathFinding();
 
 	// Ordered for awake / Start / Update
@@ -47,8 +44,6 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(map);
 	AddModule(player1);
 	AddModule(entity);
-	AddModule(bat);
-	AddModule(zombie);
 	AddModule(collision);
 	AddModule(fade);
 	

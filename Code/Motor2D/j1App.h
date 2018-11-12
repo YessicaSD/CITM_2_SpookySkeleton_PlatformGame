@@ -20,8 +20,6 @@ class j1Player;
 class j1Collision;
 class ModuleFadeToBlack;
 class ModuleEnemies;
-class EntityBat;
-class EntityZombie;
 class j1PathFinding;
 
 class j1App
@@ -94,12 +92,11 @@ public:
 	j1Map*				map = nullptr;
 	j1Player*			player1 = nullptr;
 	ModuleEnemies*		entity = nullptr;
-	EntityBat*			bat = nullptr;
-	EntityZombie*		zombie = nullptr;
 	j1Collision*		collision = nullptr;
 	ModuleFadeToBlack*	fade = nullptr;
 	j1PathFinding*		pathfinding = nullptr;
 
+	float				dt = 0.0F;
 private:
 
 	p2List<j1Module*>	modules;
@@ -126,7 +123,7 @@ private:
 	uint32				last_sec_frame_count = 0;
 	uint32				prev_last_sec_frame_count = 0;
 
-	float				dt = 0.0F;
+	
 	float				avg_fps = 0.0F;
 };
 
