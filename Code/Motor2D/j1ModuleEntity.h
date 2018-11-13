@@ -11,6 +11,7 @@
 enum ENEMY_TYPES
 {
 	NO_TYPE = -1,
+	ENEMY_BAT,
 	MAX_ENEMY
 };
 
@@ -26,11 +27,15 @@ class ModuleEnemies : public j1Module
 {
 public:
 	SDL_Texture * sprites = nullptr;
+	pugi::xml_document	enemiesFile;
+	pugi::xml_node enemiesNodeDoc;
+
 public:
 
 	ModuleEnemies();
 	~ModuleEnemies();
 
+	bool Awake(pugi::xml_node& config)override;
 	bool Start() override;
 	bool PreUpdate(float dt) override;
 	bool Update(float dt) override;

@@ -8,14 +8,19 @@
 
 ModuleEnemies::ModuleEnemies()
 {
+	name.create("enemies");
 	for (uint i = 0; i < MAX_ENEMIES; ++i)
 		enemies[i] = nullptr;
 }
 
 ModuleEnemies::~ModuleEnemies()
 {
-}
 
+}
+bool ModuleEnemies::Awake(pugi::xml_node& config)
+{
+	return true;
+}
 bool ModuleEnemies::Start()
 {
 	sprites = App->tex->Load("rtype/enemies.png");

@@ -32,5 +32,5 @@
   </map>
   
   <player>player.xml</player>
-
+  <enemy>enemies.xml</enemy>
 </config>
