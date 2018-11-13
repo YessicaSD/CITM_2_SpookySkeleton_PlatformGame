@@ -171,14 +171,7 @@ bool j1Player::PreUpdate(float dt)
 			
 		
 		}
-		if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_UP)
-		{
-			speed.x = 0;
-			if (PlayerState == PlayerState::STATE_WALK)
-			{
-				PlayerState = PlayerState::STATE_IDLE;
-			}
-		}
+	
 
 		if(App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN 
 			&& (PlayerState == PlayerState::STATE_IDLE || PlayerState == PlayerState::STATE_WALK)
@@ -285,14 +278,15 @@ void j1Player::OnCollision(Collider * c1, Collider * c2)
 
 		if (otherColl->type == COLLIDER_ICE)
 		{
-			if (right)
-			{
-				speed.x += 10 * dt;
-			}
-			else
-			{
-				speed.x -= 10 * dt;
-			}
+			if (PlayerState == PlayerState::STATE_JUMP)
+				PlayerState = STATE_IDLE;
+
+			App->player1->moveDown = false;
+			App->player1->canJump = true;
+			speed.y = (otherColl->rect.y - (int)flPos.y) / dt;
+			speed.x +=  right ? 100*dt:  -100 * dt;
+			iceMovement = true;
+			
 		}
 	
 
