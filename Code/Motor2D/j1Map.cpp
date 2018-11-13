@@ -206,8 +206,8 @@ inline iPoint j1Map::MapToWorld(int x, int y) const
 	}
 	else if (data.type == MAPTYPE_ISOMETRIC)
 	{
-		ret.x = (x - y) * (data.tile_width * 0.5f);
-		ret.y = (x + y) * (data.tile_height * 0.5f);
+		ret.x = (x - y) * (data.tile_width * 0.5F);
+		ret.y = (x + y) * (data.tile_height * 0.5F);
 	}
 	else
 	{
@@ -230,8 +230,8 @@ iPoint j1Map::WorldToMap(int x, int y) const
 	else if (data.type == MAPTYPE_ISOMETRIC)
 	{
 
-		float half_width = data.tile_width * 0.5f;
-		float half_height = data.tile_height * 0.5f;
+		float half_width = data.tile_width * 0.5F;
+		float half_height = data.tile_height * 0.5F;
 		ret.x = int((x / half_width + y / half_height) / 2) - 1;
 		ret.y = int((y / half_height - (x / half_width)) / 2);
 	}
@@ -396,8 +396,7 @@ bool j1Map::Load(const char* file_name)
 		p2List_item<Object_Layer*>* item_coll = data.collition_layers.start;
 		while (item_coll != NULL)
 		{
-			
-			//Collision* c = item_coll->data;
+	
 			LOG("Collision ----");
 			LOG("name: %s", item_coll->data->name.GetString());
 			p2List_item<Collider*>* item_obj = item_coll->data->col.start;
@@ -509,7 +508,7 @@ bool j1Map::LoadTilesetDetails(pugi::xml_node& tileset_node, TileSet* set)
 	set->tile_height = tileset_node.attribute("tileheight").as_int();
 	set->margin = tileset_node.attribute("margin").as_int();
 	set->spacing = tileset_node.attribute("spacing").as_int();
-	pugi::xml_node offset = tileset_node.child("tileoffset");
+	
 
 	return ret;
 }
@@ -582,6 +581,10 @@ bool j1Map::LoadCollision(pugi::xml_node& node, Object_Layer* object_layer)
 		{
 			item_object = App->collision->AddCollider(rect, COLLIDER_SPECIAL, App->map);
 		}
+		if (object_layer->name == "Ice")
+		{
+			item_object = App->collision->AddCollider(rect, COLLIDER_ICE, App->map);
+		}
 		object_layer->col.add(item_object);
 
 	}
@@ -596,7 +599,7 @@ bool j1Map::LoadLayer(pugi::xml_node& node, MapLayer* layer)
 	layer->height = node.attribute("height").as_uint();
 	layer->parallax_velocity = node.child("properties").child("property").attribute("value").as_float();
 	layer->tiledata = new uint[layer->width*layer->height];
-	memset(layer->tiledata, 0u, sizeof(uint)*layer->height*layer->width);
+	memset(layer->tiledata, 0U, sizeof(uint)*layer->height*layer->width);
 
 	int i = 0;
 	for (pugi::xml_node tileset = node.child("data").child("tile"); tileset; tileset = tileset.next_sibling("tile"))
