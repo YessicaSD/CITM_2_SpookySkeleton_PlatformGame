@@ -12,6 +12,7 @@
 #include "EntityBat.h"
 #include "EntityZombie.h"
 #include "ModuleFadeToBack.h"
+#include "j1Pathfinding.h"
 #include "j1Window.h"
 #include "j1Input.h"
 #include "j1Audio.h"
@@ -54,6 +55,7 @@ bool j1Map::Start()
 	App->audio->PlayMusic(atualSceneItem->data->musicPath.GetString());
 	App->player1->Enable();
 	App->entity->Enable();
+	debug_tex = App->tex->Load("textures/pathfinding.png");
 	return true;
 }
 
@@ -167,8 +169,25 @@ bool j1Map::Draw(float dt)
 
 	}
 
+	// Debug pathfinding ------------------------------
+	int x, y;
+	App->input->GetMousePosition(x, y);
+	iPoint p = App->render->ScreenToWorld(x, y);
+	/*p = App->map->WorldToMap(p.x, p.y);
+	p = App->map->MapToWorld(p.x, p.y);*/
+
+	App->render->Blit(debug_tex, p.x, p.y);
+	const p2DynArray<iPoint>* path = App->pathfinding->GetLastPath();
+
+	for (uint i = 0; i < path->Count(); ++i)
+	{
+		iPoint pos = App->map->MapToWorld(path->At(i)->x, path->At(i)->y);
+		App->render->Blit(debug_tex, pos.x, pos.y);
+	}
+
 	return true;
 }
+
 TileSet* j1Map::GetTilesetFromTileId(int id) const
 {
 	p2List_item<TileSet*>* actualTile;

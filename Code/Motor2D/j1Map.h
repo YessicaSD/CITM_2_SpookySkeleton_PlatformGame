@@ -194,6 +194,7 @@ private:
 	TileSet* GetTilesetFromTileId(int id) const;
 	void LoadProperties(pugi::xml_node& node);
 
+	SDL_Texture* debug_tex;
 
 };
 
