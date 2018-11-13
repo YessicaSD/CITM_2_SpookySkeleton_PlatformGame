@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="150" height="15" tilewidth="32" tileheight="32" nextobjectid="115">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="150" height="15" tilewidth="32" tileheight="32" nextobjectid="118">
  <properties>
   <property name="BatPos_x" type="float" value="300"/>
   <property name="BatPos_y" type="float" value="150"/>
@@ -9086,45 +9086,44 @@
    <tile gid="0"/>
   </data>
  </layer>
- <objectgroup name="Wall">
-  <object id="2" x="0" y="384" width="224" height="96"/>
-  <object id="4" x="416" y="384" width="96" height="96"/>
-  <object id="5" x="544" y="352" width="192" height="128"/>
-  <object id="7" x="832" y="288" width="96" height="96"/>
-  <object id="8" x="672" y="288" width="92.5" height="96"/>
-  <object id="9" x="896" y="352" width="94" height="96"/>
-  <object id="10" x="960" y="288" width="96" height="96"/>
-  <object id="11" x="704" y="416" width="128" height="64"/>
-  <object id="18" x="992" y="224" width="96" height="96"/>
-  <object id="25" x="1824" y="224" width="96" height="64"/>
-  <object id="27" x="1952" y="160" width="96" height="32"/>
-  <object id="28" x="2080" y="256" width="96" height="192"/>
-  <object id="29" x="2176" y="352" width="96" height="96"/>
+ <objectgroup name="WALL">
+  <object id="2" name="WALL" x="0" y="384" width="224" height="96"/>
+  <object id="4" name="WALL" x="416" y="384" width="96" height="96"/>
+  <object id="5" name="WALL" x="544" y="352" width="192" height="128"/>
+  <object id="7" name="WALL" x="832" y="288" width="96" height="96"/>
+  <object id="8" name="WALL" x="672" y="288" width="92.5" height="96"/>
+  <object id="9" name="WALL" x="896" y="352" width="94" height="96"/>
+  <object id="10" name="WALL" x="960" y="288" width="96" height="96"/>
+  <object id="11" name="WALL" x="704" y="416" width="128" height="64"/>
+  <object id="18" name="WALL" x="992" y="224" width="96" height="96"/>
+  <object id="25" name="WALL" x="1824" y="224" width="96" height="64"/>
+  <object id="27" name="WALL" x="1952" y="160" width="96" height="32"/>
+  <object id="28" name="WALL" x="2080" y="256" width="96" height="192"/>
+  <object id="29" name="WALL" x="2176" y="352" width="96" height="96"/>
   <object id="30" x="2112" y="448" width="96" height="32"/>
-  <object id="31" x="2336" y="320" width="96" height="32"/>
-  <object id="34" x="2560" y="256" width="96" height="32"/>
-  <object id="38" x="2848" y="320" width="352" height="96"/>
-  <object id="49" x="1632" y="288" width="288" height="90"/>
-  <object id="53" x="2720" y="384" width="96" height="93"/>
-  <object id="56" x="1699" y="1.5" width="122.5" height="59.5"/>
+  <object id="31" name="WALL" x="2336" y="320" width="96" height="32"/>
+  <object id="34" name="WALL" x="2560" y="256" width="96" height="32"/>
+  <object id="38" name="WALL" x="2848" y="320" width="352" height="96"/>
+  <object id="49" name="WALL" x="1632" y="288" width="288" height="90"/>
+  <object id="53" name="WALL" x="2720" y="384" width="96" height="93"/>
   <object id="65" x="1569.33" y="320" width="28.6667" height="28.6667"/>
-  <object id="76" x="2689.67" y="320.667" width="29.3333" height="28.6667"/>
-  <object id="107" x="3074" y="224.5" width="93.25" height="30.75"/>
-  <object id="108" x="3649.33" y="96.6667" width="252" height="61.3333"/>
-  <object id="109" x="3969.33" y="64.6667" width="187.333" height="60.6667"/>
-  <object id="110" x="4129.5" y="449.5" width="60.5" height="30.5"/>
-  <object id="111" x="4226" y="383" width="29" height="30.5"/>
-  <object id="112" x="4322.5" y="224.5" width="28" height="30"/>
-  <object id="113" x="4226.5" y="129" width="60" height="27"/>
-  <object id="114" x="4290.67" y="321.333" width="509.333" height="90.6667"/>
+  <object id="76" name="WALL" x="2689.67" y="320.667" width="29.3333" height="28.6667"/>
+  <object id="107" name="WALL" x="3074" y="224.5" width="93.25" height="30.75"/>
+  <object id="108" name="WALL" x="3649.33" y="96.6667" width="252" height="61.3333"/>
+  <object id="109" name="WALL" x="3969.33" y="64.6667" width="187.333" height="60.6667"/>
+  <object id="110" name="WALL" x="4129.5" y="449.5" width="60.5" height="30.5"/>
+  <object id="111" name="WALL" x="4226" y="383" width="29" height="30.5"/>
+  <object id="112" name="WALL" x="4322.5" y="224.5" width="28" height="30"/>
+  <object id="113" name="WALL" x="4226.5" y="129" width="60" height="27"/>
+  <object id="114" name="WALL" x="4290.67" y="321.333" width="509.333" height="90.6667"/>
  </objectgroup>
- <objectgroup name="Special">
+ <objectgroup name="Special" visible="0">
   <object id="90" x="1345.5" y="224" width="60" height="28.5"/>
   <object id="91" x="1411" y="320.5" width="59.5" height="28.5"/>
   <object id="92" x="2401" y="256.333" width="95" height="31.6667"/>
   <object id="93" x="2465.33" y="192.667" width="94" height="31.3333"/>
  </objectgroup>
- <objectgroup name="Death">
+ <objectgroup name="Death" visible="0">
   <object id="67" x="161" y="359" width="28" height="24"/>
   <object id="68" x="770.5" y="391" width="58.5" height="24"/>
   <object id="69" x="929.5" y="327" width="28.5" height="23.5"/>
@@ -9134,8 +9133,8 @@
   <object id="74" x="2561.75" y="229.75" width="26.5" height="25.75"/>
   <object id="75" x="2914" y="295" width="27" height="24"/>
  </objectgroup>
- <objectgroup name="Win"/>
- <objectgroup name="RestartLevel">
+ <objectgroup name="Win" visible="0"/>
+ <objectgroup name="RestartLevel" visible="0">
   <object id="77" x="224" y="432" width="32" height="64"/>
   <object id="79" x="352" y="432" width="64" height="64"/>
   <object id="81" x="512" y="416" width="32" height="64"/>
@@ -9143,10 +9142,9 @@
   <object id="85" x="2208" y="440" width="512" height="88"/>
   <object id="86" x="2816" y="416" width="40" height="112"/>
  </objectgroup>
- <objectgroup name="Ice">
-  <object id="94" x="256.333" y="384.333" width="95" height="95.6667"/>
+ <objectgroup name="Ice" visible="0">
   <object id="95" x="1120.13" y="192" width="63.875" height="32"/>
-  <object id="96" x="1184.13" y="128.125" width="63.875" height="31.875"/>
+  <object id="96" x="1184" y="128" width="63.875" height="32"/>
   <object id="97" x="1248.13" y="63.875" width="63.75" height="32.125"/>
   <object id="98" x="1504.67" y="256" width="31" height="95.6667"/>
   <object id="99" x="3232.36" y="191.818" width="63.6364" height="32"/>
@@ -9157,5 +9155,6 @@
   <object id="104" x="3648.67" y="416.333" width="158.333" height="65.3333"/>
   <object id="105" x="3872.5" y="352" width="31" height="96.25"/>
   <object id="106" x="3967.75" y="384.25" width="96" height="31.75"/>
+  <object id="115" x="256" y="384" width="96" height="96"/>
  </objectgroup>
 </map>

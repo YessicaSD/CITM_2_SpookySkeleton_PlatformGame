@@ -563,10 +563,10 @@ bool j1Map::LoadCollision(pugi::xml_node& node, Object_Layer* object_layer)
 		rect.x = object_node.attribute("x").as_float();
 		rect.y = object_node.attribute("y").as_float();
 
-		if (object_layer->name == "Wall")
-		{
+		p2SString nameObje(object_node.attribute("name").as_string());
+		if (nameObje=="WALL")
 			item_object = App->collision->AddCollider(rect, COLLIDER_WALL, App->map);
-		}
+		
 
 		if (object_layer->name == "Death")
 		{

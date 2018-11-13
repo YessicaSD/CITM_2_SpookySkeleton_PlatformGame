@@ -9,13 +9,12 @@
 		<lvl num="1" />
 	</map>
 	<player>
-		<position x="335.197845" y="384.973999" />
+		<position x="1456.34155" y="320.999969" />
 	</player>
-	<:anonymous />
 	<enemies />
 	<:anonymous />
 	<fade />
 	<renderer>
-		<camera x="550" y="134" />
+		<camera x="2792" y="70" />
 	</renderer>
 </game_state>

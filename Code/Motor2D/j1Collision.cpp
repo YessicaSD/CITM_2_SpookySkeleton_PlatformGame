@@ -138,6 +138,8 @@ bool j1Collision::PostUpdate()
 		case COLLIDER_SPECIAL: //purple
 			App->render->DrawQuad(colliders[i]->rect, 125, 0, 125, alpha);
 			break;
+		case COLLIDER_ICE:
+			App->render->DrawQuad(colliders[i]->rect, 255, 50, 0, alpha);
 
 		}
 	}
