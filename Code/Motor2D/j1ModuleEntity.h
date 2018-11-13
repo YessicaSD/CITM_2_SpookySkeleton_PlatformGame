@@ -55,8 +55,7 @@ private:
 private:
 	EnemyInfo queue[MAX_ENEMIES];
 	j1Entity* enemies[MAX_ENEMIES];
-	
+	SDL_Texture * debug_tex = nullptr;
 };
-
 #endif // __ModuleEnemies_H__
 
