@@ -33,8 +33,9 @@ j1Collision::j1Collision()
 	matrix[COLLIDER_PLAYER][COLLIDER_ENEMY] = true;
 	matrix[COLLIDER_PLAYER][COLLIDER_RESPAWN] = true;
 	matrix[COLLIDER_PLAYER][COLLIDER_SPECIAL] = true;
+	matrix[COLLIDER_PLAYER][COLLIDER_ICE] = true;
 	
-	//Collider enemy ----------------------------------------------
+	//Collider enemy -----------------------------------------------------
 	matrix[COLLIDER_ENEMY][COLLIDER_PLAYER] = true;
 
 	//Collider God--------------------------------------------------------
@@ -42,6 +43,9 @@ j1Collision::j1Collision()
 
 	//Collider respawn ---------------------------------------------------
 	matrix[COLLIDER_RESPAWN][COLLIDER_PLAYER] = true;
+
+	//Collider ice -------------------------------------------------------
+	matrix[COLLIDER_ICE][COLLIDER_PLAYER] = true;
 
 }
 j1Collision::~j1Collision()

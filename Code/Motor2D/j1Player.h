@@ -29,7 +29,8 @@ class j1Player : public j1Module
 	 fPoint speed = {0.0F,0.0F};
 	 fPoint maxSpeed = { 0.0F,0.0F };
 	 bool right = true;
-	 float dt;
+	 float dt=0.0F;
+	 bool iceMovement = false;
 
 	fPoint flplayerPosSaved;
 	fPoint distansToCam;
