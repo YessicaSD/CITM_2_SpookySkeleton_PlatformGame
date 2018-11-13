@@ -5,6 +5,9 @@
 #include "j1Window.h"
 #include "j1Render.h"
 #include "j1Entity.h"
+#include "j1Input.h"
+#include "j1map.h"
+#include "j1Pathfinding.h"
 
 ModuleEnemies::ModuleEnemies()
 {
@@ -23,7 +26,8 @@ bool ModuleEnemies::Awake(pugi::xml_node& config)
 }
 bool ModuleEnemies::Start()
 {
-	sprites = App->tex->Load("rtype/enemies.png");
+	sprites = App->tex->Load("textures/enemies.png");
+	debug_tex = App->tex->Load("textures/pathfinding1.png");
 	return true;
 }
 
@@ -51,6 +55,24 @@ bool ModuleEnemies::Update(float dt)
 			
 	for (uint i = 0; i < MAX_ENEMIES; ++i)
 		if (enemies[i] != nullptr) enemies[i]->Draw(sprites);
+
+	// Debug pathfinding ------------------------------
+	int x, y;
+	App->input->GetMousePosition(x, y);
+	iPoint p = App->render->ScreenToWorld(x, y);
+	p = App->map->WorldToMap(p.x, p.y);
+	p = App->map->MapToWorld(p.x, p.y);
+
+	App->render->Blit(debug_tex, p.x, p.y);
+
+	const p2DynArray<iPoint>* path = App->pathfinding->GetLastPath();
+
+	for (uint i = 0; i < path->Count(); ++i)
+	{
+		iPoint pos = App->map->MapToWorld(path->At(i)->x, path->At(i)->y);
+		App->render->Blit(debug_tex, pos.x, pos.y);
+	}
+
 	return true;
 }
 

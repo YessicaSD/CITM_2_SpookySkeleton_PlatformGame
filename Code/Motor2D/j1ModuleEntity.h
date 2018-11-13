@@ -12,6 +12,7 @@ enum ENEMY_TYPES
 {
 	NO_TYPE = -1,
 	ENEMY_BAT,
+	ENEMI_ZOMBIE,
 	MAX_ENEMY
 };
 
@@ -54,7 +55,7 @@ private:
 private:
 	EnemyInfo queue[MAX_ENEMIES];
 	j1Entity* enemies[MAX_ENEMIES];
-	
+	SDL_Texture* debug_tex;
 };
 
 #endif // __ModuleEnemies_H__

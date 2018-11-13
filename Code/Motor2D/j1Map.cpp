@@ -54,7 +54,6 @@ bool j1Map::Start()
 	App->audio->PlayMusic(atualSceneItem->data->musicPath.GetString());
 	App->player1->Enable();
 	App->entity->Enable();
-	debug_tex= App->tex->Load("maps/path2.png");
 	return true;
 }
 
@@ -167,13 +166,6 @@ bool j1Map::Draw(float dt)
 		}
 
 	}
-	int x, y;
-	App->input->GetMousePosition(x, y);
-	iPoint p = App->render->ScreenToWorld(x, y);
-	p = App->map->WorldToMap(p.x, p.y);
-	p = App->map->MapToWorld(p.x, p.y);
-
-	App->render->Blit(debug_tex, p.x, p.y);
 
 	return true;
 }

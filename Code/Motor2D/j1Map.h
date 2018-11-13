@@ -117,7 +117,6 @@ class j1Map : public j1Module
 {
 private:
 	p2List_item<Scenes*>* atualSceneItem=nullptr;
-	SDL_Texture* debug_tex = nullptr;
 public:
 
 	MapData data;
