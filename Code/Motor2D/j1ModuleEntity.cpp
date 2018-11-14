@@ -9,6 +9,9 @@
 #include "j1map.h"
 #include "j1Pathfinding.h"
 
+
+#include "EntityBat.h"
+
 ModuleEnemies::ModuleEnemies()
 {
 	name.create("enemies");
@@ -22,6 +25,7 @@ ModuleEnemies::~ModuleEnemies()
 }
 bool ModuleEnemies::Awake(pugi::xml_node& config)
 {
+
 	return true;
 }
 bool ModuleEnemies::Start()
@@ -123,9 +127,9 @@ void ModuleEnemies::SpawnEnemy(const EnemyInfo & info)
 	{
 		switch (info.type)
 		{
-		/*case ENEMY_TYPES::REDBIRD:
-			enemies[i] = new Enemy_RedBird(info.x, info.y);
-			break;*/
+			case ENEMY_TYPES::ENEMY_BAT:
+			enemies[i] = new EntityBat(info.x, info.y);
+			break;
 		
 		}
 	}

@@ -54,12 +54,35 @@ bool j1Map::Start()
 	App->player1->Enable();
 	App->entity->Enable();
 	debug_tex = App->tex->Load("textures/pathfinding.png");
+	App->entity->AddEnemy(ENEMY_BAT, 286, 196);
 	return true;
 }
 
 bool j1Map::PreUpdate(float dt)
 {
-	
+	// debug pathfing ------------------
+	static iPoint origin;
+	static bool origin_selected = false;
+
+	int x, y;
+	App->input->GetMousePosition(x, y);
+	iPoint p = App->render->ScreenToWorld(x, y);
+	p = App->map->WorldToMap(p.x, p.y);
+
+	if (App->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_DOWN)
+	{
+		if (origin_selected == true)
+		{
+			App->pathfinding->CreatePath(origin, p);
+			origin_selected = false;
+		}
+		else
+		{
+			origin = p;
+			origin_selected = true;
+		}
+	}
+
 	return true;
 }
 
@@ -569,22 +592,18 @@ bool j1Map::LoadCollision(pugi::xml_node& node, Object_Layer* object_layer)
 		
 
 		if (nameObje == "DEATH")
-		{
 			item_object = App->collision->AddCollider(rect, COLLIDER_ENEMY, App->map);
-		}
+		
 
 		if (nameObje == "RESTART")
-		{
 			item_object = App->collision->AddCollider(rect, COLLIDER_RESPAWN, App->map);
-		}
+		
 		if (nameObje == "SPECIAL")
-		{
 			item_object = App->collision->AddCollider(rect, COLLIDER_SPECIAL, App->map);
-		}
+		
 		if (nameObje == "ICE")
-		{
 			item_object = App->collision->AddCollider(rect, COLLIDER_ICE, App->map);
-		}
+	
 		object_layer->col.add(item_object);
 
 	}
