@@ -13,10 +13,8 @@
 #include "j1Render.h"
 #include "j1Player.h"
 
-EntityZombie::EntityZombie(int x, int y): j1Entity(x,y)
-{
-	
-}
+EntityZombie::EntityZombie(fPoint pos): j1Entity(pos)
+{}
 
 
 bool EntityZombie::PreUpdate(float dt)

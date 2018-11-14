@@ -6,17 +6,16 @@
 #include "j1Render.h"
 #include "j1Entity.h"
 #include "j1Input.h"
-#include "j1map.h"
+#include "j1Map.h"
 #include "j1Pathfinding.h"
 
 
 #include "EntityBat.h"
+#include "EntityZombie.h"
 
 ModuleEnemies::ModuleEnemies()
 {
 	name.create("enemies");
-	/*for (uint i = 0; i < MAX_ENEMIES; ++i)
-		enemies[i] = nullptr;*/
 }
 
 ModuleEnemies::~ModuleEnemies()
@@ -87,29 +86,49 @@ void ModuleEnemies::OnCollision(Collider * c1, Collider * c2)
 	}*/
 }
 
-bool ModuleEnemies::AddEnemy(ENEMY_TYPES type, int x, int y)
+j1Entity* ModuleEnemies::AddEnemy(ENEMY_TYPES type, fPoint pos)
 {
-	/*bool ret = false;
-
-	for (uint i = 0; i < MAX_ENEMIES; ++i)
+	j1Entity* newEntity = nullptr;
+	static_assert(UNKNOW >= 3, "code need update");
+	switch (type)
 	{
-		if (queue[i].type == ENEMY_TYPES::NO_TYPE)
-		{
-			queue[i].type = type;
-			queue[i].x = x;
-			queue[i].y = y;
-			ret = true;
-			break;
-		}
-	}*/
+	case PLAYER:
+		break;
+		case ENEMY_BAT:
+			newEntity = new EntityBat(pos);
+		break;
 
-	return true;
+		case ENEMI_ZOMBIE:
+			newEntity = new EntityZombie(pos);
+		break;
+	}
+		list_Entities.add(newEntity);
+
+	return nullptr;
 }
 
-bool ModuleEnemies::DestroyEntity()
+bool ModuleEnemies::DestroyEntity(j1Entity * entity)
 {
-	return true;
+	if (entity == nullptr)
+		return false;
+
+	bool found = false;
+
+	p2List_item<j1Entity*>* itemEntity = list_Entities.start;	
+	for (itemEntity; itemEntity != nullptr || found!= false; itemEntity = itemEntity->next)
+	{
+		if (itemEntity->data == entity)
+			found = true;	
+	}
+	if (found)
+	{
+		list_Entities.del(itemEntity);
+		return true;
+	}
+	return false;
 }
+
+
 
 
 void ModuleEnemies::SpawnEnemy(const EnemyInfo & info)

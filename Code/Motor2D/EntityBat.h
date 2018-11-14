@@ -12,6 +12,8 @@ public:
 	pugi::xml_document	entity_file;
 
 	Animation LoadAnimations(p2SString name);
+
+	EntityBat(fPoint pos);
 	
 	Animation Anim;
 	
@@ -21,7 +23,7 @@ public:
 
 
 public:
-	EntityBat(int x,int y);
+	EntityBat();
 	bool Draw(float dt);
 	bool PreUpdate(float dt) ;
 	void Move();

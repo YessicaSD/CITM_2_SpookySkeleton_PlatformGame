@@ -5,6 +5,7 @@
 #include "Animation.h"
 #include "p2DynArray.h"
 #include "p2List.h"
+#include "p2Point.h"
 #include "SDL/include/SDL_render.h"
 
 struct SDL_Texture;
@@ -17,12 +18,12 @@ protected:
 	Collider* collider = nullptr;
 
 public:
-	iPoint position;
-	iPoint speed;
-	SDL_Texture * debug_tex = nullptr;
+	fPoint position = {0.0F,0.0F};
+	iPoint speed = { 0.0F,0.0F };
+	SDL_Texture * texture = nullptr;
 
 public:
-	j1Entity(int x, int y);
+	j1Entity(fPoint position);
 	virtual ~j1Entity();
 	
 

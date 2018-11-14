@@ -54,7 +54,7 @@ bool j1Map::Start()
 	App->player1->Enable();
 	App->entity->Enable();
 	
-	App->entity->AddEnemy(ENEMY_BAT, 286, 196);
+	App->entity->AddEnemy(ENEMY_BAT, {60,180});
 
 	int w, h;
 	uchar* data = NULL;

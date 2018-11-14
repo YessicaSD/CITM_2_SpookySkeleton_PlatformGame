@@ -9,7 +9,7 @@
 #include "j1Render.h"
 
 
-j1Entity::j1Entity(int x, int y):position(x,y)
+j1Entity::j1Entity(fPoint position):position(position)
 {}
 
 j1Entity::~j1Entity()

@@ -1,10 +1,12 @@
+#include "EntityBat.h"
+
 #include "p2Defs.h"
 #include "p2Log.h"
 #include "p2Point.h"
 #include "j1App.h"
 #include "j1Audio.h"
 #include "j1Entity.h"
-#include "EntityBat.h"
+
 #include "j1Input.h"
 #include "j1Map.h"
 #include "j1Textures.h"
@@ -15,7 +17,8 @@
 
 
 
-
+EntityBat::EntityBat(fPoint pos) :j1Entity(pos)
+{}
 //bool EntityBat::Start()
 //{
 //	bool ret = true;
@@ -75,9 +78,7 @@ Animation EntityBat::LoadAnimations(p2SString name)
 	return anim_entity;
 }
 
-EntityBat::EntityBat(int x, int y) :j1Entity(x,y)
-{
-}
+
 
 void EntityBat::Move()
 {
@@ -98,6 +99,8 @@ bool EntityBat::CleanUp()
 //	}
 //	return true;
 //}
+
+
 
 bool EntityBat::Draw(float dt)
 {

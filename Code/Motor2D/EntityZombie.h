@@ -11,7 +11,7 @@ public:
 	pugi::xml_node entity_node;
 	pugi::xml_document	entity_file;
 
-	Animation LoadAnimations(p2SString name);
+	/*Animation LoadAnimations(p2SString name);*/
 	
 	Animation EntityIdle;
 	Animation EntityWalk;
@@ -21,8 +21,9 @@ public:
 
 
 public:
-	EntityZombie(int x, int y);
+	EntityZombie(fPoint pos);
 	bool Draw(float dt);
+	
 	bool PreUpdate(float dt);
 	void Move();
 	bool CleanUp();

@@ -10,24 +10,27 @@
 
 enum ENEMY_TYPES
 {
-	NO_TYPE = -1,
+	PLAYER,
 	ENEMY_BAT,
 	ENEMI_ZOMBIE,
-	MAX_ENEMY
+	UNKNOW,
 };
 
 class j1Entity;
 
 struct EnemyInfo
 {
-	ENEMY_TYPES type = ENEMY_TYPES::NO_TYPE;
+	ENEMY_TYPES type = ENEMY_TYPES::UNKNOW;
 	int x, y;
 };
 
 class ModuleEnemies : public j1Module
 {
+private:
+
+	p2List<j1Entity*> list_Entities;
+
 public:
-	SDL_Texture * sprites = nullptr;
 	pugi::xml_document	enemiesFile;
 	pugi::xml_node enemiesNodeDoc;
 
@@ -44,17 +47,14 @@ public:
 
 	void OnCollision(Collider* c1, Collider* c2) override;
 
-	bool AddEnemy(ENEMY_TYPES type, int x, int y);
-	bool DestroyEntity();
+	j1Entity* AddEnemy(ENEMY_TYPES type, fPoint pos);
+	bool DestroyEntity(j1Entity* entity);
 
 private:
 	void SpawnEnemy(const EnemyInfo& info);
 	
 
-private:
-	/*EnemyInfo queue[MAX_ENEMIES];
-	j1Entity* enemies[MAX_ENEMIES];*/
-	p2List<j1Entity*> list_Entities;
+
 };
 #endif // __ModuleEnemies_H__
 
