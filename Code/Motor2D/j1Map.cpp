@@ -186,13 +186,15 @@ bool j1Map::Draw(float dt)
 				if (id > 0 )
 				{
 					iPoint mapPoint = MapToWorld(column, row);
-					
+					/*if (mapPoint.x >= App->render->camera.x|| mapPoint.x <= App->render->camera.x + 512)
+					{*/
+
 						TileSet* tileset = GetTilesetFromTileId(id);
 						SDL_Rect section = tileset->GetTileRect(id);
-						float speed = item_layer->data->properties.Get("parallax",0);
+						float speed = item_layer->data->properties.Get("parallax", 0);
 						App->render->Blit(tileset->texture, mapPoint.x, mapPoint.y, &section, SDL_FLIP_NONE, speed);
-						
-				}
+					}
+				//}
 
 			}
 

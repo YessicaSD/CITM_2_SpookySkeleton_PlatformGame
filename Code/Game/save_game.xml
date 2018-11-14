@@ -6,15 +6,15 @@
 	<audio />
 	<pathfinding />
 	<map>
-		<lvl num="2" />
+		<lvl num="1" />
 	</map>
 	<player>
-		<position x="781.438049" y="416.945221" />
+		<position x="1653.09058" y="288.940796" />
 	</player>
 	<enemies />
 	<:anonymous />
 	<fade />
 	<renderer>
-		<camera x="1442" y="236" />
+		<camera x="3186" y="38" />
 	</renderer>
 </game_state>
