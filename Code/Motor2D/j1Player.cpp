@@ -53,15 +53,15 @@ bool j1Player::Start()
 	}
 		
 
-		PlayerIdle = LoadAnimations("idle");
-		PlayerWalk = LoadAnimations("walking");
-		PlayerJump = LoadAnimations("jump");
-		PlayerAttack = LoadAnimations("attack");
-		PlayerAttack.loop = false;
-		PlayerDeath = LoadAnimations("death");
-		PlayerDeath.loop = false;
-		PlayerSpawn = LoadAnimations("spawn");
-		PlayerSpawn.loop = false;
+		Player_State[STATE_IDLE] = LoadAnimations("idle");
+		Player_State[STATE_WALK] = LoadAnimations("walking");
+		Player_State[STATE_JUMP] = LoadAnimations("jump");
+		Player_State[STATE_ATTACK] = LoadAnimations("attack");
+		Player_State[STATE_ATTACK].loop = false;
+		Player_State[STATE_DEATH] = LoadAnimations("death");
+		Player_State[STATE_DEATH].loop = false;
+		Player_State[STATE_SPAWN] = LoadAnimations("spawn");
+		Player_State[STATE_SPAWN].loop = false;
 		ret = CreateCol();
 		if (!loading)
 		{
@@ -348,41 +348,41 @@ bool j1Player::Draw(float dt)
 	switch (PlayerState)
 	{
 	case PlayerState::STATE_IDLE:
-		CurrentFrame = PlayerIdle.GetCurrentFrame(dt);
+		CurrentFrame = Player_State[STATE_IDLE].GetCurrentFrame(dt);
 		break;
 	case PlayerState::STATE_WALK:
-		CurrentFrame = PlayerWalk.GetCurrentFrame(dt);
+		CurrentFrame = Player_State[STATE_WALK].GetCurrentFrame(dt);
 		break;
 	case PlayerState::STATE_ATTACK:
-		CurrentFrame = PlayerAttack.GetCurrentFrame(dt);
-		if (PlayerAttack.Finished())
+		CurrentFrame = Player_State[STATE_ATTACK].GetCurrentFrame(dt);
+		if (Player_State[STATE_ATTACK].Finished())
 		{
 			PlayerState = PlayerState::STATE_IDLE;
-			PlayerAttack.Reset();
+			Player_State[STATE_ATTACK].Reset();
 		}
 		break;
 	case PlayerState::STATE_DEATH:
 		
-		CurrentFrame = PlayerDeath.GetCurrentFrame(dt);
-		if (PlayerDeath.Finished())
+		CurrentFrame = Player_State[STATE_DEATH].GetCurrentFrame(dt);
+		if (Player_State[STATE_DEATH].Finished())
 		{
 			App->fade->FadeToBlack(App->map->num_thismaplvl);
 		}
 		
 		break;
 	case PlayerState::STATE_SPAWN:
-		if (PlayerSpawn.Finished())
+		if (Player_State[STATE_SPAWN].Finished())
 		{
 			PlayerState = PlayerState::STATE_IDLE;
-			PlayerSpawn.loop = 0;
+			Player_State[STATE_SPAWN].loop = 0;
 		}
 		else
-			CurrentFrame = PlayerSpawn.GetCurrentFrame(dt);
+			CurrentFrame = Player_State[STATE_SPAWN].GetCurrentFrame(dt);
 		break;
 	case PlayerState::STATE_JUMP:
 
 		
-		CurrentFrame = PlayerJump.GetCurrentFrame(dt);
+		CurrentFrame = Player_State[STATE_JUMP].GetCurrentFrame(dt);
 		break;
 	default:
 		ret = false;

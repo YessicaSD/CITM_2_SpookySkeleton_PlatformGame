@@ -19,7 +19,8 @@ class j1App;
 	STATE_JUMP,
 	STATE_ATTACK,
 	STATE_DEATH,
-	STATE_SPAWN
+	STATE_SPAWN,
+	STATE_MAX
 };
 class j1Player : public j1Module
 {
@@ -50,12 +51,13 @@ class j1Player : public j1Module
 	pugi::xml_node player_node;
 
 	PlayerState PlayerState = PlayerState::STATE_SPAWN;
-	Animation PlayerIdle;
+	Animation Player_State[STATE_MAX];
+	/*Animation PlayerIdle;
 	Animation PlayerWalk;
 	Animation PlayerJump;
 	Animation PlayerAttack;
 	Animation PlayerDeath;
-	Animation PlayerSpawn;
+	Animation PlayerSpawn;*/
 
 	uint death_anim_fx, jump, death;
 
