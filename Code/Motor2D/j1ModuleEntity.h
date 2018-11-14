@@ -36,8 +36,7 @@ public:
 	ModuleEnemies();
 	~ModuleEnemies();
 
-	bool Awake(pugi::xml_node& config)override;
-	bool Start() override;
+	
 	bool PreUpdate(float dt) override;
 	bool Update(float dt) override;
 	bool PostUpdate() override;
@@ -46,16 +45,16 @@ public:
 	void OnCollision(Collider* c1, Collider* c2) override;
 
 	bool AddEnemy(ENEMY_TYPES type, int x, int y);
-	
+	bool DestroyEntity();
 
 private:
 	void SpawnEnemy(const EnemyInfo& info);
 	
 
 private:
-	EnemyInfo queue[MAX_ENEMIES];
-	j1Entity* enemies[MAX_ENEMIES];
-	SDL_Texture * debug_tex = nullptr;
+	/*EnemyInfo queue[MAX_ENEMIES];
+	j1Entity* enemies[MAX_ENEMIES];*/
+	p2List<j1Entity*> list_Entities;
 };
 #endif // __ModuleEnemies_H__
 

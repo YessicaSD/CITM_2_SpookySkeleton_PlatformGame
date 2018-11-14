@@ -15,29 +15,19 @@
 ModuleEnemies::ModuleEnemies()
 {
 	name.create("enemies");
-	for (uint i = 0; i < MAX_ENEMIES; ++i)
-		enemies[i] = nullptr;
+	/*for (uint i = 0; i < MAX_ENEMIES; ++i)
+		enemies[i] = nullptr;*/
 }
 
 ModuleEnemies::~ModuleEnemies()
 {
 
 }
-bool ModuleEnemies::Awake(pugi::xml_node& config)
-{
 
-	return true;
-}
-bool ModuleEnemies::Start()
-{
-	sprites = App->tex->Load("textures/enemies.png");
-	
-	return true;
-}
 
 bool ModuleEnemies::PreUpdate(float dt)
 {
-	for (uint i = 0; i < MAX_ENEMIES; ++i)
+	/*for (uint i = 0; i < MAX_ENEMIES; ++i)
 	{
 		if (queue[i].type != ENEMY_TYPES::NO_TYPE &&
 				queue[i].x * App->win->scale < App->render->camera.x + (App->render->camera.w * App->win->scale) + 50)
@@ -47,18 +37,18 @@ bool ModuleEnemies::PreUpdate(float dt)
 					LOG("Spawning enemy at %d", queue[i].x * App->win->scale);
 				}
 		
-	}
+	}*/
 
 	return true;
 }
 
 bool ModuleEnemies::Update(float dt)
 {
-	for (uint i = 0; i < MAX_ENEMIES; ++i)
+	/*for (uint i = 0; i < MAX_ENEMIES; ++i)
 		if (enemies[i] != nullptr) enemies[i]->Move();
 			
 	for (uint i = 0; i < MAX_ENEMIES; ++i)
-		if (enemies[i] != nullptr) enemies[i]->Draw(sprites);
+		if (enemies[i] != nullptr) enemies[i]->Draw(sprites);*/
 
 	return true;
 }
@@ -71,7 +61,7 @@ bool ModuleEnemies::PostUpdate()
 bool ModuleEnemies::CleanUp()
 {
 	LOG("Freeing all enemies");
-	App->tex->UnLoad(sprites);
+	/*App->tex->UnLoad(sprites);
 	for (uint i = 0; i < MAX_ENEMIES; ++i)
 	{
 		if (enemies[i] != nullptr)
@@ -79,13 +69,13 @@ bool ModuleEnemies::CleanUp()
 			delete enemies[i];
 			enemies[i] = nullptr;
 		}
-	}
+	}*/
 	return true;
 }
 
 void ModuleEnemies::OnCollision(Collider * c1, Collider * c2)
 {
-	for (uint i = 0; i < MAX_ENEMIES; ++i)
+	/*for (uint i = 0; i < MAX_ENEMIES; ++i)
 	{
 		if (enemies[i] != nullptr && enemies[i]->GetCollider() == c1)
 		{
@@ -94,12 +84,12 @@ void ModuleEnemies::OnCollision(Collider * c1, Collider * c2)
 			enemies[i] = nullptr;
 			break;
 		}
-	}
+	}*/
 }
 
 bool ModuleEnemies::AddEnemy(ENEMY_TYPES type, int x, int y)
 {
-	bool ret = false;
+	/*bool ret = false;
 
 	for (uint i = 0; i < MAX_ENEMIES; ++i)
 	{
@@ -111,16 +101,21 @@ bool ModuleEnemies::AddEnemy(ENEMY_TYPES type, int x, int y)
 			ret = true;
 			break;
 		}
-	}
+	}*/
 
-	return ret;
+	return true;
+}
+
+bool ModuleEnemies::DestroyEntity()
+{
+	return true;
 }
 
 
 void ModuleEnemies::SpawnEnemy(const EnemyInfo & info)
 {
 	// find room for the new enemy
-	uint i = 0;
+	/*uint i = 0;
 	for (; enemies[i] != nullptr && i < MAX_ENEMIES; ++i);
 
 	if (i != MAX_ENEMIES)
@@ -132,7 +127,7 @@ void ModuleEnemies::SpawnEnemy(const EnemyInfo & info)
 			break;
 		
 		}
-	}
+	}*/
 }
 
 

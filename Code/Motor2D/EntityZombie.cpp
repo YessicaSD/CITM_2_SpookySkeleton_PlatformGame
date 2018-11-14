@@ -15,21 +15,30 @@
 
 EntityZombie::EntityZombie(int x, int y): j1Entity(x,y)
 {
-	/*name.create("enemies");*/
+	
 }
 
-//bool EntityZombie::Awake(pugi::xml_node &node)
-//{
-//	LOG("Init Entity");
-//	String_docXml.create(node.child_value());
-//	return true;
-//}
-//
-//void EntityZombie::Init()
-//{
-//	active = true;
-//}
-//
+
+bool EntityZombie::PreUpdate(float dt)
+{
+	return true;
+}
+
+void EntityZombie::Move()
+{
+}
+
+bool EntityZombie::Draw(float dt)
+{
+	return true;
+}
+
+bool EntityZombie::CleanUp()
+{
+	return true;
+}
+
+
 //bool EntityZombie::Start()
 //{
 //	bool ret = true;
@@ -86,41 +95,5 @@ EntityZombie::EntityZombie(int x, int y): j1Entity(x,y)
 //	anim_entity.speed = 3.0f;
 //	return anim_entity;
 //}
-//
-//
-//
-//
-//
-//
-//bool EntityZombie::PreUpdate(float dt)
-//{
-//	return true;
-//}
-//
-//bool EntityZombie::Update(float dt)
-//{
-//	return true;
-//}
-//
-//bool EntityZombie::PostUpdate()
-//{
-//	return true;
-//}
-//
-//bool EntityZombie::CleanUp()
-//{
-//	if (entity_texture != nullptr)
-//	{
-//		App->tex->UnLoad(entity_texture);
-//		entity_texture = nullptr;
-//	}
-//	return true;
-//}
-//
-//bool EntityZombie::Draw(float dt)
-//{
-//	bool ret = true;
-//	SDL_Rect CurrentFrame = EntityDeath.GetCurrentFrame(dt);
-//	ret = App->render->Blit(entity_texture, Zombie_Pos.x, Zombie_Pos.y, &CurrentFrame);
-//	return ret;
-//}
+
+

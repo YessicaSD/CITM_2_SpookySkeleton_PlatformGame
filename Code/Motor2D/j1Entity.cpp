@@ -18,10 +18,12 @@ j1Entity::~j1Entity()
 		collider->to_delete = true;
 }
 
-const Collider * j1Entity::GetCollider() const
+
+bool j1Entity::PreUpdate(float dt)
 {
-	return collider;
+	return true;
 }
+
 
 void j1Entity::Draw(SDL_Texture * sprites)
 {
@@ -33,6 +35,8 @@ void j1Entity::Draw(SDL_Texture * sprites)
 		App->render->Blit(sprites, position.x, position.y, &(animation->GetCurrentFrame(App->dt)));
 	
 }
+
+
 
 void j1Entity::OnCollision(Collider * collider)
 {

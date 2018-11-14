@@ -46,6 +46,11 @@
 //	return true;
 //}
 
+bool EntityBat::PreUpdate(float dt)
+{
+	return true;
+}
+
 
 Animation EntityBat::LoadAnimations(p2SString name)
 {
@@ -74,6 +79,16 @@ EntityBat::EntityBat(int x, int y) :j1Entity(x,y)
 {
 }
 
+void EntityBat::Move()
+{
+
+}
+
+bool EntityBat::CleanUp()
+{
+	return true;
+}
+
 //bool EntityBat::CleanUp()
 //{
 //	if (entity_texture != nullptr)
@@ -84,12 +99,14 @@ EntityBat::EntityBat(int x, int y) :j1Entity(x,y)
 //	return true;
 //}
 
-//bool EntityBat::Draw(float dt)
-//{
+bool EntityBat::Draw(float dt)
+{
 //	bool ret = true;
 //	SDL_Rect CurrentFrame = EntityIdle.GetCurrentFrame(dt);
 //	ret = App->render->Blit(entity_texture, Bat_Pos.x, Bat_Pos.y, &CurrentFrame);
-//	return ret;
-//}
+	return true;
+}
+
+
 
 

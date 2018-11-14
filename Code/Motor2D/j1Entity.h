@@ -18,12 +18,15 @@ protected:
 
 public:
 	iPoint position;
+	iPoint speed;
+	SDL_Texture * debug_tex = nullptr;
 
 public:
 	j1Entity(int x, int y);
 	virtual ~j1Entity();
-	const Collider* GetCollider() const;
+	
 
+	virtual bool PreUpdate(float dt);
 	virtual void Move() {};
 	virtual void Draw(SDL_Texture* sprites);
 	virtual void OnCollision(Collider* collider);

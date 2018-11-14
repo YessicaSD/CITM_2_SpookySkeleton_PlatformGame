@@ -12,19 +12,19 @@ public:
 	pugi::xml_document	entity_file;
 
 	Animation LoadAnimations(p2SString name);
-	// EntityState = Entity_State::STATE_IDLE;
-	Animation Anim;
+	
 	Animation EntityIdle;
 	Animation EntityWalk;
 	Animation EntityDeath;
 	Animation EntityAttack;
 
-	fPoint Zombie_Pos;
-
 
 
 public:
 	EntityZombie(int x, int y);
-	
+	bool Draw(float dt);
+	bool PreUpdate(float dt);
+	void Move();
+	bool CleanUp();
 };
 #endif // !ENTITYZOMBIE_H_
