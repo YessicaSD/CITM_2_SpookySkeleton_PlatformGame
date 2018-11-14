@@ -55,6 +55,14 @@ bool j1Map::Start()
 	App->entity->Enable();
 	debug_tex = App->tex->Load("textures/pathfinding.png");
 	App->entity->AddEnemy(ENEMY_BAT, 286, 196);
+
+	int w, h;
+	uchar* data = NULL;
+	if (App->map->CreateWalkabilityMap(w, h, &data))
+		App->pathfinding->SetMap(w, h, data);
+
+	RELEASE_ARRAY(data);
+
 	return true;
 }
 
@@ -676,4 +684,52 @@ bool j1Map::Save(pugi::xml_node& map) const
 	play.append_attribute("num").set_value(num_thismaplvl);
 	
 	return true;
+}
+
+bool j1Map::CreateWalkabilityMap(int& width, int& height, uchar** buffer) const
+{
+	bool ret = true;
+	//p2List_item<MapLayer*>* item;
+	//item = data.layers.start;
+
+	//for (item = data.layers.start; item != NULL; item = item->next)
+	//{
+	//	MapLayer* layer = item->data;
+
+	//	if (layer->properties.Get("Navigation", 0) == 0)
+	//		continue;
+
+	//	uchar* map = new uchar[layer->width*layer->height];
+	//	memset(map, 1, layer->width*layer->height);
+
+	//	for (int y = 0; y < data.height; ++y)
+	//	{
+	//		for (int x = 0; x < data.width; ++x)
+	//		{
+	//			int i = (y*layer->width) + x;
+
+	//			int tile_id = layer->Get(x, y);
+	//			TileSet* tileset = (tile_id > 0) ? GetTilesetFromTileId(tile_id) : NULL;
+
+	//			if (tileset != NULL)
+	//			{
+	//				map[i] = (tile_id - tileset->firstgid) > 0 ? 0 : 1;
+	//				/*TileType* ts = tileset->GetTileType(tile_id);
+	//				if(ts != NULL)
+	//				{
+	//				map[i] = ts->properties.Get("walkable", 1);
+	//				}*/
+	//			}
+	//		}
+	//	}
+
+	//	*buffer = map;
+	//	width = data.width;
+	//	height = data.height;
+	//	ret = true;
+
+	//	break;
+	//}
+
+	return ret;
 }

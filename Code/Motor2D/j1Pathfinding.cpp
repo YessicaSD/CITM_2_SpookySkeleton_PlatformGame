@@ -30,12 +30,12 @@ bool j1PathFinding::CleanUp()
 // Sets up the walkability map
 void j1PathFinding::SetMap(uint width, uint height, uchar* data)
 {
-	this->width = width;
-	this->height = height;
+	//this->width = width;
+	//this->height = height;
 
-	RELEASE_ARRAY(map);
-	map = new uchar[width*height];
-	memcpy(map, data, width*height);
+	//RELEASE_ARRAY(map);
+	//map = new uchar[width*height];
+	//memcpy(map, data, width*height);
 }
 
 // Utility: return true if pos is inside the map boundaries
@@ -181,9 +181,9 @@ int j1PathFinding::CreatePath(const iPoint& origin, const iPoint& destination)
 {
 	
 	// TODO 1: if origin or destination are not walkable, return -1 --DONE
-	if(!IsWalkable(origin) || !IsWalkable(destination))
-		return -1;
-
+	/*if(!IsWalkable(origin) || !IsWalkable(destination))
+		return -1;*/
+	LOG("Hey");
 
 	// TODO 2: Create two lists: open, close --DONE
 	// Add the origin tile to open

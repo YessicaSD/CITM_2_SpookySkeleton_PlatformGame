@@ -179,6 +179,8 @@ public:
 	bool Load(pugi::xml_node&);
 	bool Save(pugi::xml_node&) const;
 
+	bool CreateWalkabilityMap(int & width, int & height, uchar ** buffer) const;
+
 private:
 
 	pugi::xml_document	map_file;
