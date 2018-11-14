@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="100" height="20" tilewidth="32" tileheight="32" nextobjectid="124">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="100" height="20" tilewidth="32" tileheight="32" nextobjectid="197">
  <properties>
+  <property name="BatPos_x" type="float" value="500"/>
+  <property name="BatPos_y" type="float" value="300"/>
   <property name="Distant_to_camera_from_player_x" type="float" value="-60"/>
   <property name="Distant_to_camera_from_player_y" type="float" value="-180"/>
   <property name="PlayerPos_x" type="float" value="60"/>
   <property name="PlayerPos_y" type="float" value="419"/>
-   <property name="BatPos_x" type="float" value="500"/>
-   <property name="BatPos_y" type="float" value="300"/>
-   <property name="ZombiePos_x" type="float" value="800"/>
-   <property name="ZombiePos_y" type="float" value="300"/>
+  <property name="ZombiePos_x" type="float" value="800"/>
+  <property name="ZombiePos_y" type="float" value="300"/>
  </properties>
  <tileset firstgid="1" name="sprite_wb" tilewidth="32" tileheight="32" spacing="1" margin="1" tilecount="72" columns="9">
   <image source="sprite_wb.png" width="298" height="265"/>
@@ -5390,7 +5390,7 @@
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
-   <tile gid="0"/>
+   <tile gid="9"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="9"/>
@@ -7392,7 +7392,7 @@
    <tile gid="0"/>
    <tile gid="33"/>
    <tile gid="28"/>
-   <tile gid="30"/>
+   <tile gid="29"/>
    <tile gid="28"/>
    <tile gid="28"/>
    <tile gid="29"/>
@@ -7492,14 +7492,14 @@
    <tile gid="0"/>
    <tile gid="42"/>
    <tile gid="38"/>
-   <tile gid="39"/>
+   <tile gid="38"/>
    <tile gid="37"/>
    <tile gid="37"/>
    <tile gid="38"/>
-   <tile gid="39"/>
    <tile gid="38"/>
    <tile gid="38"/>
-   <tile gid="39"/>
+   <tile gid="38"/>
+   <tile gid="38"/>
    <tile gid="38"/>
    <tile gid="38"/>
    <tile gid="38"/>
@@ -8050,83 +8050,64 @@
    <tile gid="0"/>
   </data>
  </layer>
- <objectgroup color="#ff0000" name="Wall">
-  <properties>
-   <property name="parallax" type="float" value="1"/>
-  </properties>
-  <object id="1" x="0" y="449" width="191.833" height="31"/>
-  <object id="8" x="545.5" y="447.5" width="93" height="32"/>
-  <object id="21" x="1345" y="449" width="541.75" height="30"/>
-  <object id="31" x="1696" y="192.788" width="31.3333" height="254.545"/>
-  <object id="51" x="2946" y="449.333" width="256.667" height="30.6667"/>
-  <object id="66" x="1185.33" y="416" width="93.3333" height="32"/>
-  <object id="68" x="1759.34" y="416.334" width="32" height="30.3334"/>
- </objectgroup>
- <objectgroup name="Special" gravity_change="-2">
-  <object id="81" x="224" y="416.333" width="32" height="31.6667"/>
-  <object id="82" x="320" y="383.667" width="31.6667" height="32.3333"/>
-  <object id="83" x="416.333" y="415.333" width="63.3333" height="32.3333"/>
-  <object id="84" x="703.333" y="448.485" width="32.7273" height="32.1818"/>
-  <object id="85" x="768" y="416.485" width="95.5758" height="32.8485"/>
-  <object id="86" x="927.333" y="449.333" width="33.3333" height="30.6667"/>
-  <object id="87" x="1023.88" y="416.083" width="32.2083" height="32.5833"/>
-  <object id="88" x="1024.05" y="352" width="31.9167" height="31.875"/>
-  <object id="89" x="928.167" y="319.708" width="31.7917" height="32.2917"/>
-  <object id="90" x="864.083" y="256.083" width="31.9167" height="31.9167"/>
-  <object id="91" x="768" y="224" width="63.3333" height="64.6667"/>
-  <object id="92" x="927.697" y="223.94" width="32.3031" height="34.0606"/>
-  <object id="93" x="1024" y="192.333" width="32" height="32.3333"/>
-  <object id="94" x="1120.03" y="288" width="31.7576" height="33.3333"/>
-  <object id="95" x="1599.33" y="352.167" width="64.5833" height="64.5"/>
-  <object id="96" x="1504" y="384.208" width="32.25" height="32.4583"/>
-  <object id="97" x="1632" y="288.303" width="32.6667" height="32.3636"/>
-  <object id="98" x="1535.69" y="256.06" width="32.3031" height="31.9394"/>
-  <object id="99" x="1664.12" y="192" width="30.5455" height="30.6667"/>
-  <object id="100" x="1568.67" y="160.303" width="31.3333" height="31.6969"/>
-  <object id="101" x="1472.67" y="192.485" width="31.5758" height="30.8485"/>
-  <object id="102" x="1792" y="352.485" width="32.4242" height="30.8485"/>
-  <object id="103" x="1888.17" y="320.333" width="31.8333" height="31.6667"/>
-  <object id="104" x="1952" y="384.667" width="32" height="32"/>
-  <object id="105" x="2016.31" y="320.303" width="63.0909" height="63.0303"/>
-  <object id="106" x="2047.33" y="159.333" width="32.6667" height="33.3333"/>
-  <object id="107" x="2144.2" y="352.167" width="31.7917" height="31.8333"/>
-  <object id="108" x="2207.97" y="319.788" width="32.2122" height="32.8788"/>
-  <object id="109" x="2271.78" y="255.878" width="32.2122" height="32.1212"/>
-  <object id="110" x="2336.05" y="320.042" width="31.9583" height="31.9583"/>
-  <object id="111" x="2431.94" y="416" width="32.1212" height="32.6667"/>
-  <object id="112" x="2528.24" y="384" width="31.7576" height="32.0606"/>
-  <object id="113" x="2624" y="384.545" width="32.2424" height="31.6969"/>
-  <object id="114" x="2720" y="351.969" width="31.8788" height="32.0303"/>
-  <object id="115" x="2751.88" y="288.06" width="32.1212" height="31.9394"/>
-  <object id="116" x="2655.94" y="256.242" width="31.9394" height="32.4242"/>
-  <object id="117" x="2623.7" y="191.958" width="32.5" height="32.0417"/>
-  <object id="118" x="2720.12" y="160.242" width="32.5455" height="32.4242"/>
-  <object id="119" x="2880" y="381.333" width="30.6667" height="34.6667"/>
-  <object id="120" x="2816" y="192.031" width="31.8485" height="31.9697"/>
-  <object id="121" x="2943.92" y="224" width="32.0417" height="32"/>
-  <object id="122" x="2880" y="256" width="31.9583" height="32"/>
-  <object id="123" x="608" y="415.909" width="31.8182" height="31.4545"/>
- </objectgroup>
- <objectgroup name="Death">
-  <properties>
-   <property name="parallax" type="float" value="1"/>
-  </properties>
-  <object id="72" x="800.545" y="388.364" width="29.2727" height="27.8182"/>
-  <object id="73" x="1217.64" y="390.182" width="28.7273" height="25.4545"/>
-  <object id="74" x="1409.27" y="422.151" width="29" height="26"/>
-  <object id="75" x="1666" y="421.333" width="28.3333" height="26.6667"/>
-  <object id="76" x="1730.33" y="422.333" width="28.3333" height="25.3333"/>
-  <object id="77" x="2881.33" y="359.333" width="29" height="23"/>
-  <object id="78" x="3009" y="421.75" width="28.75" height="28"/>
- </objectgroup>
- <objectgroup name="Win">
-  <object id="79" x="3147" y="0" width="33" height="648">
-   <properties>
-    <property name="parallax" type="float" value="1"/>
-   </properties>
-  </object>
- </objectgroup>
- <objectgroup name="RestartLevel">
-  <object id="80" x="0" y="523" width="3200" height="57"/>
+ <objectgroup name="COLLIDERS" offsetx="0.333333" offsety="0">
+  <object id="125" name="RESTART" x="-4" y="520" width="3216" height="60"/>
+  <object id="127" name="WALL" x="0" y="448.333" width="192" height="31"/>
+  <object id="128" name="WALL" x="543.75" y="447.75" width="96.25" height="68.5"/>
+  <object id="129" name="WALL" x="768.182" y="224" width="63.6364" height="63.6364"/>
+  <object id="130" name="WALL" x="1344.33" y="448.667" width="542.667" height="63.6667"/>
+  <object id="132" name="WALL" x="1696.17" y="192" width="30.5" height="257"/>
+  <object id="133" name="WALL" x="2015.92" y="319.75" width="64" height="64"/>
+  <object id="134" name="WALL" x="2944.33" y="449.333" width="258.667" height="62.3333"/>
+  <object id="135" name="SPECIAL" x="223.667" y="415.818" width="32.5455" height="32.1818"/>
+  <object id="137" name="SPECIAL" x="319.848" y="384" width="32" height="31.8182"/>
+  <object id="138" name="SPECIAL" x="415.667" y="415.818" width="64.7273" height="32.1818"/>
+  <object id="139" name="SPECIAL" x="703.667" y="448" width="32.3333" height="32"/>
+  <object id="140" name="SPECIAL" x="767.485" y="416" width="96.5455" height="31.8182"/>
+  <object id="141" name="SPECIAL" x="927.667" y="448.182" width="32.3636" height="31.4545"/>
+  <object id="142" name="SPECIAL" x="1023.76" y="415.818" width="32.3636" height="32.3636"/>
+  <object id="143" name="SPECIAL" x="1023.85" y="352" width="32.1818" height="32.1818"/>
+  <object id="145" name="SPECIAL" x="927.939" y="320" width="32.3636" height="31.9091"/>
+  <object id="146" name="SPECIAL" x="863.848" y="256.364" width="32" height="31.0909"/>
+  <object id="147" name="SPECIAL" x="927.848" y="224" width="32.1818" height="31.9091"/>
+  <object id="148" name="SPECIAL" x="1024.03" y="191.909" width="32" height="31.9091"/>
+  <object id="149" name="SPECIAL" x="1119.67" y="287.875" width="32.125" height="31.75"/>
+  <object id="150" name="SPECIAL" x="1183.67" y="415.636" width="96.9091" height="32.3636"/>
+  <object id="151" name="SPECIAL" x="1503.92" y="383.75" width="32.25" height="32.5"/>
+  <object id="152" name="SPECIAL" x="1599.67" y="351.5" width="64.25" height="63.75"/>
+  <object id="154" name="SPECIAL" x="1631.92" y="287.75" width="32.25" height="32.25"/>
+  <object id="157" name="SPECIAL" x="1472.03" y="192" width="31.8182" height="31.6364"/>
+  <object id="158" name="SPECIAL" x="1568.04" y="160" width="31.875" height="31.875"/>
+  <object id="160" name="SPECIAL" x="1663.76" y="192.091" width="36.5455" height="31.8182"/>
+  <object id="161" name="SPECIAL" x="1759.67" y="415.875" width="32.5" height="33.375"/>
+  <object id="162" name="SPECIAL" x="1791.79" y="352" width="32.5" height="32.125"/>
+  <object id="163" name="SPECIAL" x="1887.67" y="320.182" width="32.5455" height="32"/>
+  <object id="164" name="SPECIAL" x="1951.85" y="383.727" width="32.1818" height="32.3636"/>
+  <object id="165" name="SPECIAL" x="2143.76" y="352" width="32.3636" height="31.9091"/>
+  <object id="167" name="SPECIAL" x="2208.17" y="319.875" width="32.125" height="32.25"/>
+  <object id="168" name="SPECIAL" x="2271.94" y="255.818" width="32" height="32"/>
+  <object id="169" name="SPECIAL" x="2047.85" y="159.818" width="32.3636" height="32"/>
+  <object id="171" name="SPECIAL" x="2431.79" y="415.875" width="32.375" height="32.125"/>
+  <object id="173" name="SPECIAL" x="2623.85" y="384" width="32.2727" height="32.0909"/>
+  <object id="174" name="SPECIAL" x="2720.04" y="352" width="32" height="31.875"/>
+  <object id="175" name="SPECIAL" x="2655.92" y="256.25" width="32.125" height="31.625"/>
+  <object id="176" name="SPECIAL" x="2623.48" y="192" width="32.7273" height="32.3636"/>
+  <object id="178" name="SPECIAL" x="2751.67" y="288.182" width="32.1818" height="31.4545"/>
+  <object id="179" name="SPECIAL" x="2720.04" y="159.625" width="32" height="32.375"/>
+  <object id="180" name="SPECIAL" x="2816.04" y="192.25" width="32.25" height="31.625"/>
+  <object id="181" name="SPECIAL" x="2879.85" y="256" width="32.3636" height="31.8182"/>
+  <object id="182" name="SPECIAL" x="2944.03" y="223.818" width="31.9091" height="32.0909"/>
+  <object id="183" name="SPECIAL" x="2879.48" y="383.636" width="32.5455" height="32.1818"/>
+  <object id="184" name="DEATH" x="800.212" y="389.091" width="31.6364" height="26.9091"/>
+  <object id="185" name="DEATH" x="1215.48" y="389.273" width="32.1818" height="26.1818"/>
+  <object id="186" name="DEATH" x="1407.85" y="421.091" width="32.1818" height="27.4545"/>
+  <object id="187" name="DEATH" x="1664.42" y="421" width="31.5" height="27.375"/>
+  <object id="188" name="DEATH" x="1728.29" y="421.25" width="31.375" height="27.25"/>
+  <object id="189" name="DEATH" x="2880.03" y="358" width="31.8182" height="25.0909"/>
+  <object id="192" name="DEATH" x="3009.12" y="421.091" width="31.4545" height="27.8182"/>
+  <object id="193" name="SPECIAL" x="1535.67" y="255.667" width="32.3333" height="32.3333"/>
+  <object id="194" name="DEATH" x="1568.33" y="421.667" width="31.3333" height="26.3333"/>
+  <object id="195" name="SPECIAL" x="2335.92" y="320" width="31.5" height="32"/>
+  <object id="196" name="SPECIAL" x="2527.92" y="384" width="31.75" height="32"/>
  </objectgroup>
 </map>
