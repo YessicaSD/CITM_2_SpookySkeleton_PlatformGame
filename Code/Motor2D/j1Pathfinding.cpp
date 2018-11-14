@@ -30,12 +30,12 @@ bool j1PathFinding::CleanUp()
 // Sets up the walkability map
 void j1PathFinding::SetMap(uint width, uint height, uchar* data)
 {
-	//this->width = width;
-	//this->height = height;
+	this->width = width;
+	this->height = height;
 
-	//RELEASE_ARRAY(map);
-	//map = new uchar[width*height];
-	//memcpy(map, data, width*height);
+	RELEASE_ARRAY(map);
+	map = new uchar[width*height];
+	memcpy(map, data, width*height);
 }
 
 // Utility: return true if pos is inside the map boundaries
@@ -180,14 +180,9 @@ int PathNode::CalculateF(const iPoint& destination)
 int j1PathFinding::CreatePath(const iPoint& origin, const iPoint& destination)
 {
 	
-	// TODO 1: if origin or destination are not walkable, return -1 --DONE
-	/*if(!IsWalkable(origin) || !IsWalkable(destination))
-		return -1;*/
-	LOG("Hey");
-
-	// TODO 2: Create two lists: open, close --DONE
-	// Add the origin tile to open
-	// Iterate while we have tile in the open list
+	if(!IsWalkable(origin) || !IsWalkable(destination))
+		return -1;
+	
 	PathList openList, closeList;
 	
 	openList.list.add({ 0, origin.DistanceTo(destination), origin, nullptr });
@@ -196,10 +191,7 @@ int j1PathFinding::CreatePath(const iPoint& origin, const iPoint& destination)
 
 	while(openList.list.Count()>0 && !findDestination)
 	{
-		
-		// TODO 3: Move the lowest score cell from open list to the closed list --DONE
 		p2List_item<PathNode>* lowerNode = openList.GetNodeLowestScore();
-
 		p2List_item<PathNode>* currNode = closeList.list.add(lowerNode->data);
 		openList.list.del(lowerNode);
 
@@ -209,23 +201,14 @@ int j1PathFinding::CreatePath(const iPoint& origin, const iPoint& destination)
 			break;
 		}
 
-		
-
-		// TODO 5: Fill a list of all adjancent nodes --DONE
 		PathList neighbours;
 		currNode->data.FindWalkableAdjacents(neighbours);
 
-		// TODO 6: Iterate adjancent nodes:
-		// ignore nodes in the closed list
 		
 		for (p2List_item<PathNode>* nodeNeigh= neighbours.list.start; nodeNeigh; nodeNeigh= nodeNeigh->next)
 		{
-			// If it is NOT found, calculate its F and add it to the open list
-			
 			 p2List_item<PathNode>* closeItem = (p2List_item<PathNode>*) closeList.Find(nodeNeigh->data.pos);
 			 p2List_item<PathNode>* openItem = (p2List_item<PathNode>*) openList.Find(nodeNeigh->data.pos);
-
-			
 
 			 if (closeItem != NULL)
 				 continue;
@@ -236,8 +219,6 @@ int j1PathFinding::CreatePath(const iPoint& origin, const iPoint& destination)
 				openList.list.add(nodeNeigh->data);
 			}
 			
-			// If it is already in the open list, check if it is a better path (compare G)
-			// If it is a better path, Update the parent
 			else if (nodeNeigh->data.numSteps < openItem->data.numSteps)
 				{
 					openItem->data.parent = &currNode->data;
@@ -249,11 +230,6 @@ int j1PathFinding::CreatePath(const iPoint& origin, const iPoint& destination)
 
 		
 	}
-
-	
-	// TODO 4: If we just added the destination, we are done!
-		// Backtrack to create the final path
-		// Use the Pathnode::parent and Flip() the path when you are finish --DONE
 		if (findDestination)
 		{
 			last_path.Clear();

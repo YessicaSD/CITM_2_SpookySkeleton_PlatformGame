@@ -42,20 +42,55 @@ struct Object_Layer
 
 };
 
+struct Properties
+{
+	struct Property
+	{
+		p2SString name;
+		int value;
+	};
+
+	~Properties()
+	{
+		p2List_item<Property*>* item;
+		item = list.start;
+
+		while (item != NULL)
+		{
+			RELEASE(item->data);
+			item = item->next;
+		}
+
+		list.clear();
+	}
+
+	int Get(const char* name, int default_value = 0) const;
+
+	p2List<Property*>	list;
+};
+
 struct MapLayer
 {
 	p2SString name = "";
 	uint width = 0u;
 	uint height = 0u;
 	float parallax_velocity = 0.0f;
-	uint* tiledata = nullptr;
+	/*uint* tiledata = nullptr;*/
+
+	uint*		dataMapLayer = nullptr;
+	Properties	properties;
 	~MapLayer()
 	{
-		if (tiledata != nullptr)
+		if (dataMapLayer != nullptr)
 		{
-			delete tiledata;
-			tiledata = nullptr;
+			delete dataMapLayer;
+			dataMapLayer = nullptr;
 		}
+	}
+
+	inline uint Get(int x, int y) const
+	{
+		return dataMapLayer[(y*width) + x];
 	}
 };
 
@@ -195,6 +230,7 @@ private:
 	bool LoadCollision(pugi::xml_node& coll_node, Object_Layer* collision);
 	TileSet* GetTilesetFromTileId(int id) const;
 	void LoadProperties(pugi::xml_node& node);
+	void LoadLayerProperties(pugi::xml_node& node, Properties& properties);
 
 	SDL_Texture* debug_tex;
 

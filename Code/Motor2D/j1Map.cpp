@@ -53,7 +53,7 @@ bool j1Map::Start()
 	App->audio->PlayMusic(atualSceneItem->data->musicPath.GetString());
 	App->player1->Enable();
 	App->entity->Enable();
-	debug_tex = App->tex->Load("textures/pathfinding.png");
+	
 	App->entity->AddEnemy(ENEMY_BAT, 286, 196);
 
 	int w, h;
@@ -63,6 +63,7 @@ bool j1Map::Start()
 
 	RELEASE_ARRAY(data);
 
+	debug_tex = App->tex->Load("textures/pathfinding.png");
 	return true;
 }
 
@@ -181,7 +182,7 @@ bool j1Map::Draw(float dt)
 		{
 			for (uint column = 0; column<data.width; column++)
 			{
-				uint id = item_layer->data->tiledata[Get(column, row)];
+				uint id = item_layer->data->dataMapLayer[Get(column, row)];
 				if (id > 0 )
 				{
 					iPoint mapPoint = MapToWorld(column, row);
@@ -223,6 +224,33 @@ TileSet* j1Map::GetTilesetFromTileId(int id) const
 	for (actualTile = data.tilesets.end; id < actualTile->data->firstgid; actualTile = actualTile->prev) {}
 
 	return actualTile->data;
+}
+
+void j1Map::LoadProperties(pugi::xml_node & node)
+{
+	p2SString nameProperty;
+	for (pugi::xml_node& nodeProperties = node; node; nodeProperties = node.next_sibling("property"))
+	{
+		nameProperty = nodeProperties.attribute("name").as_string();
+		if (nameProperty == "PlayerPos_x")
+			data.SceneProperties.PlayerPos.x = node.attribute("value").as_float();
+
+		if (nameProperty == "PlayerPos_y")
+			data.SceneProperties.PlayerPos.y = node.attribute("value").as_float();
+
+
+		if (nameProperty == "Distant_to_camera_from_player_x")
+		{
+			data.SceneProperties.CameraPos.x = node.attribute("value").as_float();
+
+
+		}
+		if (nameProperty == "Distant_to_camera_from_player_y")
+		{
+			data.SceneProperties.CameraPos.y = node.attribute("value").as_float();
+
+		}
+	}
 }
 
 
@@ -395,7 +423,7 @@ bool j1Map::Load(const char* file_name)
 	}
 
 	// Load properties  -----------------------------------------
-		LoadProperties(map_file.child("map").child("properties").child("property"));
+	LoadProperties(map_file.child("map").child("properties").child("property"));
 	
 	if (ret == true)
 	{
@@ -479,31 +507,6 @@ bool j1Map::LoadMap()
 
 			}
 
-			////Load bat's initial position
-			//if (nameProperty == "BatPos_x")
-			//{
-			//	App->bat->Bat_Pos.x = nodeProperties.attribute("value").as_float();
-
-			//}
-
-			//if (nameProperty == "BatPos_y")
-			//{
-			//	App->bat->Bat_Pos.y = nodeProperties.attribute("value").as_float();
-
-			//}
-			////Load zombie's initial position
-			//if (nameProperty == "ZombiePos_x")
-			//{
-			//	App->zombie->Zombie_Pos.x = nodeProperties.attribute("value").as_float();
-
-			//}
-
-			//if (nameProperty == "ZombiePos_y")
-			//{
-			//	App->zombie->Zombie_Pos.y = nodeProperties.attribute("value").as_float();
-
-			//}
-			
 		}
 		
 	
@@ -621,50 +624,59 @@ bool j1Map::LoadCollision(pugi::xml_node& node, Object_Layer* object_layer)
 
 bool j1Map::LoadLayer(pugi::xml_node& node, MapLayer* layer)
 {
+	bool ret = true;
 	layer->name = node.attribute("name").as_string();
 	layer->width = node.attribute("width").as_uint();
 	layer->height = node.attribute("height").as_uint();
+	LoadLayerProperties(node,layer->properties );
+
 	layer->parallax_velocity = node.child("properties").child("property").attribute("value").as_float();
-	layer->tiledata = new uint[layer->width*layer->height];
-	memset(layer->tiledata, 0U, sizeof(uint)*layer->height*layer->width);
 
-	int i = 0;
-	for (pugi::xml_node tileset = node.child("data").child("tile"); tileset; tileset = tileset.next_sibling("tile"))
+	pugi::xml_node layer_data = node.child("data");
+	if (layer_data == NULL)
 	{
-
-		layer->tiledata[i] = tileset.attribute("gid").as_uint();
-
-		LOG("%u", layer->tiledata[i]);
-		++i;
+		LOG("Error parsing map xml file: Cannot find 'layer/data' tag.");
+		ret = false;
+		RELEASE(layer);
 	}
-	return true;
+	else
+	{
+		layer->dataMapLayer = new uint[layer->width*layer->height];
+		memset(layer->dataMapLayer, 0, layer->width*layer->height);
+
+		int i = 0;
+		for (pugi::xml_node tile = layer_data.child("tile"); tile; tile = tile.next_sibling("tile"))
+		{
+			layer->dataMapLayer[i++] = tile.attribute("gid").as_int(0);
+		}
+	}
+
+	return ret;
 }
 
-void j1Map::LoadProperties(pugi::xml_node& node)
+void j1Map::LoadLayerProperties(pugi::xml_node& node, Properties& properties)
 {
-	p2SString nameProperty;
-	for (pugi::xml_node& nodeProperties = node; node; nodeProperties = node.next_sibling("property"))
+
+	bool ret = false;
+
+	pugi::xml_node data = node.child("properties");
+
+	if (data != NULL)
 	{
-		nameProperty = nodeProperties.attribute("name").as_string();
-		if (nameProperty == "PlayerPos_x")
-			data.SceneProperties.PlayerPos.x = node.attribute("value").as_float();
+		pugi::xml_node prop;
 
-		if (nameProperty == "PlayerPos_y")
-			data.SceneProperties.PlayerPos.y = node.attribute("value").as_float();
-
-
-		if (nameProperty == "Distant_to_camera_from_player_x")
+		for (prop = data.child("property"); prop; prop = prop.next_sibling("property"))
 		{
-			data.SceneProperties.CameraPos.x = node.attribute("value").as_float();
+			Properties::Property* p = new Properties::Property();
 
+			p->name = prop.attribute("name").as_string();
+			p->value = prop.attribute("value").as_int();
 
-		}
-		if (nameProperty == "Distant_to_camera_from_player_y")
-		{
-			data.SceneProperties.CameraPos.y = node.attribute("value").as_float();
-
+			properties.list.add(p);
 		}
 	}
+
+	
 
 }
 void j1Map::OnCollision(Collider* c1, Collider* c2)
@@ -689,47 +701,61 @@ bool j1Map::Save(pugi::xml_node& map) const
 bool j1Map::CreateWalkabilityMap(int& width, int& height, uchar** buffer) const
 {
 	bool ret = true;
-	//p2List_item<MapLayer*>* item;
-	//item = data.layers.start;
+	p2List_item<MapLayer*>* item;
+	item = data.layers.start;
 
-	//for (item = data.layers.start; item != NULL; item = item->next)
-	//{
-	//	MapLayer* layer = item->data;
+	for (item = data.layers.start; item != NULL; item = item->next)
+	{
+		MapLayer* layer = item->data;
 
-	//	if (layer->properties.Get("Navigation", 0) == 0)
-	//		continue;
+		if (layer->properties.Get("Navigation", 0) == 0)
+			continue;
 
-	//	uchar* map = new uchar[layer->width*layer->height];
-	//	memset(map, 1, layer->width*layer->height);
+		uchar* map = new uchar[layer->width*layer->height];
+		memset(map, 1, layer->width*layer->height);
 
-	//	for (int y = 0; y < data.height; ++y)
-	//	{
-	//		for (int x = 0; x < data.width; ++x)
-	//		{
-	//			int i = (y*layer->width) + x;
+		for (int y = 0; y < data.height; ++y)
+		{
+			for (int x = 0; x < data.width; ++x)
+			{
+				int i = (y*layer->width) + x;
 
-	//			int tile_id = layer->Get(x, y);
-	//			TileSet* tileset = (tile_id > 0) ? GetTilesetFromTileId(tile_id) : NULL;
+				int tile_id = layer->Get(x, y);
+				TileSet* tileset = (tile_id > 0) ? GetTilesetFromTileId(tile_id) : NULL;
 
-	//			if (tileset != NULL)
-	//			{
-	//				map[i] = (tile_id - tileset->firstgid) > 0 ? 0 : 1;
-	//				/*TileType* ts = tileset->GetTileType(tile_id);
-	//				if(ts != NULL)
-	//				{
-	//				map[i] = ts->properties.Get("walkable", 1);
-	//				}*/
-	//			}
-	//		}
-	//	}
+				if (tileset != NULL)
+				{
+					map[i] = (tile_id - tileset->firstgid) > 0 ? 0 : 1;
+					/*TileType* ts = tileset->GetTileType(tile_id);
+					if(ts != NULL)
+					{
+					map[i] = ts->properties.Get("walkable", 1);
+					}*/
+				}
+			}
+		}
 
-	//	*buffer = map;
-	//	width = data.width;
-	//	height = data.height;
-	//	ret = true;
+		*buffer = map;
+		width = data.width;
+		height = data.height;
+		ret = true;
 
-	//	break;
-	//}
+		break;
+	}
 
 	return ret;
+}
+
+int Properties::Get(const char * value, int default_value) const
+{
+	p2List_item<Property*>* item = list.start;
+
+	while (item)
+	{
+		if (item->data->name == value)
+			return item->data->value;
+		item = item->next;
+	}
+
+	return default_value;
 }
