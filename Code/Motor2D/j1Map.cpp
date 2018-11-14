@@ -568,20 +568,20 @@ bool j1Map::LoadCollision(pugi::xml_node& node, Object_Layer* object_layer)
 			item_object = App->collision->AddCollider(rect, COLLIDER_WALL, App->map);
 		
 
-		if (object_layer->name == "Death")
+		if (nameObje == "DEATH")
 		{
 			item_object = App->collision->AddCollider(rect, COLLIDER_ENEMY, App->map);
 		}
 
-		if (object_layer->name == "RestartLevel")
+		if (nameObje == "RESTART")
 		{
 			item_object = App->collision->AddCollider(rect, COLLIDER_RESPAWN, App->map);
 		}
-		if (object_layer->name == "Special")
+		if (nameObje == "SPECIAL")
 		{
 			item_object = App->collision->AddCollider(rect, COLLIDER_SPECIAL, App->map);
 		}
-		if (object_layer->name == "Ice")
+		if (nameObje == "ICE")
 		{
 			item_object = App->collision->AddCollider(rect, COLLIDER_ICE, App->map);
 		}
