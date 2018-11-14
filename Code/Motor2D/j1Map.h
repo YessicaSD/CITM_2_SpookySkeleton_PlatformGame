@@ -47,7 +47,7 @@ struct Properties
 	struct Property
 	{
 		p2SString name;
-		int value;
+		float value;
 	};
 
 	~Properties()
@@ -64,7 +64,7 @@ struct Properties
 		list.clear();
 	}
 
-	int Get(const char* name, int default_value = 0) const;
+	float Get(const char* name, int default_value = 0) const;
 
 	p2List<Property*>	list;
 };
@@ -186,7 +186,7 @@ public:
 	bool Load(const char* path);
 	iPoint MapToWorld(int x, int y) const;
 	iPoint WorldToMap(int x, int y) const;
-	void OnCollision(Collider*, Collider*);
+	
 
 	fPoint returnPlayerPos()const
 	{

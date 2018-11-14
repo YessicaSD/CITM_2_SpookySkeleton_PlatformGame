@@ -189,8 +189,9 @@ bool j1Map::Draw(float dt)
 					
 						TileSet* tileset = GetTilesetFromTileId(id);
 						SDL_Rect section = tileset->GetTileRect(id);
-						App->render->Blit(tileset->texture, mapPoint.x, mapPoint.y, &section, SDL_FLIP_NONE, item_layer->data->parallax_velocity);
-				
+						float speed = item_layer->data->properties.Get("parallax",0);
+						App->render->Blit(tileset->texture, mapPoint.x, mapPoint.y, &section, SDL_FLIP_NONE, speed);
+						
 				}
 
 			}
@@ -670,7 +671,7 @@ void j1Map::LoadLayerProperties(pugi::xml_node& node, Properties& properties)
 			Properties::Property* p = new Properties::Property();
 
 			p->name = prop.attribute("name").as_string();
-			p->value = prop.attribute("value").as_int();
+			p->value = prop.attribute("value").as_float();
 
 			properties.list.add(p);
 		}
@@ -679,8 +680,7 @@ void j1Map::LoadLayerProperties(pugi::xml_node& node, Properties& properties)
 	
 
 }
-void j1Map::OnCollision(Collider* c1, Collider* c2)
-{}
+
 
 bool j1Map::Load(pugi::xml_node&nodeMap)
 {
@@ -746,7 +746,7 @@ bool j1Map::CreateWalkabilityMap(int& width, int& height, uchar** buffer) const
 	return ret;
 }
 
-int Properties::Get(const char * value, int default_value) const
+float Properties::Get(const char * value, int default_value) const
 {
 	p2List_item<Property*>* item = list.start;
 
