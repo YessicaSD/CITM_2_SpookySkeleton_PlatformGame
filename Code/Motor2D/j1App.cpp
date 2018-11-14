@@ -175,8 +175,8 @@ void j1App::PrepareUpdate()
 {
 	frame_count++;
 
-	if (framerate != 0.0F)
-		dt = (1000.0F / framerate) / 1000.0F;
+	if (avg_fps != 0.0F)
+		dt = (1000.0F / avg_fps) / 1000.0F;
 
 	frame_time.Start();
 }
@@ -184,6 +184,10 @@ void j1App::PrepareUpdate()
 // ---------------------------------------------
 void j1App::FinishUpdate()
 {
+	if (App->input->GetKey(SDL_SCANCODE_F11))
+	{
+		framerate = 30 ? 60 : 30;
+	}
 	if(want_to_save == true)
 		SavegameNow();
 
