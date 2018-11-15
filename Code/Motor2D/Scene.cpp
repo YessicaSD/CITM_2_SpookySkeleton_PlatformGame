@@ -34,7 +34,7 @@ bool j1Scene::Awake()
 bool j1Scene::Start()
 {
 	App->entity->AddEntity(PLAYER, { 60,384 });
-	
+	App->entity->AddEntity(ENEMI_ZOMBIE, { 100,384 });
 	/*
 	if (App->map->Load("iso_walk.tmx") == true)
 	{

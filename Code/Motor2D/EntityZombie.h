@@ -15,25 +15,13 @@ enum class State_zomby :uint
 class EntityZombie : public j1Entity
 {
 private:
-	Animation animation[State_zomby::STATE_MAX];
-public:
-	p2SString String_docXml;
-	SDL_Texture* entity_texture = nullptr;
-	pugi::xml_node entity_node;
-	pugi::xml_document	entity_file;
-
-	/*Animation LoadAnimations(p2SString name);*/
-	
-	Animation EntityIdle;
-	Animation EntityWalk;
-	Animation EntityDeath;
-	Animation EntityAttack;
-
-
+	State_zomby state= State_zomby::STATE_IDLE;
+	Animation animation[(uint)State_zomby::STATE_MAX];
+	bool right=true;
 
 public:
 	EntityZombie(fPoint pos, Animation* anim, SDL_Texture* tex);
-	bool Draw(float dt);
+	void Draw() override;
 	
 	bool PreUpdate(float dt);
 	void Move();

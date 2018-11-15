@@ -92,7 +92,7 @@
 
     <zombie Start_pos_x="500" Start_pos_y="200">
       <collider w="10" h="18"/>
-      <animation name="idle">
+      <animation name="idle" anim_speed="10.0">
           <frame x="0" y="0" width="30" height="26"/>
           <frame x="31" y="0" width="30" height="26"/>
           <frame x="62" y="0" width="29" height="26"/>
@@ -113,7 +113,7 @@
           <frame x="515" y="0" width="30" height="26"/>
        </animation>
 
-        <animation name="walk">
+        <animation name="walk" anim_speed="1.0">
           <frame x="0" y="32" width="31" height="25"/>
           <frame x="32" y="32" width="34" height="25"/>
           <frame x="67" y="32" width="35" height="25"/>
@@ -136,7 +136,7 @@
           <frame x="620" y="32" width="34" height="25"/>
         </animation>
 
-        <animation name="death">
+        <animation name="death" anim_speed="1.0">
           <frame x="0" y="65" width="30" height="26"/>
           <frame x="73" y="65" width="26" height="26"/>
           <frame x="146" y="65" width="20" height="26"/>
@@ -152,7 +152,7 @@
           <frame x="867" y="65" width="42" height="5"/>
         </animation>
 
-        <animation name="attack">
+        <animation name="attack" anim_speed="1.0">
           <frame x="0" y="110" width="30" height="26"/>
           <frame x="56" y="110" width="30" height="26"/>
           <frame x="116" y="101" width="29" height="35"/>
