@@ -28,7 +28,6 @@ struct Scenes
 struct Object_Layer
 {
 	p2SString			name;
-	int					special_coll;
 	p2List<Collider*>		col;
 	~Object_Layer()
 	{
@@ -64,7 +63,7 @@ struct Properties
 		list.clear();
 	}
 
-	float Get(const char* name, int default_value = 0) const;
+	float Get(const char* name, float default_value = 0) const;
 
 	p2List<Property*>	list;
 };
@@ -144,7 +143,8 @@ struct MapData
 	p2List<MapLayer*>		layers;
 	p2List<Object_Layer*>   collition_layers;
 	p2List<Scenes*>			scenes_List;
-	SceneProp SceneProperties;
+	Properties	properties;
+	/*SceneProp SceneProperties;*/
 };
 
 // ----------------------------------------------------
@@ -154,13 +154,13 @@ private:
 	p2List_item<Scenes*>* atualSceneItem=nullptr;
 public:
 
-	MapData data;
+	MapData level;
 	uint SavedLevel = 1;
 	uint num_thismaplvl = 1;
 
 	inline uint Get(int x, int y) const
 	{
-		return  (y * data.width + x);
+		return  (y * level.width + x);
 	}
 
 	j1Map();
@@ -174,8 +174,7 @@ public:
 	bool PreUpdate(float dt) override;
 	bool Update(float dt) override;
 	bool PostUpdate() override;
-	// Called each loop iteration
-	bool Draw(float dt) override;
+	
 
 	// Called before quitting
 	bool CleanUp() override;
@@ -187,25 +186,15 @@ public:
 	iPoint MapToWorld(int x, int y) const;
 	iPoint WorldToMap(int x, int y) const;
 	
-
-	fPoint returnPlayerPos()const
-	{
-		return data.SceneProperties.PlayerPos;
-	}
-	fPoint returnCameraPos()const
-	{
-		return data.SceneProperties.CameraPos;
-	}
-
 	p2List_item<Scenes*>* activateScene(uint lvlnum)
 	{
 		p2List_item<Scenes*>* item_scene;
 		
-		for(item_scene= data.scenes_List.start; item_scene; item_scene= item_scene->next   )
+		for(item_scene= level.scenes_List.start; item_scene; item_scene= item_scene->next   )
 			{
 			item_scene->data->active = false;
 		}
-		for (item_scene = data.scenes_List.start; item_scene->data->levelnum!=lvlnum && item_scene !=nullptr ; item_scene = item_scene->next)
+		for (item_scene = level.scenes_List.start; item_scene->data->levelnum!=lvlnum && item_scene !=nullptr ; item_scene = item_scene->next)
 		{	}
 		item_scene->data->active = true;
 		atualSceneItem = item_scene;
@@ -229,7 +218,7 @@ private:
 	bool LoadLayer(pugi::xml_node& node, MapLayer* layer);
 	bool LoadCollision(pugi::xml_node& coll_node, Object_Layer* collision);
 	TileSet* GetTilesetFromTileId(int id) const;
-	void LoadProperties(pugi::xml_node& node);
+	/*void LoadProperties(pugi::xml_node& node);*/
 	void LoadLayerProperties(pugi::xml_node& node, Properties& properties);
 
 	SDL_Texture* debug_tex;

@@ -14,22 +14,21 @@ struct Collider;
 class j1Entity 
 {
 protected: 
-	Animation * animation = nullptr;
-	Collider* collider = nullptr;
-
+	Animation* animation=nullptr;
+	SDL_Texture * texture = nullptr;
+	float dt;
 public:
 	fPoint position = {0.0F,0.0F};
-	iPoint speed = { 0.0F,0.0F };
-	SDL_Texture * texture = nullptr;
-
+	fPoint speed = { 0.0F,0.0F };
+	Collider* collider = nullptr;
 public:
-	j1Entity(fPoint position);
+	j1Entity(fPoint position, Animation* anim, SDL_Texture * tex);
 	virtual ~j1Entity();
 	
 
 	virtual bool PreUpdate(float dt);
-	virtual void Move() {};
-	virtual void Draw(SDL_Texture* sprites);
+	virtual void Move(float dt) {};
+	virtual void Draw();
 	virtual void OnCollision(Collider* collider);
 	
 };

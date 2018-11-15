@@ -13,7 +13,7 @@ public:
 
 	Animation LoadAnimations(p2SString name);
 
-	EntityBat(fPoint pos);
+	EntityBat(fPoint pos,Animation* anim, SDL_Texture* tex);
 	
 	Animation Anim;
 	

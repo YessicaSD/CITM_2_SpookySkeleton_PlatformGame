@@ -41,7 +41,7 @@ bool j1Map::Awake(pugi::xml_node& config)
 		
 		scene->level_tmx = scene_node.attribute("tmx").as_string();
 		scene->musicPath = scene_node.attribute("music").as_string();
-		data.scenes_List.add(scene);
+		level.scenes_List.add(scene);
 	}
 	atualSceneItem = activateScene(1);
 	return ret;
@@ -51,16 +51,12 @@ bool j1Map::Start()
 {
 	App->map->Load(atualSceneItem->data->level_tmx.GetString());
 	App->audio->PlayMusic(atualSceneItem->data->musicPath.GetString());
-	App->player1->Enable();
-	App->entity->Enable();
 	
-	App->entity->AddEnemy(ENEMY_BAT, {60,180});
-
 	int w, h;
 	uchar* data = NULL;
 	if (App->map->CreateWalkabilityMap(w, h, &data))
 		App->pathfinding->SetMap(w, h, data);
-
+	
 	RELEASE_ARRAY(data);
 
 	debug_tex = App->tex->Load("textures/pathfinding.png");
@@ -131,9 +127,9 @@ bool j1Map::Update(float dt)
 		
 	}
 	
-	if (App->player1->flPos.x >= (data.width*data.tile_width)-2*data.tile_width)
+	/*if (App->player1->flPos.x >= (level.width*level.tile_width)-2*level.tile_width)
 	{
-		for (p2List_item<Scenes*>* item_scene = data.scenes_List.start;item_scene;item_scene=item_scene->next)
+		for (p2List_item<Scenes*>* item_scene = level.scenes_List.start;item_scene;item_scene=item_scene->next)
 		{
 			if (item_scene->data->levelnum == 1)
 			{
@@ -144,7 +140,7 @@ bool j1Map::Update(float dt)
 				App->fade->FadeToBlack(1);
 			}
 		}
-	}
+	}*/
 
 	return true;
 }
@@ -153,45 +149,26 @@ bool j1Map::PostUpdate()
 {
 	bool ret = true;
 
-	if (App->input->GetKey(SDL_SCANCODE_F5) == KEY_DOWN)
-	{
-		App->SaveGame();
-	}
-	if (App->input->GetKey(SDL_SCANCODE_F6) == KEY_DOWN)
-	{
-		App->LoadGame();
-	}
-	if (App->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN)
-		ret = false;
-
-
-
-	return ret;
-}
-
-bool j1Map::Draw(float dt)
-{
 	if (map_loaded == false)
 		return false;
 
-
-	for (p2List_item<MapLayer*>* item_layer = data.layers.start; item_layer; item_layer = item_layer->next)
+	for (p2List_item<MapLayer*>* item_layer = level.layers.start; item_layer; item_layer = item_layer->next)
 	{
 
-		for (uint row = 0; row<data.height; row++)
+		for (uint row = 0; row<level.height; row++)
 		{
-			for (uint column = 0; column<data.width; column++)
+			for (uint column = 0; column<level.width; column++)
 			{
 				uint id = item_layer->data->dataMapLayer[Get(column, row)];
-				if (id > 0 )
+				if (id > 0)
 				{
 					iPoint mapPoint = MapToWorld(column, row);
-					
-						TileSet* tileset = GetTilesetFromTileId(id);
-						SDL_Rect section = tileset->GetTileRect(id);
-						float speed = item_layer->data->properties.Get("parallax",0);
-						App->render->Blit(tileset->texture, mapPoint.x, mapPoint.y, &section, SDL_FLIP_NONE, speed);
-						
+
+					TileSet* tileset = GetTilesetFromTileId(id);
+					SDL_Rect section = tileset->GetTileRect(id);
+					float speed = item_layer->data->properties.Get("parallax", 0);
+					App->render->Blit(tileset->texture, mapPoint.x, mapPoint.y, &section, SDL_FLIP_NONE, speed);
+
 				}
 
 			}
@@ -216,42 +193,30 @@ bool j1Map::Draw(float dt)
 		App->render->Blit(debug_tex, pos.x, pos.y);
 	}
 
-	return true;
+	if (App->input->GetKey(SDL_SCANCODE_F5) == KEY_DOWN)
+	{
+		App->SaveGame();
+	}
+	if (App->input->GetKey(SDL_SCANCODE_F6) == KEY_DOWN)
+	{
+		App->LoadGame();
+	}
+	if (App->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN)
+		ret = false;
+
+
+
+	return ret;
 }
+
+
 
 TileSet* j1Map::GetTilesetFromTileId(int id) const
 {
 	p2List_item<TileSet*>* actualTile;
-	for (actualTile = data.tilesets.end; id < actualTile->data->firstgid; actualTile = actualTile->prev) {}
+	for (actualTile = level.tilesets.end; id < actualTile->data->firstgid; actualTile = actualTile->prev) {}
 
 	return actualTile->data;
-}
-
-void j1Map::LoadProperties(pugi::xml_node & node)
-{
-	p2SString nameProperty;
-	for (pugi::xml_node& nodeProperties = node; node; nodeProperties = node.next_sibling("property"))
-	{
-		nameProperty = nodeProperties.attribute("name").as_string();
-		if (nameProperty == "PlayerPos_x")
-			data.SceneProperties.PlayerPos.x = node.attribute("value").as_float();
-
-		if (nameProperty == "PlayerPos_y")
-			data.SceneProperties.PlayerPos.y = node.attribute("value").as_float();
-
-
-		if (nameProperty == "Distant_to_camera_from_player_x")
-		{
-			data.SceneProperties.CameraPos.x = node.attribute("value").as_float();
-
-
-		}
-		if (nameProperty == "Distant_to_camera_from_player_y")
-		{
-			data.SceneProperties.CameraPos.y = node.attribute("value").as_float();
-
-		}
-	}
 }
 
 
@@ -259,15 +224,15 @@ inline iPoint j1Map::MapToWorld(int x, int y) const
 {
 	iPoint ret;
 
-	if (data.type == MAPTYPE_ORTHOGONAL)
+	if (level.type == MAPTYPE_ORTHOGONAL)
 	{
-		ret.x = x * data.tile_width;
-		ret.y = y * data.tile_height;
+		ret.x = x * level.tile_width;
+		ret.y = y * level.tile_height;
 	}
-	else if (data.type == MAPTYPE_ISOMETRIC)
+	else if (level.type == MAPTYPE_ISOMETRIC)
 	{
-		ret.x = (x - y) * (data.tile_width * 0.5F);
-		ret.y = (x + y) * (data.tile_height * 0.5F);
+		ret.x = (x - y) * (level.tile_width * 0.5F);
+		ret.y = (x + y) * (level.tile_height * 0.5F);
 	}
 	else
 	{
@@ -282,16 +247,16 @@ iPoint j1Map::WorldToMap(int x, int y) const
 {
 	iPoint ret(0, 0);
 
-	if (data.type == MAPTYPE_ORTHOGONAL)
+	if (level.type == MAPTYPE_ORTHOGONAL)
 	{
-		ret.x = x / data.tile_width;
-		ret.y = y / data.tile_height;
+		ret.x = x / level.tile_width;
+		ret.y = y / level.tile_height;
 	}
-	else if (data.type == MAPTYPE_ISOMETRIC)
+	else if (level.type == MAPTYPE_ISOMETRIC)
 	{
 
-		float half_width = data.tile_width * 0.5F;
-		float half_height = data.tile_height * 0.5F;
+		float half_width = level.tile_width * 0.5F;
+		float half_height = level.tile_height * 0.5F;
 		ret.x = int((x / half_width + y / half_height) / 2) - 1;
 		ret.y = int((y / half_height - (x / half_width)) / 2);
 	}
@@ -321,25 +286,24 @@ bool j1Map::CleanUp()
 	LOG("Unloading map");
 
 	// Remove all tilesets----------------------------------------------------------------------------------
-	App->player1->Disable();
 	App->entity->Disable();
-	for (p2List_item<TileSet*>* item = data.tilesets.end; item; item = item->prev)
+	for (p2List_item<TileSet*>* item = level.tilesets.end; item; item = item->prev)
 	{
 		
 		RELEASE(item->data);
 	}
-	data.tilesets.clear();
+	level.tilesets.clear();
 
 
 	// Removed all layers----------------------------------------------------------------------------------
-	for (p2List_item<MapLayer*>* Layer_item = data.layers.end; Layer_item; Layer_item = Layer_item->prev)
+	for (p2List_item<MapLayer*>* Layer_item = level.layers.end; Layer_item; Layer_item = Layer_item->prev)
 	{
 		RELEASE(Layer_item->data);
 	}
-	data.layers.clear();
+	level.layers.clear();
 
 	//Removed Col------------------------------------------------------------------------------------------
-	for (p2List_item<Object_Layer*>* Col_layer = data.collition_layers.end; Col_layer; Col_layer = Col_layer->prev)
+	for (p2List_item<Object_Layer*>* Col_layer = level.collition_layers.end; Col_layer; Col_layer = Col_layer->prev)
 	{
 		
 		for (p2List_item<Collider*>* Col_item = Col_layer->data->col.end;   Col_item;  Col_item = Col_item->prev)
@@ -353,7 +317,7 @@ bool j1Map::CleanUp()
 		RELEASE(Col_layer->data);
 	}
 
-	data.collition_layers.clear();
+	level.collition_layers.clear();
 
 	// Clean up the pugui tree
 	map_file.reset();
@@ -397,7 +361,7 @@ bool j1Map::Load(const char* file_name)
 			ret = LoadTilesetImage(tileset, set);
 		}
 
-		data.tilesets.add(set);
+		level.tilesets.add(set);
 	}
 
 	// Load layer info ----------------------------------------------
@@ -407,7 +371,7 @@ bool j1Map::Load(const char* file_name)
 
 		ret = LoadLayer(layer, set);
 
-		data.layers.add(set);
+		level.layers.add(set);
 
 	}
 
@@ -415,24 +379,21 @@ bool j1Map::Load(const char* file_name)
 	for (pugi::xml_node collision = map_file.child("map").child("objectgroup"); collision && ret; collision = collision.next_sibling("objectgroup"))
 	{
 		Object_Layer*	coll = new Object_Layer();
-		ret = LoadCollision(collision, coll);
-		if (ret == true)
-		{
-			data.collition_layers.add(coll);
-			
-		}
+		LoadCollision(collision, coll);
+		level.collition_layers.add(coll);
+
 	}
 
-	// Load properties  -----------------------------------------
-	LoadProperties(map_file.child("map").child("properties").child("property"));
+	//// Load properties  -----------------------------------------
+	//LoadProperties(map_file.child("map").child("properties").child("property"));
 	
 	if (ret == true)
 	{
 		LOG("Successfully parsed map XML file: %s", file_name);
-		LOG("width: %d height: %d", data.width, data.height);
-		LOG("tile_width: %d tile_height: %d", data.tile_width, data.tile_height);
+		LOG("width: %d height: %d", level.width, level.height);
+		LOG("tile_width: %d tile_height: %d", level.tile_width, level.tile_height);
 
-		p2List_item<TileSet*>* item = data.tilesets.start;
+		p2List_item<TileSet*>* item = level.tilesets.start;
 		while (item != NULL)
 		{
 			TileSet* s = item->data;
@@ -443,7 +404,7 @@ bool j1Map::Load(const char* file_name)
 			item = item->next;
 		}
 
-		p2List_item<MapLayer*>* item_layer = data.layers.start;
+		p2List_item<MapLayer*>* item_layer = level.layers.start;
 		while (item_layer != NULL)
 		{
 			MapLayer* l = item_layer->data;
@@ -453,7 +414,7 @@ bool j1Map::Load(const char* file_name)
 			item_layer = item_layer->next;
 		}
 		
-		p2List_item<Object_Layer*>* item_coll = data.collition_layers.start;
+		p2List_item<Object_Layer*>* item_coll = level.collition_layers.start;
 		while (item_coll != NULL)
 		{
 	
@@ -487,47 +448,44 @@ bool j1Map::LoadMap()
 	}
 	else
 	{
-		data.width = map.attribute("width").as_uint();
-		data.height = map.attribute("height").as_uint();
-		data.tile_width = map.attribute("tilewidth").as_uint();
-		data.tile_height = map.attribute("tileheight").as_uint();
-		p2SString nameProperty;
-		for (pugi::xml_node nodeProperties = map.child("properties").child("property"); nodeProperties; nodeProperties = nodeProperties.next_sibling("property"))
+		level.width = map.attribute("width").as_uint();
+		level.height = map.attribute("height").as_uint();
+		level.tile_width = map.attribute("tilewidth").as_uint();
+		level.tile_height = map.attribute("tileheight").as_uint();
+
+		bool ret = false;
+
+		pugi::xml_node data = map.child("properties");
+		if (data != NULL)
 		{
-			nameProperty = nodeProperties.attribute("name").as_string();
-
-			//Load players's initial position
-			if (nameProperty == "PlayerPos_x")
+			pugi::xml_node prop;
+			for (prop = data.child("property"); prop; prop = prop.next_sibling("property"))
 			{
-				App->player1->flPos.x = nodeProperties.attribute("value").as_float();
-
+				Properties::Property* p = new Properties::Property();
+				p->name = prop.attribute("name").as_string();
+				p->value = prop.attribute("value").as_float();
+				level.properties.list.add(p);
 			}
-			if (nameProperty == "PlayerPos_y")
-			{
-				App->player1->flPos.y = nodeProperties.attribute("value").as_float();
-
-			}
-
 		}
-		
+
 	
 		p2SString orientation(map.attribute("orientation").as_string());
-
 		if (orientation == "orthogonal")
 		{
-			data.type = MAPTYPE_ORTHOGONAL;
+			level.type = MAPTYPE_ORTHOGONAL;
+			
 		}
 		else if (orientation == "isometric")
 		{
-			data.type = MAPTYPE_ISOMETRIC;
+			level.type = MAPTYPE_ISOMETRIC;
 		}
 		else if (orientation == "staggered")
 		{
-			data.type = MAPTYPE_STAGGERED;
+			level.type = MAPTYPE_STAGGERED;
 		}
 		else
 		{
-			data.type = MAPTYPE_UNKNOWN;
+			level.type = MAPTYPE_UNKNOWN;
 		}
 	}
 
@@ -586,7 +544,6 @@ bool j1Map::LoadCollision(pugi::xml_node& node, Object_Layer* object_layer)
 	SDL_Rect	rect;
 
 	object_layer->name = node.attribute("name").as_string();
-	object_layer->special_coll = node.attribute("gravity_change").as_int();
 	LOG("%s", object_layer->name.GetString());
 
 	for (pugi::xml_node object_node = node.child("object"); object_node != NULL; object_node = object_node.next_sibling("object"))
@@ -630,8 +587,6 @@ bool j1Map::LoadLayer(pugi::xml_node& node, MapLayer* layer)
 	layer->width = node.attribute("width").as_uint();
 	layer->height = node.attribute("height").as_uint();
 	LoadLayerProperties(node,layer->properties );
-
-	layer->parallax_velocity = node.child("properties").child("property").attribute("value").as_float();
 
 	pugi::xml_node layer_data = node.child("data");
 	if (layer_data == NULL)
@@ -702,9 +657,9 @@ bool j1Map::CreateWalkabilityMap(int& width, int& height, uchar** buffer) const
 {
 	bool ret = true;
 	p2List_item<MapLayer*>* item;
-	item = data.layers.start;
+	item = level.layers.start;
 
-	for (item = data.layers.start; item != NULL; item = item->next)
+	for (item = level.layers.start; item != NULL; item = item->next)
 	{
 		MapLayer* layer = item->data;
 
@@ -714,9 +669,9 @@ bool j1Map::CreateWalkabilityMap(int& width, int& height, uchar** buffer) const
 		uchar* map = new uchar[layer->width*layer->height];
 		memset(map, 1, layer->width*layer->height);
 
-		for (int y = 0; y < data.height; ++y)
+		for (int y = 0; y < level.height; ++y)
 		{
-			for (int x = 0; x < data.width; ++x)
+			for (int x = 0; x < level.width; ++x)
 			{
 				int i = (y*layer->width) + x;
 
@@ -736,8 +691,8 @@ bool j1Map::CreateWalkabilityMap(int& width, int& height, uchar** buffer) const
 		}
 
 		*buffer = map;
-		width = data.width;
-		height = data.height;
+		width = level.width;
+		height = level.height;
 		ret = true;
 
 		break;
@@ -746,7 +701,7 @@ bool j1Map::CreateWalkabilityMap(int& width, int& height, uchar** buffer) const
 	return ret;
 }
 
-float Properties::Get(const char * value, int default_value) const
+float Properties::Get(const char * value, float default_value) const
 {
 	p2List_item<Property*>* item = list.start;
 

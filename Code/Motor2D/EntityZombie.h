@@ -21,7 +21,7 @@ public:
 
 
 public:
-	EntityZombie(fPoint pos);
+	EntityZombie(fPoint pos, Animation* anim, SDL_Texture* tex);
 	bool Draw(float dt);
 	
 	bool PreUpdate(float dt);
