@@ -73,6 +73,7 @@ bool j1Scene::PostUpdate()
 	if (loadedLeve)
 	{
 		App->entity->AddEntity(PLAYER, { 60,384 });
+		App->entity->AddEntity(ENEMY_BAT, { 300,150 });
 		loadedLeve = false;
 	}
 		

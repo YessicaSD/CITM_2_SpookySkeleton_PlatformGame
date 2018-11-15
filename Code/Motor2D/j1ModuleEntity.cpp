@@ -55,6 +55,7 @@ bool ModuleEnemies::Start()
 		return ret = false;
 	}
 	LoadAnimations(enemiesNodeDoc.child("player1").child("animation"));
+	LoadAnimations(enemiesNodeDoc.child("bat").child("animation"));
 	return ret;
 }
 bool ModuleEnemies::PreUpdate(float dt)
