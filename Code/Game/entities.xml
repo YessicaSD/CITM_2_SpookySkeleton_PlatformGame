@@ -78,6 +78,7 @@
       <frame x="31" y="128" width="20" height="31"/>
     </animation>
   </player1>
+  
   <EnemiesImage source="textures/enemies.png"/>
 
     <bat Start_pos_x="300" Start_pos_y="200"  >
@@ -87,6 +88,13 @@
           <frame x="29" y="143" width="25" height="30"/>
           <frame x="55" y="143" width="27" height="25"/>
       </animation>
+      <collider w="25" h="25"/>
+         <animation name="idle" anim_speed="10.0">
+          <frame x="0" y="143" width="28" height="27"/>
+          <frame x="29" y="143" width="25" height="30"/>
+          <frame x="55" y="143" width="27" height="25"/>
+         </animation>
+
     </bat>
 
 

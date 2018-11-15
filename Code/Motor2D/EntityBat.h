@@ -7,13 +7,19 @@
 struct SDL_Texture;
 struct Collider;
 
+enum class BatState : uint
+{
+	STATE_IDLE,
+	STATE_MAX
+};
+
 class EntityBat : public j1Entity
 {
 private:
-
-
-	Animation anim_bat;
-
+	bool right = true;
+	iPoint rectMesure = { 0,0 };
+	Animation anim_bat[(uint)BatState::STATE_MAX];
+	BatState state = BatState::STATE_IDLE;
 
 public:
 	EntityBat(fPoint pos, Animation* anim, SDL_Texture* tex);

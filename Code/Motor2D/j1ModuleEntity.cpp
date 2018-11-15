@@ -27,7 +27,9 @@ ModuleEnemies::~ModuleEnemies()
 bool ModuleEnemies::Awake(pugi::xml_node &node)
 {
 	bool ret = true;
-	pugi::xml_parse_result result = enemiesFile.load_file(node.child_value());
+	const char* path = node.child_value();
+	LOG("%s", node.child_value());
+	pugi::xml_parse_result result = enemiesFile.load_file(path);
 	if (result == NULL)
 	{
 		LOG("ERROR ENTITIES LOADING FILE %s", result.description());
@@ -54,9 +56,11 @@ bool ModuleEnemies::Start()
 		LOG("ERROR LOADING TEXTURE ENEMIES");
 		return ret = false;
 	}
+
 	LoadAnimations(entitiesNodeDoc.child("player1").child("animation"));
 	LoadAnimations(entitiesNodeDoc.child("bat").child("animation"));
 	LoadAnimations(entitiesNodeDoc.child("zombie").child("animation"));
+
 	return ret;
 }
 bool ModuleEnemies::PreUpdate(float dt)

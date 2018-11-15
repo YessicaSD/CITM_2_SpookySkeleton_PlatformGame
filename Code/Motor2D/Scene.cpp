@@ -35,6 +35,7 @@ bool j1Scene::Start()
 {
 	App->entity->AddEntity(PLAYER, { 60,384 });
 	App->entity->AddEntity(ENEMI_ZOMBIE, { 100,384 });
+	App->entity->AddEntity(ENEMY_BAT, { 300,150 });
 	/*
 	if (App->map->Load("iso_walk.tmx") == true)
 	{
@@ -71,7 +72,7 @@ bool j1Scene::PostUpdate()
 
 	if (App->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN)
 		ret = false;
-	
+
 	return ret;
 }
 
