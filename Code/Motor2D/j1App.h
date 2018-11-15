@@ -14,7 +14,6 @@ class j1Render;
 class j1Textures;
 class j1Audio;
 class j1Scene;
-class j1Scene2;
 class j1Map;
 class j1Player;
 class j1Collision;
@@ -95,7 +94,7 @@ public:
 	j1Collision*		collision = nullptr;
 	ModuleFadeToBlack*	fade = nullptr;
 	j1PathFinding*		pathfinding = nullptr;
-
+	j1Scene* scene = nullptr;
 	float				dt = 0.0F;
 private:
 

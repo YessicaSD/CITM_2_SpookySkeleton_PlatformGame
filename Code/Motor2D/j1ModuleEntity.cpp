@@ -9,13 +9,13 @@
 #include "j1Map.h"
 #include "j1Pathfinding.h"
 
-
+#include "Player.h"
 #include "EntityBat.h"
 #include "EntityZombie.h"
 
 ModuleEnemies::ModuleEnemies()
 {
-	name.create("enemies");
+	name.create("entities");
 }
 
 ModuleEnemies::~ModuleEnemies()
@@ -24,82 +24,104 @@ ModuleEnemies::~ModuleEnemies()
 }
 
 
+bool ModuleEnemies::Awake(pugi::xml_node &node)
+{
+	bool ret = true;
+	pugi::xml_parse_result result = enemiesFile.load_file(node.child_value());
+	if (result == NULL)
+	{
+		LOG("ERROR ENTITIES LOADING FILE %s", result.description());
+		return ret = false;
+	}
+
+	enemiesNodeDoc = enemiesFile.child("entities");
+	
+	return true;
+}
+bool ModuleEnemies::Start()
+{
+	bool ret = true;
+	const char*	path = enemiesNodeDoc.child("player1").child("image").attribute("source").as_string();
+
+	if ((playerTexture = App->tex->Load(path))==nullptr)
+	{
+		LOG("ERROR LOADING TEXTURE PLAYER");
+		return ret = false;
+	}
+	path = enemiesNodeDoc.child("enemies").child("image").attribute("source").as_string();
+	if ((entitiesTexture = App->tex->Load(path)) == nullptr)
+	{
+		LOG("ERROR LOADING TEXTURE ENEMIES");
+		return ret = false;
+	}
+	LoadAnimations(enemiesNodeDoc.child("player1").child("animation"));
+	return ret;
+}
 bool ModuleEnemies::PreUpdate(float dt)
 {
-	/*for (uint i = 0; i < MAX_ENEMIES; ++i)
+	this->dt = dt;
+	p2List_item<j1Entity*>* actualEntity=nullptr;
+	for (actualEntity = list_Entities.start; actualEntity; actualEntity = actualEntity->next)
 	{
-		if (queue[i].type != ENEMY_TYPES::NO_TYPE &&
-				queue[i].x * App->win->scale < App->render->camera.x + (App->render->camera.w * App->win->scale) + 50)
-				{
-					SpawnEnemy(queue[i]);
-					queue[i].type = ENEMY_TYPES::NO_TYPE;
-					LOG("Spawning enemy at %d", queue[i].x * App->win->scale);
-				}
-		
-	}*/
-
+		actualEntity->data->PreUpdate(dt);
+	}
 	return true;
 }
 
 bool ModuleEnemies::Update(float dt)
 {
-	/*for (uint i = 0; i < MAX_ENEMIES; ++i)
-		if (enemies[i] != nullptr) enemies[i]->Move();
-			
-	for (uint i = 0; i < MAX_ENEMIES; ++i)
-		if (enemies[i] != nullptr) enemies[i]->Draw(sprites);*/
-
+	p2List_item<j1Entity*>* actualEntity = nullptr;
+	for (actualEntity = list_Entities.start; actualEntity; actualEntity = actualEntity->next)
+	{
+		actualEntity->data->Move(dt);
+	}
 	return true;
 }
 
 bool ModuleEnemies::PostUpdate()
 {
+	p2List_item<j1Entity*>* actualEntity = nullptr;
+	for (actualEntity = list_Entities.start; actualEntity; actualEntity = actualEntity->next)
+	{
+		actualEntity->data->Draw();
+	}
 	return true;
 }
 
 bool ModuleEnemies::CleanUp()
 {
 	LOG("Freeing all enemies");
-	/*App->tex->UnLoad(sprites);
-	for (uint i = 0; i < MAX_ENEMIES; ++i)
-	{
-		if (enemies[i] != nullptr)
-		{
-			delete enemies[i];
-			enemies[i] = nullptr;
-		}
-	}*/
+	list_Entities.clear();
 	return true;
 }
 
 void ModuleEnemies::OnCollision(Collider * c1, Collider * c2)
 {
-	/*for (uint i = 0; i < MAX_ENEMIES; ++i)
+	p2List_item<j1Entity*>* actualEntity = nullptr;
+	for (actualEntity = list_Entities.start; actualEntity; actualEntity = actualEntity->next)
 	{
-		if (enemies[i] != nullptr && enemies[i]->GetCollider() == c1)
+		if (actualEntity->data->collider == c1)
 		{
-			enemies[i]->OnCollision(c2);
-			delete enemies[i];
-			enemies[i] = nullptr;
-			break;
+			actualEntity->data->OnCollision(c2);
 		}
-	}*/
+	}
 }
 
-j1Entity* ModuleEnemies::AddEnemy(ENEMY_TYPES type, fPoint pos)
+j1Entity* ModuleEnemies::AddEntity(ENEMY_TYPES type, fPoint pos)
 {
 	j1Entity* newEntity = nullptr;
 	static_assert(UNKNOW >= 3, "code need update");
 	switch (type)
 	{
-	case PLAYER:
-		break;
+		case PLAYER:
+			newEntity = new Player(pos, entitiesAnimation[PLAYER], playerTexture);
+			break;
 		case ENEMY_BAT:
-			newEntity = new EntityBat(pos);
+			newEntity = new EntityBat(pos, entitiesAnimation[ENEMY_BAT], entitiesTexture);
 		break;
 
 		case ENEMI_ZOMBIE:
-			newEntity = new EntityZombie(pos);
+			newEntity = new EntityZombie(pos, entitiesAnimation[ENEMI_ZOMBIE], entitiesTexture);
 		break;
 	}
 		list_Entities.add(newEntity);
@@ -114,8 +136,8 @@ bool ModuleEnemies::DestroyEntity(j1Entity * entity)
 
 	bool found = false;
 
-	p2List_item<j1Entity*>* itemEntity = list_Entities.start;	
-	for (itemEntity; itemEntity != nullptr || found!= false; itemEntity = itemEntity->next)
+	p2List_item<j1Entity*>* itemEntity = nullptr;	
+	for (itemEntity = list_Entities.start; itemEntity != nullptr || found!= false; itemEntity = itemEntity->next)
 	{
 		if (itemEntity->data == entity)
 			found = true;	
@@ -128,27 +150,34 @@ bool ModuleEnemies::DestroyEntity(j1Entity * entity)
 	return false;
 }
 
-
-
-
-void ModuleEnemies::SpawnEnemy(const EnemyInfo & info)
+bool ModuleEnemies::LoadAnimations(pugi::xml_node animNode) 
 {
-	// find room for the new enemy
-	/*uint i = 0;
-	for (; enemies[i] != nullptr && i < MAX_ENEMIES; ++i);
+	bool ret = true;
+	int numAnim = 0;
+	for (pugi::xml_node thisanimNode = animNode; thisanimNode; thisanimNode = thisanimNode.next_sibling("animation"))
+		++numAnim;
 
-	if (i != MAX_ENEMIES)
+	Animation* anim_aux = new Animation[numAnim];
+
+	SDL_Rect frameRect;
+	int animArrayNum = 0;
+	for (pugi::xml_node thisAnimNode = animNode; thisAnimNode; thisAnimNode = thisAnimNode.next_sibling("animation"))
 	{
-		switch (info.type)
+		anim_aux[animArrayNum].speed = thisAnimNode.attribute("anim_speed").as_float();
+		for (pugi::xml_node frame = thisAnimNode.child("frame"); frame; frame=frame.next_sibling("frame"))
 		{
-			case ENEMY_TYPES::ENEMY_BAT:
-			enemies[i] = new EntityBat(info.x, info.y);
-			break;
+			frameRect.x = frame.attribute("x").as_int();
+			frameRect.y = frame.attribute("y").as_int();
+			frameRect.w = frame.attribute("width").as_int();
+			frameRect.h = frame.attribute("height").as_int();
 		
+			anim_aux[animArrayNum].PushBack(frameRect);
 		}
-	}*/
+		++animArrayNum;
+	}
+	entitiesAnimation.add(anim_aux);
+
+	return ret;
 }
-
-
 
 

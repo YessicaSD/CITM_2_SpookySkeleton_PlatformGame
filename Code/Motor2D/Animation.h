@@ -14,7 +14,7 @@ public:
 	float speed = 1.0f;
 	SDL_Rect frames[MAX_FRAMES];
 	float current_frame = 0;
-	int last_frame = 0;
+	int numFrames = 0;
 	int loops = 0;
 	enum pingpong
 	{
@@ -33,7 +33,7 @@ public:
 	Animation()
 	{}
 
-	Animation(const Animation& anim) : loop(anim.loop), speed(anim.speed), last_frame(anim.last_frame)
+	Animation(const Animation& anim) : loop(anim.loop), speed(anim.speed), numFrames(anim.numFrames)
 	{
 		SDL_memcpy(&frames, anim.frames, sizeof(frames));
 	}
@@ -47,7 +47,7 @@ public:
 
 	void PushBack(const SDL_Rect& rect)
 	{
-		frames[last_frame++] = rect;
+		frames[numFrames++] = rect;
 	}
 
 	SDL_Rect&  ReturnFrame(int i)
@@ -62,9 +62,9 @@ public:
 		case pingpong::forward:
 		{
 			current_frame += speed*dt;
-			if (current_frame >= last_frame)
+			if (current_frame >= numFrames)
 			{
-				current_frame = (loop || pingpong) ? 0.0f : last_frame - 1;
+				current_frame = (loop || pingpong) ? 0.0f : numFrames - 1;
 				direction = pingpong ? pingpong::backward : pingpong::forward;
 				loops++;
 			}
@@ -114,10 +114,10 @@ public:
 	SDL_Rect& GetFrameEx()
 	{
 		current_frame += speed;
-		if (current_frame >= last_frame) {
+		if (current_frame >= numFrames) {
 
 			finished = true;
-			return frames[last_frame - 1];
+			return frames[numFrames - 1];
 		}
 		return frames[(int)current_frame];
 	}
@@ -128,7 +128,7 @@ public:
 		float frame = current_frame;
 		while (i < added_frames) {
 			++frame;
-			if (frame >= last_frame)
+			if (frame >= numFrames)
 				frame = 0;
 			++i;
 		}
@@ -147,8 +147,8 @@ public:
 
 				current_frame += speed;
 
-				if (current_frame >= last_frame) {
-					current_frame = last_frame - speed;
+				if (current_frame >= numFrames) {
+					current_frame = numFrames - speed;
 					invert = true;
 				}
 			}

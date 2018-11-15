@@ -19,10 +19,6 @@ bool j1Player:: Awake (pugi::xml_node &node)
 {
 	bool ret = true;
 	LOG("Init SDL player");
-	death_anim_fx = App->audio->LoadFx("audio/fx/smw_stomp_bones.wav");
-	jump = App->audio->LoadFx("audio/fx/jump.wav");
-	death = App->audio->LoadFx("audio/fx/death.wav");
-
 	
 	pugi::xml_parse_result result = player_file.load_file(node.child_value());
 
@@ -63,7 +59,7 @@ bool j1Player::Start()
 		Player_State[STATE_SPAWN] = LoadAnimations("spawn");
 		Player_State[STATE_SPAWN].loop = false;
 		ret = CreateCol();
-		if (!loading)
+		/*if (!loading)
 		{
 			flPos.x = App->map->returnPlayerPos().x;
 			flPos.y = App->map->returnPlayerPos().y;
@@ -72,8 +68,8 @@ bool j1Player::Start()
 		{
 			flPos.x = flplayerPosSaved.x;
 			flPos.y = flplayerPosSaved.y;
-		}
-		distansToCam = App->map->returnCameraPos();
+		}*/
+		/*distansToCam = App->map->returnCameraPos();*/
 
 		App->render->camera.x = (flPos.x + distansToCam.x);
 		App->render->camera.y = (flPos.y + distansToCam.y);
@@ -315,7 +311,7 @@ bool j1Player::Update(float dt)
 		////Gravity ------------------------------------------------------------------------
 		if (moveDown && !fading )
 		{
-			speed.y += App->map->data.gravity * dt ;
+			speed.y += App->map->level.gravity * dt ;
 		
 		}
 
@@ -325,12 +321,12 @@ bool j1Player::Update(float dt)
 	{
 		
 		//Camera----------------------------------------------------------------------------------
-		if ((flPos.x + distansToCam.x)* App->win->GetScale() > 0  && (App->map->data.tile_width*App->map->data.width) * App->win->GetScale() > (((flPos.x + distansToCam.x)* App->win->GetScale()) + App->render->camera.w) )
+		if ((flPos.x + distansToCam.x)* App->win->GetScale() > 0  && (App->map->level.tile_width*App->map->level.width) * App->win->GetScale() > (((flPos.x + distansToCam.x)* App->win->GetScale()) + App->render->camera.w) )
 		{
 			App->render->camera.x = ((flPos.x + distansToCam.x)* App->win->GetScale());
 
 		}
-		if(    (flPos.y + distansToCam.y) <= ((App->map->data.height * App->map->data.tile_height)*App->win->GetScale() - App->render->camera.h) && (flPos.y + distansToCam.y) > 0 )
+		if(    (flPos.y + distansToCam.y) <= ((App->map->level.height * App->map->level.tile_height)*App->win->GetScale() - App->render->camera.h) && (flPos.y + distansToCam.y) > 0 )
 		{
 				App->render->camera.y = (flPos.y + distansToCam.y);
 		}
@@ -399,10 +395,10 @@ bool j1Player::Draw(float dt)
 	
 	return ret;
 }
+
 bool j1Player::CleanUp()
 {
 	App->tex->UnLoad(ptexture);
-	
 	
 	if (ColliderPlayer!=nullptr)
 	{

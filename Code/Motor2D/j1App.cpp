@@ -12,10 +12,9 @@
 #include "ModuleFadeToBack.h"
 #include "j1App.h"
 #include  "j1Collision.h"
-#include "j1Player.h"
 #include "j1ModuleEntity.h"
 #include "j1Pathfinding.h"
-
+#include "Scene.h"
 // Constructor
 j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 {
@@ -28,12 +27,12 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	tex = new j1Textures();
 	audio = new j1Audio();
 	map = new j1Map();
-	player1 = new j1Player();
+
 	collision = new j1Collision();
 	fade = new ModuleFadeToBlack();
 	entity = new ModuleEnemies();
 	pathfinding = new j1PathFinding();
-
+	scene = new j1Scene();
 	// Ordered for awake / Start / Update
 	// Reverse order of CleanUp
 	AddModule(input);
@@ -42,11 +41,10 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(audio);
 	AddModule(pathfinding);
 	AddModule(map);
-	AddModule(player1);
 	AddModule(entity);
+	AddModule(scene);
 	AddModule(collision);
 	AddModule(fade);
-	
 	
 	// render last to swap buffer
 	AddModule(render);

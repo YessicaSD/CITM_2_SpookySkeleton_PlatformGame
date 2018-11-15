@@ -24,7 +24,7 @@ class j1App;
 };
 class j1Player : public j1Module
 {
-
+	
  public:
 	 fPoint flPos = { 0.0F,0.0F };
 	 fPoint speed = {0.0F,0.0F};
@@ -52,12 +52,6 @@ class j1Player : public j1Module
 
 	PlayerState PlayerState = PlayerState::STATE_SPAWN;
 	Animation Player_State[STATE_MAX];
-	/*Animation PlayerIdle;
-	Animation PlayerWalk;
-	Animation PlayerJump;
-	Animation PlayerAttack;
-	Animation PlayerDeath;
-	Animation PlayerSpawn;*/
 
 	uint death_anim_fx, jump, death;
 

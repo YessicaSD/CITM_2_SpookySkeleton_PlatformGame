@@ -47,8 +47,6 @@ bool  ModuleFadeToBlack::Update(float dt)
 
 	case fade_step::fade_from_black:
 	{
-		App->player1->PlayerState = PlayerState::STATE_SPAWN;
-		App->player1->fading = false;
 		normalized = 1.0f - normalized;
 
 		if (now >= total_time)
@@ -70,7 +68,6 @@ bool ModuleFadeToBlack:: FadeToBlack(uint lvlnum, float time) {
 
 	if (current_step == fade_step::none)
 	{
-		App->player1->fading = true;
 		current_step = fade_step::fade_to_black;
 		start_time = SDL_GetTicks();
 		total_time = (Uint32)(time * 0.5f * 1000.0f);
