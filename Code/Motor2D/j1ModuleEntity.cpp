@@ -113,9 +113,9 @@ j1Entity* ModuleEnemies::AddEntity(ENEMY_TYPES type, fPoint pos)
 	static_assert(UNKNOW >= 3, "code need update");
 	switch (type)
 	{
-	case PLAYER:
-		newEntity = new Player(pos, entitiesAnimation[PLAYER], playerTexture);
-		break;
+		case PLAYER:
+			newEntity = new Player(pos, entitiesAnimation[PLAYER], playerTexture);
+			break;
 		case ENEMY_BAT:
 			newEntity = new EntityBat(pos, entitiesAnimation[ENEMY_BAT], entitiesTexture);
 		break;

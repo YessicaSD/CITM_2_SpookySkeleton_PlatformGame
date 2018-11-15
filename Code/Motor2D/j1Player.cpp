@@ -395,10 +395,10 @@ bool j1Player::Draw(float dt)
 	
 	return ret;
 }
+
 bool j1Player::CleanUp()
 {
 	App->tex->UnLoad(ptexture);
-	
 	
 	if (ColliderPlayer!=nullptr)
 	{

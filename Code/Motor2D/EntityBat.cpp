@@ -16,7 +16,7 @@
 #include "j1Render.h"
 #include "j1Player.h"
 
-EntityBat::EntityBat(fPoint pos,Animation* anim, SDL_Texture* tex):j1Entity(pos,anim,tex)
+EntityBat::EntityBat(fPoint pos,Animation* anim, SDL_Texture* tex):j1Entity(pos,tex)
 {}
 //bool EntityBat::Start()
 //{

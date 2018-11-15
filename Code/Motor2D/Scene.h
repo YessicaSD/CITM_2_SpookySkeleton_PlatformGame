@@ -8,7 +8,7 @@ struct SDL_Texture;
 class j1Scene : public j1Module
 {
 public:
-
+	bool loadedLeve = true;
 	j1Scene();
 
 	// Destructor

@@ -24,12 +24,23 @@ enum PlayerState : uint
 class Player: public j1Entity
 {
 private:
+	Animation animation[STATE_MAX];
 	PlayerState state = STATE_SPAWN;
+	fPoint maxSpeed = { 0.0F,0.0F };
+	iPoint rectMesure = {0,0};
+	iPoint distansToCam = { 0,0 };
+	bool canJump = false;
+	bool moveDown = false;
+	bool debugMode = false;
+	bool right = true;
+	bool iceMovement = false;
+
+	void DebugModeInput();
 public:
 		Player(fPoint position,Animation* anim,SDL_Texture* tex);
 		~Player();
 		bool PreUpdate(float dt);
-		void Move(float dt) {};
+		void Move(float dt);
 		void Draw() override;
 		void OnCollision(Collider* collider);
 

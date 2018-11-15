@@ -14,7 +14,6 @@ struct Collider;
 class j1Entity 
 {
 protected: 
-	Animation* animation=nullptr;
 	SDL_Texture * texture = nullptr;
 	float dt;
 public:
@@ -22,7 +21,7 @@ public:
 	fPoint speed = { 0.0F,0.0F };
 	Collider* collider = nullptr;
 public:
-	j1Entity(fPoint position, Animation* anim, SDL_Texture * tex);
+	j1Entity(fPoint position, SDL_Texture * tex);
 	virtual ~j1Entity();
 	
 

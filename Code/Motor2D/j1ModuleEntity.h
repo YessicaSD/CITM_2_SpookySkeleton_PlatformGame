@@ -27,6 +27,7 @@ struct EnemyInfo
 
 class ModuleEnemies : public j1Module
 {
+
 private:
 	p2List<j1Entity*> list_Entities;
 	p2List<Animation*> entitiesAnimation;
@@ -34,9 +35,9 @@ private:
 public:
 	pugi::xml_document	enemiesFile;
 	pugi::xml_node enemiesNodeDoc;
-
 	SDL_Texture* playerTexture=nullptr;
 	SDL_Texture* entitiesTexture=nullptr;
+
 public:
 
 	ModuleEnemies();

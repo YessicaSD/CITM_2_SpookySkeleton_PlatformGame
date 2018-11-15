@@ -33,7 +33,7 @@ bool j1Scene::Awake()
 // Called before the first frame
 bool j1Scene::Start()
 {
-	App->entity->AddEntity(PLAYER, { 50,150 });
+	loadedLeve = true;
 	/*
 	if (App->map->Load("iso_walk.tmx") == true)
 	{
@@ -70,7 +70,12 @@ bool j1Scene::PostUpdate()
 
 	if (App->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN)
 		ret = false;
-
+	if (loadedLeve)
+	{
+		App->entity->AddEntity(PLAYER, { 60,384 });
+		loadedLeve = false;
+	}
+		
 	return ret;
 }
 
