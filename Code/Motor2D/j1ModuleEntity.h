@@ -34,7 +34,7 @@ private:
 	bool LoadAnimations(pugi::xml_node animNode);
 public:
 	pugi::xml_document	enemiesFile;
-	pugi::xml_node enemiesNodeDoc;
+	pugi::xml_node entitiesNodeDoc;
 	SDL_Texture* playerTexture=nullptr;
 	SDL_Texture* entitiesTexture=nullptr;
 

@@ -3,7 +3,6 @@
 #include "j1Render.h"
 #include "p2Log.h"
 #include "j1Map.h"
-#include "j1Player.h"
 #include "j1Entity.h"
 ModuleFadeToBlack::~ModuleFadeToBlack()
 {

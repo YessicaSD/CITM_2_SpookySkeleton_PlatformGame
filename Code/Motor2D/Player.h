@@ -27,7 +27,7 @@ private:
 	Animation animation[STATE_MAX];
 	PlayerState state = STATE_SPAWN;
 	fPoint maxSpeed = { 0.0F,0.0F };
-	iPoint rectMesure = {0,0};
+	
 	iPoint distansToCam = { 0,0 };
 	bool canJump = false;
 	bool moveDown = false;
@@ -35,6 +35,7 @@ private:
 	bool right = true;
 	bool iceMovement = false;
 
+	uint death_fx, jump_fx;
 	void DebugModeInput();
 public:
 		Player(fPoint position,Animation* anim,SDL_Texture* tex);

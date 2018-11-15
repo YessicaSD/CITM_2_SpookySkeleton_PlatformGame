@@ -78,29 +78,21 @@
       <frame x="31" y="128" width="20" height="31"/>
     </animation>
   </player1>
-  
-  <enemies>
-    <image source="textures/enemies.png"/>
+  <EnemiesImage source="textures/enemies.png"/>
 
     <bat Start_pos_x="300" Start_pos_y="200"  >
       <collider w="10" h="18"/>
-      <animation>
-
-        <idle>
+      <animation name="idle">
           <frame x="0" y="143" width="28" height="27"/>
           <frame x="29" y="143" width="25" height="30"/>
           <frame x="55" y="143" width="27" height="25"/>
-        </idle>
-
       </animation>
     </bat>
 
 
     <zombie Start_pos_x="500" Start_pos_y="200">
       <collider w="10" h="18"/>
-      <animation>
-
-        <idle>
+      <animation name="idle">
           <frame x="0" y="0" width="30" height="26"/>
           <frame x="31" y="0" width="30" height="26"/>
           <frame x="62" y="0" width="29" height="26"/>
@@ -119,9 +111,9 @@
           <frame x="453" y="1" width="30" height="25"/>
           <frame x="484" y="0" width="30" height="26"/>
           <frame x="515" y="0" width="30" height="26"/>
-        </idle>
+       </animation>
 
-        <walk>
+        <animation name="walk">
           <frame x="0" y="32" width="31" height="25"/>
           <frame x="32" y="32" width="34" height="25"/>
           <frame x="67" y="32" width="35" height="25"/>
@@ -142,9 +134,9 @@
           <frame x="554" y="31" width="31" height="26"/>
           <frame x="586" y="32" width="33" height="25"/>
           <frame x="620" y="32" width="34" height="25"/>
-        </walk>
+        </animation>
 
-        <death>
+        <animation name="death">
           <frame x="0" y="65" width="30" height="26"/>
           <frame x="73" y="65" width="26" height="26"/>
           <frame x="146" y="65" width="20" height="26"/>
@@ -158,9 +150,9 @@
           <frame x="723" y="65" width="42" height="9"/>
           <frame x="795" y="65" width="42" height="7"/>
           <frame x="867" y="65" width="42" height="5"/>
-        </death>
+        </animation>
 
-        <attack>
+        <animation name="attack">
           <frame x="0" y="110" width="30" height="26"/>
           <frame x="56" y="110" width="30" height="26"/>
           <frame x="116" y="101" width="29" height="35"/>
@@ -181,8 +173,7 @@
           <frame x="954" y="111" width="28" height="26"/>
           <frame x="1007" y="111" width="31" height="26"/>
           <frame x="1064" y="110" width="30" height="26"/>
-        </attack>
-      </animation>
+        </animation>
     </zombie>
-  </enemies>
+ 
 </entities>

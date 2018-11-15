@@ -34,27 +34,29 @@ bool ModuleEnemies::Awake(pugi::xml_node &node)
 		return ret = false;
 	}
 
-	enemiesNodeDoc = enemiesFile.child("entities");
+	entitiesNodeDoc = enemiesFile.child("entities");
 	
 	return true;
 }
 bool ModuleEnemies::Start()
 {
 	bool ret = true;
-	const char*	path = enemiesNodeDoc.child("player1").child("image").attribute("source").as_string();
+	const char*	path = entitiesNodeDoc.child("player1").child("image").attribute("source").as_string();
 
 	if ((playerTexture = App->tex->Load(path))==nullptr)
 	{
 		LOG("ERROR LOADING TEXTURE PLAYER");
 		return ret = false;
 	}
-	path = enemiesNodeDoc.child("enemies").child("image").attribute("source").as_string();
+	path = entitiesNodeDoc.child("EnemiesImage").attribute("source").as_string();
 	if ((entitiesTexture = App->tex->Load(path)) == nullptr)
 	{
 		LOG("ERROR LOADING TEXTURE ENEMIES");
 		return ret = false;
 	}
-	LoadAnimations(enemiesNodeDoc.child("player1").child("animation"));
+	LoadAnimations(entitiesNodeDoc.child("player1").child("animation"));
+	LoadAnimations(entitiesNodeDoc.child("bat").child("animation"));
+	LoadAnimations(entitiesNodeDoc.child("zombie").child("animation"));
 	return ret;
 }
 bool ModuleEnemies::PreUpdate(float dt)
@@ -101,9 +103,8 @@ void ModuleEnemies::OnCollision(Collider * c1, Collider * c2)
 	for (actualEntity = list_Entities.start; actualEntity; actualEntity = actualEntity->next)
 	{
 		if (actualEntity->data->collider == c1)
-		{
-			actualEntity->data->OnCollision(c2);
-		}
+				actualEntity->data->OnCollision(c2);
+		
 	}
 }
 

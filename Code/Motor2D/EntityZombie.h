@@ -3,8 +3,19 @@
 #include "j1Entity.h"
 #include "p2Point.h"
 
+enum class State_zomby :uint
+{
+	STATE_IDLE,
+	STATE_WALK,
+	STATE_DEATH,
+	STATE_ATTACK,
+	STATE_MAX
+};
+
 class EntityZombie : public j1Entity
 {
+private:
+	Animation animation[State_zomby::STATE_MAX];
 public:
 	p2SString String_docXml;
 	SDL_Texture* entity_texture = nullptr;

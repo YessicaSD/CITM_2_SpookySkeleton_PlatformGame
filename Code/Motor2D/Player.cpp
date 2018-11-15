@@ -47,8 +47,10 @@ Player::Player(fPoint position, Animation* anim, SDL_Texture* tex):j1Entity(posi
 	animation[STATE_DEATH].loop = false;
 	animation[STATE_ATTACK].loop = false;
 
-	pugi::xml_node nodePlayer = App->entity->enemiesNodeDoc.child("player1");
+	pugi::xml_node nodePlayer = App->entity->entitiesNodeDoc.child("player1");
 	pugi::xml_node nodeCol= nodePlayer.child("collider");
+
+	iPoint rectMesure = { 0,0 };
 	rectMesure = {nodeCol.attribute("w").as_int(), nodeCol.attribute("h").as_int() };
 
 	SDL_Rect playerRect = { (position.x - rectMesure.x / 2), (position.y - rectMesure.y), rectMesure.x, rectMesure.y };
@@ -99,8 +101,6 @@ bool Player::PreUpdate(float dt)
 
 
 		}
-
-
 		if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN
 			&& (state == STATE_IDLE || state == STATE_WALK)
 			&& canJump)
@@ -108,7 +108,7 @@ bool Player::PreUpdate(float dt)
 			state = STATE_JUMP;
 			speed.y = -maxSpeed.y;
 			canJump = false;
-			/*App->audio->PlayFx(jump);*/
+		/*	App->audio->PlayFx(jump_fx);*/
 
 		}
 
@@ -150,23 +150,14 @@ void Player::Move(float dt)
 		position.y += speed.y * dt;
 		////Gravity ------------------------------------------------------------------------
 		if (moveDown)
-		{
 			speed.y += App->map->level.gravity * dt;
-
-		}
-
-	
 
 		//Camera----------------------------------------------------------------------------------
 		if ((position.x + distansToCam.x)* App->win->GetScale() > 0 && (App->map->level.tile_width*App->map->level.width) * App->win->GetScale() > (((position.x + distansToCam.x)* App->win->GetScale()) + App->render->camera.w))
-		{
 			App->render->camera.x = ((position.x + distansToCam.x)* App->win->GetScale());
 
-		}
 		if ((position.y + distansToCam.y) <= ((App->map->level.height * App->map->level.tile_height)*App->win->GetScale() - App->render->camera.h) && (position.y + distansToCam.y) > 0)
-		{
 			App->render->camera.y = (position.y + distansToCam.y);
-		}
 
 	}
 
@@ -196,69 +187,60 @@ void Player::Draw()
 void Player::OnCollision(Collider * otherColl)
 {
 	
-	bool PlayerIsOn = (int)position.y <= otherColl->rect.y && position.x + 4 > otherColl->rect.x && position.x - 4 < otherColl->rect.x + otherColl->rect.w;
+	bool PlayerIsOn = (int)position.y <= otherColl->rect.y && position.x + collider->rect.w/2 > otherColl->rect.x && position.x - collider->rect.w / 2 < otherColl->rect.x + otherColl->rect.w;
 	bool PlayerIsOnTheLeft = position.x < otherColl->rect.x  && position.y > otherColl->rect.y;
 	bool PlayerIsOnTheRight = position.x > otherColl->rect.x + otherColl->rect.w  && position.y > otherColl->rect.y;
 	bool PlayerIsUnder = position.y > otherColl->rect.y + otherColl->rect.h && collider->rect.x + collider->rect.w - 5 > otherColl->rect.x && collider->rect.x + 5 < otherColl->rect.x + otherColl->rect.w;
+	
 
-	if (otherColl->type == COLLIDER_WALL)
+	if (otherColl->type == COLLIDER_WALL|| otherColl->type == COLLIDER_ICE || otherColl->type == COLLIDER_SPECIAL)
 	{
-		if (PlayerIsOn)
+		if ((PlayerIsOn && otherColl->type != COLLIDER_SPECIAL) || (speed.y >= 0 && otherColl->type == COLLIDER_SPECIAL))
 		{
+
 			if (state == STATE_JUMP)
 				state = STATE_IDLE;
 
 			moveDown = false;
 			canJump = true;
 			speed.y = (otherColl->rect.y - (int)position.y) / dt;
-		}
 
-		if (PlayerIsOnTheLeft)
+			if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_IDLE && App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_IDLE)
+			{
+				if (otherColl->type == COLLIDER_ICE)
+				{
+					if ((int)speed.x != 0)
+						speed.x += right ? -100 * dt : 100 * dt;
+					
+						if (state == STATE_WALK)
+							state = STATE_IDLE;
+					
+				}
+				else
+				{
+					speed.x = 0.0F;
+					if (state == STATE_WALK)
+						state = STATE_IDLE;
+				}
+			}
+		
+		}
+		if (otherColl->type != COLLIDER_SPECIAL)
 		{
-			speed.x = otherColl->rect.x - (position.x + collider->rect.w / 2);
+			if (PlayerIsOnTheLeft)
+				speed.x = otherColl->rect.x - (position.x + collider->rect.w / 2);
+
+
+			if (PlayerIsOnTheRight)
+				speed.x = (otherColl->rect.x + otherColl->rect.w) - (position.x - collider->rect.w / 2);
+			
+
+
+			if (PlayerIsUnder)
+				speed.y = (otherColl->rect.y + otherColl->rect.h) - ((int)position.y - collider->rect.h);
 		}
-
-
-		if (PlayerIsOnTheRight)
-		{
-			speed.x = (otherColl->rect.x + otherColl->rect.w) - (position.x - collider->rect.w / 2);
-		}
-
-
-		if (PlayerIsUnder)
-		{
-			speed.y = (otherColl->rect.y + otherColl->rect.h) - ((int)position.y - collider->rect.h);
-		}
-
-		if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_IDLE && App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_IDLE)
-		{
-			speed.x = 0.0F;
-			if (state == STATE_WALK)
-				state = STATE_IDLE;
-		}
+		
 	}
-
-	if (otherColl->type == COLLIDER_SPECIAL &&
-		speed.y >= 0 &&
-		PlayerIsOn)
-	{
-		if (state == PlayerState::STATE_JUMP)
-			state = STATE_IDLE;
-
-		moveDown = false;
-		canJump = true;
-		speed.y = (otherColl->rect.y - (int)position.y) / dt;
-		if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_IDLE && App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_IDLE)
-		{
-			speed.x = 0.0F;
-			if (state == STATE_WALK)
-				state = STATE_IDLE;
-		}
-
-
-	}
-
-
 
 
 	if (otherColl->type == COLLIDER_ENEMY)
@@ -268,32 +250,7 @@ void Player::OnCollision(Collider * otherColl)
 	if (otherColl->type == COLLIDER_RESPAWN)
 		App->fade->FadeToBlack(App->map->num_thismaplvl);
 
-	if (otherColl->type == COLLIDER_ICE &&
-			speed.y >= 0 &&
-				PlayerIsOn)
-	{
-		if (state == STATE_JUMP)
-			state = STATE_IDLE;
-
-		moveDown = false;
-		canJump = true;
-		speed.y = (otherColl->rect.y - (int)position.y) / dt;
-		speed.x += right ? 100 * dt : -100 * dt;
-
-
-		if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_IDLE && App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_IDLE)
-		{
-			if (speed.x > 0.0F)
-				speed.x -= 100 * dt;
-			if (speed.x < 0.0F)
-				speed.x += 100 * dt;
-
-			if (state == STATE_WALK)
-				state = STATE_IDLE;
-
-		}
-
-	}
+	
 
 }
 
