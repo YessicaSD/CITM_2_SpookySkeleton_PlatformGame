@@ -3,31 +3,25 @@
 #include "j1Entity.h"
 #include "p2Point.h"
 
+
+struct SDL_Texture;
+struct Collider;
+
 class EntityBat : public j1Entity
 {
-public:
-	p2SString String_docXml;
-	SDL_Texture* entity_texture = nullptr;
-	pugi::xml_node entity_node;
-	pugi::xml_document	entity_file;
-
-	Animation LoadAnimations(p2SString name);
-
-	EntityBat(fPoint pos,Animation* anim, SDL_Texture* tex);
-	
-	Animation Anim;
-	
+private:
 
 
-
+	Animation anim_bat;
 
 
 public:
-	EntityBat();
-	bool Draw(float dt);
-	bool PreUpdate(float dt) ;
-	void Move();
-	bool CleanUp();
+	EntityBat(fPoint pos, Animation* anim, SDL_Texture* tex);
+	~EntityBat();
+	bool PreUpdate(float dt);
+	void Move(float dt);
+	void Draw() override;
+	void OnCollision(Collider* collider);
 	
 };
 #endif // !ENTITYBAT_H_
