@@ -8,6 +8,7 @@
 #include "j1Audio.h"
 #include "j1Input.h"
 #include "j1Map.h"
+#include "j1Pathfinding.h"
 #include "j1Textures.h"
 #include "ModuleFadeToBack.h"
 #include "j1Collision.h"
@@ -43,6 +44,12 @@ bool EntityBat::PreUpdate(float dt)
 {
 	this->dt = dt;
 	collider->SetPos((position.x + speed.x * dt) - collider->rect.w / 2, (position.y + speed.y * dt) - collider->rect.h);
+
+	iPoint origin= App->map->WorldToMap(position.x, position.y);
+	
+	iPoint p = App->map->WorldToMap(App->entity->entity_player->position.x, App->entity->entity_player->position.y-16);
+	
+	App->pathfinding->CreatePath(origin, p);
 	return true;
 }
 
@@ -56,6 +63,28 @@ bool EntityBat::PreUpdate(float dt)
 void EntityBat::Move(float dt)
 {
 	collider->SetPos(position.x - collider->rect.w / 2, position.y - collider->rect.h);
+	/*iPoint ibat_pos(position.x, position.y);
+	iPoint iplayer_pos= App->render->ScreenToWorld(App->entity->entity_player->position.x, App->entity->entity_player->position.y);
+	App->pathfinding->CreatePath(ibat_pos, iplayer_pos);
+	bat_path = App->pathfinding->GetLastPath();
+	
+	for (int i=0;i<bat_path->Count();i++)
+	{
+		position.x = bat_path->At(i)->x;
+		position.y = bat_path->At(i)->y;
+	}*/
+	iPoint ibat_pos(position.x, position.y);
+	
+	iPoint p = App->render->ScreenToWorld(position.x, position.y);
+	p = App->map->WorldToMap(p.x, p.y);
+	p = App->map->MapToWorld(p.x, p.y);
+	const p2DynArray<iPoint>* path = App->pathfinding->GetLastPath();
+
+	for (uint i = 0; i < path->Count(); ++i)
+	{
+		ibat_pos = App->map->MapToWorld(path->At(i)->x, path->At(i)->y);
+		
+	}
 }
 
 
@@ -64,7 +93,7 @@ void EntityBat::Move(float dt)
 void EntityBat::Draw()
 {
 	SDL_Rect frameAnim = anim_bat.GetCurrentFrame(dt);
-	LOG("CURRENT BAT FRAME %i, %i, %i, %i", frameAnim.x, frameAnim.y, frameAnim.w, frameAnim.h);
+	
 	if (right)
 		App->render->Blit(texture, position.x - frameAnim.w / 2, position.y - frameAnim.h, &frameAnim);
 	else

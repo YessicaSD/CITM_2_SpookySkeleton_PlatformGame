@@ -37,7 +37,8 @@ public:
 	pugi::xml_node entitiesNodeDoc;
 	SDL_Texture* playerTexture=nullptr;
 	SDL_Texture* entitiesTexture=nullptr;
-	j1Entity* EntityPlayer = nullptr;
+
+	j1Entity* entity_player = nullptr;
 public:
 
 	ModuleEnemies();

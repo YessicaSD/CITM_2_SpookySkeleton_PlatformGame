@@ -37,7 +37,7 @@ EntityZombie::EntityZombie(fPoint pos, Animation* anim, SDL_Texture* tex): j1Ent
 bool EntityZombie::PreUpdate(float dt)
 {
 	this->dt = dt;
-	playerPos = App->map->WorldToMap(App->entity->EntityPlayer->position.x, App->entity->EntityPlayer->position.y- halfTileSize);
+	playerPos = App->map->WorldToMap(App->entity->entity_player->position.x, App->entity->entity_player->position.y- halfTileSize);
 	iPoint zombiePos=App->map->WorldToMap((int)position.x, (int)position.y - halfTileSize);
 	if (App->pathfinding->CreatePath(zombiePos, playerPos)==1)
 	{

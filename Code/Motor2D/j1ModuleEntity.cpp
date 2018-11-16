@@ -120,7 +120,8 @@ j1Entity* ModuleEnemies::AddEntity(ENEMY_TYPES type, fPoint pos)
 	{
 		case PLAYER:
 			newEntity = new Player(pos, entitiesAnimation[PLAYER], playerTexture);
-			EntityPlayer = newEntity;
+			entity_player = newEntity;
+
 			break;
 		case ENEMY_BAT:
 			newEntity = new EntityBat(pos, entitiesAnimation[ENEMY_BAT], entitiesTexture);
