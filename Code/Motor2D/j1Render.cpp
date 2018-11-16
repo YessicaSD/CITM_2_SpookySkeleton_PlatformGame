@@ -167,8 +167,9 @@ bool j1Render::Blit(SDL_Texture* texture, int x, int y, const SDL_Rect* section,
 		pivot.y = pivot_y;
 		p = &pivot;
 	}
-	uint screenW=0u, screenH=0u;
+	uint screenW=0U, screenH=0U;
 	App->win->GetWindowSize(screenW, screenH);
+
 	if (rect.x + rect.w < 0 || rect.x>(int)screenW || rect.y+rect.h<0|| rect.y>(int)screenH)
 	{
 		return false;

@@ -1,6 +1,7 @@
 #include "EntityZombie.h"
 #include "j1App.h"
 #include "j1ModuleEntity.h"
+#include "j1Pathfinding.h"
 
 #include "p2Defs.h"
 #include "p2Log.h"
@@ -36,12 +37,26 @@ EntityZombie::EntityZombie(fPoint pos, Animation* anim, SDL_Texture* tex): j1Ent
 bool EntityZombie::PreUpdate(float dt)
 {
 	this->dt = dt;
+	playerPos = App->map->WorldToMap(App->entity->EntityPlayer->position.x, App->entity->EntityPlayer->position.y- halfTileSize);
+	iPoint zombiePos=App->map->WorldToMap((int)position.x, (int)position.y - halfTileSize);
+	if (App->pathfinding->CreatePath(zombiePos, playerPos)==1)
+	{
+		const p2DynArray<iPoint>* path = App->pathfinding->GetLastPath();
+
+		for (uint i = 0; i < path->Count(); ++i)
+		{
+			iPoint pos = App->map->MapToWorld(path->At(i)->x, path->At(i)->y);
+			App->render->Blit(App->pathfinding->debug_tex, pos.x, pos.y);
+		}
+	}
+
 	return true;
+	
 }
 
-void EntityZombie::Move()
+void EntityZombie::Move(float dt)
 {
-
+	collider->SetPos(position.x - collider->rect.w / 2, position.y - collider->rect.h);
 }
 
 void EntityZombie::Draw()

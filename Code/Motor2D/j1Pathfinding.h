@@ -56,16 +56,19 @@ struct PathList
 	// The list itself, note they are not pointers!
 	p2List<PathNode> list;
 };
-
+struct SDL_Texture;
 class j1PathFinding : public j1Module
 {
-public:
 
+public:
+	SDL_Texture* debug_tex = nullptr;
 	j1PathFinding();
 
 	// Destructor
 	~j1PathFinding();
-
+	bool Start()override;
+	bool PreUpdate(float dt)override;
+	bool PostUpdate()override;
 	// Called before quitting
 	bool CleanUp();
 

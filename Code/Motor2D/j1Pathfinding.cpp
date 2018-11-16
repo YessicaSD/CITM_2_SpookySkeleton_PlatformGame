@@ -4,7 +4,10 @@
 #include "j1Pathfinding.h"
 #include "p2List.h"
 #include "Brofiler/Brofiler.h"
-
+#include "j1Render.h"
+#include "j1Textures.h"
+#include "j1Input.h"
+#include "j1Map.h"
 
 j1PathFinding::j1PathFinding() : j1Module(), map(NULL), last_path(DEFAULT_PATH_LENGTH),width(0), height(0)
 {
@@ -15,6 +18,59 @@ j1PathFinding::j1PathFinding() : j1Module(), map(NULL), last_path(DEFAULT_PATH_L
 j1PathFinding::~j1PathFinding()
 {
 	RELEASE_ARRAY(map);
+}
+
+bool j1PathFinding::Start()
+{
+	debug_tex = App->tex->Load("textures/pathfinding.png");
+	return true;
+}
+
+bool j1PathFinding::PreUpdate(float dt)
+{
+	// debug pathfing ------------------
+	static iPoint origin;
+	static bool origin_selected = false;
+
+	int x, y;
+	App->input->GetMousePosition(x, y);
+	iPoint p = App->render->ScreenToWorld(x, y);
+	p = App->map->WorldToMap(p.x, p.y);
+
+	if (App->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_DOWN)
+	{
+		if (origin_selected == true)
+		{
+			CreatePath(origin, p);
+			origin_selected = false;
+		}
+		else
+		{
+			origin = p;
+			origin_selected = true;
+		}
+	}
+	return true;
+}
+
+bool j1PathFinding::PostUpdate()
+{
+	// Debug pathfinding ------------------------------
+	int x, y;
+	App->input->GetMousePosition(x, y);
+	iPoint p = App->render->ScreenToWorld(x, y);
+	p = App->map->WorldToMap(p.x, p.y);
+	p = App->map->MapToWorld(p.x, p.y);
+
+	App->render->Blit(debug_tex, p.x, p.y);
+	const p2DynArray<iPoint>* path = App->pathfinding->GetLastPath();
+
+	for (uint i = 0; i < path->Count(); ++i)
+	{
+		iPoint pos = App->map->MapToWorld(path->At(i)->x, path->At(i)->y);
+		App->render->Blit(debug_tex, pos.x, pos.y);
+	}
+	return true;
 }
 
 // Called before quitting
@@ -244,6 +300,7 @@ int j1PathFinding::CreatePath(const iPoint& origin, const iPoint& destination)
 			}
 
 			last_path.Flip();
+			return 1;
 		}
 		
 	

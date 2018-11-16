@@ -56,35 +56,12 @@ bool j1Map::Start()
 	
 	RELEASE_ARRAY(data);
 
-	debug_tex = App->tex->Load("textures/pathfinding.png");
+	
 	return true;
 }
 
 bool j1Map::PreUpdate(float dt)
 {
-	// debug pathfing ------------------
-	static iPoint origin;
-	static bool origin_selected = false;
-
-	int x, y;
-	App->input->GetMousePosition(x, y);
-	iPoint p = App->render->ScreenToWorld(x, y);
-	p = App->map->WorldToMap(p.x, p.y);
-
-	if (App->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_DOWN)
-	{
-		if (origin_selected == true)
-		{
-			App->pathfinding->CreatePath(origin, p);
-			origin_selected = false;
-		}
-		else
-		{
-			origin = p;
-			origin_selected = true;
-		}
-	}
-
 	return true;
 }
 
@@ -160,21 +137,6 @@ bool j1Map::PostUpdate()
 				if (id > 0)
 				{
 					iPoint mapPoint = MapToWorld(column, row);
-
-				/*	iPoint tilePoint;
-					float speed = item_layer->data->properties.Get("parallax", 0);
-					float scale = App->win->GetScale();
-					tilePoint.x= (int)(-App->render->camera.x * speed) + mapPoint.x * scale;
-					if ((tilePoint.x)>= returnCameraPos().x)
-					{
-
-						TileSet* tileset = GetTilesetFromTileId(id);
-						SDL_Rect section = tileset->GetTileRect(id);
-						App->render->Blit(tileset->texture, mapPoint.x, mapPoint.y, &section, SDL_FLIP_NONE, speed);
-					}*/
-					
-
-
 					TileSet* tileset = GetTilesetFromTileId(id);
 					SDL_Rect section = tileset->GetTileRect(id);
 					float speed = item_layer->data->properties.Get("parallax", 0);
@@ -189,21 +151,7 @@ bool j1Map::PostUpdate()
 
 	}
 
-	// Debug pathfinding ------------------------------
-	int x, y;
-	App->input->GetMousePosition(x, y);
-	iPoint p = App->render->ScreenToWorld(x, y);
-	p = App->map->WorldToMap(p.x, p.y);
-	p = App->map->MapToWorld(p.x, p.y);
-
-	App->render->Blit(debug_tex, p.x, p.y);
-	const p2DynArray<iPoint>* path = App->pathfinding->GetLastPath();
-
-	for (uint i = 0; i < path->Count(); ++i)
-	{
-		iPoint pos = App->map->MapToWorld(path->At(i)->x, path->At(i)->y);
-		App->render->Blit(debug_tex, pos.x, pos.y);
-	}
+	
 
 	if (App->input->GetKey(SDL_SCANCODE_F5) == KEY_DOWN)
 	{
@@ -301,7 +249,6 @@ bool j1Map::CleanUp()
 	App->entity->Disable();
 	for (p2List_item<TileSet*>* item = level.tilesets.end; item; item = item->prev)
 	{
-		
 		RELEASE(item->data);
 	}
 	level.tilesets.clear();
