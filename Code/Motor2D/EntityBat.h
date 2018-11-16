@@ -19,7 +19,6 @@ private:
 	bool right = true;
 	iPoint rectMesure = { 0,0 };
 	iPoint ibat_pos = { position.x,position.y };
-	p2List<iPoint> ibat_pointer;
 	Animation anim_bat;
 	BatState state = BatState::STATE_IDLE;
 	const p2DynArray<iPoint>* bat_path;

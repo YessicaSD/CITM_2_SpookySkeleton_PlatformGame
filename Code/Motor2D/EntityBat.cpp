@@ -68,9 +68,6 @@ bool EntityBat::PreUpdate(float dt)
 
 void EntityBat::Move(float dt)
 {
-	collider->SetPos(position.x - collider->rect.w / 2, position.y - collider->rect.h);
-	
-
 	
 	ibat_pos = App->map->WorldToMap(position.x, position.y);
 	ibat_pos = App->map->MapToWorld(ibat_pos.x, ibat_pos.y);
@@ -81,9 +78,10 @@ void EntityBat::Move(float dt)
 	for (uint i = 0; i < path->Count(); ++i)
 	{
 		ibat_pos = App->map->MapToWorld(path->At(i)->x, path->At(i)->y);
-		ibat_pointer.add(ibat_pos);
+		
 		
 	}
+	collider->SetPos(ibat_pos.x - collider->rect.w / 2, ibat_pos.y - collider->rect.h);
 }
 
 
@@ -92,14 +90,12 @@ void EntityBat::Move(float dt)
 void EntityBat::Draw()
 {
 	SDL_Rect frameAnim = anim_bat.GetCurrentFrame(dt);
-	p2List_item<iPoint>* item_pos = ibat_pointer.start;
-	for (item_pos;item_pos!=nullptr;item_pos=item_pos->next)
-	{
+	
 		if (right)
-			App->render->Blit(texture, item_pos->data.x - frameAnim.w / 2, item_pos->data.y - frameAnim.h, &frameAnim);
+			App->render->Blit(texture, ibat_pos.x - frameAnim.w / 2, ibat_pos.y - frameAnim.h, &frameAnim);
 		else
-			App->render->Blit(texture, item_pos->data.x - frameAnim.w / 2, item_pos->data.y - frameAnim.h, &frameAnim, SDL_FLIP_HORIZONTAL);
-	}
+			App->render->Blit(texture, ibat_pos.x - frameAnim.w / 2, ibat_pos.y - frameAnim.h, &frameAnim, SDL_FLIP_HORIZONTAL);
+	
 }
 
 void EntityBat::OnCollision(Collider * collider)
