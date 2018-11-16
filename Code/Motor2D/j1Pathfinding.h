@@ -59,7 +59,11 @@ struct PathList
 struct SDL_Texture;
 class j1PathFinding : public j1Module
 {
-
+public:
+	bool debug = false;
+private:
+	p2DynArray<iPoint> debugPath;
+	bool createdDebugPath = false;
 public:
 	SDL_Texture* debug_tex = nullptr;
 	j1PathFinding();

@@ -28,48 +28,75 @@ bool j1PathFinding::Start()
 
 bool j1PathFinding::PreUpdate(float dt)
 {
-	// debug pathfing ------------------
-	static iPoint origin;
-	static bool origin_selected = false;
-
-	int x, y;
-	App->input->GetMousePosition(x, y);
-	iPoint p = App->render->ScreenToWorld(x, y);
-	p = App->map->WorldToMap(p.x, p.y);
-
-	if (App->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_DOWN)
+	if (debug = true)
 	{
-		if (origin_selected == true)
-		{
-			CreatePath(origin, p);
-			origin_selected = false;
-		}
-		else
-		{
-			origin = p;
-			origin_selected = true;
-		}
+		
 	}
+	
 	return true;
 }
 
 bool j1PathFinding::PostUpdate()
 {
-	// Debug pathfinding ------------------------------
-	int x, y;
-	App->input->GetMousePosition(x, y);
-	iPoint p = App->render->ScreenToWorld(x, y);
-	p = App->map->WorldToMap(p.x, p.y);
-	p = App->map->MapToWorld(p.x, p.y);
-
-	App->render->Blit(debug_tex, p.x, p.y);
-	const p2DynArray<iPoint>* path = App->pathfinding->GetLastPath();
-
-	for (uint i = 0; i < path->Count(); ++i)
+	if (debug)
 	{
-		iPoint pos = App->map->MapToWorld(path->At(i)->x, path->At(i)->y);
-		App->render->Blit(debug_tex, pos.x, pos.y);
+		
+		// debug pathfing ------------------
+		static iPoint origin;
+		static bool origin_selected = false;
+
+		int x, y;
+		App->input->GetMousePosition(x, y);
+		iPoint p = App->render->ScreenToWorld(x, y);
+		p = App->map->WorldToMap(p.x, p.y);
+
+		if (App->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_DOWN)
+		{
+			if (origin_selected == true)
+			{
+				CreatePath(origin, p);
+				origin_selected = false;
+				createdDebugPath = true;
+			}
+			else
+			{
+				origin = p;
+				origin_selected = true;
+				createdDebugPath = false;
+				debugPath.Clear();
+				
+			}
+		}
+
+		// Debug pathfinding ------------------------------
+		p = App->map->MapToWorld(p.x, p.y);
+		App->render->Blit(debug_tex, p.x, p.y);
+
+		if (createdDebugPath)
+		{
+			uint debugPathSize = debugPath.Count();
+			if (debugPathSize==0)
+			{
+				const p2DynArray<iPoint>* path = App->pathfinding->GetLastPath();
+				uint sizeArray = path->Count();
+				for (uint i = 0; i < sizeArray; ++i)
+				{
+					debugPath.PushBack(*path->At(i));
+				}
+			}
+			else
+			{
+				for (uint i = 0; i < debugPathSize; ++i)
+				{
+					iPoint pos = App->map->MapToWorld(debugPath.At(i)->x, debugPath.At(i)->y);
+					App->render->Blit(debug_tex, pos.x, pos.y);
+				}
+			}
+			
+		}
+		
 	}
+	
 	return true;
 }
 

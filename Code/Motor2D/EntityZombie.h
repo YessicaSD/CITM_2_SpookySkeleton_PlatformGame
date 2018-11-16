@@ -20,6 +20,7 @@ private:
 	bool right	=true;
 	iPoint playerPos;
 	uint halfTileSize = 16;
+	p2DynArray<iPoint> path;
 public:
 	EntityZombie(fPoint pos, Animation* anim, SDL_Texture* tex);
 	void Draw() override;
