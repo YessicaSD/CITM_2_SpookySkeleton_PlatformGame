@@ -1,8 +1,11 @@
 #include "EntityZombie.h"
+#include "j1App.h"
+#include "j1ModuleEntity.h"
+
 #include "p2Defs.h"
 #include "p2Log.h"
 #include "p2Point.h"
-#include "j1App.h"
+
 #include "j1Audio.h"
 #include "j1Entity.h"
 #include "j1Input.h"
@@ -23,6 +26,10 @@ EntityZombie::EntityZombie(fPoint pos, Animation* anim, SDL_Texture* tex): j1Ent
 			animation[i].PushBack(anim[i].ReturnFrame(j));
 		}
 	}
+	pugi::xml_node nodeZombie = App->entity->entitiesNodeDoc.child("zombie");
+	pugi::xml_node nodeCol = nodeZombie.child("collider");
+
+	collider = App->collision->AddCollider({(int)pos.x,(int)pos.y,nodeCol.attribute("w").as_int(),nodeCol.attribute("h").as_int() }, COLLIDER_ENEMY, App->entity);
 }
 
 
