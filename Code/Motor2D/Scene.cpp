@@ -22,7 +22,7 @@ j1Scene::~j1Scene()
 }
 
 // Called before render is available
-bool j1Scene::Awake()
+bool j1Scene::Awake(pugi::xml_node&)
 {
 	LOG("Loading Scene");
 	bool ret = true;
@@ -36,27 +36,12 @@ bool j1Scene::Start()
 	App->entity->AddEntity(PLAYER, { 60,384 });
 	App->entity->AddEntity(ENEMI_ZOMBIE, { 100,384 });
 	App->entity->AddEntity(ENEMY_BAT, { 300,150 });
-	/*
-	if (App->map->Load("iso_walk.tmx") == true)
-	{
-		int w, h;
-		uchar* data = NULL;
-		if (App->map->CreateWalkabilityMap(w, h, &data))
-			App->pathfinding->SetMap(w, h, data);
-
-		RELEASE_ARRAY(data);
-	}
-
-	debug_tex = App->tex->Load("maps/path2.png");*/
-
 	return true;
 }
 
 // Called each loop iteration
-bool j1Scene::PreUpdate()
+bool j1Scene::PreUpdate(float dt)
 {
-
-	
 	return true;
 }
 
