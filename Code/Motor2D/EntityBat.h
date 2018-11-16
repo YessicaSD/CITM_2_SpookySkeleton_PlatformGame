@@ -18,7 +18,7 @@ class EntityBat : public j1Entity
 private:
 	bool right = true;
 	iPoint rectMesure = { 0,0 };
-	Animation anim_bat[(uint)BatState::STATE_MAX];
+	Animation anim_bat;
 	BatState state = BatState::STATE_IDLE;
 
 public:

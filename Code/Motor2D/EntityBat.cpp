@@ -17,10 +17,11 @@
 EntityBat::EntityBat(fPoint pos,Animation* anim, SDL_Texture* tex):j1Entity(pos,tex)
 {
 
-	anim_bat[0].speed = anim[0].speed;
-	for (int j = 0; j<anim[0].numFrames; ++j)
+	anim_bat.speed = anim->speed;
+	for (int j = 0; j<anim->numFrames; ++j)
 	{
-		anim_bat[0].PushBack(anim[0].ReturnFrame(j));
+		SDL_Rect frame = anim->ReturnFrame(j);
+		anim_bat.PushBack(frame);
 	}
 
 	pugi::xml_node nodeBat = App->entity->entitiesNodeDoc.child("bat");
@@ -40,6 +41,7 @@ EntityBat::~EntityBat()
 
 bool EntityBat::PreUpdate(float dt)
 {
+	this->dt = dt;
 	collider->SetPos((position.x + speed.x * dt) - collider->rect.w / 2, (position.y + speed.y * dt) - collider->rect.h);
 	return true;
 }
@@ -61,7 +63,8 @@ void EntityBat::Move(float dt)
 
 void EntityBat::Draw()
 {
-	SDL_Rect frameAnim = anim_bat[(uint)state].GetCurrentFrame(dt);
+	SDL_Rect frameAnim = anim_bat.GetCurrentFrame(dt);
+	LOG("CURRENT BAT FRAME %i, %i, %i, %i", frameAnim.x, frameAnim.y, frameAnim.w, frameAnim.h);
 	if (right)
 		App->render->Blit(texture, position.x - frameAnim.w / 2, position.y - frameAnim.h, &frameAnim);
 	else
