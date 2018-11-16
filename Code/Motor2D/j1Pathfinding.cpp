@@ -232,6 +232,32 @@ uint PathNode::FindWalkableAdjacents(PathList& list_to_fill) const
 	return list_to_fill.list.Count();
 }
 
+uint PathNode::FindWalkableAdjacentsWalking(PathList & list_to_fill) const
+{
+	iPoint cell;
+	uint before = list_to_fill.list.Count();
+
+
+	// south
+	cell.create(pos.x, pos.y - 1);
+	if (App->pathfinding->IsWalkable(cell))
+	{
+			list_to_fill.list.add(PathNode(-1, -1, cell, this));
+	}
+	// east
+	cell.create(pos.x + 1, pos.y);
+	if (App->pathfinding->IsWalkable(cell))
+		list_to_fill.list.add(PathNode(-1, -1, cell, this));
+
+	// west
+	cell.create(pos.x - 1, pos.y);
+	if (App->pathfinding->IsWalkable(cell))
+		list_to_fill.list.add(PathNode(-1, -1, cell, this));
+
+	return list_to_fill.list.Count();
+	return uint();
+}
+
 // PathNode -------------------------------------------------------------------------
 // Calculates this tile score
 // ----------------------------------------------------------------------------------
@@ -254,7 +280,7 @@ int PathNode::CalculateF(const iPoint& destination)
 // ----------------------------------------------------------------------------------
 // Actual A* algorithm: return number of steps in the creation of the path or -1 ----
 // ----------------------------------------------------------------------------------
-int j1PathFinding::CreatePath(const iPoint& origin, const iPoint& destination)
+int j1PathFinding::CreatePath(const iPoint& origin, const iPoint& destination, pathTypes type)
 {
 	BROFILER_CATEGORY("Pathfinding", Profiler::Color::Violet)
 	if(!IsWalkable(origin) || !IsWalkable(destination))
@@ -279,8 +305,11 @@ int j1PathFinding::CreatePath(const iPoint& origin, const iPoint& destination)
 		}
 
 		PathList neighbours;
-		currNode->data.FindWalkableAdjacents(neighbours);
-
+		if(type == FLYING)
+			currNode->data.FindWalkableAdjacents(neighbours);
+		else if(type == WALKING)
+			currNode->data.FindWalkableAdjacentsWalking(neighbours);
+		
 		
 		for (p2List_item<PathNode>* nodeNeigh= neighbours.list.start; nodeNeigh; nodeNeigh= nodeNeigh->next)
 		{
@@ -292,9 +321,7 @@ int j1PathFinding::CreatePath(const iPoint& origin, const iPoint& destination)
 
 			 nodeNeigh->data.CalculateF(destination);
 			if (openItem == NULL)
-			{
 				openList.list.add(nodeNeigh->data);
-			}
 			
 			else if (nodeNeigh->data.numSteps < openItem->data.numSteps)
 				{

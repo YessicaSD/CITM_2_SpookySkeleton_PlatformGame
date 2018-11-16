@@ -20,6 +20,14 @@ struct PathList;
 // ---------------------------------------------------------------------
 // Pathnode: Helper struct to represent a node in the path creation
 // ---------------------------------------------------------------------
+enum moveState
+{
+	NONE,
+	RIGHT,
+	LEFT,
+	FALL,
+	
+};
 struct PathNode
 {
 	// Convenient constructors
@@ -29,6 +37,7 @@ struct PathNode
 
 	// Fills a list (PathList) of all valid adjacent pathnodes
 	uint FindWalkableAdjacents(PathList& list_to_fill) const;
+	uint FindWalkableAdjacentsWalking(PathList& list_to_fill) const;
 	// Calculates this tile score
 	int Score() const;
 	// Calculate the F for a specific destination tile
@@ -39,6 +48,8 @@ struct PathNode
 	int h;
 	iPoint pos;
 	const PathNode* parent = nullptr; // needed to reconstruct the path in the end
+	moveState moveTo = NONE;
+	
 };
 
 // ---------------------------------------------------------------------
@@ -56,6 +67,12 @@ struct PathList
 	// The list itself, note they are not pointers!
 	p2List<PathNode> list;
 };
+enum pathTypes
+{
+	FLYING,
+	WALKING,
+};
+
 struct SDL_Texture;
 class j1PathFinding : public j1Module
 {
@@ -80,7 +97,7 @@ public:
 	void SetMap(uint width, uint height, uchar* data);
 
 	// Main function to request a path from A to B
-	int CreatePath(const iPoint& origin, const iPoint& destination);
+	int CreatePath(const iPoint& origin, const iPoint& destination,pathTypes type= FLYING);
 
 	// To request all tiles involved in the last generated path
 	const p2DynArray<iPoint>* GetLastPath() const;

@@ -2,7 +2,7 @@
 #define ENTITYZOMBIE_H_
 #include "j1Entity.h"
 #include "p2Point.h"
-
+#include "j1Timer.h"
 enum class State_zomby :uint
 {
 	STATE_IDLE,
@@ -21,6 +21,7 @@ private:
 	iPoint playerPos;
 	uint halfTileSize = 16;
 	p2DynArray<iPoint> path;
+	j1Timer timer;
 public:
 	EntityZombie(fPoint pos, Animation* anim, SDL_Texture* tex);
 	void Draw() override;

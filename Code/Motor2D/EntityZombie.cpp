@@ -3,10 +3,9 @@
 #include "j1ModuleEntity.h"
 #include "j1Pathfinding.h"
 #include "p2Log.h"
-
 #include "p2Defs.h"
-
 #include "p2Point.h"
+
 
 #include "j1Audio.h"
 #include "j1Entity.h"
@@ -32,30 +31,34 @@ EntityZombie::EntityZombie(fPoint pos, Animation* anim, SDL_Texture* tex): j1Ent
 	pugi::xml_node nodeCol = nodeZombie.child("collider");
 
 	collider = App->collision->AddCollider({(int)pos.x,(int)pos.y,nodeCol.attribute("w").as_int(),nodeCol.attribute("h").as_int() }, COLLIDER_ENEMY, App->entity);
+	timer.Start();
 }
 
 
 bool EntityZombie::PreUpdate(float dt)
 {
 	this->dt = dt;
-	playerPos = App->map->WorldToMap(App->entity->entity_player->position.x, App->entity->entity_player->position.y- halfTileSize);
-	iPoint zombiePos=App->map->WorldToMap((int)position.x, (int)position.y - halfTileSize);
-
-	int manhattan = App->pathfinding->ManhattanDistance(playerPos, zombiePos);
-	if (manhattan < 10)
+	if (timer.ReadSec()>=2)
 	{
-		if (App->pathfinding->CreatePath(zombiePos, playerPos) == 1)
-		{
-			path.Clear();
-			const p2DynArray<iPoint>* pathIter = App->pathfinding->GetLastPath();
-			for (int i = 0; i < pathIter->Count(); ++i)
-			{
-				path.PushBack(*pathIter->At(i));
-			}
+		playerPos = App->map->WorldToMap(App->entity->entity_player->position.x, App->entity->entity_player->position.y - halfTileSize);
+		iPoint zombiePos = App->map->WorldToMap((int)position.x, (int)position.y - halfTileSize);
 
+		int manhattan = App->pathfinding->ManhattanDistance(playerPos, zombiePos);
+		if (manhattan < 10)
+		{
+			if (App->pathfinding->CreatePath(zombiePos, playerPos) == 1)
+			{
+				path.Clear();
+				const p2DynArray<iPoint>* pathIter = App->pathfinding->GetLastPath();
+				for (int i = 0; i < pathIter->Count(); ++i)
+				{
+					path.PushBack(*pathIter->At(i));
+				}
+
+			}
 		}
+		timer.Start();
 	}
-	
 
 	return true;
 	
@@ -83,7 +86,6 @@ void EntityZombie::Draw()
 
 	for (uint i = 0; i < path.Count(); ++i)
 	{
-
 		iPoint pos = App->map->MapToWorld(path.At(i)->x, path.At(i)->y);
 		App->render->Blit(App->pathfinding->debug_tex, pos.x, pos.y);
 	}
