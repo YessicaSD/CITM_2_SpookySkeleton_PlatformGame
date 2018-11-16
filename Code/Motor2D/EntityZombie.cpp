@@ -2,9 +2,10 @@
 #include "j1App.h"
 #include "j1ModuleEntity.h"
 #include "j1Pathfinding.h"
+#include "p2Log.h"
 
 #include "p2Defs.h"
-#include "p2Log.h"
+
 #include "p2Point.h"
 
 #include "j1Audio.h"
@@ -39,17 +40,22 @@ bool EntityZombie::PreUpdate(float dt)
 	this->dt = dt;
 	playerPos = App->map->WorldToMap(App->entity->entity_player->position.x, App->entity->entity_player->position.y- halfTileSize);
 	iPoint zombiePos=App->map->WorldToMap((int)position.x, (int)position.y - halfTileSize);
-	if (App->pathfinding->CreatePath(zombiePos, playerPos)==1)
+
+	int manhattan = App->pathfinding->ManhattanDistance(playerPos, zombiePos);
+	if (manhattan < 10)
 	{
-		path.Clear();
-		const p2DynArray<iPoint>* pathIter = App->pathfinding->GetLastPath();
-		for (int i = 0; i < pathIter->Count(); ++i)
+		if (App->pathfinding->CreatePath(zombiePos, playerPos) == 1)
 		{
-			path.PushBack(*pathIter->At(i));
+			path.Clear();
+			const p2DynArray<iPoint>* pathIter = App->pathfinding->GetLastPath();
+			for (int i = 0; i < pathIter->Count(); ++i)
+			{
+				path.PushBack(*pathIter->At(i));
+			}
+
 		}
-		
-		
 	}
+	
 
 	return true;
 	
