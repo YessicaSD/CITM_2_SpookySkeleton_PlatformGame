@@ -41,13 +41,14 @@ bool EntityZombie::PreUpdate(float dt)
 	iPoint zombiePos=App->map->WorldToMap((int)position.x, (int)position.y - halfTileSize);
 	if (App->pathfinding->CreatePath(zombiePos, playerPos)==1)
 	{
-		const p2DynArray<iPoint>* path = App->pathfinding->GetLastPath();
-
-		for (uint i = 0; i < path->Count(); ++i)
+		path.Clear();
+		const p2DynArray<iPoint>* pathIter = App->pathfinding->GetLastPath();
+		for (int i = 0; i < pathIter->Count(); ++i)
 		{
-			iPoint pos = App->map->MapToWorld(path->At(i)->x, path->At(i)->y);
-			App->render->Blit(App->pathfinding->debug_tex, pos.x, pos.y);
+			path.PushBack(*pathIter->At(i));
 		}
+		
+		
 	}
 
 	return true;
@@ -72,6 +73,14 @@ void EntityZombie::Draw()
 		App->render->Blit(texture, position.x - frameAnim.w / 2, position.y - frameAnim.h, &frameAnim);
 	else
 		App->render->Blit(texture, position.x - frameAnim.w / 2, position.y - frameAnim.h, &frameAnim, SDL_FLIP_HORIZONTAL);
+	int num = path.Count();
+
+	for (uint i = 0; i < path.Count(); ++i)
+	{
+
+		iPoint pos = App->map->MapToWorld(path.At(i)->x, path.At(i)->y);
+		App->render->Blit(App->pathfinding->debug_tex, pos.x, pos.y);
+	}
 }
 
 bool EntityZombie::CleanUp()
