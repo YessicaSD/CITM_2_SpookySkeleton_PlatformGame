@@ -20,7 +20,8 @@ private:
 	iPoint rectMesure = { 0,0 };
 	Animation anim_bat;
 	BatState state = BatState::STATE_IDLE;
-
+	const p2DynArray<iPoint>* bat_path;
+	
 public:
 	EntityBat(fPoint pos, Animation* anim, SDL_Texture* tex);
 	~EntityBat();

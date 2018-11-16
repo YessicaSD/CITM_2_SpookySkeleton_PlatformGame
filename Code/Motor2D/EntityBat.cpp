@@ -8,6 +8,7 @@
 #include "j1Audio.h"
 #include "j1Input.h"
 #include "j1Map.h"
+#include "j1Pathfinding.h"
 #include "j1Textures.h"
 #include "ModuleFadeToBack.h"
 #include "j1Collision.h"
@@ -56,6 +57,16 @@ bool EntityBat::PreUpdate(float dt)
 void EntityBat::Move(float dt)
 {
 	collider->SetPos(position.x - collider->rect.w / 2, position.y - collider->rect.h);
+	iPoint ibat_pos(position.x, position.y);
+	iPoint iplayer_pos(App->entity->entity_player->position.x, App->entity->entity_player->position.y);
+	App->pathfinding->CreatePath(ibat_pos, iplayer_pos);
+	bat_path = App->pathfinding->GetLastPath();
+	
+	/*for (int i=0;i<bat_path->Count();i++)
+	{
+		position.x = bat_path->At(i)->x;
+		position.y = bat_path->At(i)->y;
+	}*/
 }
 
 
