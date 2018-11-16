@@ -18,6 +18,8 @@ class EntityBat : public j1Entity
 private:
 	bool right = true;
 	iPoint rectMesure = { 0,0 };
+	iPoint ibat_pos = { position.x,position.y };
+	p2List<iPoint> ibat_pointer;
 	Animation anim_bat;
 	BatState state = BatState::STATE_IDLE;
 	const p2DynArray<iPoint>* bat_path;
@@ -25,7 +27,7 @@ private:
 public:
 	EntityBat(fPoint pos, Animation* anim, SDL_Texture* tex);
 	~EntityBat();
-	bool PreUpdate(float dt);
+	bool PreUpdate(float dt) override;
 	void Move(float dt);
 	void Draw() override;
 	void OnCollision(Collider* collider);

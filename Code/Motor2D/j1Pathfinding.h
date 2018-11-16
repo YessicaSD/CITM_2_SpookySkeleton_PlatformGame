@@ -90,7 +90,12 @@ public:
 	// Utility: return the walkability value of a tile
 	uchar GetTileAt(const iPoint& pos) const;
 
-	inline int ManhattanDistance(const iPoint& origen, const iPoint& final);
+	inline int j1PathFinding::ManhattanDistance(const iPoint & origen, const iPoint & final)
+	{
+		int distance = 0;
+		distance = abs(origen.x - final.x) + abs(origen.y - final.y);
+		return distance;
+	}
 
 private:
 

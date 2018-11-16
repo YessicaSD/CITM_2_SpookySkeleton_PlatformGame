@@ -117,12 +117,6 @@ uchar j1PathFinding::GetTileAt(const iPoint& pos) const
 	return INVALID_WALK_CODE;
 }
 
-inline int j1PathFinding::ManhattanDistance(const iPoint & origen, const iPoint & final)
-{
-	int distance=0;
-	distance = abs(origen.x - final.x) + abs(origen.y - final.y);
-	return distance;
-}
 
 // To request all tiles involved in the last generated path
 const p2DynArray<iPoint>* j1PathFinding::GetLastPath() const

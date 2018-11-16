@@ -48,8 +48,14 @@ bool EntityBat::PreUpdate(float dt)
 	iPoint origin= App->map->WorldToMap(position.x, position.y);
 	
 	iPoint p = App->map->WorldToMap(App->entity->entity_player->position.x, App->entity->entity_player->position.y-16);
+
+	int manhattan = App->pathfinding->ManhattanDistance(origin, p);
 	
-	App->pathfinding->CreatePath(origin, p);
+	if (manhattan < 15)
+	{
+		App->pathfinding->CreatePath(origin, p);
+	}
+	
 	return true;
 }
 
@@ -63,26 +69,19 @@ bool EntityBat::PreUpdate(float dt)
 void EntityBat::Move(float dt)
 {
 	collider->SetPos(position.x - collider->rect.w / 2, position.y - collider->rect.h);
-	/*iPoint ibat_pos(position.x, position.y);
-	iPoint iplayer_pos= App->render->ScreenToWorld(App->entity->entity_player->position.x, App->entity->entity_player->position.y);
-	App->pathfinding->CreatePath(ibat_pos, iplayer_pos);
-	bat_path = App->pathfinding->GetLastPath();
 	
-	for (int i=0;i<bat_path->Count();i++)
-	{
-		position.x = bat_path->At(i)->x;
-		position.y = bat_path->At(i)->y;
-	}*/
-	iPoint ibat_pos(position.x, position.y);
-	
-	iPoint p = App->render->ScreenToWorld(position.x, position.y);
-	p = App->map->WorldToMap(p.x, p.y);
-	p = App->map->MapToWorld(p.x, p.y);
-	const p2DynArray<iPoint>* path = App->pathfinding->GetLastPath();
 
+	
+	ibat_pos = App->map->WorldToMap(position.x, position.y);
+	ibat_pos = App->map->MapToWorld(ibat_pos.x, ibat_pos.y);
+	
+	
+	const p2DynArray<iPoint>* path = App->pathfinding->GetLastPath();
+	
 	for (uint i = 0; i < path->Count(); ++i)
 	{
 		ibat_pos = App->map->MapToWorld(path->At(i)->x, path->At(i)->y);
+		ibat_pointer.add(ibat_pos);
 		
 	}
 }
@@ -93,12 +92,14 @@ void EntityBat::Move(float dt)
 void EntityBat::Draw()
 {
 	SDL_Rect frameAnim = anim_bat.GetCurrentFrame(dt);
-	
-	if (right)
-		App->render->Blit(texture, position.x - frameAnim.w / 2, position.y - frameAnim.h, &frameAnim);
-	else
-		App->render->Blit(texture, position.x - frameAnim.w / 2, position.y - frameAnim.h, &frameAnim, SDL_FLIP_HORIZONTAL);
-	
+	p2List_item<iPoint>* item_pos = ibat_pointer.start;
+	for (item_pos;item_pos!=nullptr;item_pos=item_pos->next)
+	{
+		if (right)
+			App->render->Blit(texture, item_pos->data.x - frameAnim.w / 2, item_pos->data.y - frameAnim.h, &frameAnim);
+		else
+			App->render->Blit(texture, item_pos->data.x - frameAnim.w / 2, item_pos->data.y - frameAnim.h, &frameAnim, SDL_FLIP_HORIZONTAL);
+	}
 }
 
 void EntityBat::OnCollision(Collider * collider)
