@@ -1,6 +1,7 @@
 #ifndef ENTITYBAT_H_
 #define ENTITYBAT_H_
 #include "j1Entity.h"
+#include "j1Timer.h"
 #include "p2Point.h"
 
 
@@ -19,9 +20,12 @@ private:
 	bool right = true;
 	iPoint rectMesure = { 0,0 };
 	iPoint ibat_pos = { position.x,position.y };
+	fPoint speed_bat = { 0.0F,0.0F };
 	Animation anim_bat;
 	BatState state = BatState::STATE_IDLE;
-	const p2DynArray<iPoint>* bat_path;
+	p2DynArray<iPoint> bat_path;
+	j1Timer timer;
+	int i = 0;
 	
 public:
 	EntityBat(fPoint pos, Animation* anim, SDL_Texture* tex);
