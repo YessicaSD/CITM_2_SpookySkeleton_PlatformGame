@@ -8,7 +8,7 @@
         <bat x="300" y="150"/>
       </bats>
       <zombies>
-        <zombie x="100" y="384"/>
+        <zombie x="100" y="380"/>
         <zombie x="720" y="288"/>
       </zombies>
     </entities>

@@ -30,7 +30,7 @@ EntityZombie::EntityZombie(fPoint pos, Animation* anim, SDL_Texture* tex): j1Ent
 	pugi::xml_node nodeZombie = App->entity->entitiesNodeDoc.child("zombie");
 	pugi::xml_node nodeCol = nodeZombie.child("collider");
 
-	collider = App->collision->AddCollider({(int)pos.x,(int)pos.y,nodeCol.attribute("w").as_int(),nodeCol.attribute("h").as_int() }, COLLIDER_IGNORE_HIT, App->entity);
+	collider = App->collision->AddCollider({(int)pos.x,(int)pos.y,nodeCol.attribute("w").as_int(),nodeCol.attribute("h").as_int() }, COLLIDER_GOD, App->entity);
 	timer.Start();
 	entityPlayerTarget = App->entity->entity_player;
 }
@@ -39,7 +39,8 @@ EntityZombie::EntityZombie(fPoint pos, Animation* anim, SDL_Texture* tex): j1Ent
 bool EntityZombie::PreUpdate(float dt)
 {
 	this->dt = dt;
-	if (timer.ReadSec()>=2 && entityPlayerTarget!=nullptr)
+	moveDown = true;
+	if (timer.ReadSec()>=1 && entityPlayerTarget!=nullptr)
 	{
 		playerPos = App->map->WorldToMap(entityPlayerTarget->position.x, entityPlayerTarget->position.y - halfTileSize);
 		iPoint zombiePos = App->map->WorldToMap((int)position.x, (int)position.y - halfTileSize);
@@ -60,7 +61,7 @@ bool EntityZombie::PreUpdate(float dt)
 		}
 		timer.Start();
 	}
-
+	collider->SetPos((position.x + speed.x) - collider->rect.w *0.5F, (position.y + speed.y) - collider->rect.h);
 	return true;
 	
 }
@@ -74,7 +75,28 @@ void EntityZombie::Move(float dt)
 	{
 		sizePath -= 1;
  		iPoint zombiePos = App->map->WorldToMap((int)position.x, (int)position.y - halfTileSize);
-		if (pathIndex<sizePath)
+		int i =0 ;
+		bool findPositionOnPath = false;
+		for (i;i<sizePath;++i)
+		{
+			if (*path.At(i) == zombiePos)
+			{
+				findPositionOnPath = true;
+				break;
+			}
+		}
+		if (findPositionOnPath)
+		{
+			if (i < sizePath)
+			{
+				speed.x = path[i + 1].x - path[i].x;
+			}
+		}
+		/*else
+		{
+			speed.x = 0;
+		}*/
+		/*if (pathIndex<sizePath)
 		{
 			
 			speed.x = path[pathIndex +1].x - path[pathIndex].x;
@@ -84,8 +106,8 @@ void EntityZombie::Move(float dt)
 			{
 				++pathIndex;
 			}
-		}
-		else
+		}*/
+		/*else
 		{
 			if (zombiePos == path[pathIndex])
 			{
@@ -94,7 +116,7 @@ void EntityZombie::Move(float dt)
 				path.Clear();
 			}
 			
-		}
+		}*/
 	}
 	else
 	{
@@ -103,7 +125,42 @@ void EntityZombie::Move(float dt)
 	}
 	position.x += speed.x;
 	position.y += speed.y;
+	if (moveDown)
+		speed.y += 1;
 	collider->SetPos(position.x - collider->rect.w / 2, position.y - collider->rect.h);
+}
+void EntityZombie::OnCollision(Collider * otherColl)
+{
+
+	bool isOn = (int)position.y <= otherColl->rect.y && (int)(position.x) > otherColl->rect.x && (int)(position.x) < otherColl->rect.x + otherColl->rect.w;
+	bool isOnTheLeft = position.x < otherColl->rect.x && (int)position.y > otherColl->rect.y;
+	bool isOnTheRight = position.x > otherColl->rect.x + otherColl->rect.w && (int)position.y > otherColl->rect.y;
+	bool isUnder = position.y > otherColl->rect.y + otherColl->rect.h && collider->rect.x + collider->rect.w - 5 > otherColl->rect.x && collider->rect.x + 5 < otherColl->rect.x + otherColl->rect.w;
+
+
+	if (otherColl->type == COLLIDER_WALL || otherColl->type == COLLIDER_ICE || otherColl->type == COLLIDER_SPECIAL)
+	{
+		if (isOn)
+		{
+			moveDown = false;
+			speed.y = (otherColl->rect.y - (int)position.y);
+			}
+
+		
+		if (otherColl->type != COLLIDER_SPECIAL)
+		{
+			if (isOnTheLeft)
+				speed.x = otherColl->rect.x - ((int)position.x + collider->rect.w *0.5F);
+
+			if (isOnTheRight)
+				speed.x = (otherColl->rect.x + otherColl->rect.w) - (position.x - collider->rect.w *0.5F);
+
+			if (isUnder)
+				speed.y = (otherColl->rect.y + otherColl->rect.h) - ((int)position.y - collider->rect.h);
+		}
+
+	}
+
 }
 
 void EntityZombie::Draw()
