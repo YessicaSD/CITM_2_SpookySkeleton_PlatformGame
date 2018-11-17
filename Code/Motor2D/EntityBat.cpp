@@ -52,7 +52,7 @@ bool EntityBat::PreUpdate(float dt)
 
 		int manhattan = App->pathfinding->ManhattanDistance(origin, p);
 
-		if (manhattan < 20)
+		if (manhattan < 15)
 		{
 			if (App->pathfinding->CreatePath(origin, p, FLYING)==1)
 			{

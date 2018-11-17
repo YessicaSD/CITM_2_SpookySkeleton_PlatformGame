@@ -5,7 +5,11 @@
         <player x="60" y="384"/>
       </players>
       <bats>
-        <bat x="300" y="150"/>
+        <bat x="300" y="250"/>
+        <bat x="1100" y="200"/>
+        <bat x="2300" y="200"/>
+        <bat x="3424" y="96"/>
+        <bat x="3968" y="352"/>
       </bats>
       <zombies>
         <zombie x="100" y="380"/>
@@ -21,7 +25,9 @@
         <player x="60" y="384"/>
       </players>
       <bats>
-        <bat x="60" y="384"/>
+        <bat x="704" y="384"/>
+        <bat x="1728" y="160"/>
+        <bat x="2496" y="320"/>
       </bats>
       <zombies>
         <zombie x="60" y="384"/>
