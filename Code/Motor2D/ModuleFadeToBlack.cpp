@@ -3,7 +3,7 @@
 #include "j1Render.h"
 #include "p2Log.h"
 #include "j1Map.h"
-#include "j1Entity.h"
+#include "Scene.h"
 ModuleFadeToBlack::~ModuleFadeToBlack()
 {
 
@@ -25,7 +25,7 @@ bool  ModuleFadeToBlack::Update(float dt)
 	if (current_step == fade_step::none)
 		return true;
 
-	Uint32 now = SDL_GetTicks() - start_time;
+	Uint32 now = timer.Read();
 	normalized = MIN(1.0f, (float)now / (float)total_time);
 
 	switch (current_step)
@@ -34,10 +34,10 @@ bool  ModuleFadeToBlack::Update(float dt)
 	{
 		if (now >= total_time)
 		{
-			// TODO 3: enable / disable the modules received when FadeToBlacks() gets called
-
 			App->map->Disable();
 			App->map->Enable();
+			App->scene->Disable();
+			App->scene->Enable();
 			total_time += total_time;
 			start_time = SDL_GetTicks();
 			current_step = fade_step::fade_from_black;
@@ -56,7 +56,7 @@ bool  ModuleFadeToBlack::Update(float dt)
 
 	return true;
 }
-bool ModuleFadeToBlack::Draw()
+bool ModuleFadeToBlack::Draw(float dt)
 {
 	// Finally render the black square with alpha on the screen
 	App->render->DrawQuad(screen, 0, 0, 0, (Uint8)(normalized * 255.0f),true,false);
@@ -68,7 +68,7 @@ bool ModuleFadeToBlack:: FadeToBlack(uint lvlnum, float time) {
 	if (current_step == fade_step::none)
 	{
 		current_step = fade_step::fade_to_black;
-		start_time = SDL_GetTicks();
+		this->timer.Start();
 		total_time = (Uint32)(time * 0.5f * 1000.0f);
 		App->map->num_thismaplvl = lvlnum;
 			App->map->activateScene(lvlnum);

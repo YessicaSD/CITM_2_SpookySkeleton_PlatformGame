@@ -3,7 +3,7 @@
 
 #include "j1Module.h"
 #include "SDL\include\SDL_rect.h"
-
+#include "j1Timer.h"
 class ModuleFadeToBlack : public j1Module
 {
 public:
@@ -16,7 +16,7 @@ public:
 	bool Start() override;
 	bool Update(float dt) override;
 	bool FadeToBlack(uint lvlnum, float time=2.0f);
-	bool Draw();
+	bool Draw(float dt) override;
 private:
 
 	enum fade_step
@@ -30,7 +30,7 @@ private:
 	Uint32 total_time = 0;
 	SDL_Rect screen;
 	float normalized;
-	
+	j1Timer timer;
 	
 };
 

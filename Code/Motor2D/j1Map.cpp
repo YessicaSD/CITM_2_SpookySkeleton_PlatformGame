@@ -246,7 +246,7 @@ bool j1Map::CleanUp()
 	LOG("Unloading map");
 
 	// Remove all tilesets----------------------------------------------------------------------------------
-	App->entity->Disable();
+	
 	for (p2List_item<TileSet*>* item = level.tilesets.end; item; item = item->prev)
 	{
 		RELEASE(item->data);

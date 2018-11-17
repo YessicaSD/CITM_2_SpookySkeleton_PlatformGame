@@ -77,6 +77,7 @@ bool ModuleEnemies::PreUpdate(float dt)
 bool ModuleEnemies::Update(float dt)
 {
 	p2List_item<j1Entity*>* actualEntity = nullptr;
+	LOG("NUM OF ENTITIES %i", list_Entities.Count());
 	for (actualEntity = list_Entities.start; actualEntity; actualEntity = actualEntity->next)
 	{
 		actualEntity->data->Move(dt);

@@ -43,6 +43,7 @@ bool j1Scene::Awake(pugi::xml_node& node)
 // Called before the first frame
 bool j1Scene::Start()
 {
+	App->entity->Enable();
 	//Pick level node-----------------------------------------
 	pugi::xml_node levelNode = sceneNode.child("level");
 	for (uint i = 1; i < App->map->num_thismaplvl; ++i)
@@ -69,7 +70,6 @@ bool j1Scene::Start()
 		App->entity->AddEntity(ENEMI_ZOMBIE, { zombieNode.attribute("x").as_float(),zombieNode.attribute("y").as_float() });
 	}
 	
-
 	return true;
 }
 
@@ -99,6 +99,7 @@ bool j1Scene::PostUpdate()
 bool j1Scene::CleanUp()
 {
 	LOG("Freeing scene");
-
+	App->entity->Disable();
+	
 	return true;
 }
