@@ -20,14 +20,7 @@ struct PathList;
 // ---------------------------------------------------------------------
 // Pathnode: Helper struct to represent a node in the path creation
 // ---------------------------------------------------------------------
-enum moveState
-{
-	NONE,
-	RIGHT,
-	LEFT,
-	FALL,
-	
-};
+
 struct PathNode
 {
 	// Convenient constructors
@@ -48,7 +41,6 @@ struct PathNode
 	int h;
 	iPoint pos;
 	const PathNode* parent = nullptr; // needed to reconstruct the path in the end
-	moveState moveTo = NONE;
 	
 };
 
