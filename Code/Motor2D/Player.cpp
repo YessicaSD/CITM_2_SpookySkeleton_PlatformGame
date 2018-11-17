@@ -56,9 +56,24 @@ Player::Player(fPoint position, Animation* anim, SDL_Texture* tex):j1Entity(posi
 	SDL_Rect playerRect = { (position.x - rectMesure.x / 2), (position.y - rectMesure.y), rectMesure.x, rectMesure.y };
 	collider = App->collision->AddCollider(playerRect, COLLIDER_PLAYER, App->entity);
 
-	distansToCam = { (int)App->map->level.properties.Get("Distant_to_cam_x"),(int)App->map->level.properties.Get("Distant_to_cam_y") };
-	App->render->camera.x = (position.x + distansToCam.x);
-	App->render->camera.y = (position.y + distansToCam.y);
+	if (App->map->num_thismaplvl == 1)
+	{
+		distansToCam = { (int)App->map->level.properties.Get("Distant_to_cam_x"),(int)App->map->level.properties.Get("Distant_to_cam_y") };
+		App->render->camera.x = (position.x + distansToCam.x);
+		App->render->camera.y = (position.y + distansToCam.y);
+		LOG("DISTANCE TO CAM EN Y ES %i", distansToCam.y);
+	}
+
+	if (App->map->num_thismaplvl == 2)
+	{
+		distansToCam = { -60,-180 };
+		App->render->camera.x = (position.x + distansToCam.x);
+		App->render->camera.y = (position.y + distansToCam.y);
+		LOG("DISTANCE TO CAM EN Y ES %i", distansToCam.y);
+	}
+
+	
+	
 
 	maxSpeed = { nodePlayer.attribute("Speed_x").as_float(), nodePlayer.attribute("Speed_y").as_float() };
 
