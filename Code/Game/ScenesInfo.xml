@@ -12,8 +12,11 @@
         <bat x="3968" y="352"/>
       </bats>
       <zombies>
-        <zombie x="100" y="380"/>
         <zombie x="720" y="288"/>
+        <zombie x="1888" y="224"/>
+        <zombie x="2976" y="320"/>
+        <zombie x="3840" y="96"/>
+        <zombie x="4544" y="320"/>
       </zombies>
     </entities>
     </level>
@@ -30,7 +33,10 @@
         <bat x="2496" y="320"/>
       </bats>
       <zombies>
-        <zombie x="100" y="384"/>
+        <zombie x="160" y="448"/>
+        <zombie x="784" y="224"/>
+        <zombie x="1472" y="448"/>
+      
       </zombies>
     </entities>
   </level>
