@@ -187,15 +187,15 @@ void Player::Draw()
 void Player::OnCollision(Collider * otherColl)
 {
 	
-	bool PlayerIsOn = (int)position.y <= otherColl->rect.y && position.x + collider->rect.w/2 > otherColl->rect.x && position.x - collider->rect.w / 2 < otherColl->rect.x + otherColl->rect.w;
-	bool PlayerIsOnTheLeft = position.x < otherColl->rect.x  && position.y > otherColl->rect.y;
-	bool PlayerIsOnTheRight = position.x > otherColl->rect.x + otherColl->rect.w  && position.y > otherColl->rect.y;
+	bool PlayerIsOn = (int)position.y <= otherColl->rect.y && (int)(position.x) > otherColl->rect.x && (int)(position.x) < otherColl->rect.x + otherColl->rect.w;
+	bool PlayerIsOnTheLeft = (int)position.x < otherColl->rect.x  && (int)position.y > otherColl->rect.y;
+	bool PlayerIsOnTheRight = (int)(position.x - collider->rect.w* 0.5F)> otherColl->rect.x + otherColl->rect.w  && (int)position.y > otherColl->rect.y;
 	bool PlayerIsUnder = position.y > otherColl->rect.y + otherColl->rect.h && collider->rect.x + collider->rect.w - 5 > otherColl->rect.x && collider->rect.x + 5 < otherColl->rect.x + otherColl->rect.w;
 	
 
 	if (otherColl->type == COLLIDER_WALL|| otherColl->type == COLLIDER_ICE || otherColl->type == COLLIDER_SPECIAL)
 	{
-		if ((PlayerIsOn && otherColl->type != COLLIDER_SPECIAL) || (speed.y >= 0 && otherColl->type == COLLIDER_SPECIAL))
+		if ((PlayerIsOn && otherColl->type != COLLIDER_SPECIAL) || (speed.y >= 0 && otherColl->type == COLLIDER_SPECIAL && PlayerIsOn))
 		{
 
 			if (state == STATE_JUMP)
@@ -230,14 +230,12 @@ void Player::OnCollision(Collider * otherColl)
 		if (otherColl->type != COLLIDER_SPECIAL)
 		{
 			if (PlayerIsOnTheLeft)
-				speed.x = otherColl->rect.x - (position.x + collider->rect.w / 2);
+				speed.x = otherColl->rect.x - ((int)position.x + collider->rect.w / 2);
 
 
 			if (PlayerIsOnTheRight)
 				speed.x = (otherColl->rect.x + otherColl->rect.w) - (position.x - collider->rect.w / 2);
 			
-
-
 			if (PlayerIsUnder)
 				speed.y = (otherColl->rect.y + otherColl->rect.h) - ((int)position.y - collider->rect.h);
 		}

@@ -4,17 +4,15 @@
 	<window />
 	<textures />
 	<audio />
-	<pathfinding />
 	<map>
 		<lvl num="1" />
 	</map>
-	<player>
-		<position x="1653.09058" y="288.940796" />
-	</player>
-	<enemies />
+	<entities />
+	<scene />
+	<pathfinding />
 	<:anonymous />
 	<fade />
 	<renderer>
-		<camera x="3186" y="38" />
+		<camera x="0" y="134" />
 	</renderer>
 </game_state>
