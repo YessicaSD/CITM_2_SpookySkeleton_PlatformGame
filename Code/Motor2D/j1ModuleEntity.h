@@ -58,6 +58,7 @@ public:
 	bool DestroyEntity(j1Entity* entity);
 	void DestroyAllEntities();
 	uint fx_death;
+	uint fx_jump;
 private:
 	float dt=0.0F;
 

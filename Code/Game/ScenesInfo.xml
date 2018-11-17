@@ -30,7 +30,7 @@
         <bat x="2496" y="320"/>
       </bats>
       <zombies>
-        <zombie x="60" y="384"/>
+        <zombie x="100" y="384"/>
       </zombies>
     </entities>
   </level>

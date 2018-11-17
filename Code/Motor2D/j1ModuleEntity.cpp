@@ -41,6 +41,7 @@ bool ModuleEnemies::Awake(pugi::xml_node &node)
 
 	entitiesNodeDoc = enemiesFile.child("entities");
 	fx_death = App->audio->LoadFx("audio/fx/smw_stomp_bones.wav");
+	fx_jump = App->audio->LoadFx("audio/fx/jump.wav");
 	return true;
 }
 bool ModuleEnemies::Start()

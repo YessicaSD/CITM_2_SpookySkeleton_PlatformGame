@@ -75,6 +75,7 @@ Player::Player(fPoint position, Animation* anim, SDL_Texture* tex):j1Entity(posi
 	
 	
 	death_fx = true;
+	jump_fx = true;
 	maxSpeed = { nodePlayer.attribute("Speed_x").as_float(), nodePlayer.attribute("Speed_y").as_float() };
 
 }
@@ -127,9 +128,16 @@ bool Player::PreUpdate(float dt)
 			state = STATE_JUMP;
 			speed.y = -maxSpeed.y;
 			canJump = false;
-		/*	App->audio->PlayFx(jump_fx);*/
+			if (jump_fx)
+			{
+				App->audio->PlayFx(App->entity->fx_jump);
+				jump_fx = false;
+			}
+		
 
 		}
+		if (state == STATE_JUMP)
+			jump_fx = true;
 
 		if (App->input->GetKey(SDL_SCANCODE_Q) == KEY_DOWN
 			&& (state == PlayerState::STATE_IDLE || state == PlayerState::STATE_WALK))
@@ -196,6 +204,7 @@ void Player::Draw()
 		state = STATE_IDLE;
 		animation[STATE_ATTACK].Reset();
 	}
+	
 
 	if(right)
 		App->render->Blit(texture, position.x - frameAnim.w/2, position.y - frameAnim.h, &frameAnim);

@@ -35,7 +35,7 @@ private:
 	bool right = true;
 	bool iceMovement = false;
 	bool death_fx = false;
-	uint jump_fx;
+	bool jump_fx = false;;
 	void DebugModeInput();
 public:
 		Player(fPoint position,Animation* anim,SDL_Texture* tex);
