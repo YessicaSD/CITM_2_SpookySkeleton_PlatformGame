@@ -9099,7 +9099,7 @@
   <object id="10" name="WALL" x="960" y="288" width="96" height="96"/>
   <object id="11" name="WALL" x="704" y="416" width="128" height="64"/>
   <object id="18" name="WALL" x="989.5" y="224" width="98.5" height="96"/>
-  <object id="25" name="WALL" x="1822" y="224" width="98" height="64"/>
+  <object id="25" name="WALL" x="1823.82" y="224" width="96.1818" height="64"/>
   <object id="27" name="SPECIAL" x="1952" y="160" width="96" height="32"/>
   <object id="28" name="WALL" x="2080" y="256" width="96" height="192"/>
   <object id="29" name="WALL" x="2176" y="352" width="96" height="96"/>
