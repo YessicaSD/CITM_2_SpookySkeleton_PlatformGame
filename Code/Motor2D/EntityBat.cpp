@@ -113,6 +113,14 @@ void EntityBat::Move(float dt)
 	}
 	position.x += speed.x;
 	position.y += speed.y;
+	if (speed.x > 0)
+	{
+		left = false;
+	}
+	else
+	{
+		left = true;
+	}
 
 	collider->SetPos(position.x - collider->rect.w / 2, position.y - collider->rect.h);
 
@@ -125,7 +133,7 @@ void EntityBat::Draw()
 {
 	SDL_Rect frameAnim = anim_bat.GetCurrentFrame(dt);
 	
-		if (right)
+		if (left)
 			App->render->Blit(texture, position.x - frameAnim.w / 2, position.y - frameAnim.h, &frameAnim);
 		else
 			App->render->Blit(texture, position.x - frameAnim.w / 2, position.y - frameAnim.h, &frameAnim, SDL_FLIP_HORIZONTAL);
