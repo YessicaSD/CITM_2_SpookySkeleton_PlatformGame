@@ -139,10 +139,13 @@ void EntityBat::Draw()
 		else
 			App->render->Blit(texture, position.x - frameAnim.w / 2, position.y - frameAnim.h, &frameAnim, SDL_FLIP_HORIZONTAL);
 		
-		for (uint i = 0; i < bat_path.Count(); ++i)
+		if (App->collision->debug)
 		{
-			iPoint pos = App->map->MapToWorld(bat_path.At(i)->x, bat_path.At(i)->y);
-			App->render->Blit(App->pathfinding->debug_tex, pos.x, pos.y);
+			for (uint i = 0; i < bat_path.Count(); ++i)
+			{
+				iPoint pos = App->map->MapToWorld(bat_path.At(i)->x, bat_path.At(i)->y);
+				App->render->Blit(App->pathfinding->debug_tex, pos.x, pos.y);
+			}
 		}
 }
 

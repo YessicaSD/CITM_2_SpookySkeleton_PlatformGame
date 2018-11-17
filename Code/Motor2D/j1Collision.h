@@ -68,7 +68,7 @@ private:
 	int getFilledColNum();
 	Collider* colliders[MAX_COLLIDERS] = { nullptr };
 	bool matrix[COLLIDER_MAX][COLLIDER_MAX];
-	bool debug = false;
+	
 
 public:
 
@@ -98,7 +98,7 @@ public:
 	}
 
 	
-	
+	 bool debug = false;
 
 	// Called each loop iteration
 	 bool PreUpdate(float dt) override;
