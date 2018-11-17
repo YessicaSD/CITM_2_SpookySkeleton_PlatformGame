@@ -211,6 +211,8 @@ void Player::OnCollision(Collider * otherColl)
 				{
 					if ((int)speed.x != 0)
 						speed.x += right ? -100 * dt : 100 * dt;
+					else
+						speed.x = 0.0F;
 					
 						if (state == STATE_WALK)
 							state = STATE_IDLE;

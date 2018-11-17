@@ -100,6 +100,7 @@ bool ModuleEnemies::PostUpdate()
 bool ModuleEnemies::CleanUp()
 {
 	LOG("Freeing all enemies");
+	entity_player = nullptr;
 	DestroyAllEntities();
 	
 	return true;

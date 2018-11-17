@@ -11,7 +11,13 @@ enum class State_zomby :uint
 	STATE_ATTACK,
 	STATE_MAX
 };
-
+enum direciton
+{
+	RIGHT, 
+	LEFT, 
+	FALL,
+	NONE
+};
 class EntityZombie : public j1Entity
 {
 private:
@@ -22,6 +28,9 @@ private:
 	uint halfTileSize = 16;
 	p2DynArray<iPoint> path;
 	j1Timer timer;
+	j1Entity* entityPlayerTarget = nullptr;
+	uint pathIndex = 0;
+	uint speedModule = 10;
 public:
 	EntityZombie(fPoint pos, Animation* anim, SDL_Texture* tex);
 	void Draw() override;

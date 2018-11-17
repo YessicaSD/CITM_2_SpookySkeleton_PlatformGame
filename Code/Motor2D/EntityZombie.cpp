@@ -30,23 +30,24 @@ EntityZombie::EntityZombie(fPoint pos, Animation* anim, SDL_Texture* tex): j1Ent
 	pugi::xml_node nodeZombie = App->entity->entitiesNodeDoc.child("zombie");
 	pugi::xml_node nodeCol = nodeZombie.child("collider");
 
-	collider = App->collision->AddCollider({(int)pos.x,(int)pos.y,nodeCol.attribute("w").as_int(),nodeCol.attribute("h").as_int() }, COLLIDER_ENEMY, App->entity);
+	collider = App->collision->AddCollider({(int)pos.x,(int)pos.y,nodeCol.attribute("w").as_int(),nodeCol.attribute("h").as_int() }, COLLIDER_IGNORE_HIT, App->entity);
 	timer.Start();
+	entityPlayerTarget = App->entity->entity_player;
 }
 
 
 bool EntityZombie::PreUpdate(float dt)
 {
 	this->dt = dt;
-	if (timer.ReadSec()>=2)
+	if (timer.ReadSec()>=2 && entityPlayerTarget!=nullptr)
 	{
-		playerPos = App->map->WorldToMap(App->entity->entity_player->position.x, App->entity->entity_player->position.y - halfTileSize);
+		playerPos = App->map->WorldToMap(entityPlayerTarget->position.x, entityPlayerTarget->position.y - halfTileSize);
 		iPoint zombiePos = App->map->WorldToMap((int)position.x, (int)position.y - halfTileSize);
 
 		int manhattan = App->pathfinding->ManhattanDistance(playerPos, zombiePos);
 		if (manhattan < 10)
 		{
-			if (App->pathfinding->CreatePath(zombiePos, playerPos) == 1)
+			if (App->pathfinding->CreatePath(zombiePos, playerPos,WALKING) == 1)
 			{
 				path.Clear();
 				const p2DynArray<iPoint>* pathIter = App->pathfinding->GetLastPath();
@@ -66,6 +67,30 @@ bool EntityZombie::PreUpdate(float dt)
 
 void EntityZombie::Move(float dt)
 {
+	/*uint sizePath = path.Count();
+	if (sizePath > 0)
+	{
+		iPoint zombiePos = App->map->WorldToMap((int)position.x, (int)position.y - halfTileSize);
+		if (pathIndex<sizePath)
+		{
+			speed.x = path[pathIndex + 1].x - path[pathIndex].x;
+			speed.y = path[pathIndex + 1].y - path[pathIndex].y;
+			
+			if (zombiePos == path[pathIndex + 1])
+			{
+				++pathIndex;
+			}
+		}
+		
+		
+	}
+	else
+	{
+		speed = {0,0 };
+
+	}*/
+	position.x += speed.x* speedModule * dt;
+	position.y += speed.y*speedModule * dt;
 	collider->SetPos(position.x - collider->rect.w / 2, position.y - collider->rect.h);
 }
 
