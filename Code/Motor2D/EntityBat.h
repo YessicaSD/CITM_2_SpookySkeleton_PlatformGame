@@ -24,6 +24,7 @@ private:
 	Animation anim_bat;
 	BatState state = BatState::STATE_IDLE;
 	p2DynArray<iPoint> bat_path;
+	int halfTileSize = 16;
 	j1Timer timer;
 	int i = 0;
 	
