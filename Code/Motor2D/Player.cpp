@@ -88,7 +88,11 @@ bool Player::PreUpdate(float dt)
 	moveDown = true;
 	this->dt = dt;
 	if (App->input->GetKey(SDL_SCANCODE_F10) == KEY_DOWN)
+	{
 		debugMode = !debugMode;
+		collider->type = COLLIDER_GOD;
+	}
+		
 
 	if (!debugMode)
 	{

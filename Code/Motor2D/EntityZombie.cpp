@@ -19,6 +19,7 @@
 
 EntityZombie::EntityZombie(fPoint pos, Animation* anim, SDL_Texture* tex): j1Entity(pos,tex)
 {
+	
 	for (uint i = 0; i < (uint)State_zomby::STATE_MAX; ++i)
 	{
 		animation[i].speed = anim[i].speed;
@@ -30,9 +31,11 @@ EntityZombie::EntityZombie(fPoint pos, Animation* anim, SDL_Texture* tex): j1Ent
 	pugi::xml_node nodeZombie = App->entity->entitiesNodeDoc.child("zombie");
 	pugi::xml_node nodeCol = nodeZombie.child("collider");
 
-	collider = App->collision->AddCollider({(int)pos.x,(int)pos.y,nodeCol.attribute("w").as_int(),nodeCol.attribute("h").as_int() }, COLLIDER_GOD, App->entity);
+	collider = App->collision->AddCollider({(int)pos.x,(int)pos.y,nodeCol.attribute("w").as_int(),nodeCol.attribute("h").as_int() }, COLLIDER_ENTITY, App->entity);
+	colAttack = App->collision->AddCollider({ (int)pos.x + 5,(int)pos.y,nodeCol.attribute("w").as_int(),nodeCol.attribute("h").as_int() }, COLLIDER_IGNORE_HIT, App->entity);;
 	timer.Start();
 	entityPlayerTarget = App->entity->entity_player;
+	
 }
 
 
@@ -46,9 +49,8 @@ bool EntityZombie::PreUpdate(float dt)
 		iPoint zombiePos = App->map->WorldToMap((int)position.x, (int)position.y - halfTileSize);
 
 		int manhattan = App->pathfinding->ManhattanDistance(playerPos, zombiePos);
-		if (manhattan < 10)
-		{
-			if (App->pathfinding->CreatePath(zombiePos, playerPos,WALKING) == 1)
+		if (manhattan < 10 
+			&& App->pathfinding->CreatePath(zombiePos, playerPos,WALKING) == 1)
 			{
 				path.Clear();
 				const p2DynArray<iPoint>* pathIter = App->pathfinding->GetLastPath();
@@ -58,7 +60,7 @@ bool EntityZombie::PreUpdate(float dt)
 				}
 
 			}
-		}
+		
 		timer.Start();
 	}
 	collider->SetPos((position.x + speed.x) - collider->rect.w *0.5F, (position.y + speed.y) - collider->rect.h);
@@ -68,11 +70,15 @@ bool EntityZombie::PreUpdate(float dt)
 
 void EntityZombie::Move(float dt)
 {
+	
+	
 	uint sizePath = 0;
 	sizePath=path.Count();
 	
 	if (sizePath > 0)
 	{
+		if(state == State_zomby::STATE_IDLE)
+			state = State_zomby::STATE_WALK;
 		sizePath -= 1;
  		iPoint zombiePos = App->map->WorldToMap((int)position.x, (int)position.y - halfTileSize);
 		int i =0 ;
@@ -90,36 +96,28 @@ void EntityZombie::Move(float dt)
 			if (i < sizePath)
 			{
 				speed.x = path[i + 1].x - path[i].x;
+				right = (speed.x > 0) ? true : false;
 			}
 		}
-		/*else
+		else
 		{
-			speed.x = 0;
-		}*/
-		/*if (pathIndex<sizePath)
-		{
-			
-			speed.x = path[pathIndex +1].x - path[pathIndex].x;
-			speed.y = path[pathIndex+1].y - path[pathIndex].y;
-			
-			if (zombiePos == path[pathIndex+1])
+			path.Clear();
+			if (state!=State_zomby::STATE_ATTACK)
 			{
-				++pathIndex;
-			}
-		}*/
-		/*else
-		{
-			if (zombiePos == path[pathIndex])
-			{
-				pathIndex = 0;
-				speed = { 0,0 };
-				path.Clear();
+				
+				state = State_zomby::STATE_ATTACK;
 			}
 			
-		}*/
+			
+
+		}
+			
+		
 	}
 	else
 	{
+		if(state == State_zomby::STATE_WALK)
+		state = State_zomby::STATE_IDLE;
 		speed = {0,0 };
 
 	}
@@ -127,7 +125,14 @@ void EntityZombie::Move(float dt)
 	position.y += speed.y;
 	if (moveDown)
 		speed.y += 1;
-	collider->SetPos(position.x - collider->rect.w / 2, position.y - collider->rect.h);
+
+	if(right)
+		colAttack->SetPos(position.x , position.y - collider->rect.h);
+	else
+	{
+		colAttack->SetPos(position.x - colAttack->rect.w, position.y - collider->rect.h);
+	}
+	collider->SetPos(position.x - collider->rect.w * 0.5F, position.y - collider->rect.h);
 }
 void EntityZombie::OnCollision(Collider * otherColl)
 {
@@ -166,11 +171,20 @@ void EntityZombie::OnCollision(Collider * otherColl)
 void EntityZombie::Draw()
 {
 	SDL_Rect frameAnim = animation[(uint)state].GetCurrentFrame(dt);
-	if (animation[(uint)State_zomby::STATE_ATTACK].Finished())
+	if (state== State_zomby::STATE_ATTACK)
 	{
-		state = State_zomby::STATE_IDLE;
-		animation[(uint)State_zomby::STATE_ATTACK].Reset();
+		if ((int)animation[(uint)state].current_frame == 8)
+		{
+			colAttack->type = COLLIDER_ENEMY;
+		}
+		if (animation[(uint)State_zomby::STATE_ATTACK].Finished())
+		{
+			colAttack->type = COLLIDER_IGNORE_HIT;
+			state = State_zomby::STATE_IDLE;
+			animation[(uint)State_zomby::STATE_ATTACK].Reset();
+		}
 	}
+	
 
 	if (right)
 		App->render->Blit(texture, position.x - frameAnim.w / 2, position.y - frameAnim.h, &frameAnim);

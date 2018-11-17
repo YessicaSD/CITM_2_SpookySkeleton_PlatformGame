@@ -32,6 +32,8 @@ private:
 	j1Entity* entityPlayerTarget = nullptr;
 	uint pathIndex = 0;
 	uint speedModule = 10;
+	Collider* colAttack = nullptr;
+
 public:
 	EntityZombie(fPoint pos, Animation* anim, SDL_Texture* tex);
 	void Draw() override;
