@@ -54,6 +54,11 @@ bool EntityBat::PreUpdate(float dt)
 	if (manhattan < 15)
 	{
 		App->pathfinding->CreatePath(origin, p);
+		const p2DynArray<iPoint>* path = App->pathfinding->GetLastPath();
+		for (int i = 0; i < path->Count(); i++)
+		{
+			bat_path.PushBack(*path->At(i));
+		}
 	}
 	
 	return true;
@@ -68,20 +73,30 @@ bool EntityBat::PreUpdate(float dt)
 
 void EntityBat::Move(float dt)
 {
-	
-	ibat_pos = App->map->WorldToMap(position.x, position.y);
-	ibat_pos = App->map->MapToWorld(ibat_pos.x, ibat_pos.y);
-	
-	
-	const p2DynArray<iPoint>* path = App->pathfinding->GetLastPath();
-	
-	for (uint i = 0; i < path->Count(); ++i)
+	if (timer.ReadSec()>1.0f)
 	{
-		ibat_pos = App->map->MapToWorld(path->At(i)->x, path->At(i)->y);
 		
-		
+		if (bat_path.Count() > 0)
+		{
+			
+			ibat_pos = App->map->WorldToMap(position.x, position.y);
+			/*if (i<bat_path.Count())
+			{
+				if (ibat_pos == bat_path[i + 1])
+				{
+					speed_bat.x = bat_path[i + 1].x - bat_path[i].x;
+					speed_bat.y = bat_path[i + 1].y + bat_path[i].y;
+					ibat_pos.x += speed.x;
+					ibat_pos.y += speed.y;
+					i++;
+				}
+			}*/
+			collider->SetPos(ibat_pos.x - collider->rect.w / 2, ibat_pos.y - collider->rect.h);
+
+		}
+
+		timer.Start();
 	}
-	collider->SetPos(ibat_pos.x - collider->rect.w / 2, ibat_pos.y - collider->rect.h);
 }
 
 
