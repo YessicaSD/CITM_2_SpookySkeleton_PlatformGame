@@ -156,7 +156,7 @@ public:
 
 	MapData level;
 	uint SavedLevel = 1;
-	uint num_thismaplvl = 1;
+	
 
 	inline uint Get(int x, int y) const
 	{

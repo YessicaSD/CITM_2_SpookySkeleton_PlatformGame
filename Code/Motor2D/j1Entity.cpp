@@ -9,7 +9,7 @@
 #include "j1Render.h"
 
 
-j1Entity::j1Entity(fPoint position, SDL_Texture* tex):position(position),texture(tex)
+j1Entity::j1Entity(fPoint position, SDL_Texture* tex, entities_types type):position(position),texture(tex),type(type)
 {}
 
 j1Entity::~j1Entity()

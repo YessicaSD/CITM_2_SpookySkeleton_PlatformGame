@@ -29,7 +29,7 @@ private:
 	int i = 0;
 	
 public:
-	EntityBat(fPoint pos, Animation* anim, SDL_Texture* tex);
+	EntityBat(fPoint pos, Animation* anim, SDL_Texture* tex, entities_types type);
 	~EntityBat();
 	bool PreUpdate(float dt) override;
 	void Move(float dt);

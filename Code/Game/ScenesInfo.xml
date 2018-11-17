@@ -1,16 +1,11 @@
 <scene>
+  <levelToLoad num="1"/>
   <level name="level1">
     <entities>
-      <players>
         <player x="60" y="384"/>
-      </players>
-      <bats>
         <bat x="300" y="150"/>
-      </bats>
-      <zombies>
         <zombie x="100" y="380"/>
         <zombie x="720" y="288"/>
-      </zombies>
     </entities>
     </level>
   

@@ -8,6 +8,7 @@
 #include "j1Input.h"
 #include "j1Window.h"
 #include "ModuleFadeToBack.h"
+#include "Scene.h"
 void Player::DebugModeInput()
 {
 	if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT)
@@ -32,7 +33,7 @@ void Player::DebugModeInput()
 	}
 }
 
-Player::Player(fPoint position, Animation* anim, SDL_Texture* tex):j1Entity(position,tex)
+Player::Player(fPoint position, Animation* anim, SDL_Texture* tex, entities_types type):j1Entity(position,tex, type)
 {
 	for (uint i = 0; i < STATE_MAX; ++i)
 	{
@@ -56,7 +57,7 @@ Player::Player(fPoint position, Animation* anim, SDL_Texture* tex):j1Entity(posi
 	SDL_Rect playerRect = { (position.x - rectMesure.x / 2), (position.y - rectMesure.y), rectMesure.x, rectMesure.y };
 	collider = App->collision->AddCollider(playerRect, COLLIDER_PLAYER, App->entity);
 
-	if (App->map->num_thismaplvl == 1)
+	if (App->scene->num_thismaplvl == 1)
 	{
 		distansToCam = { (int)App->map->level.properties.Get("Distant_to_cam_x"),(int)App->map->level.properties.Get("Distant_to_cam_y") };
 		App->render->camera.x = (position.x + distansToCam.x);
@@ -64,7 +65,7 @@ Player::Player(fPoint position, Animation* anim, SDL_Texture* tex):j1Entity(posi
 		LOG("DISTANCE TO CAM EN Y ES %i", distansToCam.y);
 	}
 
-	if (App->map->num_thismaplvl == 2)
+	if (App->scene->num_thismaplvl == 2)
 	{
 		distansToCam = { -60,-180 };
 		App->render->camera.x = (position.x + distansToCam.x);
@@ -143,7 +144,7 @@ bool Player::PreUpdate(float dt)
 			if (speed != fPoint(0.0F, 0.0F))
 				speed = fPoint(0.0F, 0.0F);
 
-			App->fade->FadeToBlack(App->map->num_thismaplvl);
+			App->fade->FadeToBlack(App->scene->num_thismaplvl);
 			/*if (death_fx)
 			{
 				App->audio->PlayFx(death_anim_fx);
@@ -267,7 +268,7 @@ void Player::OnCollision(Collider * otherColl)
 
 
 	if (otherColl->type == COLLIDER_RESPAWN)
-		App->fade->FadeToBlack(App->map->num_thismaplvl);
+		App->fade->FadeToBlack(App->scene->num_thismaplvl);
 
 	
 

@@ -36,7 +36,7 @@ private:
 	Collider* colAttack = nullptr;
 
 public:
-	EntityZombie(fPoint pos, Animation* anim, SDL_Texture* tex);
+	EntityZombie(fPoint pos, Animation* anim, SDL_Texture* tex, entities_types type);
 	~EntityZombie()
 	{
 		if(colAttack!=nullptr)

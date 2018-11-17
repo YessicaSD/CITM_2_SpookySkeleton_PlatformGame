@@ -17,7 +17,7 @@
 #include "j1Render.h"
 
 
-EntityZombie::EntityZombie(fPoint pos, Animation* anim, SDL_Texture* tex): j1Entity(pos,tex)
+EntityZombie::EntityZombie(fPoint pos, Animation* anim, SDL_Texture* tex, entities_types type): j1Entity(pos,tex, type)
 {
 	
 	for (uint i = 0; i < (uint)State_zomby::STATE_MAX; ++i)
@@ -52,6 +52,7 @@ bool EntityZombie::PreUpdate(float dt)
 		if (manhattan < 10 
 			&& App->pathfinding->CreatePath(zombiePos, playerPos,WALKING) == 1)
 			{
+				/*pathIndex = 0;*/
 				path.Clear();
 				const p2DynArray<iPoint>* pathIter = App->pathfinding->GetLastPath();
 				for (int i = 0; i < pathIter->Count(); ++i)

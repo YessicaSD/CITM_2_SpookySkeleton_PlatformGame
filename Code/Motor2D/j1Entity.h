@@ -11,6 +11,13 @@
 struct SDL_Texture;
 struct Collider;
 
+enum entities_types
+{
+	PLAYER = 0,
+	ENEMY_BAT,
+	ENEMI_ZOMBIE,
+	UNKNOW,
+};
 class j1Entity 
 {
 protected: 
@@ -20,8 +27,9 @@ public:
 	fPoint position = {0.0F,0.0F};
 	fPoint speed = { 0.0F,0.0F };
 	Collider* collider = nullptr;
+	entities_types type = UNKNOW;
 public:
-	j1Entity(fPoint position, SDL_Texture * tex);
+	j1Entity(fPoint position, SDL_Texture * tex, entities_types type);
 	virtual ~j1Entity();
 	
 

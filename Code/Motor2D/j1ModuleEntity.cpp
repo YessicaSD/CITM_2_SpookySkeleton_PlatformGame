@@ -6,7 +6,6 @@
 #include "j1Textures.h"
 #include "j1Window.h"
 #include "j1Render.h"
-#include "j1Entity.h"
 #include "j1Input.h"
 #include "j1Map.h"
 #include "j1Pathfinding.h"
@@ -39,6 +38,11 @@ bool ModuleEnemies::Awake(pugi::xml_node &node)
 	}
 
 	entitiesNodeDoc = enemiesFile.child("entities");
+	if (!entitiesNodeDoc)
+	{
+		LOG("ERROR ENTITIES LOADING FILE ");
+		return ret = false;
+	}
 	
 	return true;
 }
@@ -117,23 +121,23 @@ void ModuleEnemies::OnCollision(Collider * c1, Collider * c2)
 	}
 }
 
-j1Entity* ModuleEnemies::AddEntity(ENEMY_TYPES type, fPoint pos)
+j1Entity* ModuleEnemies::AddEntity(entities_types type, fPoint pos)
 {
 	j1Entity* newEntity = nullptr;
 	static_assert(UNKNOW >= 3, "code need update");
 	switch (type)
 	{
 		case PLAYER:
-			newEntity = new Player(pos, entitiesAnimation[PLAYER], playerTexture);
+			newEntity = new Player(pos, entitiesAnimation[PLAYER], playerTexture, type);
 			entity_player = newEntity;
 
 			break;
 		case ENEMY_BAT:
-			newEntity = new EntityBat(pos, entitiesAnimation[ENEMY_BAT], entitiesTexture);
+			newEntity = new EntityBat(pos, entitiesAnimation[ENEMY_BAT], entitiesTexture, type);
 		break;
 
 		case ENEMI_ZOMBIE:
-			newEntity = new EntityZombie(pos, entitiesAnimation[ENEMI_ZOMBIE], entitiesTexture);
+			newEntity = new EntityZombie(pos, entitiesAnimation[ENEMI_ZOMBIE], entitiesTexture, type);
 		break;
 	}
 		list_Entities.add(newEntity);

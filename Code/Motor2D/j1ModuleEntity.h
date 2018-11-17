@@ -6,33 +6,26 @@
 #include "j1Textures.h"
 #include "p2Defs.h"
 #include "Animation.h"
-#define MAX_ENEMIES 50
+#include "j1Entity.h"
 
 
-enum ENEMY_TYPES
-{
-	PLAYER =0,
-	ENEMY_BAT,
-	ENEMI_ZOMBIE,
-	UNKNOW,
-};
+
 
 class j1Entity;
 
 struct EnemyInfo
 {
-	ENEMY_TYPES type = ENEMY_TYPES::UNKNOW;
+	entities_types type = entities_types::UNKNOW;
 	int x, y;
 };
 
 class ModuleEnemies : public j1Module
 {
-
 private:
-	p2List<j1Entity*> list_Entities;
 	p2List<Animation*> entitiesAnimation;
 	bool LoadAnimations(pugi::xml_node animNode);
 public:
+	p2List<j1Entity*> list_Entities;
 	pugi::xml_document	enemiesFile;
 	pugi::xml_node entitiesNodeDoc;
 	SDL_Texture* playerTexture=nullptr;
@@ -52,7 +45,7 @@ public:
 	bool CleanUp() override;
 	void OnCollision(Collider* c1, Collider* c2) override;
 
-	j1Entity* AddEntity(ENEMY_TYPES type, fPoint pos);
+	j1Entity* AddEntity(entities_types type, fPoint pos);
 	bool DestroyEntity(j1Entity* entity);
 	void DestroyAllEntities();
 private:

@@ -30,5 +30,8 @@
   </map>
 
   <entities>entities.xml</entities>
-  <scene>ScenesInfo.xml</scene>
+  <scene>
+    <idle>ScenesInfo.xml</idle>
+    <saveFile>save_game.xml</saveFile>
+  </scene>
 </config>

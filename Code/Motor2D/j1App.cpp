@@ -53,12 +53,6 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	// render last to swap buffer
 	AddModule(render);
 
-
-
-	
-	
-
-	
 }
 
 // Destructor
@@ -356,14 +350,12 @@ const char* j1App::GetOrganization() const
 // Load / Save
 void j1App::LoadGame()
 {
-	
 	want_to_load = true;
 }
 
 // ---------------------------------------
 void j1App::SaveGame() const
 {
-	
 	want_to_save = true;
 }
 
@@ -413,8 +405,13 @@ bool j1App::LoadGameNow()
 bool j1App::SavegameNow() const
 {
 	bool ret = true;
-
 	LOG("Saving Game State to %s...", save_game.GetString());
+
+	//pugi::xml_document doc;
+
+	//auto declarationNode = doc.append_child("scene");
+	//auto root = doc.append_child("scene");
+	//bool saveSucceeded = doc.save_file("save");
 
 	// xml object were we will store all data
 	pugi::xml_document data;
@@ -441,4 +438,28 @@ bool j1App::SavegameNow() const
 	data.reset();
 	want_to_save = false;
 	return ret;
+}
+pugi::xml_node CreateNewXmlFileWithEmptyRootNode()
+{
+	/// [create new xml file]
+	// Generate new XML document within memory
+	pugi::xml_document doc;
+	// Alternatively store as shared pointer if tree shall be used for longer
+	// time or multiple client calls:
+	// std::shared_ptr<pugi::xml_document> spDoc = std::make_shared<pugi::xml_document>();
+	// Generate XML declaration
+	auto declarationNode = doc.append_child(pugi::node_declaration);
+	declarationNode.append_attribute("version") = "1.0";
+	declarationNode.append_attribute("encoding") = "ISO-8859-1";
+	declarationNode.append_attribute("standalone") = "yes";
+	// A valid XML doc must contain a single root node of any name
+	auto root = doc.append_child("scene");
+	// Save XML tree to file.
+	// Remark: second optional param is indent string to be used;
+	// default indentation is tab character.
+	bool saveSucceeded = doc.save_file("save");
+	assert(saveSucceeded);
+	
+	/// [create new xml file]
+	return root;
 }

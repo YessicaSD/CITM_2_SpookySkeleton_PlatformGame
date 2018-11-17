@@ -38,7 +38,7 @@ private:
 	uint death_fx, jump_fx;
 	void DebugModeInput();
 public:
-		Player(fPoint position,Animation* anim,SDL_Texture* tex);
+		Player(fPoint position,Animation* anim,SDL_Texture* tex, entities_types type);
 		~Player();
 		bool PreUpdate(float dt);
 		void Move(float dt);

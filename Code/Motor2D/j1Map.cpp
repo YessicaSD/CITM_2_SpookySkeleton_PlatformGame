@@ -68,54 +68,28 @@ bool j1Map::PreUpdate(float dt)
 
 bool j1Map::Update(float dt)
 {
-	//Load and save game---------------------------------------------------
-	if (App->input->GetKey(SDL_SCANCODE_F6) == KEY_DOWN)
-		App->LoadGame();
-
-	if (App->input->GetKey(SDL_SCANCODE_F5) == KEY_DOWN)
-		App->SaveGame();
-
-	//Camera controls -----------------------------------------------------
-	if (App->input->GetKey(SDL_SCANCODE_KP_8) == KEY_REPEAT)
-		App->render->camera.y -= 5;
-
-	if (App->input->GetKey(SDL_SCANCODE_KP_5) == KEY_REPEAT)
-		App->render->camera.y += 5;
-
-	if (App->input->GetKey(SDL_SCANCODE_KP_4) == KEY_REPEAT)
-		App->render->camera.x -= 5;
-
-	if (App->input->GetKey(SDL_SCANCODE_KP_6) == KEY_REPEAT)
-		App->render->camera.x += 5;
-
-	if (App->input->GetKey(SDL_SCANCODE_F1))
-	{
-		App->fade->FadeToBlack(1);
-	}
-	if (App->input->GetKey(SDL_SCANCODE_F2))
-	{
-		App->fade->FadeToBlack(num_thismaplvl);
-	}
-	if (App->input->GetKey(SDL_SCANCODE_F8))
-	{
-		App->fade->FadeToBlack(2);
-		
-	}
 	
-	if (App->entity->entity_player->position.x >= (level.width*level.tile_width)-2*level.tile_width)
+
+	
+	if (App->entity->entity_player!=nullptr)
 	{
-		for (p2List_item<Scenes*>* item_scene = level.scenes_List.start;item_scene;item_scene=item_scene->next)
+
+		if (App->entity->entity_player->position.x >= (level.width*level.tile_width) - 2 * level.tile_width)
 		{
-			if (item_scene->data->levelnum == 1)
+			for (p2List_item<Scenes*>* item_scene = level.scenes_List.start; item_scene; item_scene = item_scene->next)
 			{
-				App->fade->FadeToBlack(2);
-			}
-			else if (item_scene->data->levelnum == 2)
-			{
-				App->fade->FadeToBlack(1);
+				if (item_scene->data->levelnum == 1)
+				{
+					App->fade->FadeToBlack(2);
+				}
+				else if (item_scene->data->levelnum == 2)
+				{
+					App->fade->FadeToBlack(1);
+				}
 			}
 		}
 	}
+	
 
 	return true;
 }
@@ -606,9 +580,9 @@ bool j1Map::Load(pugi::xml_node&nodeMap)
 
 bool j1Map::Save(pugi::xml_node& map) const
 {
-	LOG("Saved level %i", num_thismaplvl);
+	/*LOG("Saved level %i", num_thismaplvl);
 	pugi::xml_node play = map.append_child("lvl");
-	play.append_attribute("num").set_value(num_thismaplvl);
+	play.append_attribute("num").set_value(num_thismaplvl);*/
 	
 	return true;
 }

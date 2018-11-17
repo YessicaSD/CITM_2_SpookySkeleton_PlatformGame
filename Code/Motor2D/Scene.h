@@ -7,6 +7,8 @@ struct SDL_Texture;
 
 class j1Scene : public j1Module
 {
+public:
+	uint num_thismaplvl = 0;
 private:
 	pugi::xml_document	sceneFile;
 	pugi::xml_node sceneNode;
@@ -34,6 +36,12 @@ public:
 
 	// Called before quitting
 	bool CleanUp()override;
+
+	bool Load(pugi::xml_node&) override;
+	
+
+	bool Save(pugi::xml_node&) const override;
+	
 
 private:
 	SDL_Texture * debug_tex;

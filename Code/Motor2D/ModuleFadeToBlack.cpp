@@ -70,8 +70,8 @@ bool ModuleFadeToBlack:: FadeToBlack(uint lvlnum, float time) {
 		current_step = fade_step::fade_to_black;
 		this->timer.Start();
 		total_time = (Uint32)(time * 0.5f * 1000.0f);
-		App->map->num_thismaplvl = lvlnum;
-			App->map->activateScene(lvlnum);
+		App->scene->num_thismaplvl = lvlnum;
+		App->map->activateScene(lvlnum);
 		
 		ret = true;
 	}

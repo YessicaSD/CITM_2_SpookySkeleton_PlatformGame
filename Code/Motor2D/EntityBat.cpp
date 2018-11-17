@@ -15,7 +15,7 @@
 #include "j1Render.h"
 
 
-EntityBat::EntityBat(fPoint pos,Animation* anim, SDL_Texture* tex):j1Entity(pos,tex)
+EntityBat::EntityBat(fPoint pos,Animation* anim, SDL_Texture* tex, entities_types type):j1Entity(pos,tex, type)
 {
 
 	anim_bat.speed = anim->speed;
