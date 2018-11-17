@@ -6,6 +6,7 @@
 #include "j1Textures.h"
 #include "j1Collision.h"
 #include "j1ModuleEntity.h"
+#include "j1Entity.h"
 #include "ModuleFadeToBack.h"
 #include "j1Pathfinding.h"
 #include "j1Window.h"
@@ -101,7 +102,7 @@ bool j1Map::Update(float dt)
 		
 	}
 	
-	/*if (App->player1->flPos.x >= (level.width*level.tile_width)-2*level.tile_width)
+	if (App->entity->entity_player->position.x >= (level.width*level.tile_width)-2*level.tile_width)
 	{
 		for (p2List_item<Scenes*>* item_scene = level.scenes_List.start;item_scene;item_scene=item_scene->next)
 		{
@@ -114,7 +115,7 @@ bool j1Map::Update(float dt)
 				App->fade->FadeToBlack(1);
 			}
 		}
-	}*/
+	}
 
 	return true;
 }
