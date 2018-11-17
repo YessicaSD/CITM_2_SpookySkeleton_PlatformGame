@@ -1,6 +1,7 @@
 #include "EntityBat.h"
 #include "j1Entity.h"
 #include "j1ModuleEntity.h"
+#include "Player.h"
 #include "p2Defs.h"
 #include "p2Log.h"
 #include "p2Point.h"
@@ -30,9 +31,9 @@ EntityBat::EntityBat(fPoint pos,Animation* anim, SDL_Texture* tex):j1Entity(pos,
 	rectMesure = { nodeCol.attribute("w").as_int(), nodeCol.attribute("h").as_int() };
 
 	SDL_Rect playerBat = { (pos.x - rectMesure.x / 2), (pos.y - rectMesure.y), rectMesure.x, rectMesure.y };
-	collider = App->collision->AddCollider(playerBat, COLLIDER_PLAYER, App->entity);
-
-
+	collider = App->collision->AddCollider(playerBat, COLLIDER_ENTITY, App->entity);
+	
+	
 }
 
 EntityBat::~EntityBat()
@@ -52,7 +53,7 @@ bool EntityBat::PreUpdate(float dt)
 
 		int manhattan = App->pathfinding->ManhattanDistance(origin, p);
 
-		if (manhattan < 15)
+		if (manhattan < 10)
 		{
 			if (App->pathfinding->CreatePath(origin, p, FLYING)==1)
 			{
@@ -147,7 +148,9 @@ void EntityBat::Draw()
 
 void EntityBat::OnCollision(Collider * collider)
 {
-	/*if (collider->type == COLLIDER_PLAYER)*/
+	
+	if (collider->type == COLLIDER_PLAYER)
+		App->entity->player->state = STATE_DEATH;
 		
 }
 

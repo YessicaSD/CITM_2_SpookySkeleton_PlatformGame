@@ -120,12 +120,15 @@ void ModuleEnemies::OnCollision(Collider * c1, Collider * c2)
 j1Entity* ModuleEnemies::AddEntity(ENEMY_TYPES type, fPoint pos)
 {
 	j1Entity* newEntity = nullptr;
+	Player* newPlayer = nullptr;
 	static_assert(UNKNOW >= 3, "code need update");
 	switch (type)
 	{
 		case PLAYER:
 			newEntity = new Player(pos, entitiesAnimation[PLAYER], playerTexture);
 			entity_player = newEntity;
+			newPlayer = new Player(pos, entitiesAnimation[PLAYER], playerTexture);
+			player = newPlayer;
 
 			break;
 		case ENEMY_BAT:

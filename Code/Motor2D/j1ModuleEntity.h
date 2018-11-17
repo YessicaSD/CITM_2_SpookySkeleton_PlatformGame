@@ -18,6 +18,7 @@ enum ENEMY_TYPES
 };
 
 class j1Entity;
+class Player;
 
 struct EnemyInfo
 {
@@ -39,6 +40,7 @@ public:
 	SDL_Texture* entitiesTexture=nullptr;
 
 	j1Entity* entity_player = nullptr;
+	Player* player = nullptr;
 public:
 
 	ModuleEnemies();

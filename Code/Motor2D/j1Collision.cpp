@@ -36,6 +36,7 @@ j1Collision::j1Collision()
 	matrix[COLLIDER_PLAYER][COLLIDER_RESPAWN] = true;
 	matrix[COLLIDER_PLAYER][COLLIDER_SPECIAL] = true;
 	matrix[COLLIDER_PLAYER][COLLIDER_ICE] = true;
+	matrix[COLLIDER_PLAYER][COLLIDER_ENTITY] = true;
 	
 	//Collider enemy -----------------------------------------------------
 	matrix[COLLIDER_ENEMY][COLLIDER_PLAYER] = true;
@@ -55,6 +56,7 @@ j1Collision::j1Collision()
 	matrix[COLLIDER_ENTITY][COLLIDER_WALL] = true;
 	matrix[COLLIDER_ENTITY][COLLIDER_RESPAWN] = true;
 	matrix[COLLIDER_ENTITY][COLLIDER_SPECIAL] = true;
+	matrix[COLLIDER_ENTITY][COLLIDER_PLAYER] = true;
 
 }
 j1Collision::~j1Collision()

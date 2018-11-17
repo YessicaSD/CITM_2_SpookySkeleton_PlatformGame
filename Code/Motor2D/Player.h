@@ -25,7 +25,7 @@ class Player: public j1Entity
 {
 private:
 	Animation animation[STATE_MAX];
-	PlayerState state = STATE_SPAWN;
+	//PlayerState state = STATE_SPAWN;
 	fPoint maxSpeed = { 0.0F,0.0F };
 	
 	iPoint distansToCam = { 0,0 };
@@ -44,7 +44,7 @@ public:
 		void Move(float dt);
 		void Draw() override;
 		void OnCollision(Collider* collider);
-
+		PlayerState state = STATE_SPAWN;
 //protected:
 //	Animation * animation = nullptr;
 //	fPoint maxSpeed = { 0.0F,0.0F };

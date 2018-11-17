@@ -265,6 +265,9 @@ void Player::OnCollision(Collider * otherColl)
 	if (otherColl->type == COLLIDER_ENEMY)
 		state = STATE_DEATH;
 
+	if (otherColl->type == COLLIDER_ENTITY)
+		state = STATE_DEATH;
+
 
 	if (otherColl->type == COLLIDER_RESPAWN)
 		App->fade->FadeToBlack(App->map->num_thismaplvl);
