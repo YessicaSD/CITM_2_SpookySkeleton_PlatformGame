@@ -148,9 +148,16 @@ void EntityBat::Draw()
 
 void EntityBat::OnCollision(Collider * collider)
 {
-	
+	bool PlayerIsOn = (int)position.y <= collider->rect.y && (int)(position.x) > collider->rect.x && (int)(position.x) < collider->rect.x + collider->rect.w;
 	if (collider->type == COLLIDER_PLAYER)
-		App->entity->player->state = STATE_DEATH;
+		if (!PlayerIsOn)
+		{
+			App->entity->player->state = STATE_DEATH;
+		}
+		else
+		{
+
+		}
 		
 }
 

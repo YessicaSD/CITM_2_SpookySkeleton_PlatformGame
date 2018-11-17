@@ -67,9 +67,7 @@ bool j1PathFinding::PostUpdate()
 			}
 		}
 
-		// Debug pathfinding ------------------------------
-		p = App->map->MapToWorld(p.x, p.y);
-		App->render->Blit(debug_tex, p.x, p.y);
+		
 
 		if (createdDebugPath)
 		{

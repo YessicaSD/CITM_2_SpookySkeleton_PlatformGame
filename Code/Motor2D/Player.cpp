@@ -74,7 +74,7 @@ Player::Player(fPoint position, Animation* anim, SDL_Texture* tex):j1Entity(posi
 
 	
 	
-
+	death_fx = true;
 	maxSpeed = { nodePlayer.attribute("Speed_x").as_float(), nodePlayer.attribute("Speed_y").as_float() };
 
 }
@@ -144,11 +144,11 @@ bool Player::PreUpdate(float dt)
 				speed = fPoint(0.0F, 0.0F);
 
 			App->fade->FadeToBlack(App->map->num_thismaplvl);
-			/*if (death_fx)
+			if (death_fx)
 			{
-				App->audio->PlayFx(death_anim_fx);
+				App->audio->PlayFx(App->entity->fx_death);
 				death_fx = false;
-			}*/
+			}
 		}
 
 	}

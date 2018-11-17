@@ -57,6 +57,7 @@ public:
 	j1Entity* AddEntity(ENEMY_TYPES type, fPoint pos);
 	bool DestroyEntity(j1Entity* entity);
 	void DestroyAllEntities();
+	uint fx_death;
 private:
 	float dt=0.0F;
 
