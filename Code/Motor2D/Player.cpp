@@ -90,7 +90,7 @@ bool Player::PreUpdate(float dt)
 	if (App->input->GetKey(SDL_SCANCODE_F10) == KEY_DOWN)
 	{
 		debugMode = !debugMode;
-		collider->type = COLLIDER_GOD;
+		collider->type = (collider->type==COLLIDER_GOD)? COLLIDER_PLAYER:COLLIDER_GOD;
 	}
 		
 

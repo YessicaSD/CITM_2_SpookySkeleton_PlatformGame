@@ -13,7 +13,7 @@
 #include "j1Map.h"
 #include "j1Textures.h"
 #include "ModuleFadeToBack.h"
-#include "j1Collision.h"
+
 #include "j1Render.h"
 
 
@@ -173,7 +173,8 @@ void EntityZombie::Draw()
 	SDL_Rect frameAnim = animation[(uint)state].GetCurrentFrame(dt);
 	if (state== State_zomby::STATE_ATTACK)
 	{
-		if ((int)animation[(uint)state].current_frame == 8)
+		int frameAttack = 8;
+		if ((int)animation[(uint)state].current_frame == frameAttack)
 		{
 			colAttack->type = COLLIDER_ENEMY;
 		}

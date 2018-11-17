@@ -3,6 +3,7 @@
 #include "j1Entity.h"
 #include "p2Point.h"
 #include "j1Timer.h"
+#include "j1Collision.h"
 enum class State_zomby :uint
 {
 	STATE_IDLE,
@@ -36,6 +37,11 @@ private:
 
 public:
 	EntityZombie(fPoint pos, Animation* anim, SDL_Texture* tex);
+	~EntityZombie()
+	{
+		if(colAttack!=nullptr)
+		colAttack->to_delete = true;
+	}
 	void Draw() override;
 	
 	bool PreUpdate(float dt) override;
