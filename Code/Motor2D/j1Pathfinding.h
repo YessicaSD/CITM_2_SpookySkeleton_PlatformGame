@@ -77,7 +77,7 @@ struct SDL_Texture;
 class j1PathFinding : public j1Module
 {
 public:
-	bool debug = false;
+	bool debug = true;
 private:
 	p2DynArray<iPoint> debugPath;
 	bool createdDebugPath = false;

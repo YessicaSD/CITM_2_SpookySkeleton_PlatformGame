@@ -28,11 +28,6 @@ bool j1PathFinding::Start()
 
 bool j1PathFinding::PreUpdate(float dt)
 {
-	if (debug = true)
-	{
-		
-	}
-	
 	return true;
 }
 
@@ -40,7 +35,6 @@ bool j1PathFinding::PostUpdate()
 {
 	if (debug)
 	{
-		
 		// debug pathfing ------------------
 		static iPoint origin;
 		static bool origin_selected = false;
@@ -54,9 +48,14 @@ bool j1PathFinding::PostUpdate()
 		{
 			if (origin_selected == true)
 			{
-				CreatePath(origin, p);
+				
 				origin_selected = false;
-				createdDebugPath = true;
+			
+				if (CreatePath(origin, p,WALKING) != -1)
+				{
+					createdDebugPath = true;
+				}
+				
 			}
 			else
 			{
@@ -209,12 +208,12 @@ uint PathNode::FindWalkableAdjacents(PathList& list_to_fill) const
 	iPoint cell;
 	uint before = list_to_fill.list.Count();
 
-	// north
+	// south
 	cell.create(pos.x, pos.y + 1);
 	if(App->pathfinding->IsWalkable(cell))
 		list_to_fill.list.add(PathNode(-1, -1, cell, this));
 
-	// south
+	// north
 	cell.create(pos.x, pos.y - 1);
 	if(App->pathfinding->IsWalkable(cell))
 		list_to_fill.list.add(PathNode(-1, -1, cell, this));
@@ -237,25 +236,25 @@ uint PathNode::FindWalkableAdjacentsWalking(PathList & list_to_fill) const
 	iPoint cell;
 	uint before = list_to_fill.list.Count();
 
-
 	// south
-	cell.create(pos.x, pos.y - 1);
+	cell.create(pos.x, pos.y + 1);
 	if (App->pathfinding->IsWalkable(cell))
 	{
 			list_to_fill.list.add(PathNode(-1, -1, cell, this));
 	}
 	// east
 	cell.create(pos.x + 1, pos.y);
-	if (App->pathfinding->IsWalkable(cell))
+	if (App->pathfinding->IsWalkable({ pos.x + 1, pos.y }) 
+		&& App->pathfinding->IsWalkable({ pos.x, pos.y + 1 }) == false)
 		list_to_fill.list.add(PathNode(-1, -1, cell, this));
 
 	// west
 	cell.create(pos.x - 1, pos.y);
-	if (App->pathfinding->IsWalkable(cell))
+	if (App->pathfinding->IsWalkable(cell)
+		&& App->pathfinding->IsWalkable({ pos.x, pos.y + 1 }) == false)
 		list_to_fill.list.add(PathNode(-1, -1, cell, this));
 
 	return list_to_fill.list.Count();
-	return uint();
 }
 
 // PathNode -------------------------------------------------------------------------
