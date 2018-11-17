@@ -6,7 +6,7 @@
 #define __P2DYNARRAY_H__
 
 #include "p2Defs.h"
-
+#include "p2Log.h"
 #define DYN_ARRAY_BLOCK_SIZE 16
 
 template<class VALUE>
@@ -14,9 +14,9 @@ class p2DynArray
 {
 private:
 
-	VALUE*			data;
+	VALUE*			data=nullptr;
 	unsigned int	mem_capacity;
-	unsigned int	num_elements;
+	unsigned int	num_elements=0;
 
 public:
 

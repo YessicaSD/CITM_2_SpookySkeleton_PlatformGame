@@ -9,6 +9,7 @@
       </bats>
       <zombies>
         <zombie x="100" y="384"/>
+        <zombie x="720" y="288"/>
       </zombies>
     </entities>
     </level>

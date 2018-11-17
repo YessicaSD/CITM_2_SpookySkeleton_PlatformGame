@@ -67,16 +67,20 @@ bool EntityZombie::PreUpdate(float dt)
 
 void EntityZombie::Move(float dt)
 {
-	uint sizePath = path.Count()-1;
+	uint sizePath = 0;
+	sizePath=path.Count();
+	
 	if (sizePath > 0)
 	{
+		sizePath -= 1;
  		iPoint zombiePos = App->map->WorldToMap((int)position.x, (int)position.y - halfTileSize);
 		if (pathIndex<sizePath)
 		{
-			speed.x = path[pathIndex + 1].x - path[pathIndex].x;
-			speed.y = path[pathIndex + 1].y - path[pathIndex].y;
 			
-			if (zombiePos == path[pathIndex + 1])
+			speed.x = path[pathIndex +1].x - path[pathIndex].x;
+			speed.y = path[pathIndex+1].y - path[pathIndex].y;
+			
+			if (zombiePos == path[pathIndex+1])
 			{
 				++pathIndex;
 			}
@@ -85,7 +89,9 @@ void EntityZombie::Move(float dt)
 		{
 			if (zombiePos == path[pathIndex])
 			{
+				pathIndex = 0;
 				speed = { 0,0 };
+				path.Clear();
 			}
 			
 		}
@@ -95,8 +101,8 @@ void EntityZombie::Move(float dt)
 		speed = {0,0 };
 
 	}
-	//position.x += speed.x;
-	//position.y += speed.y;
+	position.x += speed.x;
+	position.y += speed.y;
 	collider->SetPos(position.x - collider->rect.w / 2, position.y - collider->rect.h);
 }
 

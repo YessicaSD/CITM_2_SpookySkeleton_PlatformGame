@@ -60,5 +60,8 @@ inline const char* const PATH(const char* folder, const char* file)
 	sprintf_s(path, MID_STR, "%s/%s", folder, file);
 	return path;
 }
+#define ASSERT_WITH_MSG(cond, msg) do \
+{ if (!(cond)) { ASSERT(1==0,msg) } \
+} while(0)
 
 #endif
