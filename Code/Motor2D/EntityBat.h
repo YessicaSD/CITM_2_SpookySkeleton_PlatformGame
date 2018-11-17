@@ -17,13 +17,14 @@ enum class BatState : uint
 class EntityBat : public j1Entity
 {
 private:
-	bool right = true;
+	bool left = true;
 	iPoint rectMesure = { 0,0 };
 	iPoint ibat_pos = { position.x,position.y };
 	fPoint speed_bat = { 0.0F,0.0F };
 	Animation anim_bat;
 	BatState state = BatState::STATE_IDLE;
 	p2DynArray<iPoint> bat_path;
+	int halfTileSize = 16;
 	j1Timer timer;
 	int i = 0;
 	
