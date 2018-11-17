@@ -7,6 +7,9 @@ struct SDL_Texture;
 
 class j1Scene : public j1Module
 {
+private:
+	pugi::xml_document	sceneFile;
+	pugi::xml_node sceneNode;
 public:
 	bool loadedLeve = true;
 	j1Scene();
