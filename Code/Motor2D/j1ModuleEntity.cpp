@@ -3,6 +3,7 @@
 #include "p2Defs.h"
 #include "p2Log.h"
 
+#include "j1Audio.h"
 #include "j1Textures.h"
 #include "j1Window.h"
 #include "j1Render.h"
@@ -38,12 +39,16 @@ bool ModuleEnemies::Awake(pugi::xml_node &node)
 	}
 
 	entitiesNodeDoc = enemiesFile.child("entities");
+
 	if (!entitiesNodeDoc)
 	{
 		LOG("ERROR ENTITIES LOADING FILE ");
 		return ret = false;
 	}
-	
+
+	fx_death = App->audio->LoadFx("audio/fx/smw_stomp_bones.wav");
+	fx_jump = App->audio->LoadFx("audio/fx/jump.wav");
+
 	return true;
 }
 bool ModuleEnemies::Start()
@@ -76,6 +81,10 @@ bool ModuleEnemies::PreUpdate(float dt)
 	for (actualEntity = list_Entities.start; actualEntity; actualEntity = actualEntity->next)
 	{
 		actualEntity->data->PreUpdate(dt);
+		if (actualEntity->data->collider->to_delete == true)
+		{
+			DestroyEntity(actualEntity->data);
+		}
 	}
 	return true;
 }
@@ -86,8 +95,11 @@ bool ModuleEnemies::Update(float dt)
 	//LOG("NUM OF ENTITIES %i", list_Entities.Count());
 	for (actualEntity = list_Entities.start; actualEntity; actualEntity = actualEntity->next)
 	{
+		
 		actualEntity->data->Move(dt);
+		
 	}
+	
 	return true;
 }
 
@@ -124,13 +136,13 @@ void ModuleEnemies::OnCollision(Collider * c1, Collider * c2)
 j1Entity* ModuleEnemies::AddEntity(entities_types type, fPoint pos)
 {
 	j1Entity* newEntity = nullptr;
+	Player* newPlayer = nullptr;
 	static_assert(UNKNOW >= 3, "code need update");
 	switch (type)
 	{
 		case PLAYER:
 			newEntity = new Player(pos, entitiesAnimation[PLAYER], playerTexture, type);
 			entity_player = newEntity;
-
 			break;
 		case ENEMY_BAT:
 			newEntity = new EntityBat(pos, entitiesAnimation[ENEMY_BAT], entitiesTexture, type);
@@ -153,7 +165,7 @@ bool ModuleEnemies::DestroyEntity(j1Entity * entity)
 	bool found = false;
 
 	p2List_item<j1Entity*>* itemEntity = nullptr;	
-	for (itemEntity = list_Entities.start; itemEntity != nullptr || found!= false; itemEntity = itemEntity->next)
+	for (itemEntity = list_Entities.start; itemEntity != nullptr && found!= false; itemEntity = itemEntity->next)
 	{
 		if (itemEntity->data == entity)
 			found = true;	

@@ -25,7 +25,7 @@ class Player: public j1Entity
 {
 private:
 	Animation animation[STATE_MAX];
-	PlayerState state = STATE_SPAWN;
+	//PlayerState state = STATE_SPAWN;
 	fPoint maxSpeed = { 0.0F,0.0F };
 	
 	iPoint distansToCam = { 0,0 };
@@ -34,8 +34,8 @@ private:
 	bool debugMode = false;
 	bool right = true;
 	bool iceMovement = false;
-
-	uint death_fx, jump_fx;
+	bool death_fx = false;
+	bool jump_fx = false;;
 	void DebugModeInput();
 public:
 		Player(fPoint position,Animation* anim,SDL_Texture* tex, entities_types type);
@@ -44,7 +44,7 @@ public:
 		void Move(float dt);
 		void Draw() override;
 		void OnCollision(Collider* collider);
-
+		PlayerState state = STATE_SPAWN;
 //protected:
 //	Animation * animation = nullptr;
 //	fPoint maxSpeed = { 0.0F,0.0F };

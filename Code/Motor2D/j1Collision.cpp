@@ -36,6 +36,7 @@ j1Collision::j1Collision()
 	matrix[COLLIDER_PLAYER][COLLIDER_RESPAWN] = true;
 	matrix[COLLIDER_PLAYER][COLLIDER_SPECIAL] = true;
 	matrix[COLLIDER_PLAYER][COLLIDER_ICE] = true;
+	matrix[COLLIDER_PLAYER][COLLIDER_ENTITY] = true;
 	
 	//Collider enemy -----------------------------------------------------
 	matrix[COLLIDER_ENEMY][COLLIDER_PLAYER] = true;
@@ -55,6 +56,7 @@ j1Collision::j1Collision()
 	matrix[COLLIDER_ENTITY][COLLIDER_WALL] = true;
 	matrix[COLLIDER_ENTITY][COLLIDER_RESPAWN] = true;
 	matrix[COLLIDER_ENTITY][COLLIDER_SPECIAL] = true;
+	matrix[COLLIDER_ENTITY][COLLIDER_PLAYER] = true;
 
 }
 j1Collision::~j1Collision()
@@ -101,6 +103,11 @@ bool j1Collision:: PreUpdate(float dt)
 
 		}
 	}
+	
+	return true;
+}
+bool j1Collision::PostUpdate()
+{
 	// Remove all colliders scheduled for deletion---------------------------------------------
 	for (uint i = 0; i < MAX_COLLIDERS; ++i)
 	{
@@ -108,12 +115,10 @@ bool j1Collision:: PreUpdate(float dt)
 		{
 			delete colliders[i];
 			colliders[i] = nullptr;
+			/*colliders[i]->to_delete = false;*/
 		}
 	}
-	return true;
-}
-bool j1Collision::PostUpdate()
-{
+
 	if (App->input->GetKey(SDL_SCANCODE_F9) == KEY_DOWN)
 		debug = !debug;
 

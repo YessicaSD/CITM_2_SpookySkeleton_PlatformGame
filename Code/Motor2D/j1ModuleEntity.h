@@ -12,6 +12,7 @@
 
 
 class j1Entity;
+class Player;
 
 struct EnemyInfo
 {
@@ -32,6 +33,7 @@ public:
 	SDL_Texture* entitiesTexture=nullptr;
 
 	j1Entity* entity_player = nullptr;
+	Player* player = nullptr;
 public:
 
 	ModuleEnemies();
@@ -48,6 +50,8 @@ public:
 	j1Entity* AddEntity(entities_types type, fPoint pos);
 	bool DestroyEntity(j1Entity* entity);
 	void DestroyAllEntities();
+	uint fx_death;
+	uint fx_jump;
 private:
 	float dt=0.0F;
 

@@ -75,7 +75,8 @@ Player::Player(fPoint position, Animation* anim, SDL_Texture* tex, entities_type
 
 	
 	
-
+	death_fx = true;
+	jump_fx = true;
 	maxSpeed = { nodePlayer.attribute("Speed_x").as_float(), nodePlayer.attribute("Speed_y").as_float() };
 
 }
@@ -128,9 +129,16 @@ bool Player::PreUpdate(float dt)
 			state = STATE_JUMP;
 			speed.y = -maxSpeed.y;
 			canJump = false;
-		/*	App->audio->PlayFx(jump_fx);*/
+			if (jump_fx)
+			{
+				App->audio->PlayFx(App->entity->fx_jump);
+				jump_fx = false;
+			}
+		
 
 		}
+		if (state == STATE_JUMP)
+			jump_fx = true;
 
 		if (App->input->GetKey(SDL_SCANCODE_Q) == KEY_DOWN
 			&& (state == PlayerState::STATE_IDLE || state == PlayerState::STATE_WALK))
@@ -144,10 +152,15 @@ bool Player::PreUpdate(float dt)
 			if (speed != fPoint(0.0F, 0.0F))
 				speed = fPoint(0.0F, 0.0F);
 
+
 			App->fade->FadeToBlack(App->scene->num_thismaplvl);
 			/*if (death_fx)
+
+			App->fade->FadeToBlack(App->map->num_thismaplvl);
+			if (death_fx)
+
 			{
-				App->audio->PlayFx(death_anim_fx);
+				App->audio->PlayFx(App->entity->fx_death);
 				death_fx = false;
 			}*/
 		}
@@ -197,6 +210,7 @@ void Player::Draw()
 		state = STATE_IDLE;
 		animation[STATE_ATTACK].Reset();
 	}
+	
 
 	if(right)
 		App->render->Blit(texture, position.x - frameAnim.w/2, position.y - frameAnim.h, &frameAnim);
@@ -266,6 +280,19 @@ void Player::OnCollision(Collider * otherColl)
 	if (otherColl->type == COLLIDER_ENEMY)
 		state = STATE_DEATH;
 
+	/*if (otherColl->type == COLLIDER_ENTITY)
+		state = STATE_DEATH;*/
+
+	if (otherColl->type == COLLIDER_ENTITY)
+	{
+		if (PlayerIsOn)
+		{
+			otherColl->to_delete = true;
+		}
+		else {
+			state = STATE_DEATH;
+		}
+	}
 
 	if (otherColl->type == COLLIDER_RESPAWN)
 		App->fade->FadeToBlack(App->scene->num_thismaplvl);
