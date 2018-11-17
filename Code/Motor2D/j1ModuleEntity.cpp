@@ -1,7 +1,9 @@
 #include "j1App.h"
 #include "j1ModuleEntity.h"
-#include "j1Textures.h"
+#include "p2Defs.h"
 #include "p2Log.h"
+
+#include "j1Textures.h"
 #include "j1Window.h"
 #include "j1Render.h"
 #include "j1Entity.h"
@@ -98,7 +100,8 @@ bool ModuleEnemies::PostUpdate()
 bool ModuleEnemies::CleanUp()
 {
 	LOG("Freeing all enemies");
-	list_Entities.clear();
+	DestroyAllEntities();
+	
 	return true;
 }
 
@@ -156,6 +159,17 @@ bool ModuleEnemies::DestroyEntity(j1Entity * entity)
 		return true;
 	}
 	return false;
+}
+
+void ModuleEnemies::DestroyAllEntities()
+{
+	p2List_item<j1Entity*>* itemEntity = nullptr;
+	for (itemEntity = list_Entities.end; itemEntity != nullptr ; itemEntity = itemEntity->prev)
+	{
+		RELEASE(itemEntity->data);
+		list_Entities.del(itemEntity);
+	}
+	
 }
 
 bool ModuleEnemies::LoadAnimations(pugi::xml_node animNode) 

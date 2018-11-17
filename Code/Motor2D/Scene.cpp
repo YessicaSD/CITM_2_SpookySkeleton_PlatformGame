@@ -43,7 +43,7 @@ bool j1Scene::Awake(pugi::xml_node& node)
 // Called before the first frame
 bool j1Scene::Start()
 {
-	App->entity->Enable();
+	
 	//Pick level node-----------------------------------------
 	pugi::xml_node levelNode = sceneNode.child("level");
 	for (uint i = 1; i < App->map->num_thismaplvl; ++i)
@@ -99,7 +99,6 @@ bool j1Scene::PostUpdate()
 bool j1Scene::CleanUp()
 {
 	LOG("Freeing scene");
-	App->entity->Disable();
-	
+	App->entity->DestroyAllEntities();
 	return true;
 }
