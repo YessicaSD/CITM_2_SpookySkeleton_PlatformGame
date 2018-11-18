@@ -183,6 +183,10 @@ void Player::Move(float dt)
 	BROFILER_CATEGORY("Move_Player.cpp", Profiler::Color::Black)
 	if (!debugMode)
 	{
+		if (moveDown && App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_IDLE && App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_IDLE)
+		{
+			speed.x = 0.0F;
+		}
 		position.x += speed.x * dt;
 		position.y += speed.y * dt;
 		////Gravity ------------------------------------------------------------------------
@@ -283,6 +287,10 @@ void Player::OnCollision(Collider * otherColl)
 		
 	}
 
+	if (otherColl->type==COLLIDER_ENTITY && state == STATE_ATTACK)
+	{
+		otherColl->to_delete = true;
+	}
 
 	if (otherColl->type == COLLIDER_ENEMY)
 		state = STATE_DEATH;

@@ -33,7 +33,7 @@ EntityZombie::EntityZombie(fPoint pos, Animation* anim, SDL_Texture* tex, entiti
 	pugi::xml_node nodeZombie = App->entity->entitiesNodeDoc.child("zombie");
 	pugi::xml_node nodeCol = nodeZombie.child("collider");
 
-	collider = App->collision->AddCollider({(int)pos.x,(int)pos.y,nodeCol.attribute("w").as_int(),nodeCol.attribute("h").as_int() }, COLLIDER_GOD, App->entity);
+	collider = App->collision->AddCollider({(int)pos.x,(int)pos.y,nodeCol.attribute("w").as_int(),nodeCol.attribute("h").as_int() }, COLLIDER_ENTITY, App->entity);
 	colAttack = App->collision->AddCollider({ (int)pos.x + 5,(int)pos.y,nodeCol.attribute("w").as_int(),nodeCol.attribute("h").as_int() }, COLLIDER_IGNORE_HIT, App->entity);;
 	timer.Start();
 	entityPlayerTarget = App->entity->entity_player;
@@ -45,15 +45,28 @@ bool EntityZombie::PreUpdate(float dt)
 {
 	BROFILER_CATEGORY("PreUpdate_EntityZombie.cpp", Profiler::Color::Salmon)
 	this->dt = dt;
-	moveDown = true;
-	if (timer.ReadSec()>=1 && entityPlayerTarget!=nullptr)
+	if (collider->to_delete == true || collider == nullptr)
 	{
-		playerPos = App->map->WorldToMap(entityPlayerTarget->position.x, entityPlayerTarget->position.y - halfTileSize);
-		iPoint zombiePos = App->map->WorldToMap((int)position.x, (int)position.y - halfTileSize);
+		if (state != State_zomby::STATE_DEATH)
+		{
+			state = State_zomby::STATE_DEATH;
+			speed.x = 0.0F;
+			colAttack->type = COLLIDER_IGNORE_HIT;
+		}
+		
+	}
 
-		int manhattan = App->pathfinding->ManhattanDistance(playerPos, zombiePos);
-		if (manhattan < 10 
-			&& App->pathfinding->CreatePath(zombiePos, playerPos,WALKING) == 1)
+	moveDown = true;
+	if (state != State_zomby::STATE_ATTACK)
+	{
+		if (timer.ReadSec() >= 1 && entityPlayerTarget != nullptr)
+		{
+			playerPos = App->map->WorldToMap(entityPlayerTarget->position.x, entityPlayerTarget->position.y - halfTileSize);
+			iPoint zombiePos = App->map->WorldToMap((int)position.x, (int)position.y - halfTileSize);
+
+			int manhattan = App->pathfinding->ManhattanDistance(playerPos, zombiePos);
+			if (manhattan < 10
+				&& App->pathfinding->CreatePath(zombiePos, playerPos, WALKING) == 1)
 			{
 				pathIndex = 0;
 				path.Clear();
@@ -64,9 +77,11 @@ bool EntityZombie::PreUpdate(float dt)
 				}
 
 			}
-		
-		timer.Start();
+
+			timer.Start();
+		}
 	}
+	
 	collider->SetPos((position.x + speed.x) - collider->rect.w *0.5F, (position.y + speed.y) - collider->rect.h);
 	return true;
 	
@@ -76,67 +91,70 @@ void EntityZombie::Move(float dt)
 {
 	BROFILER_CATEGORY("Move_EntityZombie.cpp", Profiler::Color::Black)
 	
-	uint sizePath = 0;
-	sizePath=path.Count();
-	
-	if (sizePath > 0)
-	{
-		if(state == State_zomby::STATE_IDLE)
-			state = State_zomby::STATE_WALK;
- 		iPoint zombiePos = App->map->WorldToMap((int)position.x, (int)position.y - halfTileSize);
-		int i =0 ;
-		bool findPositionOnPath = false;
-		for (i;i<sizePath;++i)
+		if (state != State_zomby::STATE_DEATH)
 		{
-			if (*path.At(i) == zombiePos)
+			uint sizePath = 0;
+			sizePath = path.Count();
+
+			if (sizePath > 0)
 			{
-				findPositionOnPath = true;
-				break;
-			}
-		}
-		if (findPositionOnPath)
-		{
-			if (i < sizePath-1)
-			{
-				speed.x = path[i + 1].x - path[i].x;
-				right = (speed.x > 0) ? true : false;
+				if (state == State_zomby::STATE_IDLE)
+					state = State_zomby::STATE_WALK;
+				iPoint zombiePos = App->map->WorldToMap((int)position.x, (int)position.y - halfTileSize);
+				int i = 0;
+				bool findPositionOnPath = false;
+				for (i; i<sizePath; ++i)
+				{
+					if (*path.At(i) == zombiePos)
+					{
+						findPositionOnPath = true;
+						break;
+					}
+				}
+				if (findPositionOnPath)
+				{
+					if (i < sizePath - 1)
+					{
+						speed.x = path[i + 1].x - path[i].x;
+						right = (speed.x > 0) ? true : false;
+					}
+					else
+					{
+						path.Clear();
+						if (state != State_zomby::STATE_ATTACK)
+						{
+
+							state = State_zomby::STATE_ATTACK;
+						}
+					}
+				}
+
 			}
 			else
 			{
-				path.Clear();
-				if (state != State_zomby::STATE_ATTACK)
-				{
+				if (state == State_zomby::STATE_WALK)
+					state = State_zomby::STATE_IDLE;
+				speed = { 0,0 };
 
-					state = State_zomby::STATE_ATTACK;
-				}
 			}
-		}
-		
-	}
-	else
-	{
-		if(state == State_zomby::STATE_WALK)
-		state = State_zomby::STATE_IDLE;
-		speed = {0,0 };
 
-	}
+			position.x += speed.x * 10 * dt;
+			position.y += speed.y * 10 * dt;
+			if (moveDown)
+				speed.y += 1 * 10 * dt;
 
-	position.x += speed.x*10*dt;
-	position.y += speed.y*10*dt;
-	if (moveDown)
-		speed.y += 1*10*dt;
-
-	if(right)
-		colAttack->SetPos(position.x , position.y - collider->rect.h);
-	else
-	{
-		colAttack->SetPos(position.x - colAttack->rect.w, position.y - collider->rect.h);
+			if (right)
+				colAttack->SetPos(position.x, position.y - collider->rect.h);
+			else
+			{
+				colAttack->SetPos(position.x - colAttack->rect.w, position.y - collider->rect.h);
+			}
+			collider->SetPos(position.x - collider->rect.w * 0.5F, position.y - collider->rect.h);
 	}
-	collider->SetPos(position.x - collider->rect.w * 0.5F, position.y - collider->rect.h);
+	
 }
 void EntityZombie::OnCollision(Collider * otherColl)
 {
-
 	bool isOn = (int)position.y <= otherColl->rect.y && (int)(position.x) > otherColl->rect.x && (int)(position.x) < otherColl->rect.x + otherColl->rect.w;
 	bool isOnTheLeft = position.x < otherColl->rect.x && (int)position.y > otherColl->rect.y;
 	bool isOnTheRight = position.x > otherColl->rect.x + otherColl->rect.w && (int)position.y > otherColl->rect.y;
@@ -186,7 +204,10 @@ void EntityZombie::Draw()
 			animation[(uint)State_zomby::STATE_ATTACK].Reset();
 		}
 	}
-	
+	if (state == State_zomby::STATE_DEATH && animation[(uint)State_zomby::STATE_DEATH].Finished())
+	{
+		toDelete = true;
+	}
 
 	if (right)
 		App->render->Blit(texture, position.x - frameAnim.w / 2, position.y - frameAnim.h, &frameAnim);

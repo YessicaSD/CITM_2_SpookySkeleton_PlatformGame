@@ -160,7 +160,7 @@ void EntityBat::OnCollision(Collider * otherCollider)
 	
 	if (otherCollider->type == COLLIDER_PLAYER)
 	{
-		bool PlayerIsOn = otherCollider->rect.y < collider->rect.y && otherCollider->rect.x >= collider->rect.x && otherCollider->rect.x <= collider->rect.x + collider->rect.w;
+		bool PlayerIsOn = otherCollider->rect.y + otherCollider->rect.h*0.5F < collider->rect.y ;
 		if (PlayerIsOn)
 		{
 			toDelete = true;
