@@ -11,6 +11,7 @@ struct Collider;
 enum class BatState : uint
 {
 	STATE_IDLE,
+	STATE_DEATH,
 	STATE_MAX
 };
 
@@ -21,7 +22,7 @@ private:
 	iPoint rectMesure = { 0,0 };
 	iPoint ibat_pos = { position.x,position.y };
 	fPoint speed_bat = { 0.0F,0.0F };
-	Animation anim_bat;
+	Animation anim_bat[(uint)BatState::STATE_MAX];
 	BatState state = BatState::STATE_IDLE;
 	p2DynArray<iPoint> bat_path;
 	int halfTileSize = 16;

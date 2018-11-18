@@ -20,13 +20,15 @@
 EntityBat::EntityBat(fPoint pos,Animation* anim, SDL_Texture* tex, entities_types type):j1Entity(pos,tex, type)
 {
 
-	anim_bat.speed = anim->speed;
-	for (int j = 0; j<anim->numFrames; ++j)
+	for (uint i = 0; i < (uint)BatState::STATE_MAX; ++i)
 	{
-		SDL_Rect frame = anim->ReturnFrame(j);
-		anim_bat.PushBack(frame);
+		anim_bat[i].speed = anim[i].speed;
+		for (int j = 0; j < anim->numFrames; ++j)
+		{
+			anim_bat[i].PushBack(anim[i].ReturnFrame(j));
+		}
 	}
-
+	
 	pugi::xml_node nodeBat = App->entity->entitiesNodeDoc.child("bat");
 	pugi::xml_node nodeCol = nodeBat.child("collider");
 	rectMesure = { nodeCol.attribute("w").as_int(), nodeCol.attribute("h").as_int() };
@@ -47,6 +49,10 @@ bool EntityBat::PreUpdate(float dt)
 	BROFILER_CATEGORY("PreUpdate_EntityBat.cpp", Profiler::Color::Salmon)
 	this->dt = dt;
 	
+	if (anim_bat[(uint)BatState::STATE_DEATH].Finished())
+	{
+		toDelete = true;
+	}
 	if (timer.ReadSec() > 1.0f)
 	{
 		iPoint origin = App->map->WorldToMap((int)position.x, (int)position.y- halfTileSize);
@@ -135,7 +141,7 @@ void EntityBat::Move(float dt)
 void EntityBat::Draw()
 {
 	BROFILER_CATEGORY("Draw_EntityBat.cpp", Profiler::Color::AliceBlue)
-	SDL_Rect frameAnim = anim_bat.GetCurrentFrame(dt);
+	SDL_Rect frameAnim = anim_bat[(uint)state].GetCurrentFrame(dt);
 	
 		if (left)
 			App->render->Blit(texture, position.x - frameAnim.w / 2, position.y - frameAnim.h, &frameAnim);
@@ -163,7 +169,8 @@ void EntityBat::OnCollision(Collider * otherCollider)
 		bool PlayerIsOn = otherCollider->rect.y + otherCollider->rect.h*0.5F < collider->rect.y ;
 		if (PlayerIsOn)
 		{
-			toDelete = true;
+			EntityBat::state = BatState::STATE_DEATH;
+			collider->to_delete = true;
 		}
 		else
 		{
