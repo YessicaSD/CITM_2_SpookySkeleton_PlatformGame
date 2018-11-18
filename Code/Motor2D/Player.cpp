@@ -89,6 +89,7 @@ Player::~Player()
 
 bool Player::PreUpdate(float dt)
 {
+	isOnAir = true;
 	BROFILER_CATEGORY("PreUpdate_Player.cpp", Profiler::Color::Salmon)
 	moveDown = true;
 	this->dt = dt;
@@ -168,6 +169,20 @@ bool Player::PreUpdate(float dt)
 			}
 		}
 
+		if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_IDLE && App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_IDLE)
+		{
+			
+				if ((int)speed.x != 0)
+					speed.x += right ? -100 * dt : 100 * dt;
+				else
+					speed.x = 0.0F;
+
+				if (state == STATE_WALK)
+					state = STATE_IDLE;
+
+			
+			
+		}
 	}
 	else
 	{
@@ -183,14 +198,10 @@ void Player::Move(float dt)
 	BROFILER_CATEGORY("Move_Player.cpp", Profiler::Color::Black)
 	if (!debugMode)
 	{
-		if (moveDown && App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_IDLE && App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_IDLE)
-		{
-			speed.x = 0.0F;
-		}
+		
 		position.x += speed.x * dt;
 		position.y += speed.y * dt;
 		////Gravity ------------------------------------------------------------------------
-		if (moveDown)
 			speed.y += App->map->level.gravity * dt;
 
 		//Camera----------------------------------------------------------------------------------
@@ -240,36 +251,25 @@ void Player::OnCollision(Collider * otherColl)
 
 	if (otherColl->type == COLLIDER_WALL|| otherColl->type == COLLIDER_ICE || otherColl->type == COLLIDER_SPECIAL)
 	{
+		if (otherColl->type != COLLIDER_ICE && App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_IDLE && App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_IDLE)
+		{
+			speed.x = 0.0F;
+			if (state == STATE_WALK)
+				state = STATE_IDLE;
+		}
+		
+	
 		if ((PlayerIsOn && otherColl->type != COLLIDER_SPECIAL) || (speed.y >= 0 && otherColl->type == COLLIDER_SPECIAL && PlayerIsOn))
 		{
-
+			
 			if (state == STATE_JUMP)
 				state = STATE_IDLE;
 
-			moveDown = false;
+			
 			canJump = true;
 			speed.y = (otherColl->rect.y - (int)position.y) / dt;
 
-			if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_IDLE && App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_IDLE)
-			{
-				if (otherColl->type == COLLIDER_ICE)
-				{
-					if ((int)speed.x != 0)
-						speed.x += right ? -100 * dt : 100 * dt;
-					else
-						speed.x = 0.0F;
-					
-						if (state == STATE_WALK)
-							state = STATE_IDLE;
-					
-				}
-				else
-				{
-					speed.x = 0.0F;
-					if (state == STATE_WALK)
-						state = STATE_IDLE;
-				}
-			}
+			
 		
 		}
 		if (otherColl->type != COLLIDER_SPECIAL)
