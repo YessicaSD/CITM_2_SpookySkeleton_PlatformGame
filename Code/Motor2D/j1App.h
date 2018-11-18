@@ -124,6 +124,7 @@ private:
 
 	
 	float				avg_fps = 0.0F;
+	bool				frame_cap = true;
 };
 
 extern j1App* App; // No student is asking me about that ... odd :-S

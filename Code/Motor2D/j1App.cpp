@@ -182,7 +182,7 @@ void j1App::FinishUpdate()
 {
 	if (App->input->GetKey(SDL_SCANCODE_F11)==KEY_DOWN)
 	{
-		framerate = (framerate==30) ? 60 : 30;
+		frame_cap = !frame_cap;
 	}
 	if(want_to_save == true)
 		SavegameNow();
@@ -216,8 +216,11 @@ void j1App::FinishUpdate()
 	App->win->SetTitle(WinTitle);
 
 	
-	if (last_frame_ms < (1000 / framerate))
-		SDL_Delay((1000 / framerate) - last_frame_ms);
+	if (frame_cap)
+	{
+		if (last_frame_ms < (1000 / framerate))
+			SDL_Delay((1000 / framerate) - last_frame_ms);
+	}
 	
 	
 
