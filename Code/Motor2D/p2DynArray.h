@@ -40,15 +40,11 @@ public:
 	// Operators
 	VALUE& operator[](unsigned int index)
 	{
-		//ASSERT(index < num_elements);
-		//static_assert(index < num_elements, "index is out of the array invalid direction");
-		//ASSERT_WITH_MSG(index < num_elements, "index is out of the array invalid direction");
+		/*assert(index < num_elements);*/
 		if (index < num_elements == false)
 		{
-			LOG("index is out of the array invalid direction");
-			return data[index];
+			LOG("ASERT FAIL");
 		}
-			
 		return data[index];
 	}
 

@@ -72,10 +72,15 @@ bool j1Scene::Start()
 		LoadEntities(entitiesNode);
 	}
 	uint numEnemies = entitiesArrayInfo.Count();
-	for (uint i = 0; i < numEnemies; ++i)
+	if (numEnemies > 0)
 	{
-		App->entity->AddEntity(entitiesArrayInfo[i]);
+		for (uint i = 0; i < numEnemies; ++i)
+		{
+			if(i!= numEnemies)
+			App->entity->AddEntity(entitiesArrayInfo[i]);
+		}
 	}
+	
 	
 	if (entitiesNode == nullptr)
 		return false;

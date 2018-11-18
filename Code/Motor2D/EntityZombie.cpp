@@ -33,7 +33,7 @@ EntityZombie::EntityZombie(fPoint pos, Animation* anim, SDL_Texture* tex, entiti
 	pugi::xml_node nodeZombie = App->entity->entitiesNodeDoc.child("zombie");
 	pugi::xml_node nodeCol = nodeZombie.child("collider");
 
-	collider = App->collision->AddCollider({(int)pos.x,(int)pos.y,nodeCol.attribute("w").as_int(),nodeCol.attribute("h").as_int() }, COLLIDER_ENTITY, App->entity);
+	collider = App->collision->AddCollider({(int)pos.x,(int)pos.y,nodeCol.attribute("w").as_int(),nodeCol.attribute("h").as_int() }, COLLIDER_GOD, App->entity);
 	colAttack = App->collision->AddCollider({ (int)pos.x + 5,(int)pos.y,nodeCol.attribute("w").as_int(),nodeCol.attribute("h").as_int() }, COLLIDER_IGNORE_HIT, App->entity);;
 	timer.Start();
 	entityPlayerTarget = App->entity->entity_player;
@@ -55,7 +55,7 @@ bool EntityZombie::PreUpdate(float dt)
 		if (manhattan < 10 
 			&& App->pathfinding->CreatePath(zombiePos, playerPos,WALKING) == 1)
 			{
-				/*pathIndex = 0;*/
+				pathIndex = 0;
 				path.Clear();
 				const p2DynArray<iPoint>* pathIter = App->pathfinding->GetLastPath();
 				for (int i = 0; i < pathIter->Count(); ++i)
@@ -83,7 +83,6 @@ void EntityZombie::Move(float dt)
 	{
 		if(state == State_zomby::STATE_IDLE)
 			state = State_zomby::STATE_WALK;
-		sizePath -= 1;
  		iPoint zombiePos = App->map->WorldToMap((int)position.x, (int)position.y - halfTileSize);
 		int i =0 ;
 		bool findPositionOnPath = false;
@@ -97,25 +96,21 @@ void EntityZombie::Move(float dt)
 		}
 		if (findPositionOnPath)
 		{
-			if (i < sizePath)
+			if (i < sizePath-1)
 			{
 				speed.x = path[i + 1].x - path[i].x;
 				right = (speed.x > 0) ? true : false;
 			}
-		}
-		else
-		{
-			path.Clear();
-			if (state!=State_zomby::STATE_ATTACK)
+			else
 			{
-				
-				state = State_zomby::STATE_ATTACK;
-			}
-			
-			
+				path.Clear();
+				if (state != State_zomby::STATE_ATTACK)
+				{
 
+					state = State_zomby::STATE_ATTACK;
+				}
+			}
 		}
-			
 		
 	}
 	else
@@ -125,10 +120,10 @@ void EntityZombie::Move(float dt)
 		speed = {0,0 };
 
 	}
-	position.x += speed.x;
-	position.y += speed.y;
+	position.x += speed.x*10*dt;
+	position.y += speed.y*10*dt;
 	if (moveDown)
-		speed.y += 1;
+		speed.y += 1*10*dt;
 
 	if(right)
 		colAttack->SetPos(position.x , position.y - collider->rect.h);

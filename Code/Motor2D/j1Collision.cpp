@@ -45,7 +45,8 @@ j1Collision::j1Collision()
 
 	//Collider God--------------------------------------------------------
 	matrix[COLLIDER_GOD][COLLIDER_WALL] = true;
-
+	matrix[COLLIDER_GOD][COLLIDER_SPECIAL] = true;
+	matrix[COLLIDER_GOD][COLLIDER_ICE] = true;
 	//Collider respawn ---------------------------------------------------
 	matrix[COLLIDER_RESPAWN][COLLIDER_PLAYER] = true;
 	matrix[COLLIDER_RESPAWN][COLLIDER_ENTITY] = true;
