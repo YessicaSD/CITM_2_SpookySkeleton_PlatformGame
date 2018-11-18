@@ -9,7 +9,7 @@
 #include "j1Map.h"
 #include "j1Pathfinding.h"
 #include "Scene.h"
-#include "j1ModuleEntity.h"
+
 #include "ModuleFadeToBack.h"
 j1Scene::j1Scene() : j1Module()
 {
@@ -48,7 +48,9 @@ bool j1Scene::Start()
 	pugi::xml_node entitiesNode;
 	if (loadingSaveFile == true)
 	{
-		entitiesNode = saveNode;
+		/*if(saveNode!=nullptr)
+			entitiesNode = *saveNode;
+		LOG("%s", saveNode->name());*/
 		loadingSaveFile = false;
 	}
 	else
@@ -57,6 +59,7 @@ bool j1Scene::Start()
 		if (levelNode == NULL)
 		{
 			LOG("ERROR ENTITIES LOADING FILE");
+			return false;
 		}
 
 		for (uint i = 1; i < num_thismaplvl; ++i)
@@ -65,31 +68,44 @@ bool j1Scene::Start()
 		}
 		//Load enemies -----------------------------------------
 		entitiesNode = levelNode.child("entities");
+		LoadEntities(entitiesNode);
 	}
-
+	uint numEnemies = entitiesArrayInfo.Count();
+	for (uint i = 0; i < numEnemies; ++i)
+	{
+		App->entity->AddEntity(entitiesArrayInfo[i]);
+	}
 	
-	
-	if(entitiesNode==nullptr)
+	if (entitiesNode == nullptr)
 		return false;
-	//players---------------------------
-	for (pugi::xml_node playerNode = entitiesNode.child("player"); playerNode; playerNode=playerNode.next_sibling("player"))
-	{
-		App->entity->AddEntity(PLAYER, { playerNode.attribute("x").as_float(),playerNode.attribute("y").as_float() });
-				}
-	//bats-----------------------------
-	for (pugi::xml_node batNode = entitiesNode.child("bat"); batNode; batNode = batNode.next_sibling("bat"))
-	{
-		App->entity->AddEntity(ENEMY_BAT, { batNode.attribute("x").as_float(),batNode.attribute("y").as_float() });
-	}
-	//zombies---------------------------
-	for (pugi::xml_node zombieNode = entitiesNode.child("zombie"); zombieNode; zombieNode = zombieNode.next_sibling("zombie"))
-	{
-		App->entity->AddEntity(ENEMI_ZOMBIE, { zombieNode.attribute("x").as_float(),zombieNode.attribute("y").as_float() });
-	}
-	
+
 	return true;
 }
-
+void j1Scene::LoadEntities(const pugi::xml_node& entitiesNode)
+{
+	entitiesArrayInfo.Clear();
+	//players---------------------------
+	for (pugi::xml_node playerNode = entitiesNode.child("player"); playerNode !=NULL; playerNode = playerNode.next_sibling("player"))
+	{
+		EntitiesInfo entity(PLAYER, { playerNode.attribute("x").as_float(),playerNode.attribute("y").as_float() });
+		/*App->entity->AddEntity(PLAYER, { playerNode.attribute("x").as_float(),playerNode.attribute("y").as_float() });*/
+		entitiesArrayInfo.PushBack(entity);
+	}
+	//bats-----------------------------
+	for (pugi::xml_node entityNode = entitiesNode.child("bat"); entityNode; entityNode = entityNode.next_sibling("bat"))
+	{
+		EntitiesInfo entity(ENEMY_BAT, { entityNode.attribute("x").as_float(),entityNode.attribute("y").as_float() });
+		entitiesArrayInfo.PushBack(entity);
+		/*App->entity->AddEntity(ENEMY_BAT, { entityNode.attribute("x").as_float(),entityNode.attribute("y").as_float() });*/
+	}
+	//zombies---------------------------
+	for (pugi::xml_node entityNode = entitiesNode.child("zombie"); entityNode; entityNode = entityNode.next_sibling("zombie"))
+	{
+		EntitiesInfo entity(ENEMI_ZOMBIE, { entityNode.attribute("x").as_float(),entityNode.attribute("y").as_float() });
+		entitiesArrayInfo.PushBack(entity);
+		/*App->entity->AddEntity(ENEMI_ZOMBIE, { entityNode.attribute("x").as_float(),entityNode.attribute("y").as_float() });*/
+	}
+}
 // Called each loop iteration
 bool j1Scene::PreUpdate(float dt)
 {
@@ -150,24 +166,24 @@ bool j1Scene::CleanUp()
 {
 	LOG("Freeing scene");
 	App->entity->DestroyAllEntities();
+	//if (saveNode != nullptr)
+	//{
+	//	delete saveNode;
+	//	saveNode = nullptr;
+	//}
+		
 	return true;
 }
 
 bool j1Scene::Load(pugi::xml_node & node)
 {
-	App->entity->DestroyAllEntities();
-	loadingSaveFile = true;
-	saveNode = node.child("level").child("entities");
-	if (saveNode == NULL)
-		return false;
-		App->fade->FadeToBlack(node.child("levelToLoad").attribute("num").as_int());
-
+	LoadEntities(node.child("level").child("entities"));
 	return true;
 }
 
 bool j1Scene::Save(pugi::xml_node & node) const
 {	
-	node.append_child("levelToLoad").append_attribute("num").set_value(num_thismaplvl);
+	
 	pugi::xml_node nodeEntities = node.append_child("level").append_child("entities");
 	
 	for (p2List_item<j1Entity*>* enemiesIterator = App->entity->list_Entities.start; enemiesIterator; enemiesIterator = enemiesIterator->next)

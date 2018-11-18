@@ -133,23 +133,23 @@ void ModuleEnemies::OnCollision(Collider * c1, Collider * c2)
 	}
 }
 
-j1Entity* ModuleEnemies::AddEntity(entities_types type, fPoint pos)
+j1Entity* ModuleEnemies::AddEntity(const EntitiesInfo& entity)
 {
 	j1Entity* newEntity = nullptr;
 	Player* newPlayer = nullptr;
 	static_assert(UNKNOW >= 3, "code need update");
-	switch (type)
+	switch (entity.type)
 	{
 		case PLAYER:
-			newEntity = new Player(pos, entitiesAnimation[PLAYER], playerTexture, type);
+			newEntity = new Player(entity.pos, entitiesAnimation[PLAYER], playerTexture, entity.type);
 			entity_player = newEntity;
 			break;
 		case ENEMY_BAT:
-			newEntity = new EntityBat(pos, entitiesAnimation[ENEMY_BAT], entitiesTexture, type);
+			newEntity = new EntityBat(entity.pos, entitiesAnimation[ENEMY_BAT], entitiesTexture, entity.type);
 		break;
 
 		case ENEMI_ZOMBIE:
-			newEntity = new EntityZombie(pos, entitiesAnimation[ENEMI_ZOMBIE], entitiesTexture, type);
+			newEntity = new EntityZombie(entity.pos, entitiesAnimation[ENEMI_ZOMBIE], entitiesTexture, entity.type);
 		break;
 	}
 		list_Entities.add(newEntity);

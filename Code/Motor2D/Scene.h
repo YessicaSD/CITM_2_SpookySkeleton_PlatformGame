@@ -2,18 +2,24 @@
 #define __j1SCENE_H__
 
 #include "j1Module.h"
-
+#include "j1ModuleEntity.h"
+#include "p2Point.h"
+#include "p2DynArray.h"
 struct SDL_Texture;
+
 
 class j1Scene : public j1Module
 {
+private:
+	p2DynArray<EntitiesInfo> entitiesArrayInfo;
 public:
 	uint num_thismaplvl = 1;
 	bool loadingSaveFile = false;
+
 private:
 	pugi::xml_document	sceneFile;
 	pugi::xml_node sceneNode;
-	pugi::xml_node saveNode;
+	pugi::xml_node* saveNode=nullptr;
 public:
 	bool loadedLeve = true;
 	j1Scene();
@@ -26,6 +32,8 @@ public:
 
 	// Called before the first frame
 	bool Start()override;
+
+	void LoadEntities(const pugi::xml_node & entitiesNode);
 
 	// Called before all Updates
 	bool PreUpdate(float dt)override;

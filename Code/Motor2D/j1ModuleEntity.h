@@ -14,11 +14,14 @@
 class j1Entity;
 class Player;
 
-struct EnemyInfo
+struct EntitiesInfo
 {
-	entities_types type = entities_types::UNKNOW;
-	int x, y;
+	entities_types type = UNKNOW;
+	fPoint pos = { 0.0F,0.0F };
+	EntitiesInfo(entities_types type, fPoint pos) :type(type), pos(pos) {}
+	EntitiesInfo() {}
 };
+
 
 class ModuleEnemies : public j1Module
 {
@@ -47,7 +50,7 @@ public:
 	bool CleanUp() override;
 	void OnCollision(Collider* c1, Collider* c2) override;
 
-	j1Entity* AddEntity(entities_types type, fPoint pos);
+	j1Entity* AddEntity(const EntitiesInfo& entity);
 	bool DestroyEntity(j1Entity* entity);
 	void DestroyAllEntities();
 	uint fx_death;

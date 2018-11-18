@@ -1,5 +1,4 @@
 <scene>
-  <levelToLoad num="1"/>
   <level name="level1">
     <entities>
         <player x="60" y="384"/>

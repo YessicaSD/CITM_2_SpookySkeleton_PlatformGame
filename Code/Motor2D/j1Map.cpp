@@ -12,6 +12,7 @@
 #include "j1Window.h"
 #include "j1Input.h"
 #include "j1Audio.h"
+#include "Scene.h"
 #include <math.h>
 
 
@@ -573,17 +574,16 @@ void j1Map::LoadLayerProperties(pugi::xml_node& node, Properties& properties)
 
 bool j1Map::Load(pugi::xml_node&nodeMap)
 {
-	SavedLevel = nodeMap.child("lvl").attribute("num").as_uint();
+	App->scene->loadingSaveFile = true;
+	App->fade->FadeToBlack(nodeMap.child("levelToLoad").attribute("num").as_int());
 
 	return true;
 }
 
 bool j1Map::Save(pugi::xml_node& map) const
 {
-	/*LOG("Saved level %i", num_thismaplvl);
-	pugi::xml_node play = map.append_child("lvl");
-	play.append_attribute("num").set_value(num_thismaplvl);*/
-	
+	map.append_child("levelToLoad").append_attribute("num").set_value(App->scene->num_thismaplvl);
+
 	return true;
 }
 

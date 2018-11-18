@@ -35,8 +35,9 @@ bool  ModuleFadeToBlack::Update(float dt)
 		if (now >= total_time)
 		{
 			App->map->Disable();
-			App->map->Enable();
 			App->scene->Disable();
+
+			App->map->Enable();
 			App->scene->Enable();
 			total_time += total_time;
 			start_time = SDL_GetTicks();
