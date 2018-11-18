@@ -247,10 +247,11 @@ bool j1Map::CleanUp()
 		
 		for (p2List_item<Collider*>* Col_item = Col_layer->data->col.end;   Col_item;  Col_item = Col_item->prev)
 		{
-
-			Col_item->data->to_delete = true;
-			Col_item->data = nullptr;
-
+			if (Col_item->data != nullptr)
+			{
+				Col_item->data->to_delete = true;
+				Col_item->data = nullptr;
+			}
 		}
 		Col_layer->data->col.clear();
 		RELEASE(Col_layer->data);
