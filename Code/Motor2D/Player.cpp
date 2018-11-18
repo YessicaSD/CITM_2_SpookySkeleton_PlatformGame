@@ -37,6 +37,7 @@ void Player::DebugModeInput()
 
 Player::Player(fPoint position, Animation* anim, SDL_Texture* tex, entities_types type):j1Entity(position,tex, type)
 {
+	BROFILER_CATEGORY("PlayerContructor", Profiler::Color::Red)
 	for (uint i = 0; i < STATE_MAX; ++i)
 	{
 		animation[i].speed = anim[i].speed;
@@ -249,7 +250,7 @@ void Player::Draw()
 
 void Player::OnCollision(Collider * otherColl)
 {
-	
+	BROFILER_CATEGORY("PlayerOnCollision", Profiler::Color::Red)
 	bool PlayerIsOn = (int)position.y <= otherColl->rect.y 
 		&& (int)position.x >= otherColl->rect.x
 		&& (int)position.x <= otherColl->rect.x + otherColl->rect.w;

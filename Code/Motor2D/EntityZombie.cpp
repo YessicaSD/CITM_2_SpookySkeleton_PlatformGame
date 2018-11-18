@@ -21,7 +21,7 @@
 
 EntityZombie::EntityZombie(fPoint pos, Animation* anim, SDL_Texture* tex, entities_types type): j1Entity(pos,tex, type)
 {
-	
+	BROFILER_CATEGORY("EntityZombieConstructor.cpp", Profiler::Color::Salmon)
 	for (uint i = 0; i < (uint)State_zomby::STATE_MAX; ++i)
 	{
 		animation[i].speed = anim[i].speed;
@@ -60,7 +60,7 @@ bool EntityZombie::PreUpdate(float dt)
 			playerPos = App->map->WorldToMap(entityPlayerTarget->position.x, entityPlayerTarget->position.y - halfTileSize);
 			iPoint zombiePos = App->map->WorldToMap((int)position.x, (int)position.y - halfTileSize);
 
-			int manhattan = App->pathfinding->ManhattanDistance(playerPos, zombiePos);
+			int manhattan = playerPos.DistanceManhattan(zombiePos);
 			if (manhattan < 10
 				&& App->pathfinding->CreatePath(zombiePos, playerPos, WALKING) == 1)
 			{

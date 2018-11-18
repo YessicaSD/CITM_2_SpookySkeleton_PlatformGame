@@ -124,6 +124,7 @@ bool ModuleEnemies::PostUpdate()
 
 bool ModuleEnemies::CleanUp()
 {
+	BROFILER_CATEGORY("CleanUpEntities", Profiler::Color::Blue)
 	LOG("Freeing all enemies");
 	entity_player = nullptr;
 	if (playerTexture != nullptr)
@@ -142,6 +143,7 @@ bool ModuleEnemies::CleanUp()
 
 void ModuleEnemies::OnCollision(Collider * c1, Collider * c2)
 {
+	BROFILER_CATEGORY("Entities_OnCollision", Profiler::Color::Blue)
 	p2List_item<j1Entity*>* actualEntity = nullptr;
 	for (actualEntity = list_Entities.start; actualEntity; actualEntity = actualEntity->next)
 	{
@@ -153,6 +155,7 @@ void ModuleEnemies::OnCollision(Collider * c1, Collider * c2)
 
 j1Entity* ModuleEnemies::AddEntity(const EntitiesInfo& entity)
 {
+	BROFILER_CATEGORY("AddEntity", Profiler::Color::Green)
 	j1Entity* newEntity = nullptr;
 	static_assert(UNKNOW >= 3, "code need update");
 	switch (entity.type)

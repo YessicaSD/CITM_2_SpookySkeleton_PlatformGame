@@ -205,10 +205,10 @@ PathNode::PathNode(const PathNode& node) : numSteps(node.numSteps), h(node.h), p
 // ----------------------------------------------------------------------------------
 uint PathNode::FindWalkableAdjacents(PathList& list_to_fill) const
 {
-	iPoint cell;
-	
+	BROFILER_CATEGORY("FindWalkableAdjacents.cpp", Profiler::Color::Coral)
+	iPoint cell(pos.x, pos.y + 1);
+
 	// south
-	cell.create(pos.x, pos.y + 1);
 	if(App->pathfinding->IsWalkable(cell))
 		list_to_fill.list.add(PathNode(-1, -1, cell, this));
 
@@ -232,8 +232,8 @@ uint PathNode::FindWalkableAdjacents(PathList& list_to_fill) const
 
 uint PathNode::FindWalkableAdjacentsWalking(PathList & list_to_fill) const
 {
+	BROFILER_CATEGORY("FindWalkableAdjacentsWalking.cpp", Profiler::Color::Coral)
 	iPoint cell;
-	uint before = list_to_fill.list.Count();
 
 	// south
 	cell.create(pos.x, pos.y + 1);
@@ -270,7 +270,8 @@ int PathNode::Score() const
 int PathNode::CalculateF(const iPoint& destination)
 {
 	numSteps = parent->numSteps + 1;
-	h = pos.DistanceTo(destination);
+	
+	h = pos.DistanceManhattan(destination);
 
 	return numSteps + h;
 }

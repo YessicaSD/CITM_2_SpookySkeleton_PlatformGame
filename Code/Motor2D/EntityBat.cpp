@@ -61,7 +61,7 @@ bool EntityBat::PreUpdate(float dt)
 
 		iPoint p = App->map->WorldToMap(App->entity->entity_player->position.x, App->entity->entity_player->position.y - halfTileSize);
 
-		int manhattan = App->pathfinding->ManhattanDistance(origin, p);
+		int manhattan = origin.DistanceManhattan(p); 
 
 		if (manhattan < 10 && App->pathfinding->CreatePath(origin, p, FLYING)==1)
 			{

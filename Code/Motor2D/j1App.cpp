@@ -414,12 +414,6 @@ bool j1App::SavegameNow() const
 	bool ret = true;
 	LOG("Saving Game State to %s...", save_game.GetString());
 
-	//pugi::xml_document doc;
-
-	//auto declarationNode = doc.append_child("scene");
-	//auto root = doc.append_child("scene");
-	//bool saveSucceeded = doc.save_file("save");
-
 	// xml object were we will store all data
 	pugi::xml_document data;
 	pugi::xml_node root;
