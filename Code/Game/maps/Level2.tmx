@@ -5269,7 +5269,7 @@
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
-   <tile gid="9"/>
+   <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
@@ -8101,7 +8101,6 @@
   <object id="181" name="SPECIAL" x="2879.85" y="256" width="32.3636" height="31.8182"/>
   <object id="182" name="SPECIAL" x="2944.03" y="223.818" width="31.9091" height="32.0909"/>
   <object id="183" name="SPECIAL" x="2879.48" y="383.636" width="32.5455" height="32.1818"/>
-  <object id="184" name="DEATH" x="800.212" y="389.091" width="31.6364" height="26.9091"/>
   <object id="185" name="DEATH" x="1215.48" y="389.273" width="32.1818" height="26.1818"/>
   <object id="186" name="DEATH" x="1407.85" y="421.091" width="32.1818" height="27.4545"/>
   <object id="187" name="DEATH" x="1664.42" y="421" width="31.5" height="27.375"/>
