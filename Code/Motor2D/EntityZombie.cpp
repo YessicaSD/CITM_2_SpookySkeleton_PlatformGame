@@ -138,8 +138,8 @@ void EntityZombie::Move(float dt)
 
 			}
 
-			position.x += speed.x * 10 * dt;
-			position.y += speed.y * 10 * dt;
+			position.x += speed.x * 50 * dt;
+			position.y += speed.y * 20 * dt;
 			if (moveDown)
 				speed.y += 1 * 10 * dt;
 

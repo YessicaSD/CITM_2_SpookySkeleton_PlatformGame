@@ -316,7 +316,7 @@ void Player::OnCollision(Collider * otherColl)
 		otherColl->to_delete = true;
 	}
 
-	if (otherColl->type == COLLIDER_ENEMY)
+	if (otherColl->type == COLLIDER_ENEMY && state != STATE_ATTACK)
 		state = STATE_DEATH;
 
 
