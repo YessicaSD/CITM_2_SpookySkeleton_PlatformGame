@@ -8,20 +8,6 @@ There is one playable character, a skeleton, and two different levels with a spo
 The first level is set inside a cave, and the second level is set in the outside of that cave.
 
 
-### Find this project on github:
-https://github.com/YessicaSD/PlatformGame
-
--Credits:
-- Yessica Servin Dominguez 
-	Find her on:
-	Github: https://github.com/YessicaSD
-
-- Pol Recasens Sarra 
-	Find him on:
-	Github: https://github.com/PolRecasensSarra
-
-
-
 ## How to play:
 [SPACE] = Jump
 
@@ -58,5 +44,27 @@ https://github.com/YessicaSD/PlatformGame
 
 [RIGHT_ARROW] = Right
 
+### Find this project on github:
+https://github.com/YessicaSD/PlatformGame
 
+### Credits:
+- Yessica Servin Dominguez 
+	Find her on:
+	Github: https://github.com/YessicaSD
 
+- Pol Recasens Sarra 
+	Find him on:
+	Github: https://github.com/PolRecasensSarra
+
+### What have done each member:
+	Yessica Servin:
+		- Save and Load
+		- Walking enemy(Zombie)
+		- Entities sistem
+		- Implementation of dt
+		- Limit the framerate
+		- Change the player to an entity
+		- UML File
+		
+ 	
+		
