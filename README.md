@@ -65,6 +65,7 @@ https://github.com/YessicaSD/PlatformGame
 		- Limit the framerate
 		- Change the player to an entity
 		- UML File
+		- Ice 
 		
  	
 		
