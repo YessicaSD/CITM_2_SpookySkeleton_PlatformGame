@@ -24,7 +24,9 @@ protected:
 	SDL_Texture * texture = nullptr;
 	float dt;
 	bool showPath= false;
+	
 public:
+	bool toDelete = false;
 	fPoint position = {0.0F,0.0F};
 	fPoint speed = { 0.0F,0.0F };
 	Collider* collider = nullptr;

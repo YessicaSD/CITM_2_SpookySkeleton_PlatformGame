@@ -155,19 +155,22 @@ void EntityBat::Draw()
 		}
 }
 
-void EntityBat::OnCollision(Collider * collider)
+void EntityBat::OnCollision(Collider * otherCollider)
 {
-	/*bool PlayerIsOn = (int)position.y <= collider->rect.y && (int)(position.x) > collider->rect.x && (int)(position.x) < collider->rect.x + collider->rect.w;
-	if (collider->type == COLLIDER_PLAYER)
-		if (!PlayerIsOn)
+	
+	if (otherCollider->type == COLLIDER_PLAYER)
+	{
+		bool PlayerIsOn = otherCollider->rect.y < collider->rect.y && otherCollider->rect.x >= collider->rect.x && otherCollider->rect.x <= collider->rect.x + collider->rect.w;
+		if (PlayerIsOn)
 		{
-			App->entity->player->state = STATE_DEATH;
+			toDelete = true;
 		}
 		else
 		{
-
-		}*/
-		
+			otherCollider->to_delete = true;
+		}
+	}
+	
 }
 
 

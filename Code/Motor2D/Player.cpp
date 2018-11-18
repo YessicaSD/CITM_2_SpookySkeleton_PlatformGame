@@ -92,6 +92,10 @@ bool Player::PreUpdate(float dt)
 	BROFILER_CATEGORY("PreUpdate_Player.cpp", Profiler::Color::Salmon)
 	moveDown = true;
 	this->dt = dt;
+	if (collider == nullptr || collider->to_delete==true)
+	{
+		state = STATE_DEATH;
+	}
 	if (App->input->GetKey(SDL_SCANCODE_F10) == KEY_DOWN)
 	{
 		debugMode = !debugMode;
@@ -222,7 +226,9 @@ void Player::Draw()
 void Player::OnCollision(Collider * otherColl)
 {
 	
-	bool PlayerIsOn = (int)position.y <= otherColl->rect.y && (int)(position.x) > otherColl->rect.x && (int)(position.x) < otherColl->rect.x + otherColl->rect.w;
+	bool PlayerIsOn = (int)position.y <= otherColl->rect.y 
+		&& (int)position.x >= otherColl->rect.x
+		&& (int)position.x <= otherColl->rect.x + otherColl->rect.w;
 	bool PlayerIsOnTheLeft = position.x < otherColl->rect.x  && (int)position.y > otherColl->rect.y;
 	bool PlayerIsOnTheRight = position.x > otherColl->rect.x + otherColl->rect.w  && (int)position.y > otherColl->rect.y;
 	bool PlayerIsUnder = position.y > otherColl->rect.y + otherColl->rect.h && collider->rect.x + collider->rect.w - 5 > otherColl->rect.x && collider->rect.x + 5 < otherColl->rect.x + otherColl->rect.w;
@@ -281,19 +287,6 @@ void Player::OnCollision(Collider * otherColl)
 	if (otherColl->type == COLLIDER_ENEMY)
 		state = STATE_DEATH;
 
-	/*if (otherColl->type == COLLIDER_ENTITY)
-		state = STATE_DEATH;*/
-
-	if (otherColl->type == COLLIDER_ENTITY)
-	{
-		if (PlayerIsOn)
-		{
-			otherColl->to_delete = true;
-		}
-		else {
-			state = STATE_DEATH;
-		}
-	}
 
 	if (otherColl->type == COLLIDER_RESPAWN)
 		App->fade->FadeToBlack(App->scene->num_thismaplvl);

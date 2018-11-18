@@ -51,7 +51,7 @@ public:
 	void OnCollision(Collider* c1, Collider* c2) override;
 
 	j1Entity* AddEntity(const EntitiesInfo& entity);
-	bool DestroyEntity(j1Entity* entity);
+	bool DestroyEntity(p2List_item<j1Entity*>* entity);
 	void DestroyAllEntities();
 	uint fx_death;
 	uint fx_jump;

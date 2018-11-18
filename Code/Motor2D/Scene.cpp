@@ -76,7 +76,6 @@ bool j1Scene::Start()
 	{
 		for (uint i = 0; i < numEnemies; ++i)
 		{
-			if(i!= numEnemies)
 			App->entity->AddEntity(entitiesArrayInfo[i]);
 		}
 	}

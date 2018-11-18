@@ -11,12 +11,16 @@
 
 
 j1Entity::j1Entity(fPoint position, SDL_Texture* tex, entities_types type):position(position),texture(tex),type(type)
-{}
+{
+
+}
 
 j1Entity::~j1Entity()
 {
 	if (collider != nullptr)
 		collider->to_delete = true;
+	if (texture != nullptr)
+		texture = nullptr;
 }
 
 

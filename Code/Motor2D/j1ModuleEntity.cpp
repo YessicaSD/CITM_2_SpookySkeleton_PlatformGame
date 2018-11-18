@@ -83,10 +83,13 @@ bool ModuleEnemies::PreUpdate(float dt)
 	p2List_item<j1Entity*>* actualEntity=nullptr;
 	for (actualEntity = list_Entities.start; actualEntity; actualEntity = actualEntity->next)
 	{
-		actualEntity->data->PreUpdate(dt);
-		if (actualEntity->data->collider->to_delete == true)
+		if (actualEntity->data->toDelete == true)
 		{
-			DestroyEntity(actualEntity->data);
+			DestroyEntity(actualEntity);
+		}
+		else
+		{
+			actualEntity->data->PreUpdate(dt);
 		}
 	}
 	return true;
@@ -96,7 +99,7 @@ bool ModuleEnemies::Update(float dt)
 {
 	BROFILER_CATEGORY("Update_ModuleEntity.cpp", Profiler::Color::Coral)
 	p2List_item<j1Entity*>* actualEntity = nullptr;
-	//LOG("NUM OF ENTITIES %i", list_Entities.Count());
+
 	for (actualEntity = list_Entities.start; actualEntity; actualEntity = actualEntity->next)
 	{
 		
@@ -122,8 +125,17 @@ bool ModuleEnemies::CleanUp()
 {
 	LOG("Freeing all enemies");
 	entity_player = nullptr;
-	DestroyAllEntities();
+	if (playerTexture != nullptr)
+	{
+		App->tex->UnLoad(playerTexture);
+	}
+	if (entitiesTexture!=nullptr)
+	{
+		App->tex->UnLoad(entitiesTexture);
+	}
 	
+	DestroyAllEntities();
+	entitiesAnimation.clear();
 	return true;
 }
 
@@ -162,25 +174,13 @@ j1Entity* ModuleEnemies::AddEntity(const EntitiesInfo& entity)
 	return nullptr;
 }
 
-bool ModuleEnemies::DestroyEntity(j1Entity * entity)
+bool ModuleEnemies::DestroyEntity(p2List_item<j1Entity*>* entity)
 {
-	if (entity == nullptr)
-		return false;
-
-	bool found = false;
-
-	p2List_item<j1Entity*>* itemEntity = nullptr;	
-	for (itemEntity = list_Entities.start; itemEntity != nullptr && found!= false; itemEntity = itemEntity->next)
-	{
-		if (itemEntity->data == entity)
-			found = true;	
-	}
-	if (found)
-	{
-		list_Entities.del(itemEntity);
-		return true;
-	}
-	return false;
+	bool ret = true;
+	entity->data->toDelete = false;
+	RELEASE(entity->data);
+	list_Entities.del(entity);
+	return ret;
 }
 
 void ModuleEnemies::DestroyAllEntities()
