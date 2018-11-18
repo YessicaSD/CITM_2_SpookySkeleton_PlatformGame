@@ -142,7 +142,10 @@ void EntityBat::Draw()
 		else
 			App->render->Blit(texture, position.x - frameAnim.w / 2, position.y - frameAnim.h, &frameAnim, SDL_FLIP_HORIZONTAL);
 		
-		if (App->collision->debug)
+		if (App->input->GetKey(SDL_SCANCODE_F9) == KEY_DOWN)
+			showPath = !showPath;
+
+		if (showPath)
 		{
 			for (uint i = 0; i < bat_path.Count(); ++i)
 			{

@@ -23,6 +23,7 @@ class j1Entity
 protected: 
 	SDL_Texture * texture = nullptr;
 	float dt;
+	bool showPath= false;
 public:
 	fPoint position = {0.0F,0.0F};
 	fPoint speed = { 0.0F,0.0F };

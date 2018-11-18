@@ -325,8 +325,7 @@ bool j1Map::Load(const char* file_name)
 	}
 
 	//// Load properties  -----------------------------------------
-	//LoadProperties(map_file.child("map").child("properties").child("property"));
-	
+
 	if (ret == true)
 	{
 		LOG("Successfully parsed map XML file: %s", file_name);
@@ -552,9 +551,6 @@ bool j1Map::LoadLayer(pugi::xml_node& node, MapLayer* layer)
 
 void j1Map::LoadLayerProperties(pugi::xml_node& node, Properties& properties)
 {
-
-	bool ret = false;
-
 	pugi::xml_node data = node.child("properties");
 
 	if (data != NULL)

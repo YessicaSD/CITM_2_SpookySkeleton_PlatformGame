@@ -194,14 +194,19 @@ void EntityZombie::Draw()
 		App->render->Blit(texture, position.x - frameAnim.w / 2, position.y - frameAnim.h, &frameAnim, SDL_FLIP_HORIZONTAL);
 	int num = path.Count();
 
-	if (App->collision->debug)
+	if (App->input->GetKey(SDL_SCANCODE_F9) == KEY_DOWN)
+		showPath = !showPath;
+
+	if (showPath)
 	{
 		for (uint i = 0; i < path.Count(); ++i)
 		{
 			iPoint pos = App->map->MapToWorld(path.At(i)->x, path.At(i)->y);
 			App->render->Blit(App->pathfinding->debug_tex, pos.x, pos.y);
 		}
+
 	}
+		
 }
 
 bool EntityZombie::CleanUp()
