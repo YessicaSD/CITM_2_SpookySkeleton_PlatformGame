@@ -209,10 +209,14 @@ void j1App::FinishUpdate()
 	p = App->map->WorldToMap(p.x, p.y);
 
 	static char WinTitle[300];
-	sprintf_s(WinTitle, 300, "¡Spooky_Skeleton! _FPS:%.2u Av.FPS: %.2f Last Frame Ms: %02u  Time since startup: %.3f ",
-		framerate,avg_fps, last_frame_ms,seconds_since_startup);
-	/*sprintf_s(WinTitle, 300, "¡Spooky_Skeleton! Mouse Pos x=%i, y=%i"
-		p.x,p.y);*/
+	if (frame_cap)
+		framecapstring = "ON";
+	else
+		framecapstring = "OFF";
+		
+	sprintf_s(WinTitle, 300, "¡Spooky_Skeleton! _FPS:%.2u Av.FPS: %.2f Last Frame Ms: %02u  Time since startup: %.3f FrameCap: %s ",
+		framerate,avg_fps, last_frame_ms,seconds_since_startup, framecapstring.GetString());
+	
 	App->win->SetTitle(WinTitle);
 
 	
