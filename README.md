@@ -43,6 +43,8 @@ https://github.com/YessicaSD/PlatformGame
 
 [F10] = God mode
 
+[F11] = Enable/Disable FPS cap to 30
+
 
 ### Player Control
 
@@ -56,4 +58,9 @@ https://github.com/YessicaSD/PlatformGame
 
 [SPACE] = Jump
 
+
+
+## Innovation
+
+We have included ice platforms. If the player is on them, he slides over the platform.
 
