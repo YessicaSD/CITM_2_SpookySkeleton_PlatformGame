@@ -9,6 +9,8 @@
 #include "j1Window.h"
 #include "ModuleFadeToBack.h"
 #include "Scene.h"
+#include "Brofiler\Brofiler.h"
+
 void Player::DebugModeInput()
 {
 	if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT)
@@ -87,6 +89,7 @@ Player::~Player()
 
 bool Player::PreUpdate(float dt)
 {
+	BROFILER_CATEGORY("PreUpdate_Player.cpp", Profiler::Color::Salmon)
 	moveDown = true;
 	this->dt = dt;
 	if (App->input->GetKey(SDL_SCANCODE_F10) == KEY_DOWN)
@@ -173,6 +176,7 @@ bool Player::PreUpdate(float dt)
 
 void Player::Move(float dt)
 {
+	BROFILER_CATEGORY("Move_Player.cpp", Profiler::Color::Black)
 	if (!debugMode)
 	{
 		position.x += speed.x * dt;
@@ -195,6 +199,7 @@ void Player::Move(float dt)
 
 void Player::Draw()
 {
+	BROFILER_CATEGORY("Draw_Player.cpp", Profiler::Color::AliceBlue)
 	SDL_Rect frameAnim = animation[state].GetCurrentFrame(dt);
 	if (animation[STATE_SPAWN].Finished())
 	{

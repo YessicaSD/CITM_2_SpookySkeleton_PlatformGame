@@ -16,6 +16,8 @@
 
 #include "j1Render.h"
 
+#include "Brofiler\Brofiler.h"
+
 
 EntityZombie::EntityZombie(fPoint pos, Animation* anim, SDL_Texture* tex, entities_types type): j1Entity(pos,tex, type)
 {
@@ -41,6 +43,7 @@ EntityZombie::EntityZombie(fPoint pos, Animation* anim, SDL_Texture* tex, entiti
 
 bool EntityZombie::PreUpdate(float dt)
 {
+	BROFILER_CATEGORY("PreUpdate_EntityZombie.cpp", Profiler::Color::Salmon)
 	this->dt = dt;
 	moveDown = true;
 	if (timer.ReadSec()>=1 && entityPlayerTarget!=nullptr)
@@ -71,7 +74,7 @@ bool EntityZombie::PreUpdate(float dt)
 
 void EntityZombie::Move(float dt)
 {
-	
+	BROFILER_CATEGORY("Move_EntityZombie.cpp", Profiler::Color::Black)
 	
 	uint sizePath = 0;
 	sizePath=path.Count();
@@ -171,6 +174,7 @@ void EntityZombie::OnCollision(Collider * otherColl)
 
 void EntityZombie::Draw()
 {
+	BROFILER_CATEGORY("Draw_EntityZombie.cpp", Profiler::Color::AliceBlue)
 	SDL_Rect frameAnim = animation[(uint)state].GetCurrentFrame(dt);
 	if (state== State_zomby::STATE_ATTACK)
 	{

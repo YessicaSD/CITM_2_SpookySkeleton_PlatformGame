@@ -15,6 +15,8 @@
 #include "EntityBat.h"
 #include "EntityZombie.h"
 
+#include "Brofiler\Brofiler.h"
+
 ModuleEnemies::ModuleEnemies()
 {
 	name.create("entities");
@@ -76,6 +78,7 @@ bool ModuleEnemies::Start()
 }
 bool ModuleEnemies::PreUpdate(float dt)
 {
+	BROFILER_CATEGORY("PreUpdate_ModuleEntity.cpp", Profiler::Color::Salmon)
 	this->dt = dt;
 	p2List_item<j1Entity*>* actualEntity=nullptr;
 	for (actualEntity = list_Entities.start; actualEntity; actualEntity = actualEntity->next)
@@ -91,6 +94,7 @@ bool ModuleEnemies::PreUpdate(float dt)
 
 bool ModuleEnemies::Update(float dt)
 {
+	BROFILER_CATEGORY("Update_ModuleEntity.cpp", Profiler::Color::Coral)
 	p2List_item<j1Entity*>* actualEntity = nullptr;
 	//LOG("NUM OF ENTITIES %i", list_Entities.Count());
 	for (actualEntity = list_Entities.start; actualEntity; actualEntity = actualEntity->next)
@@ -105,6 +109,7 @@ bool ModuleEnemies::Update(float dt)
 
 bool ModuleEnemies::PostUpdate()
 {
+	BROFILER_CATEGORY("PostUpdate_ModuleEntity.cpp", Profiler::Color::MediumSlateBlue)
 	p2List_item<j1Entity*>* actualEntity = nullptr;
 	for (actualEntity = list_Entities.start; actualEntity; actualEntity = actualEntity->next)
 	{
