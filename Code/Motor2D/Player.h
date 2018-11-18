@@ -29,13 +29,14 @@ private:
 	fPoint maxSpeed = { 0.0F,0.0F };
 	
 	iPoint distansToCam = { 0,0 };
+	bool isOnAir = false;
 	bool canJump = false;
 	bool moveDown = false;
 	bool debugMode = false;
 	bool right = true;
 	bool iceMovement = false;
 	bool death_fx = false;
-	bool jump_fx = false;;
+	bool jump_fx = false;
 	void DebugModeInput();
 public:
 		Player(fPoint position,Animation* anim,SDL_Texture* tex, entities_types type);
