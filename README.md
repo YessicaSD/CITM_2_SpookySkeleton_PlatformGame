@@ -19,7 +19,7 @@ Decompress the .zip file in any directory and execute the executable inside the 
 
 [RIGHT_ARROW] = Move right
 
-[Q] = Attack Animation
+[Q] = Attack 
 
 [ESC] = Exit
 
@@ -54,10 +54,10 @@ Decompress the .zip file in any directory and execute the executable inside the 
 
 [RIGHT_ARROW] = Right
 
-### Find this project on github:
+## Find this project on github:
 https://github.com/YessicaSD/PlatformGame
 
-### Credits:
+## Credits:
 - Yessica Servin Dominguez 
 	Find her on:
 	Github: https://github.com/YessicaSD
@@ -66,7 +66,7 @@ https://github.com/YessicaSD/PlatformGame
 	Find him on:
 	Github: https://github.com/PolRecasensSarra
 
-### What have done each member:
+## What have done each member:
 	Yessica Servin:
 		- Save and Load
 		- Walking enemy(Zombie)
@@ -79,6 +79,7 @@ https://github.com/YessicaSD/PlatformGame
 	
 	Pol Recasens:
 		- Modified map levels
+		- Enemy sprite sheet
 		- Enemies positions
 		- Bat entity
 		- Brofiler
