@@ -154,15 +154,11 @@ bool Player::PreUpdate(float dt)
 
 
 			App->fade->FadeToBlack(App->scene->num_thismaplvl);
-			/*if (death_fx)
-
-			App->fade->FadeToBlack(App->map->num_thismaplvl);
 			if (death_fx)
-
 			{
 				App->audio->PlayFx(App->entity->fx_death);
 				death_fx = false;
-			}*/
+			}
 		}
 
 	}

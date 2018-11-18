@@ -3,7 +3,6 @@
   <level name="level1">
     <entities>
         <player x="60" y="384"/>
-        <bat x="300" y="150"/>
         <bat x="300" y="250"/>
         <bat x="1100" y="200"/>
         <bat x="2300" y="200"/>
