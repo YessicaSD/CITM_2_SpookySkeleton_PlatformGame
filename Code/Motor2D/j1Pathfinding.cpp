@@ -206,8 +206,7 @@ PathNode::PathNode(const PathNode& node) : numSteps(node.numSteps), h(node.h), p
 uint PathNode::FindWalkableAdjacents(PathList& list_to_fill) const
 {
 	iPoint cell;
-	uint before = list_to_fill.list.Count();
-
+	
 	// south
 	cell.create(pos.x, pos.y + 1);
 	if(App->pathfinding->IsWalkable(cell))

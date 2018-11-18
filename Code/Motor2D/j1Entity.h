@@ -36,10 +36,10 @@ public:
 	virtual ~j1Entity();
 	
 
-	virtual bool PreUpdate(float dt);
+	virtual bool PreUpdate(float dt) { return true; };
 	virtual void Move(float dt) {};
-	virtual void Draw();
-	virtual void OnCollision(Collider* collider);
+	virtual void Draw() {};
+	virtual void OnCollision(Collider* collider) {};
 	
 };
 

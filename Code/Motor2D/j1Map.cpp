@@ -75,10 +75,7 @@ bool j1Map::Update(float dt)
 	BROFILER_CATEGORY("Update_Map.cpp", Profiler::Color::Coral)
 
 	
-	if (App->entity->entity_player!=nullptr)
-	{
-
-		if (App->entity->entity_player->position.x >= (level.width*level.tile_width) - 2 * level.tile_width)
+	if (App->entity->entity_player!=nullptr && App->entity->entity_player->position.x >= (level.width*level.tile_width) - 2 * level.tile_width)
 		{
 			for (p2List_item<Scenes*>* item_scene = level.scenes_List.start; item_scene; item_scene = item_scene->next)
 			{
@@ -92,9 +89,7 @@ bool j1Map::Update(float dt)
 				}
 			}
 		}
-	}
 	
-
 	return true;
 }
 

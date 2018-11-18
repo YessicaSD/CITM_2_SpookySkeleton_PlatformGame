@@ -4,7 +4,7 @@
 #include "p2List.h"
 
 #include "SDL/include/SDL.h"
-#include "SDL_mixer\include\SDL_mixer.h"
+#include "SDL_mixer/include/SDL_mixer.h"
 #pragma comment( lib, "SDL_mixer/libx86/SDL2_mixer.lib" )
 
 j1Audio::j1Audio() : j1Module()
@@ -89,9 +89,9 @@ bool j1Audio::PlayMusic(const char* path, float fade_time)
 
 	if(music != NULL)
 	{
-		if(fade_time > 0.0f)
+		if(fade_time > 0.0F)
 		{
-			Mix_FadeOutMusic(int(fade_time * 1000.0f));
+			Mix_FadeOutMusic(int(fade_time * 1000.0F));
 		}
 		else
 		{
@@ -112,9 +112,9 @@ bool j1Audio::PlayMusic(const char* path, float fade_time)
 	}
 	else
 	{
-		if(fade_time > 0.0f)
+		if(fade_time > 0.0F)
 		{
-			if(Mix_FadeInMusic(music, -1, (int) (fade_time * 1000.0f)) < 0)
+			if(Mix_FadeInMusic(music, -1, (int) (fade_time * 1000.0F)) < 0)
 			{
 				LOG("Cannot fade in music %s. Mix_GetError(): %s", path, Mix_GetError());
 				ret = false;

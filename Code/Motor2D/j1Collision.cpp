@@ -4,8 +4,8 @@
 #include "j1App.h"
 #include "j1Input.h"
 #include "j1Render.h"
-#include "SDL\include\SDL_keyboard.h"
-#include "Brofiler\Brofiler.h"
+#include "SDL/include/SDL_keyboard.h"
+#include "Brofiler/Brofiler.h"
 
 
 j1Collision::j1Collision()
@@ -69,7 +69,6 @@ j1Collision::~j1Collision()
 bool j1Collision:: PreUpdate(float dt)
 {
 	BROFILER_CATEGORY("PreUpdate_Collisiom.cpp", Profiler::Color::Salmon)
-	//LOG("Filled colliders %i", getFilledColNum());
 	// Calculate collisions
 	Collider* c1 = nullptr;
 	Collider* c2 = nullptr;
@@ -120,7 +119,6 @@ bool j1Collision::PostUpdate()
 		{
 			delete colliders[i];
 			colliders[i] = nullptr;
-			/*colliders[i]->to_delete = false;*/
 		}
 	}
 

@@ -16,7 +16,7 @@
 
 #include "j1Render.h"
 
-#include "Brofiler\Brofiler.h"
+#include "Brofiler/Brofiler.h"
 
 
 EntityZombie::EntityZombie(fPoint pos, Animation* anim, SDL_Texture* tex, entities_types type): j1Entity(pos,tex, type)
@@ -45,21 +45,17 @@ bool EntityZombie::PreUpdate(float dt)
 {
 	BROFILER_CATEGORY("PreUpdate_EntityZombie.cpp", Profiler::Color::Salmon)
 	this->dt = dt;
-	if (collider->to_delete == true || collider == nullptr)
-	{
-		if (state != State_zomby::STATE_DEATH)
+	if ((collider->to_delete == true || collider == nullptr) && state != State_zomby::STATE_DEATH)
 		{
 			state = State_zomby::STATE_DEATH;
 			speed.x = 0.0F;
 			colAttack->type = COLLIDER_IGNORE_HIT;
 		}
 		
-	}
+	
 
 	moveDown = true;
-	if (state != State_zomby::STATE_ATTACK)
-	{
-		if (timer.ReadSec() >= 1 && entityPlayerTarget != nullptr)
+	if (state != State_zomby::STATE_ATTACK && timer.ReadSec() >= 1 && entityPlayerTarget != nullptr)
 		{
 			playerPos = App->map->WorldToMap(entityPlayerTarget->position.x, entityPlayerTarget->position.y - halfTileSize);
 			iPoint zombiePos = App->map->WorldToMap((int)position.x, (int)position.y - halfTileSize);
@@ -80,7 +76,7 @@ bool EntityZombie::PreUpdate(float dt)
 
 			timer.Start();
 		}
-	}
+	
 	
 	collider->SetPos((position.x + speed.x) - collider->rect.w *0.5F, (position.y + speed.y) - collider->rect.h);
 	return true;

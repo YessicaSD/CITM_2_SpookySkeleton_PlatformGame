@@ -14,18 +14,18 @@
 #include "ModuleFadeToBack.h"
 #include "j1Collision.h"
 #include "j1Render.h"
-#include "Brofiler\Brofiler.h"
+#include "Brofiler/Brofiler.h"
 
 
 EntityBat::EntityBat(fPoint pos,Animation* anim, SDL_Texture* tex, entities_types type):j1Entity(pos,tex, type)
 {
 
-	for (uint i = 0; i < (uint)BatState::STATE_MAX; ++i)
+	for (uint AnimNum = 0; AnimNum < (uint)BatState::STATE_MAX; ++AnimNum)
 	{
-		anim_bat[i].speed = anim[i].speed;
-		for (int j = 0; j < anim[i].numFrames; ++j)
+		anim_bat[AnimNum].speed = anim[AnimNum].speed;
+		for (int j = 0; j < anim[AnimNum].numFrames; ++j)
 		{
-			anim_bat[i].PushBack(anim[i].ReturnFrame(j));
+			anim_bat[AnimNum].PushBack(anim[AnimNum].ReturnFrame(j));
 		}
 	}
 	
@@ -49,15 +49,13 @@ bool EntityBat::PreUpdate(float dt)
 	BROFILER_CATEGORY("PreUpdate_EntityBat.cpp", Profiler::Color::Salmon)
 	this->dt = dt;
 	
-	if (state == BatState::STATE_DEATH)
-	{
-		if (batdeath_fx)
+	if (state == BatState::STATE_DEATH && batdeath_fx)
 		{
 			App->audio->PlayFx(App->entity->fx_batdeath);
 			batdeath_fx = false;
 		}
-	}
-	if (timer.ReadSec() > 1.0f)
+	
+	if (timer.ReadSec() > 1.0F)
 	{
 		iPoint origin = App->map->WorldToMap((int)position.x, (int)position.y- halfTileSize);
 
@@ -65,18 +63,15 @@ bool EntityBat::PreUpdate(float dt)
 
 		int manhattan = App->pathfinding->ManhattanDistance(origin, p);
 
-		if (manhattan < 10)
-		{
-			if (App->pathfinding->CreatePath(origin, p, FLYING)==1)
+		if (manhattan < 10 && App->pathfinding->CreatePath(origin, p, FLYING)==1)
 			{
 				bat_path.Clear();
 				const p2DynArray<iPoint>* path = App->pathfinding->GetLastPath();
-				for (int i = 0; i < path->Count(); i++)
+				for (int pathIpoint = 0; pathIpoint < path->Count(); pathIpoint++)
 				{
-					bat_path.PushBack(*path->At(i));
+					bat_path.PushBack(*path->At(pathIpoint));
 				}
 			}
-		}
 	}
 	collider->SetPos((position.x + speed.x * dt) - collider->rect.w / 2, (position.y + speed.y * dt) - collider->rect.h);
 	return true;
@@ -99,24 +94,22 @@ void EntityBat::Move(float dt)
 	{
 		sizePath -= 1;
 		iPoint batPos = App->map->WorldToMap((int)position.x, (int)position.y - halfTileSize);
-		int i = 0;
+		int aux_i = 0;
 		bool findPositionOnPath = false;
-		for (i; i < sizePath; ++i)
+		for (aux_i; aux_i < sizePath; ++aux_i)
 		{
-			if (*bat_path.At(i) == batPos)
+			if (*bat_path.At(aux_i) == batPos)
 			{
 				findPositionOnPath = true;
 				break;
 			}
 		}
-		if (findPositionOnPath)
+		if (findPositionOnPath && aux_i < sizePath)
 		{
-			if (i < sizePath)
-			{
-				speed.x = bat_path[i + 1].x - bat_path[i].x;
-				speed.y = bat_path[i + 1].y - bat_path[i].y;
-			}
+				speed.x = bat_path[aux_i + 1].x - bat_path[aux_i].x;
+				speed.y = bat_path[aux_i + 1].y - bat_path[aux_i].y;
 		}
+		
 	}
 
 	else

@@ -15,7 +15,7 @@
 #include "EntityBat.h"
 #include "EntityZombie.h"
 
-#include "Brofiler\Brofiler.h"
+#include "Brofiler/Brofiler.h"
 
 ModuleEnemies::ModuleEnemies()
 {
@@ -154,7 +154,6 @@ void ModuleEnemies::OnCollision(Collider * c1, Collider * c2)
 j1Entity* ModuleEnemies::AddEntity(const EntitiesInfo& entity)
 {
 	j1Entity* newEntity = nullptr;
-	Player* newPlayer = nullptr;
 	static_assert(UNKNOW >= 3, "code need update");
 	switch (entity.type)
 	{
