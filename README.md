@@ -74,7 +74,7 @@ https://github.com/YessicaSD/PlatformGame
 		- Implementation of dt
 		- Limit the framerate
 		- Change the player to an entity
-		- UML File
+		- UML File of entities
 		- Ice 
 		- Add pathFinding Module
 	
