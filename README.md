@@ -76,6 +76,7 @@ https://github.com/YessicaSD/PlatformGame
 		- Change the player to an entity
 		- UML File
 		- Ice 
+		- Add pathFinding Module
 	
 	Pol Recasens:
 		- Modified map levels

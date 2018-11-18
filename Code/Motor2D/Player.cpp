@@ -89,9 +89,7 @@ Player::~Player()
 
 bool Player::PreUpdate(float dt)
 {
-	isOnAir = true;
 	BROFILER_CATEGORY("PreUpdate_Player.cpp", Profiler::Color::Salmon)
-	moveDown = true;
 	this->dt = dt;
 	if (collider == nullptr || collider->to_delete==true)
 	{
@@ -106,30 +104,9 @@ bool Player::PreUpdate(float dt)
 
 	if (!debugMode)
 	{
-		if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
-		{
-			if (state == STATE_IDLE || state == STATE_JUMP || state == STATE_WALK)
-			{
-				right = true;
-				speed.x = maxSpeed.x;
-			}
-			if (state == STATE_IDLE)
-				state = STATE_WALK;
-		}
+		
 
 
-		if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT)
-		{
-			if (state == STATE_IDLE || state == STATE_JUMP || state == STATE_WALK)
-			{
-				right = false;
-				speed.x = -maxSpeed.x;
-			}
-			if (state == STATE_IDLE)
-				state = STATE_WALK;
-
-
-		}
 		if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN
 			&& (state == STATE_IDLE || state == STATE_WALK)
 			&& canJump)
@@ -145,6 +122,38 @@ bool Player::PreUpdate(float dt)
 		
 
 		}
+
+		if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
+		{
+			if (state == STATE_IDLE || state == STATE_JUMP || state == STATE_WALK)
+			{
+				if (!right)
+					right = true;
+				if (speed.x < maxSpeed.x)
+				{
+					speed.x += acceleration_x * dt;
+				}
+
+			}
+			if (state == STATE_IDLE)
+				state = STATE_WALK;
+		}
+		if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT)
+		{
+			if (state == STATE_IDLE || state == STATE_JUMP || state == STATE_WALK)
+			{
+				if (right)
+					right = false;
+				if (speed.x > -maxSpeed.x)
+				{
+					speed.x -= acceleration_x * dt;
+				}
+
+			}
+			if (state == STATE_IDLE)
+				state = STATE_WALK;
+		}
+
 		if (state == STATE_JUMP)
 			jump_fx = true;
 
@@ -173,7 +182,7 @@ bool Player::PreUpdate(float dt)
 		{
 			
 				if ((int)speed.x != 0)
-					speed.x += right ? -100 * dt : 100 * dt;
+					speed.x += (speed.x>0) ? -100 * dt : 100 * dt;
 				else
 					speed.x = 0.0F;
 
@@ -244,10 +253,24 @@ void Player::OnCollision(Collider * otherColl)
 	bool PlayerIsOn = (int)position.y <= otherColl->rect.y 
 		&& (int)position.x >= otherColl->rect.x
 		&& (int)position.x <= otherColl->rect.x + otherColl->rect.w;
-	bool PlayerIsOnTheLeft = position.x < otherColl->rect.x  && (int)position.y > otherColl->rect.y;
-	bool PlayerIsOnTheRight = position.x > otherColl->rect.x + otherColl->rect.w  && (int)position.y > otherColl->rect.y;
+	bool PlayerIsOnTheLeft = position.x <= otherColl->rect.x  && (int)position.y > otherColl->rect.y;
+	bool PlayerIsOnTheRight = position.x >= otherColl->rect.x + otherColl->rect.w  && (int)position.y > otherColl->rect.y;
 	bool PlayerIsUnder = position.y > otherColl->rect.y + otherColl->rect.h && collider->rect.x + collider->rect.w - 5 > otherColl->rect.x && collider->rect.x + 5 < otherColl->rect.x + otherColl->rect.w;
 	
+	if (otherColl->type == COLLIDER_WALL)
+	{
+		if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_UP || App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_UP)
+		{
+			speed.x = 0;
+		}
+		if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
+			speed.x = maxSpeed.x;
+		if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT)
+		{
+			speed.x = -maxSpeed.x;
+		}
+				
+	}
 
 	if (otherColl->type == COLLIDER_WALL|| otherColl->type == COLLIDER_ICE || otherColl->type == COLLIDER_SPECIAL)
 	{
@@ -257,6 +280,7 @@ void Player::OnCollision(Collider * otherColl)
 			if (state == STATE_WALK)
 				state = STATE_IDLE;
 		}
+
 		
 	
 		if ((PlayerIsOn && otherColl->type != COLLIDER_SPECIAL) || (speed.y >= 0 && otherColl->type == COLLIDER_SPECIAL && PlayerIsOn))

@@ -120,8 +120,8 @@ void EntityBat::Move(float dt)
 		speed = { 0,0 };
 
 	}
-	position.x += speed.x*dt*35;
-	position.y += speed.y*dt*35;
+	position.x += speed.x*dt*40;
+	position.y += speed.y*dt*40;
 	if (speed.x > 0)
 	{
 		left = false;

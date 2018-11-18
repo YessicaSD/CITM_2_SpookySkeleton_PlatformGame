@@ -1,5 +1,5 @@
 <entities>
-  <player1 Start_pos_x="50" Start_pos_y="150" Speed_x="100" Speed_y="200" >
+  <player1 Start_pos_x="50" Start_pos_y="150" Speed_x="90" Speed_y="200" >
     <image source="textures/skeleton.png"/>
     <collider w="8" h="32"/>
     
