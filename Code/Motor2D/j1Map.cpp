@@ -265,6 +265,7 @@ bool j1Map::CleanUp()
 // Load new map
 bool j1Map::Load(const char* file_name)
 {
+	BROFILER_CATEGORY("Load_Map.cpp", Profiler::Color::Red)
 	bool ret = true;
 	p2SString tmp("%s%s", folder.GetString(), file_name);
 
