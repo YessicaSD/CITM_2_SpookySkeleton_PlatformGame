@@ -28,7 +28,8 @@ private:
 	int halfTileSize = 16;
 	j1Timer timer;
 	int i = 0;
-	
+	bool batdeath_fx = false;
+
 public:
 	EntityBat(fPoint pos, Animation* anim, SDL_Texture* tex, entities_types type);
 	~EntityBat();

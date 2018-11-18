@@ -23,7 +23,7 @@ EntityBat::EntityBat(fPoint pos,Animation* anim, SDL_Texture* tex, entities_type
 	for (uint i = 0; i < (uint)BatState::STATE_MAX; ++i)
 	{
 		anim_bat[i].speed = anim[i].speed;
-		for (int j = 0; j < anim->numFrames; ++j)
+		for (int j = 0; j < anim[i].numFrames; ++j)
 		{
 			anim_bat[i].PushBack(anim[i].ReturnFrame(j));
 		}
@@ -36,7 +36,7 @@ EntityBat::EntityBat(fPoint pos,Animation* anim, SDL_Texture* tex, entities_type
 	SDL_Rect playerBat = { (pos.x - rectMesure.x / 2), (pos.y - rectMesure.y), rectMesure.x, rectMesure.y };
 	collider = App->collision->AddCollider(playerBat, COLLIDER_ENTITY, App->entity);
 	
-	
+	batdeath_fx = true;
 }
 
 EntityBat::~EntityBat()
@@ -49,9 +49,13 @@ bool EntityBat::PreUpdate(float dt)
 	BROFILER_CATEGORY("PreUpdate_EntityBat.cpp", Profiler::Color::Salmon)
 	this->dt = dt;
 	
-	if (anim_bat[(uint)BatState::STATE_DEATH].Finished())
+	if (state == BatState::STATE_DEATH)
 	{
-		toDelete = true;
+		if (batdeath_fx)
+		{
+			App->audio->PlayFx(App->entity->fx_batdeath);
+			batdeath_fx = false;
+		}
 	}
 	if (timer.ReadSec() > 1.0f)
 	{
@@ -143,6 +147,12 @@ void EntityBat::Draw()
 	BROFILER_CATEGORY("Draw_EntityBat.cpp", Profiler::Color::AliceBlue)
 	SDL_Rect frameAnim = anim_bat[(uint)state].GetCurrentFrame(dt);
 	
+	if (state == BatState::STATE_DEATH && anim_bat[(uint)BatState::STATE_DEATH].Finished())
+	{
+		
+		toDelete = true;
+	}
+
 		if (left)
 			App->render->Blit(texture, position.x - frameAnim.w / 2, position.y - frameAnim.h, &frameAnim);
 		else
