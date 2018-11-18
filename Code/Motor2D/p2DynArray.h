@@ -40,11 +40,8 @@ public:
 	// Operators
 	VALUE& operator[](unsigned int index)
 	{
-		/*assert(index < num_elements);*/
-		if (index < num_elements == false)
-		{
-			LOG("ASERT FAIL");
-		}
+		assert(index < num_elements);
+		
 		return data[index];
 	}
 

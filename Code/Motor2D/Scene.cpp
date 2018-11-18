@@ -173,7 +173,7 @@ bool j1Scene::CleanUp()
 	return true;
 }
 
-bool j1Scene::Load(pugi::xml_node & node)
+bool j1Scene::Load(pugi::xml_node& node)
 {
 	LoadEntities(node.child("level").child("entities"));
 	return true;

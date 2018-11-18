@@ -19,7 +19,7 @@ public:
 private:
 	pugi::xml_document	sceneFile;
 	pugi::xml_node sceneNode;
-	pugi::xml_node* saveNode=nullptr;
+	pugi::xml_node saveNode;
 public:
 	bool loadedLeve = true;
 	j1Scene();
