@@ -36,7 +36,7 @@ EntityBat::EntityBat(fPoint pos,Animation* anim, SDL_Texture* tex, entities_type
 	SDL_Rect playerBat = { (pos.x - rectMesure.x / 2), (pos.y - rectMesure.y), rectMesure.x, rectMesure.y };
 	collider = App->collision->AddCollider(playerBat, COLLIDER_ENTITY, App->entity);
 	
-	
+	batdeath_fx = true;
 }
 
 EntityBat::~EntityBat()
@@ -49,7 +49,14 @@ bool EntityBat::PreUpdate(float dt)
 	BROFILER_CATEGORY("PreUpdate_EntityBat.cpp", Profiler::Color::Salmon)
 	this->dt = dt;
 	
-	
+	if (state == BatState::STATE_DEATH)
+	{
+		if (batdeath_fx)
+		{
+			App->audio->PlayFx(App->entity->fx_batdeath);
+			batdeath_fx = false;
+		}
+	}
 	if (timer.ReadSec() > 1.0f)
 	{
 		iPoint origin = App->map->WorldToMap((int)position.x, (int)position.y- halfTileSize);

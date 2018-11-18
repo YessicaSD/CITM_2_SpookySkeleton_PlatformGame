@@ -55,6 +55,7 @@ public:
 	void DestroyAllEntities();
 	uint fx_death;
 	uint fx_jump;
+	uint fx_batdeath;
 private:
 	float dt=0.0F;
 
