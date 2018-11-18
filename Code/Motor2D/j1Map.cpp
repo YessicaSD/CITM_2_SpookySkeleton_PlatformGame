@@ -13,6 +13,8 @@
 #include "j1Input.h"
 #include "j1Audio.h"
 #include "Scene.h"
+#include "Brofiler/Brofiler.h"
+
 #include <math.h>
 
 
@@ -64,12 +66,13 @@ bool j1Map::Start()
 
 bool j1Map::PreUpdate(float dt)
 {
+	BROFILER_CATEGORY("PreUpdate_Map.cpp", Profiler::Color::Salmon)
 	return true;
 }
 
 bool j1Map::Update(float dt)
 {
-	
+	BROFILER_CATEGORY("Update_Map.cpp", Profiler::Color::Coral)
 
 	
 	if (App->entity->entity_player!=nullptr)
@@ -97,6 +100,7 @@ bool j1Map::Update(float dt)
 
 bool j1Map::PostUpdate()
 {
+	BROFILER_CATEGORY("PostUpdate_Map.cpp", Profiler::Color::MediumSlateBlue)
 	bool ret = true;
 
 	if (map_loaded == false)
@@ -263,6 +267,7 @@ bool j1Map::CleanUp()
 // Load new map
 bool j1Map::Load(const char* file_name)
 {
+	BROFILER_CATEGORY("Load_Map.cpp", Profiler::Color::Red)
 	bool ret = true;
 	p2SString tmp("%s%s", folder.GetString(), file_name);
 

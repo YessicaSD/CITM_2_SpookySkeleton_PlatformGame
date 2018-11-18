@@ -64,12 +64,14 @@ bool j1Render::Start()
 // Called each loop iteration
 bool j1Render::PreUpdate(float dt)
 {
+	BROFILER_CATEGORY("PreUpdate_Render.cpp", Profiler::Color::Salmon)
 	SDL_RenderClear(renderer);
 	return true;
 }
 
 bool j1Render::Update(float dt)
 {
+	BROFILER_CATEGORY("Update_Render.cpp", Profiler::Color::Coral)
 	return true;
 }
 

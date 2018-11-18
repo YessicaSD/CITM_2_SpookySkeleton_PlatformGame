@@ -28,11 +28,13 @@ bool j1PathFinding::Start()
 
 bool j1PathFinding::PreUpdate(float dt)
 {
+	BROFILER_CATEGORY("PreUpdate_Pathfinding.cpp", Profiler::Color::Salmon)
 	return true;
 }
 
 bool j1PathFinding::PostUpdate()
 {
+	BROFILER_CATEGORY("PostUpdate_Pathfinding.cpp", Profiler::Color::MediumSlateBlue)
 	if (debug)
 	{
 		// debug pathfing ------------------
@@ -279,7 +281,7 @@ int PathNode::CalculateF(const iPoint& destination)
 // ----------------------------------------------------------------------------------
 int j1PathFinding::CreatePath(const iPoint& origin, const iPoint& destination, pathTypes type)
 {
-	BROFILER_CATEGORY("Pathfinding", Profiler::Color::Violet)
+	BROFILER_CATEGORY("CreatePath", Profiler::Color::Violet)
 	if(!IsWalkable(origin) || !IsWalkable(destination))
 		return -1;
 	

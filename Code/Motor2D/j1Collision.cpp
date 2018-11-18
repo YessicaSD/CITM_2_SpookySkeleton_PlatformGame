@@ -5,10 +5,12 @@
 #include "j1Input.h"
 #include "j1Render.h"
 #include "SDL\include\SDL_keyboard.h"
+#include "Brofiler\Brofiler.h"
 
 
 j1Collision::j1Collision()
 {
+	name.create("collision");
 	for (uint i = 0; i < MAX_COLLIDERS; ++i)
 		colliders[i] = nullptr;
 
@@ -65,6 +67,7 @@ j1Collision::~j1Collision()
 }
 bool j1Collision:: PreUpdate(float dt)
 {
+	BROFILER_CATEGORY("PreUpdate_Collisiom.cpp", Profiler::Color::Salmon)
 	//LOG("Filled colliders %i", getFilledColNum());
 	// Calculate collisions
 	Collider* c1 = nullptr;
@@ -108,6 +111,7 @@ bool j1Collision:: PreUpdate(float dt)
 }
 bool j1Collision::PostUpdate()
 {
+	BROFILER_CATEGORY("PostUpdate_Collision.cpp", Profiler::Color::MediumSlateBlue)
 	// Remove all colliders scheduled for deletion---------------------------------------------
 	for (uint i = 0; i < MAX_COLLIDERS; ++i)
 	{

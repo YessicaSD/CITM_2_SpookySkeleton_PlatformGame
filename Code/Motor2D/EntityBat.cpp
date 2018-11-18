@@ -14,6 +14,7 @@
 #include "ModuleFadeToBack.h"
 #include "j1Collision.h"
 #include "j1Render.h"
+#include "Brofiler\Brofiler.h"
 
 
 EntityBat::EntityBat(fPoint pos,Animation* anim, SDL_Texture* tex, entities_types type):j1Entity(pos,tex, type)
@@ -43,6 +44,7 @@ EntityBat::~EntityBat()
 
 bool EntityBat::PreUpdate(float dt)
 {
+	BROFILER_CATEGORY("PreUpdate_EntityBat.cpp", Profiler::Color::Salmon)
 	this->dt = dt;
 	
 	if (timer.ReadSec() > 1.0f)
@@ -79,7 +81,7 @@ bool EntityBat::PreUpdate(float dt)
 
 void EntityBat::Move(float dt)
 {
-	
+	BROFILER_CATEGORY("Move_EntityBat.cpp", Profiler::Color::Black)
 	uint sizePath = 0;
 	sizePath = bat_path.Count();
 
@@ -132,6 +134,7 @@ void EntityBat::Move(float dt)
 
 void EntityBat::Draw()
 {
+	BROFILER_CATEGORY("Draw_EntityBat.cpp", Profiler::Color::AliceBlue)
 	SDL_Rect frameAnim = anim_bat.GetCurrentFrame(dt);
 	
 		if (left)

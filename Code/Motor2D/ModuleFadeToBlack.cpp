@@ -4,6 +4,7 @@
 #include "p2Log.h"
 #include "j1Map.h"
 #include "Scene.h"
+#include "Brofiler\Brofiler.h"
 ModuleFadeToBlack::~ModuleFadeToBlack()
 {
 
@@ -22,6 +23,7 @@ bool ModuleFadeToBlack::Start()
 // Update: draw background
 bool  ModuleFadeToBlack::Update(float dt)
 {
+	BROFILER_CATEGORY("Update_Fade.cpp", Profiler::Color::Coral)
 	if (current_step == fade_step::none)
 		return true;
 

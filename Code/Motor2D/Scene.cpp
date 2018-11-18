@@ -11,6 +11,7 @@
 #include "Scene.h"
 
 #include "ModuleFadeToBack.h"
+#include "Brofiler\Brofiler.h"
 j1Scene::j1Scene() : j1Module()
 {
 	name.create("scene");
@@ -109,11 +110,13 @@ void j1Scene::LoadEntities(const pugi::xml_node& entitiesNode)
 // Called each loop iteration
 bool j1Scene::PreUpdate(float dt)
 {
+	BROFILER_CATEGORY("PreUpdate_Scene.cpp", Profiler::Color::Salmon)
 	return true;
 }
 
 bool j1Scene::Update(float dt)
 {
+	BROFILER_CATEGORY("Update_Scene.cpp", Profiler::Color::Coral)
 	//Load and save game---------------------------------------------------
 	if (App->input->GetKey(SDL_SCANCODE_F6) == KEY_DOWN)
 		App->LoadGame();
