@@ -8,6 +8,10 @@ There is one playable character, a skeleton, and two different levels with a spo
 The first level is set inside a cave, and the second level is set in the outside of that cave.
 
 
+## Installation
+Decompress the .zip file in any directory and execute the executable inside the decompressed folder.
+
+
 ## How to play:
 [SPACE] = Jump
 
@@ -15,9 +19,13 @@ The first level is set inside a cave, and the second level is set in the outside
 
 [RIGHT_ARROW] = Move right
 
+[Q] = Attack Animation
+
 [ESC] = Exit
 
 ### Debugging Controls:
+
+[ESC] = Exit
 
 [F1]  = Start from the very first level
 
@@ -29,9 +37,11 @@ The first level is set inside a cave, and the second level is set in the outside
 
 [F8]  = Load Level 2
 
-[F9]  = Show collisions
+[F9]  = Show collisions and pathfinding
 
 [F10] = God mode
+
+[F11] = Enable/Disable ?FPS cap to 30
 
 
 ### God Mode Controls
@@ -66,6 +76,15 @@ https://github.com/YessicaSD/PlatformGame
 		- Change the player to an entity
 		- UML File
 		- Ice 
+	
+	Pol Recasens:
+		- Modified map levels
+		- Enemies positions
+		- Bat entity
+		- Brofiler
+		- Player FX
+		- Pathfinding level 1 and level 2
+
 		
  	
 		
