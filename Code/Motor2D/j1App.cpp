@@ -180,7 +180,7 @@ void j1App::FinishUpdate()
 {
 	if (App->input->GetKey(SDL_SCANCODE_F11)==KEY_DOWN)
 	{
-		framerate = (framerate==30) ? 60 : 30;
+		frame_cap = !frame_cap;
 	}
 	if(want_to_save == true)
 		SavegameNow();
@@ -207,14 +207,24 @@ void j1App::FinishUpdate()
 	p = App->map->WorldToMap(p.x, p.y);
 
 	static char WinTitle[300];
-	sprintf_s(WinTitle, 300, "¡Spooky_Skeleton! _FPS:%.2u Av.FPS: %.2f Last Frame Ms: %02u  Time since startup: %.3f ",
-		framerate,avg_fps, last_frame_ms,seconds_since_startup);
+
+	if (frame_cap)
+		framecapstring = "ON";
+	else
+		framecapstring = "OFF";
+		
+	sprintf_s(WinTitle, 300, "¡Spooky_Skeleton! _FPS:%.2u Av.FPS: %.2f Last Frame Ms: %02u  Time since startup: %.3f FrameCap: %s ",
+		framerate,avg_fps, last_frame_ms,seconds_since_startup, framecapstring.GetString());
+
 	
 	App->win->SetTitle(WinTitle);
 
 	
-	if (last_frame_ms < (1000 / framerate))
-		SDL_Delay((1000 / framerate) - last_frame_ms);
+	if (frame_cap)
+	{
+		if (last_frame_ms < (1000 / framerate))
+			SDL_Delay((1000 / framerate) - last_frame_ms);
+	}
 	
 	
 

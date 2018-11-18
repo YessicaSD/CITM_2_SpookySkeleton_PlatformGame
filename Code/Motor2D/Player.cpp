@@ -16,22 +16,22 @@ void Player::DebugModeInput()
 	if (App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT)
 	{
 		speed.y = -5.0F;
-		position.y += speed.y;
+		position.y += speed.y*dt*30;
 	}
 	if (App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT)
 	{
 		speed.y = +5.0F;
-		position.y += speed.y;
+		position.y += speed.y*dt*30;
 	}
 	if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT)
 	{
 		speed.x = -5.0F;
-		position.x += speed.x;
+		position.x += speed.x*dt*30;
 	}
 	if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
 	{
 		speed.x = 5.0F;
-		position.x += speed.x;
+		position.x += speed.x*dt*30;
 	}
 }
 
