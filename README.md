@@ -8,10 +8,10 @@ There is one playable character, a skeleton, and two different levels with a spo
 The first level is set inside a cave, and the second level is set in the outside of that cave.
 
 
-### Find this project in github:
+### Find this project on github:
 https://github.com/YessicaSD/PlatformGame
 
--Who are we:
+-Credits:
 - Yessica Servin Dominguez 
 	Find her on:
 	Github: https://github.com/YessicaSD
@@ -23,11 +23,15 @@ https://github.com/YessicaSD/PlatformGame
 
 
 ## How to play:
+[SPACE] = Jump
 
+[LEFT_ARROW] = Move left
 
-### Debugging Controls:
+[RIGHT_ARROW] = Move right
 
 [ESC] = Exit
+
+### Debugging Controls:
 
 [F1]  = Start from the very first level
 
@@ -43,24 +47,16 @@ https://github.com/YessicaSD/PlatformGame
 
 [F10] = God mode
 
-[F11] = Enable/Disable FPS cap to 30
+
+### God Mode Controls
+
+[UP_ARROW] = Up
+
+[DOWN_ARROW] = Down
+
+[LEFT_ARROW] = Left
+
+[RIGHT_ARROW] = Right
 
 
-### Player Control
-
-[UP] = Up
-
-[DOWN] = Down
-
-[LEFT] = Left
-
-[RIGHT] = Right
-
-[SPACE] = Jump
-
-
-
-## Innovation
-
-We have included ice platforms. If the player is on them, he slides over the platform.
 
