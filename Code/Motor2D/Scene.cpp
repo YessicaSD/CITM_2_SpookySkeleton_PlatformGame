@@ -88,23 +88,18 @@ void j1Scene::LoadEntities(const pugi::xml_node& entitiesNode)
 	//players---------------------------
 	for (pugi::xml_node playerNode = entitiesNode.child("player"); playerNode !=NULL; playerNode = playerNode.next_sibling("player"))
 	{
-		EntitiesInfo entity(PLAYER, { playerNode.attribute("x").as_float(),playerNode.attribute("y").as_float() });
-		/*App->entity->AddEntity(PLAYER, { playerNode.attribute("x").as_float(),playerNode.attribute("y").as_float() });*/
-		entitiesArrayInfo.PushBack(entity);
+		entitiesArrayInfo.PushBack(EntitiesInfo(PLAYER, { playerNode.attribute("x").as_float(),playerNode.attribute("y").as_float() }));
 	}
 	//bats-----------------------------
 	for (pugi::xml_node entityNode = entitiesNode.child("bat"); entityNode; entityNode = entityNode.next_sibling("bat"))
 	{
-		EntitiesInfo entity(ENEMY_BAT, { entityNode.attribute("x").as_float(),entityNode.attribute("y").as_float() });
-		entitiesArrayInfo.PushBack(entity);
-		/*App->entity->AddEntity(ENEMY_BAT, { entityNode.attribute("x").as_float(),entityNode.attribute("y").as_float() });*/
+		entitiesArrayInfo.PushBack(EntitiesInfo (ENEMY_BAT, { entityNode.attribute("x").as_float(),entityNode.attribute("y").as_float() }));
+		
 	}
 	//zombies---------------------------
 	for (pugi::xml_node entityNode = entitiesNode.child("zombie"); entityNode; entityNode = entityNode.next_sibling("zombie"))
 	{
-		EntitiesInfo entity(ENEMI_ZOMBIE, { entityNode.attribute("x").as_float(),entityNode.attribute("y").as_float() });
-		entitiesArrayInfo.PushBack(entity);
-		/*App->entity->AddEntity(ENEMI_ZOMBIE, { entityNode.attribute("x").as_float(),entityNode.attribute("y").as_float() });*/
+		entitiesArrayInfo.PushBack(EntitiesInfo (ENEMI_ZOMBIE, { entityNode.attribute("x").as_float(),entityNode.attribute("y").as_float() }));
 	}
 }
 // Called each loop iteration
@@ -169,12 +164,7 @@ bool j1Scene::CleanUp()
 {
 	LOG("Freeing scene");
 	App->entity->DestroyAllEntities();
-	//if (saveNode != nullptr)
-	//{
-	//	delete saveNode;
-	//	saveNode = nullptr;
-	//}
-		
+
 	return true;
 }
 
