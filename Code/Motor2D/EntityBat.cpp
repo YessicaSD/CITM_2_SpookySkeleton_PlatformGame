@@ -145,13 +145,15 @@ void EntityBat::Move(float dt)
 void EntityBat::Draw()
 {
 	BROFILER_CATEGORY("Draw_EntityBat.cpp", Profiler::Color::AliceBlue)
-	SDL_Rect frameAnim = anim_bat[(uint)state].GetCurrentFrame(dt);
+	
 	
 	if (state == BatState::STATE_DEATH && anim_bat[(uint)BatState::STATE_DEATH].Finished())
 	{
-		
+	
 		toDelete = true;
 	}
+
+	SDL_Rect frameAnim = anim_bat[(uint)state].GetCurrentFrame(dt);
 
 		if (left)
 			App->render->Blit(texture, position.x - frameAnim.w / 2, position.y - frameAnim.h, &frameAnim);
@@ -169,6 +171,7 @@ void EntityBat::Draw()
 				App->render->Blit(App->pathfinding->debug_tex, pos.x, pos.y);
 			}
 		}
+
 }
 
 void EntityBat::OnCollision(Collider * otherCollider)
