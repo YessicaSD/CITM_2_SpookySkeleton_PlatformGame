@@ -10,10 +10,7 @@
 		<levelToLoad num="1" />
 		<level>
 			<entities>
-				<player x="60" y="384.693604" />
-				<bat x="287" y="150" />
-				<zombie x="87" y="384" />
-				<zombie x="720" y="288" />
+				<player x="72" y="384" />
 			</entities>
 		</level>
 	</scene>
@@ -21,6 +18,6 @@
 	<:anonymous />
 	<fade />
 	<renderer>
-		<camera x="0" y="134" />
+		<camera x="24" y="134" />
 	</renderer>
 </game_state>

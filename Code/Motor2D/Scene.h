@@ -8,10 +8,12 @@ struct SDL_Texture;
 class j1Scene : public j1Module
 {
 public:
-	uint num_thismaplvl = 0;
+	uint num_thismaplvl = 1;
+	bool loadingSaveFile = false;
 private:
 	pugi::xml_document	sceneFile;
 	pugi::xml_node sceneNode;
+	pugi::xml_node saveNode;
 public:
 	bool loadedLeve = true;
 	j1Scene();

@@ -43,22 +43,32 @@ bool j1Scene::Awake(pugi::xml_node& node)
 // Called before the first frame
 bool j1Scene::Start()
 {
-	//levelToLoad---------------------------------------------
-	num_thismaplvl = sceneNode.child("levelToLoad").attribute("num").as_uint();
 
 	//Pick level node-----------------------------------------
-	pugi::xml_node levelNode = sceneNode.child("level");
-	if (levelNode == NULL)
+	pugi::xml_node entitiesNode;
+	if (loadingSaveFile == true)
 	{
-		LOG("ERROR ENTITIES LOADING FILE");
+		entitiesNode = saveNode;
+		loadingSaveFile = false;
 	}
+	else
+	{
+		pugi::xml_node levelNode = sceneNode.child("level");
+		if (levelNode == NULL)
+		{
+			LOG("ERROR ENTITIES LOADING FILE");
+		}
+
+		for (uint i = 1; i < num_thismaplvl; ++i)
+		{
+			levelNode = levelNode.next_sibling("level");
+		}
+		//Load enemies -----------------------------------------
+		entitiesNode = levelNode.child("entities");
+	}
+
 	
-	for (uint i = 1; i < num_thismaplvl; ++i)
-	{
-		levelNode = levelNode.next_sibling("level");
-	}
-	//Load enemies -----------------------------------------
-	pugi::xml_node entitiesNode = levelNode.child("entities");
+	
 	if(entitiesNode==nullptr)
 		return false;
 	//players---------------------------
@@ -146,6 +156,11 @@ bool j1Scene::CleanUp()
 bool j1Scene::Load(pugi::xml_node & node)
 {
 	App->entity->DestroyAllEntities();
+	loadingSaveFile = true;
+	saveNode = node.child("level").child("entities");
+	if (saveNode == NULL)
+		return false;
+		App->fade->FadeToBlack(node.child("levelToLoad").attribute("num").as_int());
 
 	return true;
 }
@@ -162,18 +177,18 @@ bool j1Scene::Save(pugi::xml_node & node) const
 		{
 		case PLAYER:
 			entity = nodeEntities.append_child("player");
-			entity.append_attribute("x").set_value(enemiesIterator->data->position.x);
-			entity.append_attribute("y").set_value(enemiesIterator->data->position.y);
+			entity.append_attribute("x").set_value((int)enemiesIterator->data->position.x);
+			entity.append_attribute("y").set_value((int)enemiesIterator->data->position.y);
 			break;
 		case ENEMY_BAT:
 			entity = nodeEntities.append_child("bat");
-			entity.append_attribute("x").set_value(enemiesIterator->data->position.x);
-			entity.append_attribute("y").set_value(enemiesIterator->data->position.y);
+			entity.append_attribute("x").set_value((int)enemiesIterator->data->position.x);
+			entity.append_attribute("y").set_value((int)enemiesIterator->data->position.y);
 			break;
 		case ENEMI_ZOMBIE:
 			entity = nodeEntities.append_child("zombie");
-			entity.append_attribute("x").set_value(enemiesIterator->data->position.x);
-			entity.append_attribute("y").set_value(enemiesIterator->data->position.y);
+			entity.append_attribute("x").set_value((int)enemiesIterator->data->position.x);
+			entity.append_attribute("y").set_value((int)enemiesIterator->data->position.y);
 			break;
 		default:
 			break;
