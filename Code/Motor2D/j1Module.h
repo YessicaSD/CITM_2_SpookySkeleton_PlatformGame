@@ -17,11 +17,12 @@ class j1Module
 public:
 
 	p2SString	name;
-	bool		active;
+	bool		active=false;
 
 private:
 	bool enabled = true;
-
+protected:
+	float dt	=0.0F;
 public:
 
 	j1Module() : active(false)
