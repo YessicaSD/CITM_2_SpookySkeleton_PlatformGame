@@ -8,8 +8,10 @@
 #include "j1Collision.h"
 #include "j1App.h"
 #include "j1Textures.h"
+#include "Animation.h"
 
 struct Collider;
+
 struct SceneProp
 {
 	fPoint PlayerPos;
@@ -67,6 +69,14 @@ struct Properties
 
 	p2List<Property*>	list;
 };
+struct tile
+{
+	uint id = 0;
+	Animation* anim=nullptr ;
+
+};
+
+
 
 struct MapLayer
 {
@@ -76,20 +86,20 @@ struct MapLayer
 	float parallax_velocity = 0.0f;
 	
 
-	uint*		dataMapLayer = nullptr;
+	tile*		arrayOfIds = nullptr;
 	Properties	properties;
 	~MapLayer()
 	{
-		if (dataMapLayer != nullptr)
+		if (arrayOfIds != nullptr)
 		{
-			delete dataMapLayer;
-			dataMapLayer = nullptr;
+			delete arrayOfIds;
+			arrayOfIds = nullptr;
 		}
 	}
 
 	inline uint Get(int x, int y) const
 	{
-		return dataMapLayer[(y*width) + x];
+		return arrayOfIds[(y*width) + x].id;
 	}
 };
 
@@ -97,21 +107,26 @@ struct MapLayer
 // ----------------------------------------------------
 struct TileSet
 {
-	// TODO 7: Create a method that receives a tile id and returns it's Rectfind the Rect associated with a specific tile id
+	
+
 	SDL_Rect GetTileRect(int id) const;
 
-	p2SString			name = "";
+	
+	p2SString				name = "";
+	SDL_Texture*			texture = nullptr;
+	uint					tex_width = 0;
+	uint					tex_height = 0;
+
 	uint					firstgid = 0;
 	uint					margin = 0;
 	uint					spacing = 0;
+
 	uint					tile_width = 0;
 	uint					tile_height = 0;
-	SDL_Texture*		texture = nullptr;
-	uint					tex_width = 0;
-	uint					tex_height = 0;
+
 	uint					num_tiles_width = 0;
 	uint					num_tiles_height = 0;
-
+	p2List<tile*>		ListStructId;
 
 
 	~TileSet()
@@ -138,13 +153,15 @@ struct MapData
 	uint					height;
 	uint					tile_width;
 	uint					tile_height;
-	MapTypes				type;
-	p2List<TileSet*>		tilesets;
+
+	MapTypes				type = MAPTYPE_UNKNOWN;
+
+	p2List<TileSet*>		setOfPatterns;
 	p2List<MapLayer*>		layers;
 	p2List<Object_Layer*>   collition_layers;
 	p2List<Scenes*>			scenes_List;
 	Properties	properties;
-	/*SceneProp SceneProperties;*/
+	
 };
 
 // ----------------------------------------------------

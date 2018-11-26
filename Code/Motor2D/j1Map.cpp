@@ -108,14 +108,26 @@ bool j1Map::PostUpdate()
 		{
 			for (uint column = 0; column<level.width; column++)
 			{
-				uint id = item_layer->data->dataMapLayer[Get(column, row)];
+				tile thisTile = item_layer->data->arrayOfIds[Get(column, row)];
+				uint id = thisTile.id;
 				if (id > 0)
 				{
 					iPoint mapPoint = MapToWorld(column, row);
 					TileSet* tileset = GetTilesetFromTileId(id);
-					SDL_Rect section = tileset->GetTileRect(id);
 					float speed = item_layer->data->properties.Get("parallax", 0);
-					App->render->Blit(tileset->texture, mapPoint.x, mapPoint.y, &section, SDL_FLIP_NONE, speed);
+					
+					if(thisTile.anim!=nullptr)
+					{
+						App->render->Blit(tileset->texture, mapPoint.x, mapPoint.y, &thisTile.anim->GetCurrentFrame(dt), SDL_FLIP_NONE, speed);
+					}
+					else
+					{
+						SDL_Rect section = tileset->GetTileRect(id);
+						App->render->Blit(tileset->texture, mapPoint.x, mapPoint.y, &section, SDL_FLIP_NONE, speed);
+					}
+					
+					
+					
 
 
 				}
@@ -149,7 +161,7 @@ bool j1Map::PostUpdate()
 TileSet* j1Map::GetTilesetFromTileId(int id) const
 {
 	p2List_item<TileSet*>* actualTile;
-	for (actualTile = level.tilesets.end; id < actualTile->data->firstgid; actualTile = actualTile->prev) {}
+	for (actualTile = level.setOfPatterns.end; id < actualTile->data->firstgid; actualTile = actualTile->prev) {}
 
 	return actualTile->data;
 }
@@ -222,11 +234,11 @@ bool j1Map::CleanUp()
 
 	// Remove all tilesets----------------------------------------------------------------------------------
 	
-	for (p2List_item<TileSet*>* item = level.tilesets.end; item; item = item->prev)
+	for (p2List_item<TileSet*>* item = level.setOfPatterns.end; item; item = item->prev)
 	{
 		RELEASE(item->data);
 	}
-	level.tilesets.clear();
+	level.setOfPatterns.clear();
 
 
 	// Removed all layers----------------------------------------------------------------------------------
@@ -297,7 +309,7 @@ bool j1Map::Load(const char* file_name)
 			ret = LoadTilesetImage(tileset, set);
 		}
 
-		level.tilesets.add(set);
+		level.setOfPatterns.add(set);
 	}
 
 	// Load layer info ----------------------------------------------
@@ -328,7 +340,7 @@ bool j1Map::Load(const char* file_name)
 		LOG("width: %d height: %d", level.width, level.height);
 		LOG("tile_width: %d tile_height: %d", level.tile_width, level.tile_height);
 
-		p2List_item<TileSet*>* item = level.tilesets.start;
+		p2List_item<TileSet*>* item = level.setOfPatterns.start;
 		while (item != NULL)
 		{
 			TileSet* s = item->data;
@@ -437,6 +449,7 @@ bool j1Map::LoadTilesetDetails(pugi::xml_node& tileset_node, TileSet* set)
 	set->margin = tileset_node.attribute("margin").as_int();
 	set->spacing = tileset_node.attribute("spacing").as_int();
 	
+	
 
 	return ret;
 }
@@ -469,6 +482,24 @@ bool j1Map::LoadTilesetImage(pugi::xml_node& tileset_node, TileSet* set)
 		set->num_tiles_height = (set->tex_height ) / (set->tile_height);
 		LOG("PERFECT PARSING TILESET WITH PATH: %s", image.attribute("source").as_string());
 	}
+	//Loading animations
+	for (pugi::xml_node tileNode = tileset_node.child("tile"); tileNode; tileNode = tileNode.next_sibling("tile"))
+	{
+		if (pugi::xml_node frame_node = tileNode.child("animation")) {
+			tile* idStrItem = new tile();
+			Animation* anim = new Animation();
+			frame_node = frame_node.child("frame");
+			anim->speed = frame_node.attribute("duration").as_float() * 0.1F;
+
+			for (; frame_node; frame_node = frame_node.next_sibling()) {
+				anim->PushBack(set->GetTileRect(frame_node.attribute("tileid").as_int() + set->firstgid));
+			}
+			idStrItem->anim = anim;
+			set->ListStructId.add(idStrItem);
+		}
+	}
+	
+	
 
 	return ret;
 }
@@ -532,13 +563,13 @@ bool j1Map::LoadLayer(pugi::xml_node& node, MapLayer* layer)
 	}
 	else
 	{
-		layer->dataMapLayer = new uint[layer->width*layer->height];
-		memset(layer->dataMapLayer, 0, layer->width*layer->height);
+		layer->arrayOfIds = new tile[layer->width*layer->height];
+		memset(layer->arrayOfIds, 0, layer->width*layer->height);
 
 		int i = 0;
 		for (pugi::xml_node tile = layer_data.child("tile"); tile; tile = tile.next_sibling("tile"))
 		{
-			layer->dataMapLayer[i++] = tile.attribute("gid").as_int(0);
+			layer->arrayOfIds[i++].id = tile.attribute("gid").as_uint(0);
 		}
 	}
 

@@ -35,9 +35,10 @@ bool j1Scene::Awake(pugi::xml_node& node)
 		LOG("ERROR ENTITIES LOADING FILE %s", result.description());
 		return ret = false;
 	}
+	uint width, height;
 
 	sceneNode = sceneFile.child("scene");
-
+	horizontalScreenDivision = App->win->width / 8;
 	return ret;
 }
 
@@ -49,9 +50,6 @@ bool j1Scene::Start()
 	pugi::xml_node entitiesNode;
 	if (loadingSaveFile == true)
 	{
-		/*if(saveNode!=nullptr)
-			entitiesNode = *saveNode;
-		LOG("%s", saveNode->name());*/
 		loadingSaveFile = false;
 	}
 	else
@@ -110,6 +108,7 @@ void j1Scene::LoadEntities(const pugi::xml_node& entitiesNode)
 bool j1Scene::PreUpdate(float dt)
 {
 	BROFILER_CATEGORY("PreUpdate_Scene.cpp", Profiler::Color::Salmon)
+		this->dt = dt;
 	return true;
 }
 
@@ -149,6 +148,7 @@ bool j1Scene::Update(float dt)
 		App->fade->FadeToBlack(2);
 
 	}
+	
 	return true;
 }
 
@@ -156,6 +156,9 @@ bool j1Scene::Update(float dt)
 bool j1Scene::PostUpdate()
 {
 	bool ret = true;
+	/*CameraLogic(dt);*/
+
+
 
 	if (App->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN)
 		ret = false;
@@ -163,6 +166,35 @@ bool j1Scene::PostUpdate()
 	return ret;
 }
 
+void j1Scene::CameraLogic(float dt)
+{
+	iPoint offset(App->win->width*0.5F, App->win->height*0.5F);
+
+	iPoint playerPivotPos;
+	playerPivotPos.x = App->entity->entity_player->position.x * (int)App->win->GetScale(); 
+	playerPivotPos.y = App->entity->entity_player->position.y * (int)App->win->GetScale();
+
+	/*fPoint targetPos;
+	targetPos.x = (float)(playerPivotPos.x - offset.x);
+	targetPos.y = (float)(playerPivotPos.y - offset.y);*/
+
+	fPoint targetPos;
+	targetPos.x = (float)(0 - offset.x);
+	targetPos.y = (float)(0 - offset.y);
+
+	fPoint cameraPos;
+
+	cameraPos.x += (targetPos.x + App->render->camera.x) * 3 * dt;
+	/*cameraPos.y += (targetPos.y - App->render->camera.y) * 3 * dt;*/
+
+
+	App->render->camera.x = cameraPos.x;
+	//App->render->camera.y = cameraPos.y;
+
+	LOG("CAMERA POS X=%i,Y=%i", App->render->camera.x, App->render->camera.y);
+	
+	
+}
 // Called before quitting
 bool j1Scene::CleanUp()
 {

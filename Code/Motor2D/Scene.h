@@ -20,6 +20,7 @@ private:
 	pugi::xml_document	sceneFile;
 	pugi::xml_node sceneNode;
 	pugi::xml_node saveNode;
+	float horizontalScreenDivision;
 public:
 	bool loadedLeve = true;
 	j1Scene();
@@ -43,6 +44,9 @@ public:
 
 	// Called before all Updates
 	bool PostUpdate() override;
+
+	void CameraLogic(float dt);
+
 
 	// Called before quitting
 	bool CleanUp()override;
