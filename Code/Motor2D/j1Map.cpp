@@ -67,6 +67,7 @@ bool j1Map::Start()
 bool j1Map::PreUpdate(float dt)
 {
 	BROFILER_CATEGORY("PreUpdate_Map.cpp", Profiler::Color::Salmon)
+		this->dt = dt;
 	return true;
 }
 
@@ -491,6 +492,7 @@ bool j1Map::LoadPaternImage_tile(pugi::xml_node& tileset_node, Patern* set)
 		if (pugi::xml_node frame_node = tileNode.child("animation")) {
 			tile* idStrItem = new tile();
 			Animation* anim = new Animation();
+			idStrItem->id = tileNode.attribute("id").as_uint();
 			frame_node = frame_node.child("frame");
 			anim->speed = frame_node.attribute("duration").as_float() * 0.1F;
 
@@ -570,28 +572,28 @@ bool j1Map::LoadLayer(pugi::xml_node& node, MapLayer* layer)
 		layer->arrayOfIds = new tile[layer->width*layer->height];
 		memset(layer->arrayOfIds, 0, layer->width*layer->height);
 
-		int i = 0;
+		int num = 0;
 		for (pugi::xml_node thisTile = layer_data.child("tile"); thisTile; thisTile = thisTile.next_sibling("tile"))
 		{
-			layer->arrayOfIds[i].id = thisTile.attribute("gid").as_uint(0);
-			if (layer->arrayOfIds[i].id > 0)
+			layer->arrayOfIds[num].id = thisTile.attribute("gid").as_uint(0);
+			if (layer->arrayOfIds[num].id > 0)
 			{
-				Patern* tileSet = GetTilesetFromTileId(layer->arrayOfIds[i].id);
+				Patern* tileSet = GetTilesetFromTileId(layer->arrayOfIds[num].id);
 				if (tileSet!=nullptr && tileSet->ListStructId.Count() > 0)
 				{
 
 					for (p2List_item<tile*>* tileItem = tileSet->ListStructId.start; tileItem; tileItem = tileItem->next)
 					{
-						if (layer->arrayOfIds[i].id == tileItem->data->id)
+						if (layer->arrayOfIds[num].id == tileItem->data->id)
 						{
 							Animation* animation = new Animation(*tileItem->data->anim);
-							layer->arrayOfIds[i].anim = animation;
+							layer->arrayOfIds[num].anim = animation;
 							break;
 						}
 					}
 				}
 			}
-			++i;
+			++num;
 			
 		}
 	}
