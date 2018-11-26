@@ -108,7 +108,7 @@ bool j1Map::PostUpdate()
 		{
 			for (uint column = 0; column<level.width; column++)
 			{
-				uint id = item_layer->data->arrayOfIds[Get(column, row)];
+				uint id = item_layer->data->arrayOfIds[Get(column, row)].id;
 				if (id > 0)
 				{
 					iPoint mapPoint = MapToWorld(column, row);
@@ -437,6 +437,7 @@ bool j1Map::LoadTilesetDetails(pugi::xml_node& tileset_node, TileSet* set)
 	set->margin = tileset_node.attribute("margin").as_int();
 	set->spacing = tileset_node.attribute("spacing").as_int();
 	
+	
 
 	return ret;
 }
@@ -469,22 +470,23 @@ bool j1Map::LoadTilesetImage(pugi::xml_node& tileset_node, TileSet* set)
 		set->num_tiles_height = (set->tex_height ) / (set->tile_height);
 		LOG("PERFECT PARSING TILESET WITH PATH: %s", image.attribute("source").as_string());
 	}
-
 	//Loading animations
-	for(pugi::xml_node tileNode= tileset_node.child("tile"); tileNode;tileNode=tileNode.next_sibling("tile"))
+	for (pugi::xml_node tileNode = tileset_node.child("tile"); tileNode; tileNode = tileNode.next_sibling("tile"))
 	{
 		if (pugi::xml_node frame_node = tileNode.child("animation")) {
-			IdStruct* idStrItem = new IdStruct();
-			Animation* animation = new Animation();
+			tileInfo* idStrItem = new tileInfo();
+			Animation* anim = new Animation();
 			frame_node = frame_node.child("frame");
-			animation->speed= frame_node.attribute("duration").as_float() * 0.1F;
+			anim->speed = frame_node.attribute("duration").as_float() * 0.1F;
+
 			for (; frame_node; frame_node = frame_node.next_sibling()) {
-				animation->PushBack(set->GetTileRect(frame_node.attribute("tileid").as_int() + set->firstgid));
+				anim->PushBack(set->GetTileRect(frame_node.attribute("tileid").as_int() + set->firstgid));
 			}
-			idStrItem->anim = animation;
+			idStrItem->anim = anim;
 			set->ListStructId.add(idStrItem);
 		}
 	}
+	
 	
 
 	return ret;
@@ -549,13 +551,13 @@ bool j1Map::LoadLayer(pugi::xml_node& node, MapLayer* layer)
 	}
 	else
 	{
-		layer->arrayOfIds = new uint[layer->width*layer->height];
+		layer->arrayOfIds = new tileInfo[layer->width*layer->height];
 		memset(layer->arrayOfIds, 0, layer->width*layer->height);
 
 		int i = 0;
 		for (pugi::xml_node tile = layer_data.child("tile"); tile; tile = tile.next_sibling("tile"))
 		{
-			layer->arrayOfIds[i++] = tile.attribute("gid").as_uint(0);
+			layer->arrayOfIds[i++].id = tile.attribute("gid").as_uint(0);
 		}
 	}
 

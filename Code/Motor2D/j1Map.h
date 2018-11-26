@@ -8,9 +8,10 @@
 #include "j1Collision.h"
 #include "j1App.h"
 #include "j1Textures.h"
+#include "Animation.h"
 
 struct Collider;
-class Animation;
+
 struct SceneProp
 {
 	fPoint PlayerPos;
@@ -68,20 +69,17 @@ struct Properties
 
 	p2List<Property*>	list;
 };
-struct IdStruct
+struct tileInfo
 {
 	uint id = 0;
-	Animation* anim = nullptr;
-	~IdStruct()
-	{
-		if (anim != nullptr)
-		{
-			delete anim;
-			anim = nullptr;
+	Animation* anim=nullptr ;
 
-		}
-	
-	}
+};
+
+struct tile
+{
+	uint id = 0;
+	Animation anim ;
 };
 
 struct MapLayer
@@ -92,7 +90,7 @@ struct MapLayer
 	float parallax_velocity = 0.0f;
 	
 
-	uint*		arrayOfIds = nullptr;
+	tileInfo*		arrayOfIds = nullptr;
 	Properties	properties;
 	~MapLayer()
 	{
@@ -105,7 +103,7 @@ struct MapLayer
 
 	inline uint Get(int x, int y) const
 	{
-		return arrayOfIds[(y*width) + x];
+		return arrayOfIds[(y*width) + x].id;
 	}
 };
 
@@ -131,7 +129,7 @@ struct TileSet
 
 	uint					num_tiles_width = 0;
 	uint					num_tiles_height = 0;
-	p2List<IdStruct*>		ListStructId;
+	p2List<tileInfo*>		ListStructId;
 
 
 	~TileSet()
