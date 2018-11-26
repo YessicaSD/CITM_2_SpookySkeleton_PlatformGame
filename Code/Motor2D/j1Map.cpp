@@ -572,7 +572,7 @@ bool j1Map::LoadLayer(pugi::xml_node& node, MapLayer* layer)
 		int i = 0;
 		for (pugi::xml_node thisTile = layer_data.child("tile"); thisTile; thisTile = thisTile.next_sibling("tile"))
 		{
-			layer->arrayOfIds[i++].id = thisTile.attribute("gid").as_uint(0);
+			layer->arrayOfIds[i].id = thisTile.attribute("gid").as_uint(0);
 			if (layer->arrayOfIds[i].id > 0)
 			{
 				TileSet* tileSet = GetTilesetFromTileId(layer->arrayOfIds[i].id);
@@ -590,7 +590,7 @@ bool j1Map::LoadLayer(pugi::xml_node& node, MapLayer* layer)
 					}
 				}
 			}
-			
+			++i;
 			
 		}
 	}
