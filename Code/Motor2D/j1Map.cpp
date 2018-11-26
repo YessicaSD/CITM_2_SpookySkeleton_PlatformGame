@@ -115,21 +115,17 @@ bool j1Map::PostUpdate()
 					iPoint mapPoint = MapToWorld(column, row);
 					TileSet* tileset = GetTilesetFromTileId(id);
 					float speed = item_layer->data->properties.Get("parallax", 0);
-					if (tileset->ListStructId.Count() > 0)
+					
+					if(thisTile.anim!=nullptr)
 					{
-						
-						for (p2List_item<tileInfo*>*itemTileInfo = tileset->ListStructId.start; itemTileInfo; itemTileInfo= itemTileInfo->next)
-						{
-							if (itemTileInfo->data->id == id- tileset->firstgid)
-							{
-								App->render->Blit(tileset->texture, mapPoint.x, mapPoint.y, &thisTile.anim.GetCurrentFrame(dt), SDL_FLIP_NONE, speed);
-								break;
-							}
-						}
+						App->render->Blit(tileset->texture, mapPoint.x, mapPoint.y, &thisTile.anim->GetCurrentFrame(dt), SDL_FLIP_NONE, speed);
 					}
-
-					SDL_Rect section = tileset->GetTileRect(id);
-					App->render->Blit(tileset->texture, mapPoint.x, mapPoint.y, &section, SDL_FLIP_NONE, speed);
+					else
+					{
+						SDL_Rect section = tileset->GetTileRect(id);
+						App->render->Blit(tileset->texture, mapPoint.x, mapPoint.y, &section, SDL_FLIP_NONE, speed);
+					}
+					
 					
 					
 
@@ -490,7 +486,7 @@ bool j1Map::LoadTilesetImage(pugi::xml_node& tileset_node, TileSet* set)
 	for (pugi::xml_node tileNode = tileset_node.child("tile"); tileNode; tileNode = tileNode.next_sibling("tile"))
 	{
 		if (pugi::xml_node frame_node = tileNode.child("animation")) {
-			tileInfo* idStrItem = new tileInfo();
+			tile* idStrItem = new tile();
 			Animation* anim = new Animation();
 			frame_node = frame_node.child("frame");
 			anim->speed = frame_node.attribute("duration").as_float() * 0.1F;

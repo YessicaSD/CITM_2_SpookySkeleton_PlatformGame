@@ -69,18 +69,14 @@ struct Properties
 
 	p2List<Property*>	list;
 };
-struct tileInfo
+struct tile
 {
 	uint id = 0;
 	Animation* anim=nullptr ;
 
 };
 
-struct tile
-{
-	uint id = 0;
-	Animation anim ;
-};
+
 
 struct MapLayer
 {
@@ -130,7 +126,7 @@ struct TileSet
 
 	uint					num_tiles_width = 0;
 	uint					num_tiles_height = 0;
-	p2List<tileInfo*>		ListStructId;
+	p2List<tile*>		ListStructId;
 
 
 	~TileSet()
