@@ -108,17 +108,17 @@ bool j1Map::PostUpdate()
 		{
 			for (uint column = 0; column<level.width; column++)
 			{
-				tile thisTile = item_layer->data->arrayOfIds[Get(column, row)];
-				uint id = thisTile.id;
+				tile* thisTile = &item_layer->data->arrayOfIds[Get(column, row)];
+				uint id = thisTile->id;
 				if (id > 0)
 				{
 					iPoint mapPoint = MapToWorld(column, row);
-					TileSet* tileset = GetTilesetFromTileId(id);
+					Patern* tileset = GetTilesetFromTileId(id);
 					float speed = item_layer->data->properties.Get("parallax", 0);
 					
-					if(thisTile.anim!=nullptr)
+					if(thisTile->anim!=nullptr)
 					{
-						App->render->Blit(tileset->texture, mapPoint.x, mapPoint.y, &thisTile.anim->GetCurrentFrame(dt), SDL_FLIP_NONE, speed);
+						App->render->Blit(tileset->texture, mapPoint.x, mapPoint.y, &thisTile->anim->GetCurrentFrame(dt), SDL_FLIP_NONE, speed);
 					}
 					else
 					{
@@ -158,10 +158,10 @@ bool j1Map::PostUpdate()
 
 
 
-TileSet* j1Map::GetTilesetFromTileId(int id) const
+Patern* j1Map::GetTilesetFromTileId(int id) const
 {
-	p2List_item<TileSet*>* actualTile=nullptr;
-	for (actualTile = level.setOfPatterns.end; actualTile != nullptr && id < actualTile->data->firstgid ; actualTile = actualTile->prev) {}
+	p2List_item<Patern*>* actualTile=nullptr;
+	for (actualTile = level.list_Patterns.end; actualTile != nullptr && id < actualTile->data->firstgid ; actualTile = actualTile->prev) {}
 
 	if (actualTile == nullptr)
 		return nullptr;
@@ -219,7 +219,7 @@ iPoint j1Map::WorldToMap(int x, int y) const
 	return ret;
 }
 
-SDL_Rect TileSet::GetTileRect(int id) const
+SDL_Rect Patern::GetTileRect(int id) const
 {
 	int relative_id = id - firstgid;
 	SDL_Rect rect;
@@ -237,11 +237,11 @@ bool j1Map::CleanUp()
 
 	// Remove all tilesets----------------------------------------------------------------------------------
 	
-	for (p2List_item<TileSet*>* item = level.setOfPatterns.end; item; item = item->prev)
+	for (p2List_item<Patern*>* item = level.list_Patterns.end; item; item = item->prev)
 	{
 		RELEASE(item->data);
 	}
-	level.setOfPatterns.clear();
+	level.list_Patterns.clear();
 
 
 	// Removed all layers----------------------------------------------------------------------------------
@@ -300,7 +300,7 @@ bool j1Map::Load(const char* file_name)
 	pugi::xml_node tileset;
 	for (tileset = map_file.child("map").child("tileset"); tileset && ret; tileset = tileset.next_sibling("tileset"))
 	{
-		TileSet* set = new TileSet();
+		Patern* set = new Patern();
 
 		if (ret == true)
 		{
@@ -309,10 +309,10 @@ bool j1Map::Load(const char* file_name)
 
 		if (ret == true)
 		{
-			ret = LoadTilesetImage(tileset, set);
+			ret = LoadPaternImage_tile(tileset, set);
 		}
 
-		level.setOfPatterns.add(set);
+		level.list_Patterns.add(set);
 	}
 
 	// Load layer info ----------------------------------------------
@@ -343,10 +343,10 @@ bool j1Map::Load(const char* file_name)
 		LOG("width: %d height: %d", level.width, level.height);
 		LOG("tile_width: %d tile_height: %d", level.tile_width, level.tile_height);
 
-		p2List_item<TileSet*>* item = level.setOfPatterns.start;
+		p2List_item<Patern*>* item = level.list_Patterns.start;
 		while (item != NULL)
 		{
-			TileSet* s = item->data;
+			Patern* s = item->data;
 			LOG("Tileset ----");
 			LOG("name: %s firstgid: %d", s->name.GetString(), s->firstgid);
 			LOG("tile width: %d tile height: %d", s->tile_width, s->tile_height);
@@ -442,7 +442,7 @@ bool j1Map::LoadMap()
 	return ret;
 }
 
-bool j1Map::LoadTilesetDetails(pugi::xml_node& tileset_node, TileSet* set)
+bool j1Map::LoadTilesetDetails(pugi::xml_node& tileset_node, Patern* set)
 {
 	bool ret = true;
 	set->name.create(tileset_node.attribute("name").as_string());
@@ -457,7 +457,7 @@ bool j1Map::LoadTilesetDetails(pugi::xml_node& tileset_node, TileSet* set)
 	return ret;
 }
 
-bool j1Map::LoadTilesetImage(pugi::xml_node& tileset_node, TileSet* set)
+bool j1Map::LoadPaternImage_tile(pugi::xml_node& tileset_node, Patern* set)
 {
 	bool ret = true;
 	pugi::xml_node image = tileset_node.child("image");
@@ -495,7 +495,8 @@ bool j1Map::LoadTilesetImage(pugi::xml_node& tileset_node, TileSet* set)
 			anim->speed = frame_node.attribute("duration").as_float() * 0.1F;
 
 			for (; frame_node; frame_node = frame_node.next_sibling()) {
-				anim->PushBack(set->GetTileRect(frame_node.attribute("tileid").as_int() + set->firstgid));
+				SDL_Rect frame = set->GetTileRect(frame_node.attribute("tileid").as_uint() + set->firstgid);
+				anim->PushBack(frame);
 			}
 			idStrItem->anim = anim;
 			set->ListStructId.add(idStrItem);
@@ -575,7 +576,7 @@ bool j1Map::LoadLayer(pugi::xml_node& node, MapLayer* layer)
 			layer->arrayOfIds[i].id = thisTile.attribute("gid").as_uint(0);
 			if (layer->arrayOfIds[i].id > 0)
 			{
-				TileSet* tileSet = GetTilesetFromTileId(layer->arrayOfIds[i].id);
+				Patern* tileSet = GetTilesetFromTileId(layer->arrayOfIds[i].id);
 				if (tileSet!=nullptr && tileSet->ListStructId.Count() > 0)
 				{
 
@@ -660,7 +661,7 @@ bool j1Map::CreateWalkabilityMap(int& width, int& height, uchar** buffer) const
 				int i = (y*layer->width) + x;
 
 				int tile_id = layer->Get(x, y);
-				TileSet* tileset = (tile_id > 0) ? GetTilesetFromTileId(tile_id) : NULL;
+				Patern* tileset = (tile_id > 0) ? GetTilesetFromTileId(tile_id) : NULL;
 
 				if (tileset != NULL)
 				{

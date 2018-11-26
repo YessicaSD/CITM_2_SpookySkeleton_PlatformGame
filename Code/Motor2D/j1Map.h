@@ -101,7 +101,7 @@ struct MapLayer
 
 
 // ----------------------------------------------------
-struct TileSet
+struct Patern
 {
 	
 
@@ -125,7 +125,7 @@ struct TileSet
 	p2List<tile*>			ListStructId;
 
 
-	~TileSet()
+	~Patern()
 	{
 		if (texture != nullptr)
 		{
@@ -152,7 +152,7 @@ struct MapData
 
 	MapTypes				type = MAPTYPE_UNKNOWN;
 
-	p2List<TileSet*>		setOfPatterns;
+	p2List<Patern*>			list_Patterns;
 	p2List<MapLayer*>		layers;
 	p2List<Object_Layer*>   collition_layers;
 	p2List<Scenes*>			scenes_List;
@@ -226,11 +226,11 @@ private:
 
 	uint i = 0;
 	bool LoadMap();
-	bool LoadTilesetDetails(pugi::xml_node& tileset_node, TileSet* set);
-	bool LoadTilesetImage(pugi::xml_node& tileset_node, TileSet* set);
+	bool LoadTilesetDetails(pugi::xml_node& tileset_node, Patern* set);
+	bool LoadPaternImage_tile(pugi::xml_node& tileset_node, Patern* set);
 	bool LoadLayer(pugi::xml_node& node, MapLayer* layer);
 	bool LoadCollision(pugi::xml_node& coll_node, Object_Layer* collision);
-	TileSet* GetTilesetFromTileId(int id) const;
+	Patern* GetTilesetFromTileId(int id) const;
 	/*void LoadProperties(pugi::xml_node& node);*/
 	void LoadLayerProperties(pugi::xml_node& node, Properties& properties);
 
