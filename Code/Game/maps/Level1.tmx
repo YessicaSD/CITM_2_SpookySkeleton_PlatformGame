@@ -69,6 +69,14 @@
  </tileset>
  <tileset firstgid="161" name="twilight-tiles_wb" tilewidth="32" tileheight="32" spacing="2" margin="2" tilecount="63" columns="7">
   <image source="twilight-tiles_wb.png" width="240" height="308"/>
+  <tile id="51">
+   <animation>
+    <frame tileid="51" duration="150"/>
+    <frame tileid="52" duration="150"/>
+    <frame tileid="53" duration="150"/>
+    <frame tileid="54" duration="150"/>
+   </animation>
+  </tile>
  </tileset>
  <tileset firstgid="224" name="parallaxBG-interior2" tilewidth="32" tileheight="32" spacing="1" margin="1" tilecount="28" columns="4">
   <image source="parallaxBG-interior2.png" width="133" height="237"/>
@@ -3997,12 +4005,12 @@
    <tile/>
    <tile/>
    <tile/>
+   <tile gid="212"/>
    <tile/>
    <tile/>
    <tile/>
    <tile/>
    <tile/>
-   <tile gid="69"/>
    <tile/>
    <tile/>
    <tile/>
@@ -4299,8 +4307,8 @@
    <tile gid="144"/>
    <tile gid="145"/>
    <tile/>
-   <tile/>
-   <tile/>
+   <tile gid="57"/>
+   <tile gid="57"/>
    <tile/>
    <tile/>
    <tile/>
@@ -8963,8 +8971,8 @@
    <tile gid="86"/>
    <tile gid="87"/>
    <tile gid="88"/>
-   <tile gid="57"/>
-   <tile gid="57"/>
+   <tile/>
+   <tile/>
    <tile gid="24"/>
    <tile gid="35"/>
    <tile gid="26"/>

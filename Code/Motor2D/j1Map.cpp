@@ -149,7 +149,7 @@ bool j1Map::PostUpdate()
 TileSet* j1Map::GetTilesetFromTileId(int id) const
 {
 	p2List_item<TileSet*>* actualTile;
-	for (actualTile = level.tilesets.end; id < actualTile->data->firstgid; actualTile = actualTile->prev) {}
+	for (actualTile = level.setOfPatterns.end; id < actualTile->data->firstgid; actualTile = actualTile->prev) {}
 
 	return actualTile->data;
 }
@@ -222,11 +222,11 @@ bool j1Map::CleanUp()
 
 	// Remove all tilesets----------------------------------------------------------------------------------
 	
-	for (p2List_item<TileSet*>* item = level.tilesets.end; item; item = item->prev)
+	for (p2List_item<TileSet*>* item = level.setOfPatterns.end; item; item = item->prev)
 	{
 		RELEASE(item->data);
 	}
-	level.tilesets.clear();
+	level.setOfPatterns.clear();
 
 
 	// Removed all layers----------------------------------------------------------------------------------
@@ -297,7 +297,7 @@ bool j1Map::Load(const char* file_name)
 			ret = LoadTilesetImage(tileset, set);
 		}
 
-		level.tilesets.add(set);
+		level.setOfPatterns.add(set);
 	}
 
 	// Load layer info ----------------------------------------------
@@ -328,7 +328,7 @@ bool j1Map::Load(const char* file_name)
 		LOG("width: %d height: %d", level.width, level.height);
 		LOG("tile_width: %d tile_height: %d", level.tile_width, level.tile_height);
 
-		p2List_item<TileSet*>* item = level.tilesets.start;
+		p2List_item<TileSet*>* item = level.setOfPatterns.start;
 		while (item != NULL)
 		{
 			TileSet* s = item->data;
@@ -470,6 +470,23 @@ bool j1Map::LoadTilesetImage(pugi::xml_node& tileset_node, TileSet* set)
 		LOG("PERFECT PARSING TILESET WITH PATH: %s", image.attribute("source").as_string());
 	}
 
+	//Loading animations
+	for(pugi::xml_node tileNode= tileset_node.child("tile"); tileNode;tileNode=tileNode.next_sibling("tile"))
+	{
+		if (pugi::xml_node frame_node = tileNode.child("animation")) {
+			IdStruct* idStrItem = new IdStruct();
+			Animation* animation = new Animation();
+			frame_node = frame_node.child("frame");
+			animation->speed= frame_node.attribute("duration").as_float() * 0.1F;
+			for (; frame_node; frame_node = frame_node.next_sibling()) {
+				animation->PushBack(set->GetTileRect(frame_node.attribute("tileid").as_int() + set->firstgid));
+			}
+			idStrItem->anim = animation;
+			set->ListStructId.add(idStrItem);
+		}
+	}
+	
+
 	return ret;
 }
 
@@ -532,13 +549,13 @@ bool j1Map::LoadLayer(pugi::xml_node& node, MapLayer* layer)
 	}
 	else
 	{
-		layer->dataMapLayer = new uint[layer->width*layer->height];
-		memset(layer->dataMapLayer, 0, layer->width*layer->height);
+		layer->arrayOfIds = new uint[layer->width*layer->height];
+		memset(layer->arrayOfIds, 0, layer->width*layer->height);
 
 		int i = 0;
 		for (pugi::xml_node tile = layer_data.child("tile"); tile; tile = tile.next_sibling("tile"))
 		{
-			layer->dataMapLayer[i++] = tile.attribute("gid").as_int(0);
+			layer->arrayOfIds[i++] = tile.attribute("gid").as_uint(0);
 		}
 	}
 
