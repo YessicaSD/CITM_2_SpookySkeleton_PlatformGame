@@ -108,7 +108,7 @@ bool j1Map::PostUpdate()
 		{
 			for (uint column = 0; column<level.width; column++)
 			{
-				uint id = item_layer->data->dataMapLayer[Get(column, row)];
+				uint id = item_layer->data->arrayOfIds[Get(column, row)];
 				if (id > 0)
 				{
 					iPoint mapPoint = MapToWorld(column, row);
