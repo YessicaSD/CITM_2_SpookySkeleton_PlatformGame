@@ -581,10 +581,10 @@ bool j1Map::LoadLayer(pugi::xml_node& node, MapLayer* layer)
 				Patern* tileSet = GetTilesetFromTileId(layer->arrayOfIds[num].id);
 				if (tileSet!=nullptr && tileSet->ListStructId.Count() > 0)
 				{
-
+					
 					for (p2List_item<tile*>* tileItem = tileSet->ListStructId.start; tileItem; tileItem = tileItem->next)
 					{
-						if (layer->arrayOfIds[num].id == tileItem->data->id)
+						if (layer->arrayOfIds[num].id- tileSet->firstgid == tileItem->data->id)
 						{
 							Animation* animation = new Animation(*tileItem->data->anim);
 							layer->arrayOfIds[num].anim = animation;
