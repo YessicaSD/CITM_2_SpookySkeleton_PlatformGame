@@ -156,7 +156,7 @@ bool j1Scene::Update(float dt)
 bool j1Scene::PostUpdate()
 {
 	bool ret = true;
-	CameraLogic(dt);
+	/*CameraLogic(dt);*/
 
 
 

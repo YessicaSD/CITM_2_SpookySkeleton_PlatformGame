@@ -63,7 +63,7 @@ Player::Player(fPoint position, Animation* anim, SDL_Texture* tex, entities_type
 	if (App->scene->num_thismaplvl == 1)
 	{
 		distansToCam = { (int)App->map->level.properties.Get("Distant_to_cam_x"),(int)App->map->level.properties.Get("Distant_to_cam_y") };
-		/*App->render->camera.x = (position.x + distansToCam.x);*/
+		App->render->camera.x = (position.x + distansToCam.x);
 		App->render->camera.y = (position.y + distansToCam.y);
 		LOG("DISTANCE TO CAM EN Y ES %i", distansToCam.y);
 	}
@@ -71,7 +71,7 @@ Player::Player(fPoint position, Animation* anim, SDL_Texture* tex, entities_type
 	if (App->scene->num_thismaplvl == 2)
 	{
 		distansToCam = { -60,-180 };
-		/*App->render->camera.x = (position.x + distansToCam.x);*/
+		App->render->camera.x = (position.x + distansToCam.x);
 		App->render->camera.y = (position.y + distansToCam.y);
 		LOG("DISTANCE TO CAM EN Y ES %i", distansToCam.y);
 	}
@@ -215,8 +215,8 @@ void Player::Move(float dt)
 			speed.y += App->map->level.gravity * dt;
 
 		//Camera----------------------------------------------------------------------------------
-		/*if ((position.x + distansToCam.x)* App->win->GetScale() > 0 && (App->map->level.tile_width*App->map->level.width) * App->win->GetScale() > (((position.x + distansToCam.x)* App->win->GetScale()) + App->render->camera.w))
-			App->render->camera.x = ((position.x + distansToCam.x)* App->win->GetScale());*/
+		if ((position.x + distansToCam.x)* App->win->GetScale() > 0 && (App->map->level.tile_width*App->map->level.width) * App->win->GetScale() > (((position.x + distansToCam.x)* App->win->GetScale()) + App->render->camera.w))
+			App->render->camera.x = ((position.x + distansToCam.x)* App->win->GetScale());
 
 		if ((position.y + distansToCam.y) <= ((App->map->level.height * App->map->level.tile_height)*App->win->GetScale() - App->render->camera.h) && (position.y + distansToCam.y) > 0)
 			App->render->camera.y = (position.y + distansToCam.y);
