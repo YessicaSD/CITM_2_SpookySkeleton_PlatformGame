@@ -108,14 +108,30 @@ bool j1Map::PostUpdate()
 		{
 			for (uint column = 0; column<level.width; column++)
 			{
-				uint id = item_layer->data->arrayOfIds[Get(column, row)].id;
+				tile thisTile = item_layer->data->arrayOfIds[Get(column, row)];
+				uint id = thisTile.id;
 				if (id > 0)
 				{
 					iPoint mapPoint = MapToWorld(column, row);
 					TileSet* tileset = GetTilesetFromTileId(id);
-					SDL_Rect section = tileset->GetTileRect(id);
 					float speed = item_layer->data->properties.Get("parallax", 0);
+					if (tileset->ListStructId.Count() > 0)
+					{
+						
+						for (p2List_item<tileInfo*>*itemTileInfo = tileset->ListStructId.start; itemTileInfo; itemTileInfo= itemTileInfo->next)
+						{
+							if (itemTileInfo->data->id == id- tileset->firstgid)
+							{
+								App->render->Blit(tileset->texture, mapPoint.x, mapPoint.y, &thisTile.anim.GetCurrentFrame(dt), SDL_FLIP_NONE, speed);
+								break;
+							}
+						}
+					}
+
+					SDL_Rect section = tileset->GetTileRect(id);
 					App->render->Blit(tileset->texture, mapPoint.x, mapPoint.y, &section, SDL_FLIP_NONE, speed);
+					
+					
 
 
 				}
@@ -551,7 +567,7 @@ bool j1Map::LoadLayer(pugi::xml_node& node, MapLayer* layer)
 	}
 	else
 	{
-		layer->arrayOfIds = new tileInfo[layer->width*layer->height];
+		layer->arrayOfIds = new tile[layer->width*layer->height];
 		memset(layer->arrayOfIds, 0, layer->width*layer->height);
 
 		int i = 0;

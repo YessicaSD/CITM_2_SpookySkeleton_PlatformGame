@@ -90,7 +90,7 @@ struct MapLayer
 	float parallax_velocity = 0.0f;
 	
 
-	tileInfo*		arrayOfIds = nullptr;
+	tile*		arrayOfIds = nullptr;
 	Properties	properties;
 	~MapLayer()
 	{
@@ -111,7 +111,8 @@ struct MapLayer
 // ----------------------------------------------------
 struct TileSet
 {
-	// TODO 7: Create a method that receives a tile id and returns it's Rectfind the Rect associated with a specific tile id
+	
+
 	SDL_Rect GetTileRect(int id) const;
 
 	
