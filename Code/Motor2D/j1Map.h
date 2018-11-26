@@ -12,11 +12,7 @@
 
 struct Collider;
 
-struct SceneProp
-{
-	fPoint PlayerPos;
-	fPoint CameraPos;
-};
+
 struct Scenes
 {
 	bool active=false;
@@ -126,7 +122,7 @@ struct TileSet
 
 	uint					num_tiles_width = 0;
 	uint					num_tiles_height = 0;
-	p2List<tile*>		ListStructId;
+	p2List<tile*>			ListStructId;
 
 
 	~TileSet()

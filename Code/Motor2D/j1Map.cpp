@@ -160,10 +160,13 @@ bool j1Map::PostUpdate()
 
 TileSet* j1Map::GetTilesetFromTileId(int id) const
 {
-	p2List_item<TileSet*>* actualTile;
-	for (actualTile = level.setOfPatterns.end; id < actualTile->data->firstgid; actualTile = actualTile->prev) {}
+	p2List_item<TileSet*>* actualTile=nullptr;
+	for (actualTile = level.setOfPatterns.end; actualTile != nullptr && id < actualTile->data->firstgid ; actualTile = actualTile->prev) {}
 
-	return actualTile->data;
+	if (actualTile == nullptr)
+		return nullptr;
+	else
+		return actualTile->data;
 }
 
 
@@ -567,9 +570,28 @@ bool j1Map::LoadLayer(pugi::xml_node& node, MapLayer* layer)
 		memset(layer->arrayOfIds, 0, layer->width*layer->height);
 
 		int i = 0;
-		for (pugi::xml_node tile = layer_data.child("tile"); tile; tile = tile.next_sibling("tile"))
+		for (pugi::xml_node thisTile = layer_data.child("tile"); thisTile; thisTile = thisTile.next_sibling("tile"))
 		{
-			layer->arrayOfIds[i++].id = tile.attribute("gid").as_uint(0);
+			layer->arrayOfIds[i++].id = thisTile.attribute("gid").as_uint(0);
+			if (layer->arrayOfIds[i].id > 0)
+			{
+				TileSet* tileSet = GetTilesetFromTileId(layer->arrayOfIds[i].id);
+				if (tileSet!=nullptr && tileSet->ListStructId.Count() > 0)
+				{
+
+					for (p2List_item<tile*>* tileItem = tileSet->ListStructId.start; tileItem; tileItem = tileItem->next)
+					{
+						if (layer->arrayOfIds[i].id == tileItem->data->id)
+						{
+							Animation* animation = new Animation(*tileItem->data->anim);
+							layer->arrayOfIds[i].anim = animation;
+							break;
+						}
+					}
+				}
+			}
+			
+			
 		}
 	}
 
