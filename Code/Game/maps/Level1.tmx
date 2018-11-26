@@ -36,10 +36,10 @@
   <tile id="55" terrain=",0,0,0"/>
   <tile id="56">
    <animation>
-    <frame tileid="56" duration="150"/>
-    <frame tileid="57" duration="150"/>
-    <frame tileid="58" duration="150"/>
-    <frame tileid="59" duration="150"/>
+    <frame tileid="56" duration="100"/>
+    <frame tileid="57" duration="100"/>
+    <frame tileid="58" duration="100"/>
+    <frame tileid="59" duration="100"/>
    </animation>
   </tile>
   <tile id="65" terrain=",,,2"/>
@@ -47,9 +47,9 @@
   <tile id="67" terrain=",,2,"/>
   <tile id="68">
    <animation>
-    <frame tileid="68" duration="150"/>
-    <frame tileid="69" duration="150"/>
-    <frame tileid="78" duration="150"/>
+    <frame tileid="68" duration="100"/>
+    <frame tileid="69" duration="100"/>
+    <frame tileid="78" duration="100"/>
    </animation>
   </tile>
   <tile id="75" terrain=",2,,2"/>
@@ -4005,12 +4005,12 @@
    <tile/>
    <tile/>
    <tile/>
-   <tile gid="212"/>
    <tile/>
    <tile/>
    <tile/>
    <tile/>
-   <tile gid="69"/>
+   <tile/>
+   <tile/>
    <tile/>
    <tile/>
    <tile/>
@@ -4307,8 +4307,8 @@
    <tile gid="144"/>
    <tile gid="145"/>
    <tile/>
-   <tile gid="57"/>
-   <tile gid="57"/>
+   <tile/>
+   <tile/>
    <tile/>
    <tile/>
    <tile/>
@@ -8524,7 +8524,7 @@
    <tile/>
    <tile/>
    <tile/>
-   <tile/>
+   <tile gid="69"/>
    <tile/>
    <tile/>
    <tile gid="4"/>
@@ -8817,16 +8817,16 @@
    <tile gid="15"/>
    <tile gid="15"/>
    <tile gid="44"/>
-   <tile/>
+   <tile gid="57"/>
    <tile gid="76"/>
    <tile gid="77"/>
    <tile gid="78"/>
-   <tile/>
-   <tile/>
+   <tile gid="57"/>
+   <tile gid="57"/>
    <tile gid="14"/>
    <tile gid="15"/>
    <tile gid="44"/>
-   <tile/>
+   <tile gid="57"/>
    <tile gid="14"/>
    <tile gid="15"/>
    <tile gid="15"/>
@@ -8967,7 +8967,7 @@
    <tile gid="25"/>
    <tile gid="25"/>
    <tile gid="26"/>
-   <tile gid="57"/>
+   <tile/>
    <tile gid="86"/>
    <tile gid="87"/>
    <tile gid="88"/>
