@@ -8967,16 +8967,16 @@
    <tile gid="25"/>
    <tile gid="25"/>
    <tile gid="26"/>
-   <tile/>
+   <tile gid="5"/>
    <tile gid="86"/>
    <tile gid="87"/>
    <tile gid="88"/>
-   <tile/>
-   <tile/>
+   <tile gid="5"/>
+   <tile gid="5"/>
    <tile gid="24"/>
    <tile gid="35"/>
    <tile gid="26"/>
-   <tile/>
+   <tile gid="5"/>
    <tile gid="14"/>
    <tile gid="15"/>
    <tile gid="15"/>
