@@ -35,7 +35,7 @@ private:
 	bool iceMovement = false;
 	bool death_fx = false;
 	bool jump_fx = false;
-	uint acceleration_x=200;
+	uint acceleration_x=100;
 	void DebugModeInput();
 public:
 		Player(fPoint position,Animation* anim,SDL_Texture* tex, entities_types type);

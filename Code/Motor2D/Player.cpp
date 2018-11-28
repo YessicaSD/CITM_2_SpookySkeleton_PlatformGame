@@ -124,36 +124,7 @@ bool Player::PreUpdate(float dt)
 
 		}
 
-		if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
-		{
-			if (state == STATE_IDLE || state == STATE_JUMP || state == STATE_WALK)
-			{
-				if (!right)
-					right = true;
-				if (speed.x < maxSpeed.x)
-				{
-					speed.x += acceleration_x * dt;
-				}
-
-			}
-			if (state == STATE_IDLE)
-				state = STATE_WALK;
-		}
-		if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT)
-		{
-			if (state == STATE_IDLE || state == STATE_JUMP || state == STATE_WALK)
-			{
-				if (right)
-					right = false;
-				if (speed.x > -maxSpeed.x)
-				{
-					speed.x -= acceleration_x * dt;
-				}
-
-			}
-			if (state == STATE_IDLE)
-				state = STATE_WALK;
-		}
+		
 
 		if (state == STATE_JUMP)
 			jump_fx = true;
@@ -192,6 +163,36 @@ bool Player::PreUpdate(float dt)
 
 			
 			
+		}
+		if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
+		{
+			if (state == STATE_IDLE || state == STATE_JUMP || state == STATE_WALK)
+			{
+				if (!right)
+					right = true;
+				if (speed.x < maxSpeed.x)
+				{
+					speed.x += acceleration_x * dt;
+				}
+
+			}
+			if (state == STATE_IDLE)
+				state = STATE_WALK;
+		}
+		if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT)
+		{
+			if (state == STATE_IDLE || state == STATE_JUMP || state == STATE_WALK)
+			{
+				if (right)
+					right = false;
+				if (speed.x > -maxSpeed.x)
+				{
+					speed.x -= acceleration_x * dt;
+				}
+
+			}
+			if (state == STATE_IDLE)
+				state = STATE_WALK;
 		}
 	}
 	else
@@ -279,6 +280,8 @@ void Player::OnCollision(Collider * otherColl)
 	}
 	if (otherColl->type == COLLIDER_WALL|| otherColl->type == COLLIDER_ICE || otherColl->type == COLLIDER_SPECIAL)
 	{
+		
+
 		if (otherColl->type != COLLIDER_ICE && App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_IDLE && App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_IDLE)
 		{
 			speed.x = 0.0F;
