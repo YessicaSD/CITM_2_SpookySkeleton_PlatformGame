@@ -15,6 +15,7 @@
 #include "j1ModuleEntity.h"
 #include "j1Pathfinding.h"
 #include "Scene.h"
+#include "j1Font.h"
 
 #include "Brofiler/Brofiler.h"
 
@@ -36,6 +37,7 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	entity = new ModuleEnemies();
 	pathfinding = new j1PathFinding();
 	scene = new j1Scene();
+	font = new j1Fonts();
 	// Ordered for awake / Start / Update
 	// Reverse order of CleanUp
 	AddModule(input);
@@ -46,6 +48,7 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(map);
 	AddModule(entity);
 	AddModule(scene);
+	AddModule(font);
 	AddModule(pathfinding);
 	AddModule(collision);
 	AddModule(fade);
