@@ -99,11 +99,13 @@
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="PugiXml\src\pugixml.cpp" />
     <ClCompile Include="Scene.cpp" />
+    <ClCompile Include="UiItem_Label.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animation.h" />
     <ClInclude Include="EntityBat.h" />
     <ClInclude Include="EntityZombie.h" />
+    <ClInclude Include="itemUI.h" />
     <ClInclude Include="j1Collision.h" />
     <ClInclude Include="j1Entity.h" />
     <ClInclude Include="j1Font.h" />
@@ -131,6 +133,8 @@
     <ClInclude Include="PugiXml\src\pugiconfig.hpp" />
     <ClInclude Include="PugiXml\src\pugixml.hpp" />
     <ClInclude Include="Scene.h" />
+    <ClInclude Include="UiItem_Image.h" />
+    <ClInclude Include="UiItem_Label.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
