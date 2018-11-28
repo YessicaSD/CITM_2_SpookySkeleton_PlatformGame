@@ -270,9 +270,13 @@ void Player::OnCollision(Collider * otherColl)
 		{
 			speed.x = -maxSpeed.x;
 		}
+		maxSpeed.x = 90;
 				
 	}
-
+	if (otherColl->type == COLLIDER_ICE)
+	{
+		maxSpeed.x = 90 + 90 * 0.5;
+	}
 	if (otherColl->type == COLLIDER_WALL|| otherColl->type == COLLIDER_ICE || otherColl->type == COLLIDER_SPECIAL)
 	{
 		if (otherColl->type != COLLIDER_ICE && App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_IDLE && App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_IDLE)

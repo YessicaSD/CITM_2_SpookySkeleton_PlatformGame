@@ -104,6 +104,8 @@ bool j1Map::PostUpdate()
 
 	for (p2List_item<MapLayer*>* item_layer = level.layers.start; item_layer; item_layer = item_layer->next)
 	{
+		if (item_layer->data->properties.Get("draw", -1) == 0)
+			continue;
 
 		for (uint row = 0; row<level.height; row++)
 		{
@@ -118,18 +120,13 @@ bool j1Map::PostUpdate()
 					float speed = item_layer->data->properties.Get("parallax", 0);
 					
 					if(thisTile->anim!=nullptr)
-					{
 						App->render->Blit(tileset->texture, mapPoint.x, mapPoint.y, &thisTile->anim->GetCurrentFrame(dt), SDL_FLIP_NONE, speed);
-					}
+
 					else
 					{
 						SDL_Rect section = tileset->GetTileRect(id);
 						App->render->Blit(tileset->texture, mapPoint.x, mapPoint.y, &section, SDL_FLIP_NONE, speed);
 					}
-					
-					
-					
-
 
 				}
 
