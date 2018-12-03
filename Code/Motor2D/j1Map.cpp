@@ -459,9 +459,7 @@ bool j1Map::LoadPaternImage_tile(pugi::xml_node& tileset_node, Patern* set)
 {
 	bool ret = true;
 	pugi::xml_node image = tileset_node.child("image");
-
-	for (pugi::xml_node image = tileset_node.child("image"); image != NULL; image = image.next_sibling("image"))
-	{
+	if(image!=NULL){
 		set->texture = App->tex->Load(PATH(folder.GetString(), image.attribute("source").as_string()));
 		int w, h;
 		SDL_QueryTexture(set->texture, NULL, NULL, &w, &h);
@@ -478,8 +476,8 @@ bool j1Map::LoadPaternImage_tile(pugi::xml_node& tileset_node, Patern* set)
 		{
 			set->tex_height = h;
 		}
-
-		set->num_tiles_width = (set->tex_width ) / (set->tile_width );
+		
+		set->num_tiles_width = tileset_node.attribute("columns").as_uint(0);
 		set->num_tiles_height = (set->tex_height ) / (set->tile_height);
 		LOG("PERFECT PARSING TILESET WITH PATH: %s", image.attribute("source").as_string());
 	}

@@ -120,7 +120,7 @@ struct Patern
 	uint					tile_width = 0;
 	uint					tile_height = 0;
 
-	uint					num_tiles_width = 0;
+	uint					num_tiles_width  = 0;
 	uint					num_tiles_height = 0;
 	p2List<tile*>			ListStructId;
 
