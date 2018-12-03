@@ -65,6 +65,9 @@ https://github.com/YessicaSD/PlatformGame
 - Pol Recasens Sarra 
 	Find him on:
 	Github: https://github.com/PolRecasensSarra
+    
+- Art:
+-   Controls buttons sprites: https://hyohnoo.itch.io/keyboard-controller-keys 
 
 ## What have done each member:
 	Yessica Servin:
