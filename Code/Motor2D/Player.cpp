@@ -255,8 +255,8 @@ void Player::OnCollision(Collider * otherColl)
 	bool PlayerIsOn = (int)position.y <= otherColl->rect.y 
 		&& (int)position.x >= otherColl->rect.x
 		&& (int)position.x <= otherColl->rect.x + otherColl->rect.w;
-	bool PlayerIsOnTheLeft = position.x < otherColl->rect.x  && (int)position.y > otherColl->rect.y;
-	bool PlayerIsOnTheRight = position.x > otherColl->rect.x + otherColl->rect.w  && (int)position.y > otherColl->rect.y;
+	bool PlayerIsOnTheLeft = position.x <= otherColl->rect.x  && position.y > otherColl->rect.y;
+	bool PlayerIsOnTheRight = position.x >= otherColl->rect.x + otherColl->rect.w  && position.y > otherColl->rect.y;
 	bool PlayerIsUnder = position.y > otherColl->rect.y + otherColl->rect.h && collider->rect.x + collider->rect.w - 5 > otherColl->rect.x && collider->rect.x + 5 < otherColl->rect.x + otherColl->rect.w;
 	
 	if (otherColl->type == COLLIDER_WALL)
@@ -307,11 +307,16 @@ void Player::OnCollision(Collider * otherColl)
 		if (otherColl->type != COLLIDER_SPECIAL)
 		{
 			if (PlayerIsOnTheLeft)
-				speed.x = otherColl->rect.x - ((int)position.x + collider->rect.w / 2);
-
+			{
+				speed.x = 0.0F;
+			}
+				
 
 			if (PlayerIsOnTheRight)
-				speed.x = (otherColl->rect.x + otherColl->rect.w) - (position.x - collider->rect.w / 2);
+			{
+				speed.x = 0.0F;
+			}
+				
 			
 			if (PlayerIsUnder)
 				speed.y = (otherColl->rect.y + otherColl->rect.h) - ((int)position.y - collider->rect.h);
