@@ -224,7 +224,7 @@ void Player::Move(float dt)
 
 	}
 
-	collider->SetPos(position.x - collider->rect.w / 2, position.y - collider->rect.h);
+	collider->SetPos(position.x - collider->rect.w * 0.5f, position.y - collider->rect.h);
 }
 
 void Player::Draw()

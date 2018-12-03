@@ -175,6 +175,10 @@ void j1App::PrepareUpdate()
 {
 	frame_count++;
 	dt = frame_time.ReadSec();
+	if (dt >= 2)
+	{
+		dt = 0;
+	}
 	frame_time.Start();
 }
 
