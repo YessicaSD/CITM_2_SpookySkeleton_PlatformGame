@@ -117,7 +117,7 @@ bool j1Map::PostUpdate()
 				{
 					iPoint mapPoint = MapToWorld(column, row);
 					Patern* tileset = GetTilesetFromTileId(id);
-					float speed = item_layer->data->properties.Get("parallax", 0);
+					float speed = item_layer->data->properties.Get("parallax", -1);
 					
 					if(thisTile->anim!=nullptr)
 						App->render->Blit(tileset->texture, mapPoint.x, mapPoint.y, &thisTile->anim->GetCurrentFrame(dt), SDL_FLIP_NONE, speed);
@@ -494,6 +494,7 @@ bool j1Map::LoadPaternImage_tile(pugi::xml_node& tileset_node, Patern* set)
 			anim->speed = frame_node.attribute("duration").as_float() * 0.1F;
 
 			for (; frame_node; frame_node = frame_node.next_sibling()) {
+				LOG("%u", frame_node.attribute("tileid").as_uint());
 				SDL_Rect frame = set->GetTileRect(frame_node.attribute("tileid").as_uint() + set->firstgid);
 				anim->PushBack(frame);
 			}
