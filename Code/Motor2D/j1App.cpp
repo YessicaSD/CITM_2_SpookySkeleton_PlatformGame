@@ -11,11 +11,12 @@
 #include "j1Map.h"
 #include "ModuleFadeToBack.h"
 #include "j1App.h"
-#include  "j1Collision.h"
+#include "j1Collision.h"
 #include "j1ModuleEntity.h"
 #include "j1Pathfinding.h"
 #include "Scene.h"
-#include "j1Font.h"
+#include "j1Fonts.h"
+#include "j1Gui.h"
 
 #include "Brofiler/Brofiler.h"
 
@@ -38,6 +39,8 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	pathfinding = new j1PathFinding();
 	scene = new j1Scene();
 	font = new j1Fonts();
+	Gui = new j1Gui();
+
 	// Ordered for awake / Start / Update
 	// Reverse order of CleanUp
 	AddModule(input);
@@ -52,7 +55,8 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(pathfinding);
 	AddModule(collision);
 	AddModule(fade);
-	
+	AddModule(Gui);
+
 	// render last to swap buffer
 	AddModule(render);
 
@@ -181,7 +185,6 @@ void j1App::PrepareUpdate()
 	}
 	frame_time.Start();
 }
-
 // ---------------------------------------------
 void j1App::FinishUpdate()
 {
@@ -227,15 +230,10 @@ void j1App::FinishUpdate()
 	App->win->SetTitle(WinTitle);
 
 	
-	if (frame_cap)
+	if (frame_cap && last_frame_ms < (1000 / framerate))
 	{
-		if (last_frame_ms < (1000 / framerate))
 			SDL_Delay((1000 / framerate) - last_frame_ms);
 	}
-	
-	
-
-
 }
 
 // Call modules before each loop iteration

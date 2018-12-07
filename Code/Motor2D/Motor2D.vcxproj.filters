@@ -64,14 +64,23 @@
     <ClCompile Include="Scene.cpp">
       <Filter>Desenvolupament  ========\Modules</Filter>
     </ClCompile>
+    <ClCompile Include="j1Fonts.cpp">
+      <Filter>Desenvolupament  ========\Modules</Filter>
+    </ClCompile>
     <ClCompile Include="j1Gui.cpp">
       <Filter>Desenvolupament  ========\Modules</Filter>
     </ClCompile>
-    <ClCompile Include="j1Font.cpp">
-      <Filter>Desenvolupament  ========\Modules</Filter>
+    <ClCompile Include="UiItem_Button.cpp">
+      <Filter>Desenvolupament  ========\Modules\ItemsUi</Filter>
+    </ClCompile>
+    <ClCompile Include="UiItem_Image.cpp">
+      <Filter>Desenvolupament  ========\Modules\ItemsUi</Filter>
     </ClCompile>
     <ClCompile Include="UiItem_Label.cpp">
-      <Filter>Desenvolupament  ========\Modules</Filter>
+      <Filter>Desenvolupament  ========\Modules\ItemsUi</Filter>
+    </ClCompile>
+    <ClCompile Include="UiItem.cpp">
+      <Filter>Desenvolupament  ========\Modules\ItemsUi</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -159,20 +168,23 @@
     <ClInclude Include="Scene.h">
       <Filter>Desenvolupament  ========\Modules</Filter>
     </ClInclude>
-    <ClInclude Include="j1Font.h">
+    <ClInclude Include="j1Fonts.h">
       <Filter>Desenvolupament  ========\Modules</Filter>
     </ClInclude>
     <ClInclude Include="j1Gui.h">
       <Filter>Desenvolupament  ========\Modules</Filter>
     </ClInclude>
-    <ClInclude Include="UiItem_Label.h">
-      <Filter>Desenvolupament  ========\Modules</Filter>
-    </ClInclude>
-    <ClInclude Include="itemUI.h">
-      <Filter>Desenvolupament  ========\Modules</Filter>
+    <ClInclude Include="UiItem_Button.h">
+      <Filter>Desenvolupament  ========\Modules\ItemsUi</Filter>
     </ClInclude>
     <ClInclude Include="UiItem_Image.h">
-      <Filter>Desenvolupament  ========\Modules</Filter>
+      <Filter>Desenvolupament  ========\Modules\ItemsUi</Filter>
+    </ClInclude>
+    <ClInclude Include="UiItem_Label.h">
+      <Filter>Desenvolupament  ========\Modules\ItemsUi</Filter>
+    </ClInclude>
+    <ClInclude Include="UiItem.h">
+      <Filter>Desenvolupament  ========\Modules\ItemsUi</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -193,6 +205,9 @@
     </Filter>
     <Filter Include="Desenvolupament  ========\Entities">
       <UniqueIdentifier>{22219bbd-0ca9-409c-972a-1f241fa893a5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Desenvolupament  ========\Modules\ItemsUi">
+      <UniqueIdentifier>{6a18313f-061b-4d3c-bc1d-111c625478e4}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

@@ -21,6 +21,7 @@ class ModuleFadeToBlack;
 class ModuleEnemies;
 class j1PathFinding;
 class j1Fonts;
+class j1Gui;
 
 class j1App
 {
@@ -97,6 +98,7 @@ public:
 	j1PathFinding*		pathfinding = nullptr;
 	j1Scene*			scene = nullptr;
 	j1Fonts*			font = nullptr;
+	j1Gui*              Gui = nullptr;
 
 	float				dt = 0.0F;
 private:

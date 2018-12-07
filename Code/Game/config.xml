@@ -22,7 +22,11 @@
   <file_system>
     <path>data.zip</path>
   </file_system>
-
+  
+<gui>
+   <UITexture file="gui/atlas.png"/>
+</gui>
+  
   <map>
     <folder>maps/</folder>
     <scenes  tmx="Level1.tmx" lvlnum="1" music="audio/music/spooky_skeletons.ogg"/>
