@@ -1,27 +1,28 @@
 #include "UiItem_Label.h"
+#include "UiItem.h"
 
 #include "j1App.h"
 #include "j1Fonts.h"
 #include "j1Textures.h"
-#include "UiItem.h"
+#include "j1Render.h"
 
 UiItem_Label::UiItem_Label(p2Point<int> pos, p2SString text, SDL_Color color, TTF_Font * font):UiItem(pos)
 {
-	CreateText(text.GetString(),color, font);
-	if(texture!=nullptr)
-		App->tex->GetSize(texture, (uint&)frames[IDLE].w, (uint&)frames[IDLE].h);
+	texture = App->font->Print(text.GetString(), color, font);
+
 	
 
 	p2SString hoverText(text);
-	hoverText += "is Hover";
+	hoverText += " is Hover";
 	textureHover = App->font->Print(hoverText.GetString(), color, font);
-	App->tex->GetSize(textureHover, (uint&)frames[HOVER].w, (uint&)frames[HOVER].h);
+	
 	this->font = font;
 
 }
 
-void UiItem_Label::CreateText(const char* text, SDL_Color color, TTF_Font* font)
-{
-	texture = App->font->Print(text, color, font);
 
+
+void UiItem_Label::Draw()
+{
+	App->render->Blit(texture, HitBox.x, HitBox.y,NULL,SDL_FLIP_NONE,0.0F);
 }

@@ -6,15 +6,8 @@
 
 void UiItem::Draw()
 {
-	App->render->Blit(App->Gui->getTexture(), HitBox.x, HitBox.y, &frames[state], SDL_RendererFlip::SDL_FLIP_NONE, 0.0F);
+	//App->render->Blit(App->Gui->getTexture(), HitBox.x, HitBox.y, &frames[state], SDL_RendererFlip::SDL_FLIP_NONE, 0.0F);
 }
 
-void UiItem::AddHover(const SDL_Rect * section)
-{
-	frames[HOVER] = *section;
-}
 
-void UiItem::AddClick(const SDL_Rect * section)
-{
-	frames[CLICK] = *section;
-}
+

@@ -17,8 +17,8 @@ public:
 	p2SString text;
 	SDL_Color color;
 	UiItem_Label(p2Point<int> pos, p2SString text, SDL_Color color, TTF_Font * font);
-	void CreateText(const char* text, SDL_Color color, TTF_Font* font);
-
+	
+	void Draw() override;
 };
 
 #endif

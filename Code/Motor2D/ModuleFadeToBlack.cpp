@@ -23,6 +23,7 @@ bool ModuleFadeToBlack::Start()
 // Update: draw background
 bool  ModuleFadeToBlack::Update(float dt)
 {
+	this->dt = dt;
 	BROFILER_CATEGORY("Update_Fade.cpp", Profiler::Color::Coral)
 	if (current_step == fade_step::none)
 		return true;
@@ -59,7 +60,7 @@ bool  ModuleFadeToBlack::Update(float dt)
 
 	return true;
 }
-bool ModuleFadeToBlack::Draw(float dt)
+bool ModuleFadeToBlack::PostUpdate()
 {
 	// Finally render the black square with alpha on the screen
 	App->render->DrawQuad(screen, 0, 0, 0, (Uint8)(normalized * 255.0f),true,false);

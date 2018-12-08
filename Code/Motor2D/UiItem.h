@@ -16,11 +16,6 @@ enum UI_STATES
 
 class UiItem
 {
-protected:
-	
-	SDL_Rect frames[MAX_STATES];
-	
-	
 public:
 	UI_STATES state = IDLE;
 	SDL_Rect HitBox;
@@ -32,9 +27,7 @@ public:
 
 	virtual void Draw();
 
-	virtual void AddHover(const SDL_Rect* section);
 
-	virtual void AddClick(const SDL_Rect* section);
 
 };
 

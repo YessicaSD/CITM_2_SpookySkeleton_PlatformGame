@@ -62,10 +62,7 @@ public:
 	{
 		return true;
 	}
-	virtual bool Draw(float dt)
-	{
-		return true;
-	}
+
 	// Called before quitting
 	virtual bool CleanUp()
 	{

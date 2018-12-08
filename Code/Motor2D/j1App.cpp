@@ -54,8 +54,9 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(font);
 	AddModule(pathfinding);
 	AddModule(collision);
-	AddModule(fade);
 	AddModule(Gui);
+	AddModule(fade);
+	
 
 	// render last to swap buffer
 	AddModule(render);
@@ -306,10 +307,7 @@ bool j1App::PostUpdate()
 			}
 
 			ret = item->data->PostUpdate();
-			if (ret)
-			{
-			   item->data->Draw(dt);
-			}
+			
 		}
 	}
 

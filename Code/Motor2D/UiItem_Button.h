@@ -6,11 +6,14 @@
 
 class UiItem_Button :public UiItem
 {
+protected:
+	SDL_Rect frames[MAX_STATES];
+
 public:
 	SDL_Rect section = {0,0,0,0};
 
 public:
-	UiItem_Button(p2Point<int> pos, SDL_Texture* texture, const SDL_Rect* section);
+	UiItem_Button(p2Point<int> pos, const SDL_Rect* section);
 	
 
 };

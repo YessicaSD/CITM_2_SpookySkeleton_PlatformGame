@@ -16,7 +16,7 @@ public:
 	bool Start() override;
 	bool Update(float dt) override;
 	bool FadeToBlack(uint lvlnum, float time=2.0f);
-	bool Draw(float dt) override;
+	bool PostUpdate() override;
 private:
 
 	enum fade_step
