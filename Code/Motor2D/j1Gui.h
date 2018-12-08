@@ -44,7 +44,7 @@ public:
 	UiItem_Label* AddLabel(p2Point<int> pos, const char* text, SDL_Color color, TTF_Font* font);
 	UiItem_Image* AddImage(p2Point<int> pos, const SDL_Rect* section);
 
-	SDL_Texture* getTexture() const;
+	const SDL_Texture* getTexture() const;
 	p2List<UiItem*> ListItemUI;
 
 private:

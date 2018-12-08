@@ -119,7 +119,7 @@ UiItem_Image * j1Gui::AddImage(p2Point<int> pos, const SDL_Rect * section)
 
  
 // const getter for atlas
- SDL_Texture* j1Gui::getTexture() const
+ const SDL_Texture* j1Gui::getTexture() const
 {
 	return UITexture;
 }

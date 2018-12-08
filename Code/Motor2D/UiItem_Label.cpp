@@ -9,7 +9,7 @@
 UiItem_Label::UiItem_Label(p2Point<int> pos, p2SString text, SDL_Color color, TTF_Font * font):UiItem(pos)
 {
 	texture = App->font->Print(text.GetString(), color, font);
-
+	App->tex->GetSize(texture,(uint &) HitBox.w, (uint &)HitBox.h);
 	
 
 	p2SString hoverText(text);
