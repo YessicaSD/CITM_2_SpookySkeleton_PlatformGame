@@ -1,7 +1,7 @@
 # Spooky Skeleton - PlatformGame
 
 ## Introduction
-Spooky Skeleton is a horitzontal-scorilling platform game in 2D.
+Spooky Skeleton is a 2D platform game.
 
 There is one playable character, a skeleton, and two different levels with a spooky atmosphere.
 
@@ -70,18 +70,24 @@ https://github.com/YessicaSD/PlatformGame
 -   Controls buttons sprites: https://hyohnoo.itch.io/keyboard-controller-keys 
 
 ## What have done each member:
-	Yessica Servin:
-		- Save and Load
-		- Walking enemy(Zombie)
-		- Entities sistem
-		- Implementation of dt
-		- Limit the framerate
-		- Change the player to an entity
-		- UML File of entities
-		- Ice 
-		- Add pathFinding Module
+-----------------------------------------------------Yessica Servin Dominguez------------------------------------------------------
+		
+		Third Assignment:
+			- Added Icon to the window and the .exe
+		Second Assignment:
+			- Save and Load
+			- Walking enemy(Zombie)
+			- Entities sistem
+			- Implementation of dt
+			- Limit the framerate
+			- Change the player to an entity
+			- UML File of entities
+			- Ice 
+			- Add pathFinding Module
 	
-	Pol Recasens:
+-----------------------------------------------------------Pol Recasens--------------------------------------------------------------
+		
+		Second Assignment:
 		- Modified map levels
 		- Enemy sprite sheet
 		- Enemies positions
