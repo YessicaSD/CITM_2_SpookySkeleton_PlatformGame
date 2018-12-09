@@ -12,7 +12,7 @@
 #include "j1Window.h"
 #include "j1Input.h"
 #include "j1Audio.h"
-#include "Scene.h"
+#include "j1Scene.h"
 #include "Brofiler/Brofiler.h"
 
 #include <math.h>

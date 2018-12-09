@@ -17,18 +17,18 @@
 
 #include "Brofiler/Brofiler.h"
 
-ModuleEnemies::ModuleEnemies()
+j1Entities::j1Entities()
 {
 	name.create("entities");
 }
 
-ModuleEnemies::~ModuleEnemies()
+j1Entities::~j1Entities()
 {
 
 }
 
 
-bool ModuleEnemies::Awake(pugi::xml_node &node)
+bool j1Entities::Awake(pugi::xml_node &node)
 {
 	bool ret = true;
 	const char* path = node.child_value();
@@ -54,7 +54,7 @@ bool ModuleEnemies::Awake(pugi::xml_node &node)
 
 	return true;
 }
-bool ModuleEnemies::Start()
+bool j1Entities::Start()
 {
 	bool ret = true;
 	const char*	path = entitiesNodeDoc.child("player1").child("image").attribute("source").as_string();
@@ -77,7 +77,7 @@ bool ModuleEnemies::Start()
 
 	return ret;
 }
-bool ModuleEnemies::PreUpdate(float dt)
+bool j1Entities::PreUpdate(float dt)
 {
 	BROFILER_CATEGORY("PreUpdate_ModuleEntity.cpp", Profiler::Color::Salmon)
 	this->dt = dt;
@@ -96,7 +96,7 @@ bool ModuleEnemies::PreUpdate(float dt)
 	return true;
 }
 
-bool ModuleEnemies::Update(float dt)
+bool j1Entities::Update(float dt)
 {
 	BROFILER_CATEGORY("Update_ModuleEntity.cpp", Profiler::Color::Coral)
 	p2List_item<j1Entity*>* actualEntity = nullptr;
@@ -111,7 +111,7 @@ bool ModuleEnemies::Update(float dt)
 	return true;
 }
 
-bool ModuleEnemies::PostUpdate()
+bool j1Entities::PostUpdate()
 {
 	BROFILER_CATEGORY("PostUpdate_ModuleEntity.cpp", Profiler::Color::MediumSlateBlue)
 	p2List_item<j1Entity*>* actualEntity = nullptr;
@@ -122,7 +122,7 @@ bool ModuleEnemies::PostUpdate()
 	return true;
 }
 
-bool ModuleEnemies::CleanUp()
+bool j1Entities::CleanUp()
 {
 	BROFILER_CATEGORY("CleanUpEntities", Profiler::Color::Blue)
 	LOG("Freeing all enemies");
@@ -141,7 +141,7 @@ bool ModuleEnemies::CleanUp()
 	return true;
 }
 
-void ModuleEnemies::OnCollision(Collider * c1, Collider * c2)
+void j1Entities::OnCollision(Collider * c1, Collider * c2)
 {
 	BROFILER_CATEGORY("Entities_OnCollision", Profiler::Color::Blue)
 	p2List_item<j1Entity*>* actualEntity = nullptr;
@@ -153,7 +153,7 @@ void ModuleEnemies::OnCollision(Collider * c1, Collider * c2)
 	}
 }
 
-j1Entity* ModuleEnemies::AddEntity(const EntitiesInfo& entity)
+j1Entity* j1Entities::AddEntity(const EntitiesInfo& entity)
 {
 	BROFILER_CATEGORY("AddEntity", Profiler::Color::Green)
 	j1Entity* newEntity = nullptr;
@@ -177,7 +177,7 @@ j1Entity* ModuleEnemies::AddEntity(const EntitiesInfo& entity)
 	return nullptr;
 }
 
-bool ModuleEnemies::DestroyEntity(p2List_item<j1Entity*>* entity)
+bool j1Entities::DestroyEntity(p2List_item<j1Entity*>* entity)
 {
 	bool ret = true;
 	entity->data->toDelete = false;
@@ -186,7 +186,7 @@ bool ModuleEnemies::DestroyEntity(p2List_item<j1Entity*>* entity)
 	return ret;
 }
 
-void ModuleEnemies::DestroyAllEntities()
+void j1Entities::DestroyAllEntities()
 {
 	p2List_item<j1Entity*>* itemEntity = nullptr;
 	for (itemEntity = list_Entities.end; itemEntity != nullptr ; itemEntity = itemEntity->prev)
@@ -197,7 +197,7 @@ void ModuleEnemies::DestroyAllEntities()
 	
 }
 
-bool ModuleEnemies::LoadAnimations(pugi::xml_node animNode) 
+bool j1Entities::LoadAnimations(pugi::xml_node animNode) 
 {
 	bool ret = true;
 	int numAnim = 0;

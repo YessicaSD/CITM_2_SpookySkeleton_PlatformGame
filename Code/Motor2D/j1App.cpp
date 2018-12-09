@@ -14,10 +14,10 @@
 #include "j1Collision.h"
 #include "j1ModuleEntity.h"
 #include "j1Pathfinding.h"
-#include "Scene.h"
+#include "j1Scene.h"
 #include "j1Fonts.h"
 #include "j1Gui.h"
-
+#include "j1StartMenu.h"
 #include "Brofiler/Brofiler.h"
 
 // Constructor
@@ -34,8 +34,8 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	map = new j1Map();
 
 	collision = new j1Collision();
-	fade = new ModuleFadeToBlack();
-	entity = new ModuleEnemies();
+	fade = new j1FadeToBlack();
+	entity = new j1Entities();
 	pathfinding = new j1PathFinding();
 	scene = new j1Scene();
 	font = new j1Fonts();

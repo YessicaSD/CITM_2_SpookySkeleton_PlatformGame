@@ -8,10 +8,10 @@
 #include "j1Window.h"
 #include "j1Map.h"
 #include "j1Pathfinding.h"
-#include "Scene.h"
+#include "j1Scene.h"
 
 #include "ModuleFadeToBack.h"
-#include "Brofiler\Brofiler.h"
+#include "Brofiler/Brofiler.h"
 j1Scene::j1Scene() : j1Module()
 {
 	name.create("scene");

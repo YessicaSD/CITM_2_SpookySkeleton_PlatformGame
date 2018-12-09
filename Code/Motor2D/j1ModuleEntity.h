@@ -23,7 +23,7 @@ struct EntitiesInfo
 };
 
 
-class ModuleEnemies : public j1Module
+class j1Entities : public j1Module
 {
 private:
 	p2List<Animation*> entitiesAnimation;
@@ -39,8 +39,8 @@ public:
 	Player* player = nullptr;
 public:
 
-	ModuleEnemies();
-	~ModuleEnemies();
+	j1Entities();
+	~j1Entities();
 
 	bool Awake(pugi::xml_node&)override;
 	bool Start()override;

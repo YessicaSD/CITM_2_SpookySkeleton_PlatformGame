@@ -4,14 +4,14 @@
 #include "j1Module.h"
 #include "SDL\include\SDL_rect.h"
 #include "j1Timer.h"
-class ModuleFadeToBlack : public j1Module
+class j1FadeToBlack : public j1Module
 {
 public:
-	ModuleFadeToBlack()
+	j1FadeToBlack()
 	{
 		name.create("fade");
 	}
-	~ModuleFadeToBlack();
+	~j1FadeToBlack();
 
 	bool Start() override;
 	bool Update(float dt) override;

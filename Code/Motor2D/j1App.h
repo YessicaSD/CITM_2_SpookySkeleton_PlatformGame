@@ -17,11 +17,12 @@ class j1Scene;
 class j1Map;
 class j1Player;
 class j1Collision;
-class ModuleFadeToBlack;
-class ModuleEnemies;
+class j1FadeToBlack;
+class j1Entities;
 class j1PathFinding;
 class j1Fonts;
 class j1Gui;
+class j1StartMenu;
 
 class j1App
 {
@@ -92,13 +93,14 @@ public:
 	j1Audio*			audio = nullptr;
 	j1Map*				map = nullptr;
 	j1Player*			player1 = nullptr;
-	ModuleEnemies*		entity = nullptr;
+	j1Entities*			entity = nullptr;
 	j1Collision*		collision = nullptr;
-	ModuleFadeToBlack*	fade = nullptr;
+	j1FadeToBlack*		fade = nullptr;
 	j1PathFinding*		pathfinding = nullptr;
 	j1Scene*			scene = nullptr;
 	j1Fonts*			font = nullptr;
 	j1Gui*              Gui = nullptr;
+	j1StartMenu*		StartMenu = nullptr;
 
 	float				dt = 0.0F;
 private:

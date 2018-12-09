@@ -3,15 +3,15 @@
 #include "j1Render.h"
 #include "p2Log.h"
 #include "j1Map.h"
-#include "Scene.h"
-#include "Brofiler\Brofiler.h"
-ModuleFadeToBlack::~ModuleFadeToBlack()
+#include "j1Scene.h"
+#include "Brofiler/Brofiler.h"
+j1FadeToBlack::~j1FadeToBlack()
 {
 
 }
 
 // Load assets
-bool ModuleFadeToBlack::Start()
+bool j1FadeToBlack::Start()
 {
 	
 	screen = { 0, 0, App->render->camera.w , App->render->camera.h };
@@ -21,7 +21,7 @@ bool ModuleFadeToBlack::Start()
 }
 
 // Update: draw background
-bool  ModuleFadeToBlack::Update(float dt)
+bool  j1FadeToBlack::Update(float dt)
 {
 	this->dt = dt;
 	BROFILER_CATEGORY("Update_Fade.cpp", Profiler::Color::Coral)
@@ -60,13 +60,13 @@ bool  ModuleFadeToBlack::Update(float dt)
 
 	return true;
 }
-bool ModuleFadeToBlack::PostUpdate()
+bool j1FadeToBlack::PostUpdate()
 {
 	// Finally render the black square with alpha on the screen
 	App->render->DrawQuad(screen, 0, 0, 0, (Uint8)(normalized * 255.0f),true,false);
 	return true;
 }
-bool ModuleFadeToBlack:: FadeToBlack(uint lvlnum, float time) {
+bool j1FadeToBlack:: FadeToBlack(uint lvlnum, float time) {
 	bool ret = false;
 
 	if (current_step == fade_step::none)

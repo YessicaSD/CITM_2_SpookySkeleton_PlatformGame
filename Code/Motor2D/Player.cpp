@@ -8,8 +8,8 @@
 #include "j1Input.h"
 #include "j1Window.h"
 #include "ModuleFadeToBack.h"
-#include "Scene.h"
-#include "Brofiler\Brofiler.h"
+#include "j1Scene.h"
+#include "Brofiler/Brofiler.h"
 
 void Player::DebugModeInput()
 {
