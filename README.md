@@ -68,7 +68,8 @@ https://github.com/YessicaSD/PlatformGame
 		Github: https://github.com/PolRecasensSarra
     
 ### Art:
-	-   Controls buttons sprites: https://hyohnoo.itch.io/keyboard-controller-keys 
+	- Controls buttons sprites: https://hyohnoo.itch.io/keyboard-controller-keys 
+	- Some UI elements: https://www.gamedevmarket.net/asset/gui-icons-8656/
 
 ## What have done each member:
 -----------------------------------------------------Yessica Servin Dominguez------------------------------------------------------
