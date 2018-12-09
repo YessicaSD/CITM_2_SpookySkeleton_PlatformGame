@@ -58,16 +58,17 @@ Decompress the .zip file in any directory and execute the executable inside the 
 https://github.com/YessicaSD/PlatformGame
 
 ## Credits:
-- Yessica Servin Dominguez 
-	Find her on:
-	Github: https://github.com/YessicaSD
+### Coding:
+	- Yessica Servin Dominguez 
+		Find her on:
+		Github: https://github.com/YessicaSD
 
-- Pol Recasens Sarra 
-	Find him on:
-	Github: https://github.com/PolRecasensSarra
+	- Pol Recasens Sarra 
+		Find him on:
+		Github: https://github.com/PolRecasensSarra
     
-- Art:
--   Controls buttons sprites: https://hyohnoo.itch.io/keyboard-controller-keys 
+### Art:
+	-   Controls buttons sprites: https://hyohnoo.itch.io/keyboard-controller-keys 
 
 ## What have done each member:
 -----------------------------------------------------Yessica Servin Dominguez------------------------------------------------------
