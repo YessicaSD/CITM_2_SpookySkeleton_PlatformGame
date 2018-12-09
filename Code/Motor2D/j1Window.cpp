@@ -4,7 +4,7 @@
 #include "j1Window.h"
 
 #include "SDL/include/SDL.h"
-
+#include "SDL_image/include/SDL_image.h"
 
 j1Window::j1Window() : j1Module()
 {
@@ -39,9 +39,9 @@ bool j1Window::Awake(pugi::xml_node& config)
 		bool resizable = config.child("resizable").attribute("value").as_bool(false);
 		bool fullscreen_window = config.child("fullscreen_window").attribute("value").as_bool(false);
 
-		width = config.child("resolution").attribute("width").as_int();
-		height = config.child("resolution").attribute("height").as_int();
-		scale = config.child("resolution").attribute("scale").as_float();
+		width = config.child("resolution").attribute("width").as_int(1000);
+		height = config.child("resolution").attribute("height").as_int(1000);
+		scale = config.child("resolution").attribute("scale").as_float(1);
 
 		if(fullscreen == true)
 		{
@@ -75,6 +75,11 @@ bool j1Window::Awake(pugi::xml_node& config)
 			//Get window surface
 			screen_surface = SDL_GetWindowSurface(window);
 		}
+
+		
+		SDL_Surface* icon = IMG_Load("gui/Icon.ico");
+		SDL_SetWindowIcon(window, icon);
+		SDL_FreeSurface(icon);
 	}
 
 	return ret;
