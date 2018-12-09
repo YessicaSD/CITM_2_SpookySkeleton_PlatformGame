@@ -1,7 +1,7 @@
 # Spooky Skeleton - PlatformGame
 
 ## Introduction
-Spooky Skeleton is a horitzontal-scorilling platform game in 2D.
+Spooky Skeleton is a 2D platform game.
 
 There is one playable character, a skeleton, and two different levels with a spooky atmosphere.
 
@@ -58,30 +58,38 @@ Decompress the .zip file in any directory and execute the executable inside the 
 https://github.com/YessicaSD/PlatformGame
 
 ## Credits:
-- Yessica Servin Dominguez 
-	Find her on:
-	Github: https://github.com/YessicaSD
+### Coding:
+	- Yessica Servin Dominguez 
+		Find her on:
+		Github: https://github.com/YessicaSD
 
-- Pol Recasens Sarra 
-	Find him on:
-	Github: https://github.com/PolRecasensSarra
+	- Pol Recasens Sarra 
+		Find him on:
+		Github: https://github.com/PolRecasensSarra
     
-- Art:
--   Controls buttons sprites: https://hyohnoo.itch.io/keyboard-controller-keys 
+### Art:
+	- Controls buttons sprites: https://hyohnoo.itch.io/keyboard-controller-keys 
+	- Some UI elements: https://www.gamedevmarket.net/asset/gui-icons-8656/
 
 ## What have done each member:
-	Yessica Servin:
-		- Save and Load
-		- Walking enemy(Zombie)
-		- Entities sistem
-		- Implementation of dt
-		- Limit the framerate
-		- Change the player to an entity
-		- UML File of entities
-		- Ice 
-		- Add pathFinding Module
+-----------------------------------------------------Yessica Servin Dominguez------------------------------------------------------
+		
+		Third Assignment:
+			- Added Icon to the window and the .exe
+		Second Assignment:
+			- Save and Load
+			- Walking enemy(Zombie)
+			- Entities sistem
+			- Implementation of dt
+			- Limit the framerate
+			- Change the player to an entity
+			- UML File of entities
+			- Ice 
+			- Add pathFinding Module
 	
-	Pol Recasens:
+-----------------------------------------------------------Pol Recasens--------------------------------------------------------------
+		
+		Second Assignment:
 		- Modified map levels
 		- Enemy sprite sheet
 		- Enemies positions
