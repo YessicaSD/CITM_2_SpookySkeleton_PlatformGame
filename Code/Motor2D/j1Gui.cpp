@@ -33,10 +33,8 @@ bool j1Gui::Start()
 {
 	UITexture = App->tex->Load(PathTextureUI.GetString());
 	BaseFont = App->font->Load("fonts/open_sans/OpenSans-Bold.ttf");
-	/*AddLabel({ 0,0 }, "HOLAAAAAA", { 255,255,255,255 }, BaseFont);*/
-	
 	SDL_Rect sec = { 485, 829, 328, 103 };
-	//AddImage({ 10,10 }, atlas, &sec);
+	
 	return true;
 }
 
@@ -46,21 +44,18 @@ bool j1Gui::Update(float dt)
 {
 	iPoint mousePos;
 	App->input->GetMousePosition(mousePos.x, mousePos.y);
+	uint mouseButtonDown = App->input->GetMouseButtonDown();
 	for (p2List_item<UiItem*>* thisItem = ListItemUI.start; thisItem; thisItem = thisItem->next)
 	{
-		if (mousePos.x > thisItem->data->HitBox.x && mousePos.x<thisItem->data->HitBox.x + thisItem->data->HitBox.w && mousePos.y>thisItem->data->HitBox.y && mousePos.y < thisItem->data->HitBox.y + thisItem->data->HitBox.h)
+		if (mousePos.x > thisItem->data->hitBox.x && mousePos.x<thisItem->data->hitBox.x + thisItem->data->hitBox.w && mousePos.y>thisItem->data->hitBox.y && mousePos.y < thisItem->data->hitBox.y + thisItem->data->hitBox.h)
 		{
-			if (App->input->GetMouseButtonDown(1)==KEY_DOWN)
+			if (mouseButtonDown != 0)
 			{
-				LOG("KEYDOWN 1 ");
-			}
-			else if (App->input->GetMouseButtonDown(2) == KEY_DOWN)
-			{
-				LOG("KEYDOWN 2 ");
+				
 			}
 			else
 			{
-				LOG("KEYDOWN \_^·-·^_/ ");
+
 			}
 		}
 		else
@@ -79,7 +74,17 @@ bool j1Gui::PostUpdate()
 	for (p2List_item<UiItem*>* thisItem = ListItemUI.start; thisItem; thisItem = thisItem->next)
 	{
 		thisItem->data->Draw();
+		if (showUIHitBox)
+		{
+			App->render->DrawQuad(thisItem->data->hitBox,255,255,255,255,false, false);
+		}
 	}
+	
+	if (App->input->GetKey(SDL_SCANCODE_F8) == KEY_DOWN)
+	{
+		showUIHitBox = !showUIHitBox;
+	}
+
 	return true;
 }
 
@@ -96,17 +101,17 @@ bool j1Gui::CleanUp()
 }
 
 
-UiItem_Label* j1Gui::AddLabel(p2Point<int> pos, const char* text, SDL_Color color, TTF_Font * font)
+UiItem_Label* j1Gui::AddLabel(SDL_Rect hitBox, const char* text, SDL_Color color, TTF_Font * font)
 {
-	UiItem* newLabel = new UiItem_Label(pos, text, color, font);
+	UiItem* newLabel = new UiItem_Label(hitBox, text, color, font);
 	ListItemUI.add(newLabel);
 	UiItem_Label* thisLabel = (UiItem_Label*) newLabel;
 	return thisLabel;
 }
 
-UiItem_Image * j1Gui::AddImage(p2Point<int> pos, const SDL_Rect * section, p2Point<int> pivot)
+UiItem_Image * j1Gui::AddImage(SDL_Rect hitBox, const SDL_Rect * section, p2Point<int> pivot)
 {
-	UiItem* newImage = new UiItem_Image(pos, section, pivot);
+	UiItem* newImage = new UiItem_Image(hitBox, section, pivot);
 	ListItemUI.add(newImage);
 	UiItem_Image* thisImage = (UiItem_Image*)newImage;
 	return thisImage;

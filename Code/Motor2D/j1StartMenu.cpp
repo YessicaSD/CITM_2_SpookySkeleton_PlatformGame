@@ -14,7 +14,7 @@ bool j1StartMenu::Start()
 	Background = App->tex->Load("textures/StartMenu/Background.png");
 	App->win->scale = 1.0F;
 	SDL_Rect titleRect = { 0,93,374,377 };
-	App->Gui->AddImage({ 328,28 }, &titleRect);
+	App->Gui->AddImage({ 328,28,374,377 }, &titleRect);
 
 	return true;
 }

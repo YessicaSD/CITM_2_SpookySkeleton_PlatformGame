@@ -158,3 +158,14 @@ void j1Input::GetMouseMotion(int& x, int& y)
 	x = mouse_motion_x;
 	y = mouse_motion_y;
 }
+uint j1Input::GetMouseButtonDown()
+{
+	for (uint iter = 0; iter < NUM_MOUSE_BUTTONS; iter++)
+	{
+		if (mouse_buttons[iter] == KEY_DOWN)
+		{
+			return iter + 1;
+		}
+	}
+	return 0;
+}

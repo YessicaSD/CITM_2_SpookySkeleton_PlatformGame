@@ -3,10 +3,9 @@
 #include "j1Textures.h"
 #include "j1Render.h"
 #include "j1Gui.h"
-UiItem_Image::UiItem_Image(p2Point<int> pos, const SDL_Rect * section, p2Point<int> pivot) : UiItem(pos,pivot)
+UiItem_Image::UiItem_Image(SDL_Rect hitBox, const SDL_Rect * section, p2Point<int> pivot) : UiItem(hitBox,pivot)
 {
-	HitBox.w = section->w;
-	HitBox.h = section->h;
+
 	for (uint iter =0; iter<MAX_STATES; iter++)
 	{
 		frames[iter] = *section;
@@ -15,6 +14,6 @@ UiItem_Image::UiItem_Image(p2Point<int> pos, const SDL_Rect * section, p2Point<i
 
 void UiItem_Image::Draw()
 {
-	App->render->Blit((SDL_Texture*)App->Gui->getTexture(), HitBox.x-pivot.x, HitBox.y-pivot.y, &frames[state], SDL_FLIP_NONE, 0.0F);
+	App->render->Blit((SDL_Texture*)App->Gui->getTexture(), hitBox.x-pivot.x, hitBox.y-pivot.y, &frames[state], SDL_FLIP_NONE, 0.0F);
 }
 

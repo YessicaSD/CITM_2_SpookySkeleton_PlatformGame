@@ -16,7 +16,7 @@ public:
 	TTF_Font* font=nullptr;
 	p2SString text;
 	SDL_Color color;
-	UiItem_Label(p2Point<int> pos, p2SString text, SDL_Color color, TTF_Font * font);
+	UiItem_Label(SDL_Rect hitBox, p2SString text, SDL_Color color, TTF_Font * font);
 	
 	void Draw() override;
 };

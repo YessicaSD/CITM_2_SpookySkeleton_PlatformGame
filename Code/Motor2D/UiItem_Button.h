@@ -13,7 +13,7 @@ public:
 	SDL_Rect section = {0,0,0,0};
 
 public:
-	UiItem_Button(p2Point<int> pos, const SDL_Rect* section);
+	UiItem_Button(SDL_Rect hitBox, const SDL_Rect* section);
 	
 
 };

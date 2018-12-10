@@ -9,7 +9,7 @@
 	{		
 		SDL_Rect frames[MAX_STATES];
 			public:
-				UiItem_Image(p2Point<int> pos, const SDL_Rect* section, p2Point<int> pivot = {0,0});
+				UiItem_Image(SDL_Rect hitBox, const SDL_Rect* section, p2Point<int> pivot = {0,0});
 
 				void Draw() override;
 	};

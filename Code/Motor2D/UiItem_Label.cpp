@@ -6,10 +6,10 @@
 #include "j1Textures.h"
 #include "j1Render.h"
 
-UiItem_Label::UiItem_Label(p2Point<int> pos, p2SString text, SDL_Color color, TTF_Font * font):UiItem(pos)
+UiItem_Label::UiItem_Label(SDL_Rect hitBox, p2SString text, SDL_Color color, TTF_Font * font):UiItem(hitBox)
 {
 	texture = App->font->Print(text.GetString(), color, font);
-	App->tex->GetSize(texture,(uint &) HitBox.w, (uint &)HitBox.h);
+	App->tex->GetSize(texture,(uint &) hitBox.w, (uint &)hitBox.h);
 	
 
 	p2SString hoverText(text);
@@ -24,5 +24,5 @@ UiItem_Label::UiItem_Label(p2Point<int> pos, p2SString text, SDL_Color color, TT
 
 void UiItem_Label::Draw()
 {
-	App->render->Blit(texture, HitBox.x, HitBox.y,NULL,SDL_FLIP_NONE,0.0F);
+	App->render->Blit(texture, hitBox.x, hitBox.y,NULL,SDL_FLIP_NONE,0.0F);
 }

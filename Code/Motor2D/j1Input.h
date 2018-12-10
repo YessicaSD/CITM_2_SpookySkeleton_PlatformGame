@@ -56,7 +56,7 @@ public:
 		return keyboard[id];
 	}
 
-	j1KeyState GetMouseButtonDown(int id) const
+	j1KeyState GetMouseButtonState(int id) const
 	{
 		return mouse_buttons[id - 1];
 	}
@@ -67,6 +67,8 @@ public:
 	// Get mouse / axis position
 	void GetMousePosition(int &x, int &y);
 	void GetMouseMotion(int& x, int& y);
+
+	uint GetMouseButtonDown();
 
 private:
 	bool		windowEvents[WE_COUNT];

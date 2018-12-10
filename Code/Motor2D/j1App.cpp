@@ -57,6 +57,7 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 		scene->active = false;
 	AddModule(font);
 	AddModule(pathfinding);
+	pathfinding->active = false;
 	AddModule(collision);
 	AddModule(Gui);
 	AddModule(fade);
@@ -221,10 +222,10 @@ void j1App::FinishUpdate()
 	uint32 last_frame_ms = frame_time.Read();
 
 
-	int x, y;
+	/*int x, y;
 	App->input->GetMousePosition(x, y);
 	iPoint p = App->render->ScreenToWorld(x, y);
-	p = App->map->WorldToMap(p.x, p.y);
+	p = App->map->WorldToMap(p.x, p.y);*/
 
 	static char WinTitle[300];
 
