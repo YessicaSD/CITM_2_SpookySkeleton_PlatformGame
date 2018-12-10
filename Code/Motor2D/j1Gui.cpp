@@ -51,7 +51,7 @@ bool j1Gui::Update(float dt)
 		{
 			if (mouseButtonDown != 0)
 				thisItem->data->OnClick(mouseButtonDown);
-		
+			
 			else if (thisItem->data->state != HOVER)
 					thisItem->data->state = HOVER;
 			

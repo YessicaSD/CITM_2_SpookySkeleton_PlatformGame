@@ -10,7 +10,8 @@ enum UI_STATES
 {
 	IDLE,
 	HOVER,
-	CLICK,
+	CLICKDOWN,
+	CLICKUP,
 	MAX_STATES,
 };
 
