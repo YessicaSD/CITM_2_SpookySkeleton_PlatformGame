@@ -146,8 +146,7 @@ bool j1Map::PostUpdate()
 	{
 		App->LoadGame();
 	}
-	if (App->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN)
-		ret = false;
+	
 
 
 

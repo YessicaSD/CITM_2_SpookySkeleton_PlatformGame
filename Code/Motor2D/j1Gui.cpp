@@ -33,7 +33,7 @@ bool j1Gui::Start()
 {
 	UITexture = App->tex->Load(PathTextureUI.GetString());
 	BaseFont = App->font->Load("fonts/open_sans/OpenSans-Bold.ttf");
-	AddLabel({ 0,0 }, "HOLAAAAAA", { 255,255,255,255 }, BaseFont);
+	/*AddLabel({ 0,0 }, "HOLAAAAAA", { 255,255,255,255 }, BaseFont);*/
 	
 	SDL_Rect sec = { 485, 829, 328, 103 };
 	//AddImage({ 10,10 }, atlas, &sec);

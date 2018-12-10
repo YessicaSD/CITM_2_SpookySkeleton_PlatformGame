@@ -17,15 +17,18 @@ enum UI_STATES
 class UiItem
 {
 public:
+
 	UI_STATES state = IDLE;
 	SDL_Rect HitBox;
-	UiItem(p2Point<int> position)
+	p2Point<int> pivot = {0,0};
+	
+	UiItem(p2Point<int> position, p2Point<int> pivot = {0,0}):pivot(pivot)
 	{
 		HitBox.x = position.x;
 		HitBox.y = position.y;
 	}
 
-	virtual void Draw();
+	virtual void Draw() {};
 
 
 

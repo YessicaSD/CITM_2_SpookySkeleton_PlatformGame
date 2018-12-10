@@ -40,6 +40,7 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	scene = new j1Scene();
 	font = new j1Fonts();
 	Gui = new j1Gui();
+	StartMenu = new j1StartMenu();
 
 	// Ordered for awake / Start / Update
 	// Reverse order of CleanUp
@@ -49,18 +50,19 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(audio);
 	
 	AddModule(map);
+		map->active = false;
 	AddModule(entity);
+	AddModule(StartMenu);
 	AddModule(scene);
+		scene->active = false;
 	AddModule(font);
 	AddModule(pathfinding);
 	AddModule(collision);
 	AddModule(Gui);
 	AddModule(fade);
 	
-
 	// render last to swap buffer
 	AddModule(render);
-
 }
 
 // Destructor
@@ -87,6 +89,8 @@ void j1App::AddModule(j1Module* module)
 // Called before render is available
 bool j1App::Awake()
 {
+	
+
 	pugi::xml_document	config_file;
 	pugi::xml_node		config;
 	pugi::xml_node		app_config;
@@ -130,7 +134,9 @@ bool j1App::Start()
 
 	while(item != NULL && ret == true )
 	{
-		ret = item->data->Start();
+		if(item->data->active==true)
+			ret = item->data->Start();
+
 		item = item->next;
 	}
 
@@ -157,6 +163,9 @@ bool j1App::Update()
 		ret = PostUpdate();
 
 	FinishUpdate();
+
+	if (App->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN)
+		ret = false;
 	return ret;
 }
 
@@ -235,6 +244,8 @@ void j1App::FinishUpdate()
 	{
 			SDL_Delay((1000 / framerate) - last_frame_ms);
 	}
+
+	
 }
 
 // Call modules before each loop iteration
