@@ -24,7 +24,7 @@
   </file_system>
   
 <gui>
-   <UITexture file="gui/atlas.png"/>
+   <UITexture file="textures/gui/Texture.png"/>
 </gui>
   
   <map>

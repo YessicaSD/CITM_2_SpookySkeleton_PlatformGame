@@ -7,6 +7,10 @@ UiItem_Image::UiItem_Image(p2Point<int> pos, const SDL_Rect * section, p2Point<i
 {
 	HitBox.w = section->w;
 	HitBox.h = section->h;
+	for (uint iter =0; iter<MAX_STATES; iter++)
+	{
+		frames[iter] = *section;
+	}
 }
 
 void UiItem_Image::Draw()

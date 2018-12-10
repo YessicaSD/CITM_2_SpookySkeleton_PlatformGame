@@ -1,11 +1,16 @@
 #ifndef _START_MENU_H_
 #define _START_MENU_H_
 #include "j1Module.h"
-#include "j1Textures.h"
+
+struct  SDL_Texture;
+
+class UiItem_Image;
+
 class j1StartMenu:public j1Module
 {
 private:
 	SDL_Texture * Background = nullptr;
+	UiItem_Image* titleImage = nullptr;
 public:
 	j1StartMenu();
 	bool Start() override;

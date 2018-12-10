@@ -108,9 +108,9 @@ UiItem_Label* j1Gui::AddLabel(p2Point<int> pos, const char* text, SDL_Color colo
 	return thisLabel;
 }
 
-UiItem_Image * j1Gui::AddImage(p2Point<int> pos, const SDL_Rect * section)
+UiItem_Image * j1Gui::AddImage(p2Point<int> pos, const SDL_Rect * section, p2Point<int> pivot)
 {
-	UiItem* newImage = new UiItem_Image(pos, section);
+	UiItem* newImage = new UiItem_Image(pos, section, pivot);
 	ListItemUI.add(newImage);
 	UiItem_Image* thisImage = (UiItem_Image*)newImage;
 	return thisImage;
