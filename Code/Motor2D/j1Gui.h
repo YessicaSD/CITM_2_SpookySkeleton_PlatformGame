@@ -18,28 +18,15 @@ public:
 
 	j1Gui();
 
-	// Destructor
-	virtual ~j1Gui();
+	~j1Gui();
 
-	// Called when before render is available
-	bool Awake(pugi::xml_node&);
+	//Override funtions from class j1Module
+	bool Awake(pugi::xml_node&) override;
+	bool Start() override;
+	bool Update(float dt) override;
+	bool PostUpdate() override;
+	bool CleanUp() override;
 
-	// Call before first frame
-	bool Start();
-
-	// Called before all Updates
-	bool PreUpdate();
-
-	bool Update();
-	// Called after all Updates
-	bool PostUpdate();
-
-	// Called before quitting
-	bool CleanUp();
-
-	
-
-	
 	// Gui creation functions
 	UiItem_Label* AddLabel(p2Point<int> pos, const char* text, SDL_Color color, TTF_Font* font);
 	UiItem_Image* AddImage(p2Point<int> pos, const SDL_Rect* section, p2Point<int> pivot = {0,0});

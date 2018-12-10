@@ -40,13 +40,9 @@ bool j1Gui::Start()
 	return true;
 }
 
-// Update all guis
-bool j1Gui::PreUpdate()
-{
-	return true;
-}
 
-bool j1Gui::Update()
+
+bool j1Gui::Update(float dt)
 {
 	iPoint mousePos;
 	App->input->GetMousePosition(mousePos.x, mousePos.y);
@@ -56,15 +52,15 @@ bool j1Gui::Update()
 		{
 			if (App->input->GetMouseButtonDown(1)==KEY_DOWN)
 			{
-				
+				LOG("KEYDOWN 1 ");
 			}
 			else if (App->input->GetMouseButtonDown(2) == KEY_DOWN)
 			{
-
+				LOG("KEYDOWN 2 ");
 			}
 			else
 			{
-				
+				LOG("KEYDOWN \_^·-·^_/ ");
 			}
 		}
 		else

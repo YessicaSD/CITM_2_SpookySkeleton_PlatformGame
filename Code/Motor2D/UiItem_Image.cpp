@@ -16,6 +16,5 @@ UiItem_Image::UiItem_Image(p2Point<int> pos, const SDL_Rect * section, p2Point<i
 void UiItem_Image::Draw()
 {
 	App->render->Blit((SDL_Texture*)App->Gui->getTexture(), HitBox.x-pivot.x, HitBox.y-pivot.y, &frames[state], SDL_FLIP_NONE, 0.0F);
-
 }
 

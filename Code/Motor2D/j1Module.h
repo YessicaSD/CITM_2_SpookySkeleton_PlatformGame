@@ -48,6 +48,7 @@ public:
 	// Called each loop iteration
 	virtual bool PreUpdate(float dt)
 	{
+		this->dt = dt;
 		return true;
 	}
 
