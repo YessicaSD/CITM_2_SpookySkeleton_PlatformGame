@@ -2,5 +2,5 @@
 
 j1StartMenu::j1StartMenu()
 {
-
+	name.create("StartMenu");
 }
