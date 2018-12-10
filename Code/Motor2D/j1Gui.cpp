@@ -50,21 +50,18 @@ bool j1Gui::Update(float dt)
 		if (mousePos.x > thisItem->data->hitBox.x && mousePos.x<thisItem->data->hitBox.x + thisItem->data->hitBox.w && mousePos.y>thisItem->data->hitBox.y && mousePos.y < thisItem->data->hitBox.y + thisItem->data->hitBox.h)
 		{
 			if (mouseButtonDown != 0)
-			{
-				
-			}
-			else
-			{
+				thisItem->data->OnClick(mouseButtonDown);
+		
+			else if (thisItem->data->state != HOVER)
+					thisItem->data->state = HOVER;
+			
+			
+		}
+		else  if (thisItem->data->state != IDLE)
+			thisItem->data->state = IDLE;
 
-			}
-		}
-		else
-		{
-			if (thisItem->data->state != IDLE)
-			{
-				thisItem->data->state = IDLE;
-			}
-		}
+
+		
 	}
 	return true;
 }

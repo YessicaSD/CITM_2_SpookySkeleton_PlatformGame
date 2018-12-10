@@ -26,6 +26,7 @@ public:
 	{}
 
 	virtual void Draw() {};
+	virtual void OnClick(uint mouseButton){}
 
 
 
