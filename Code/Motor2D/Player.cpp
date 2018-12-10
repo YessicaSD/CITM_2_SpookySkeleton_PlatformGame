@@ -62,7 +62,7 @@ Player::Player(fPoint position, Animation* anim, SDL_Texture* tex, entities_type
 
 	if (App->scene->num_thismaplvl == 1)
 	{
-		distansToCam = { (int)App->map->level.properties.Get("Distant_to_cam_x"),(int)App->map->level.properties.Get("Distant_to_cam_y") };
+		distansToCam = { (int)App->map->level.properties.GetAsFloat("Distant_to_cam_x"),(int)App->map->level.properties.GetAsFloat("Distant_to_cam_y") };
 		App->render->camera.x = (position.x + distansToCam.x);
 		App->render->camera.y = (position.y + distansToCam.y);
 		LOG("DISTANCE TO CAM EN Y ES %i", distansToCam.y);

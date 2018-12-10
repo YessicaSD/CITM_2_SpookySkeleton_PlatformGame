@@ -104,7 +104,7 @@ bool j1Map::PostUpdate()
 
 	for (p2List_item<MapLayer*>* item_layer = level.layers.start; item_layer; item_layer = item_layer->next)
 	{
-		if (item_layer->data->properties.Get("draw", -1) == 0)
+		if (item_layer->data->properties.GetAsFloat("draw", -1) == 0)
 			continue;
 
 		for (uint row = 0; row<level.height; row++)
@@ -117,7 +117,7 @@ bool j1Map::PostUpdate()
 				{
 					iPoint mapPoint = MapToWorld(column, row);
 					Patern* tileset = GetTilesetFromTileId(id);
-					float speed = item_layer->data->properties.Get("parallax", -1);
+					float speed = item_layer->data->properties.GetAsFloat("parallax", -1);
 					
 					if(thisTile->anim!=nullptr)
 						App->render->Blit(tileset->texture, mapPoint.x, mapPoint.y, &thisTile->anim->GetCurrentFrame(dt), SDL_FLIP_NONE, speed);
@@ -411,7 +411,7 @@ bool j1Map::LoadMap()
 			{
 				Properties::Property* p = new Properties::Property();
 				p->name = prop.attribute("name").as_string();
-				p->value = prop.attribute("value").as_float();
+				p->value = new float(prop.attribute("value").as_float());
 				level.properties.list.add(p);
 			}
 		}
@@ -610,7 +610,7 @@ void j1Map::LoadLayerProperties(pugi::xml_node& node, Properties& properties)
 			Properties::Property* p = new Properties::Property();
 
 			p->name = prop.attribute("name").as_string();
-			p->value = prop.attribute("value").as_float();
+			p->value = new float(prop.attribute("value").as_float());
 
 			properties.list.add(p);
 		}
@@ -646,7 +646,7 @@ bool j1Map::CreateWalkabilityMap(int& width, int& height, uchar** buffer) const
 	{
 		MapLayer* layer = item->data;
 
-		if (layer->properties.Get("Navigation", 0) == 0)
+		if (layer->properties.GetAsFloat("Navigation", 0) == 0)
 			continue;
 
 		uchar* map = new uchar[layer->width*layer->height];
@@ -684,16 +684,17 @@ bool j1Map::CreateWalkabilityMap(int& width, int& height, uchar** buffer) const
 	return ret;
 }
 
-float Properties::Get(const char * value, float default_value) const
+float Properties::GetAsFloat(const char * name, float default_value) const
 {
 	p2List_item<Property*>* item = list.start;
-
+	float ret= default_value;
 	while (item)
 	{
-		if (item->data->name == value)
-			return item->data->value;
+		if (item->data->name == name)
+		{
+			return ret = *(float*)item->data->value;
+		}
 		item = item->next;
 	}
-
-	return default_value;
+	return ret;
 }

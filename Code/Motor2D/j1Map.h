@@ -44,7 +44,7 @@ struct Properties
 	struct Property
 	{
 		p2SString name;
-		float value;
+		void* value=nullptr;
 	};
 
 	~Properties()
@@ -61,7 +61,7 @@ struct Properties
 		list.clear();
 	}
 
-	float Get(const char* name, float default_value = 0) const;
+	float GetAsFloat(const char* name, float default_value = 0) const;
 
 	p2List<Property*>	list;
 };
