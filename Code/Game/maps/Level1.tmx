@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.2.1" orientation="orthogonal" renderorder="right-down" width="150" height="15" tilewidth="32" tileheight="32" infinite="0" nextlayerid="8" nextobjectid="162">
+<map version="1.0" tiledversion="1.1.5" orientation="orthogonal" renderorder="right-down" width="150" height="15" tilewidth="32" tileheight="32" infinite="0" nextobjectid="162">
  <properties>
   <property name="BatPos_x" type="float" value="300"/>
   <property name="BatPos_y" type="float" value="150"/>
@@ -111,7 +111,7 @@
  <tileset firstgid="481" name="skeleton" tilewidth="32" tileheight="32" tilecount="36" columns="9">
   <image source="../textures/skeleton.png" trans="ff55ff" width="310" height="159"/>
  </tileset>
- <layer id="1" name="Background" width="150" height="15">
+ <layer name="Background" width="150" height="15">
   <properties>
    <property name="parallax" type="float" value="0.2"/>
   </properties>
@@ -2368,7 +2368,7 @@
    <tile gid="47"/>
   </data>
  </layer>
- <layer id="2" name="Lights" width="150" height="15">
+ <layer name="Lights" width="150" height="15">
   <properties>
    <property name="parallax" type="float" value="0.7"/>
   </properties>
@@ -4625,7 +4625,7 @@
    <tile/>
   </data>
  </layer>
- <layer id="3" name="Lamp" width="150" height="15">
+ <layer name="Lamp" width="150" height="15">
   <properties>
    <property name="parallax" type="float" value="0.5"/>
   </properties>
@@ -6882,7 +6882,7 @@
    <tile/>
   </data>
  </layer>
- <layer id="4" name="Platforms" width="150" height="15">
+ <layer name="Platforms" width="150" height="15">
   <properties>
    <property name="parallax" type="float" value="1"/>
   </properties>
@@ -9139,10 +9139,9 @@
    <tile/>
   </data>
  </layer>
- <layer id="5" name="Capa de patrones 6" width="150" height="15" visible="0">
+ <layer name="Capa de patrones 6" width="150" height="15">
   <properties>
-   <property name="draw" value="0"/>
-   <property name="parallax" value="1"/>
+   <property name="draw" type="float" value="0"/>
   </properties>
   <data>
    <tile gid="254"/>
@@ -11397,7 +11396,7 @@
    <tile gid="254"/>
   </data>
  </layer>
- <objectgroup id="6" name="COLLIDERS">
+ <objectgroup name="COLLIDERS">
   <object id="2" name="WALL" x="0" y="384" width="224" height="96"/>
   <object id="4" name="WALL" x="512.167" y="385.667" width="32.3333" height="93.6667"/>
   <object id="5" name="WALL" x="544" y="352" width="192" height="128"/>
@@ -11460,10 +11459,9 @@
   <object id="152" name="WALL" x="-104" y="0" width="104" height="560"/>
   <object id="154" name="WALL" x="223" y="448" width="289" height="31"/>
  </objectgroup>
- <layer id="7" name="Navigation" width="150" height="15" visible="0">
+ <layer name="Navigation" width="150" height="15" visible="0">
   <properties>
    <property name="Navigation" type="int" value="1"/>
-   <property name="draw" value="0"/>
   </properties>
   <data>
    <tile/>

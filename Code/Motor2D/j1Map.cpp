@@ -411,7 +411,10 @@ bool j1Map::LoadMap()
 			{
 				Properties::Property* p = new Properties::Property();
 				p->name = prop.attribute("name").as_string();
-				p->value = new float(prop.attribute("value").as_float());
+			
+					p->value = new float(prop.attribute("value").as_float());
+				
+			
 				level.properties.list.add(p);
 			}
 		}
@@ -610,8 +613,13 @@ void j1Map::LoadLayerProperties(pugi::xml_node& node, Properties& properties)
 			Properties::Property* p = new Properties::Property();
 
 			p->name = prop.attribute("name").as_string();
-			p->value = new float(prop.attribute("value").as_float());
-
+			p2SString typeVal(prop.attribute("type").as_string());
+			if(typeVal=="float")
+				p->value = new float(prop.attribute("value").as_float());
+			if(typeVal == "bool")
+				p->value = new bool(prop.attribute("value").as_bool());
+			if(typeVal == "int")
+				p->value = new int(prop.attribute("value").as_int());
 			properties.list.add(p);
 		}
 	}
