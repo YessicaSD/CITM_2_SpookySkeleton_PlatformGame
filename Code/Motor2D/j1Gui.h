@@ -9,11 +9,18 @@
 
 #define CURSOR_WIDTH 2
 
+enum TypeFont
+{
+	BASE_FONT,
+	COPPERPLATE_B_I_24,
+	MAX_FONTS
+};
+
 // ---------------------------------------------------
 class j1Gui : public j1Module
 {
 private:
-	TTF_Font * BaseFont = nullptr;
+	TTF_Font * arrayFonts[MAX_FONTS];
 	bool showUIHitBox = false;
 public:
 

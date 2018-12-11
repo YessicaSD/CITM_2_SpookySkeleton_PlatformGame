@@ -9,6 +9,7 @@ class UiItem_Button :public UiItem
 protected:
 	SDL_Rect frames[MAX_STATES];
 
+
 public:
 	SDL_Rect section = {0,0,0,0};
 	

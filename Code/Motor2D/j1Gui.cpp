@@ -11,6 +11,10 @@
 j1Gui::j1Gui() : j1Module()
 {
 	name.create("gui");
+	for (uint iter =0; iter <MAX_FONTS; iter++)
+	{
+		arrayFonts[iter] = nullptr;
+	}
 }
 
 // Destructor
@@ -32,7 +36,8 @@ bool j1Gui::Awake(pugi::xml_node& conf)
 bool j1Gui::Start()
 {
 	UITexture = App->tex->Load(PathTextureUI.GetString());
-	BaseFont = App->font->Load("fonts/open_sans/OpenSans-Bold.ttf");
+	arrayFonts[BASE_FONT] = App->font->Load("fonts/open_sans/OpenSans-Bold.ttf");
+	arrayFonts[COPPERPLATE_B_I_24] = App->font->Load("fonts/CopperPlate/CopperPlate_BoldItalic.ttf",24);
 	SDL_Rect sec = { 485, 829, 328, 103 };
 	
 	return true;
