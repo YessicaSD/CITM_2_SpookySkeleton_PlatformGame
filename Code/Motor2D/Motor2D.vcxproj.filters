@@ -31,20 +31,17 @@
     <ClCompile Include="j1ModuleEntity.cpp">
       <Filter>Desenvolupament  ========\Modules\Entities</Filter>
     </ClCompile>
-    <ClCompile Include="j1Gui.cpp">
-      <Filter>Desenvolupament  ========\Modules</Filter>
-    </ClCompile>
     <ClCompile Include="UiItem_Button.cpp">
-      <Filter>Desenvolupament  ========\Modules\ItemsUi</Filter>
+      <Filter>Desenvolupament  ========\Modules\GUI</Filter>
     </ClCompile>
     <ClCompile Include="UiItem_Image.cpp">
-      <Filter>Desenvolupament  ========\Modules\ItemsUi</Filter>
+      <Filter>Desenvolupament  ========\Modules\GUI</Filter>
     </ClCompile>
     <ClCompile Include="UiItem_Label.cpp">
-      <Filter>Desenvolupament  ========\Modules\ItemsUi</Filter>
+      <Filter>Desenvolupament  ========\Modules\GUI</Filter>
     </ClCompile>
     <ClCompile Include="UiItem.cpp">
-      <Filter>Desenvolupament  ========\Modules\ItemsUi</Filter>
+      <Filter>Desenvolupament  ========\Modules\GUI</Filter>
     </ClCompile>
     <ClCompile Include="j1Audio.cpp">
       <Filter>Desenvolupament  ========\Modules\Core</Filter>
@@ -84,6 +81,9 @@
     </ClCompile>
     <ClCompile Include="j1Scene.cpp">
       <Filter>Desenvolupament  ========\Modules\Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="j1Gui.cpp">
+      <Filter>Desenvolupament  ========\Modules\GUI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -132,20 +132,17 @@
     <ClInclude Include="j1ModuleEntity.h">
       <Filter>Desenvolupament  ========\Modules\Entities</Filter>
     </ClInclude>
-    <ClInclude Include="j1Gui.h">
-      <Filter>Desenvolupament  ========\Modules</Filter>
-    </ClInclude>
     <ClInclude Include="UiItem_Button.h">
-      <Filter>Desenvolupament  ========\Modules\ItemsUi</Filter>
+      <Filter>Desenvolupament  ========\Modules\GUI</Filter>
     </ClInclude>
     <ClInclude Include="UiItem_Image.h">
-      <Filter>Desenvolupament  ========\Modules\ItemsUi</Filter>
+      <Filter>Desenvolupament  ========\Modules\GUI</Filter>
     </ClInclude>
     <ClInclude Include="UiItem_Label.h">
-      <Filter>Desenvolupament  ========\Modules\ItemsUi</Filter>
+      <Filter>Desenvolupament  ========\Modules\GUI</Filter>
     </ClInclude>
     <ClInclude Include="UiItem.h">
-      <Filter>Desenvolupament  ========\Modules\ItemsUi</Filter>
+      <Filter>Desenvolupament  ========\Modules\GUI</Filter>
     </ClInclude>
     <ClInclude Include="j1Audio.h">
       <Filter>Desenvolupament  ========\Modules\Core</Filter>
@@ -192,6 +189,9 @@
     <ClInclude Include="j1Scene.h">
       <Filter>Desenvolupament  ========\Modules\Scenes</Filter>
     </ClInclude>
+    <ClInclude Include="j1Gui.h">
+      <Filter>Desenvolupament  ========\Modules\GUI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Programacio 2 ===========">
@@ -209,9 +209,6 @@
     <Filter Include="Desenvolupament  ========\Tools\PuguiXML">
       <UniqueIdentifier>{7cb78d67-17cc-45eb-af97-e2106becce7b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Desenvolupament  ========\Modules\ItemsUi">
-      <UniqueIdentifier>{6a18313f-061b-4d3c-bc1d-111c625478e4}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Desenvolupament  ========\Modules\Scenes">
       <UniqueIdentifier>{72814cb9-431b-4066-ac92-28d596011110}</UniqueIdentifier>
     </Filter>
@@ -223,6 +220,9 @@
     </Filter>
     <Filter Include="Desenvolupament  ========\Modules\Entities\Entities">
       <UniqueIdentifier>{6d6761b0-16df-487a-9e02-4e5d620ca3db}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Desenvolupament  ========\Modules\GUI">
+      <UniqueIdentifier>{6a18313f-061b-4d3c-bc1d-111c625478e4}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

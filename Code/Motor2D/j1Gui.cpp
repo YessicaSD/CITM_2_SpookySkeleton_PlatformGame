@@ -47,10 +47,18 @@ bool j1Gui::Update(float dt)
 	uint mouseButtonDown = App->input->GetMouseButtonDown();
 	for (p2List_item<UiItem*>* thisItem = ListItemUI.start; thisItem; thisItem = thisItem->next)
 	{
-		if (mousePos.x > thisItem->data->hitBox.x && mousePos.x<thisItem->data->hitBox.x + thisItem->data->hitBox.w && mousePos.y>thisItem->data->hitBox.y && mousePos.y < thisItem->data->hitBox.y + thisItem->data->hitBox.h)
+		if (mousePos.x > thisItem->data->hitBox.x-thisItem->data->pivot.x 
+			&& mousePos.x < thisItem->data->hitBox.x - thisItem->data->pivot.x + thisItem->data->hitBox.w 
+			&& mousePos.y>thisItem->data->hitBox.y - thisItem->data->pivot.y 
+			&& mousePos.y < thisItem->data->hitBox.y - thisItem->data->pivot.y + thisItem->data->hitBox.h)
 		{
 			if (mouseButtonDown != 0)
+			{
 				thisItem->data->OnClick(mouseButtonDown);
+				if (thisItem->data->state != CLICKDOWN)
+					thisItem->data->state = CLICKDOWN;
+			}
+				
 			
 			else if (thisItem->data->state != HOVER)
 					thisItem->data->state = HOVER;
@@ -73,7 +81,14 @@ bool j1Gui::PostUpdate()
 		thisItem->data->Draw();
 		if (showUIHitBox)
 		{
-			App->render->DrawQuad(thisItem->data->hitBox,255,255,255,255,false, false);
+			SDL_Rect rect = thisItem->data->hitBox;
+			if (thisItem->data->pivot != p2Point<int>(0, 0))
+			{
+				rect.x = rect.x - thisItem->data->pivot.x;
+				rect.y = rect.y - thisItem->data->pivot.y;
+			}
+			
+			App->render->DrawQuad(rect,255,255,255,255,false, false);
 		}
 	}
 	
