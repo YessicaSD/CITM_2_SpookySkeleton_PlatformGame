@@ -26,8 +26,8 @@ bool j1StartMenu::Start()
 	ButtonFrames[2] = { 627,0,70,70 };
 	App->Gui->AddButton({915,31,70,70}, (const SDL_Rect*)&ButtonFrames[0], (const SDL_Rect*)&ButtonFrames[1], (const SDL_Rect*)&ButtonFrames[2]);
 	ButtonFrames[0] = { 0,0,93,93 };
-	ButtonFrames[1] = { 256,0,70,70 };
-	//App->Gui->AddButton({ 83,67,64,65 });
+	ButtonFrames[1] = { 93,0,93,93 };
+	App->Gui->AddButton({ 51,35,65,65 }, (const SDL_Rect*)&ButtonFrames[0], (const SDL_Rect*)&ButtonFrames[1], (const SDL_Rect*)&ButtonFrames[1], {14,12});
 
 	return true;
 }

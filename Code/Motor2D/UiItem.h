@@ -4,7 +4,7 @@
 
 
 #include "p2Point.h"
-
+#include "p2DynArray.h"
 
 enum UI_STATES
 {
@@ -22,12 +22,14 @@ public:
 	SDL_Rect hitBox;
 	p2Point<int> pivot = {0,0};
 	uint mouseButtonDown = 0;
+	UiItem* parent = nullptr;
+	p2DynArray<UiItem*> childs;
 	UiItem(SDL_Rect hitBox, p2Point<int> pivot = {0,0}):hitBox(hitBox),pivot(pivot)
 	{}
 
 	virtual void Draw() {};
 	virtual void OnClickDown(){}
-
+	virtual void OnClickUp(){}
 
 
 };

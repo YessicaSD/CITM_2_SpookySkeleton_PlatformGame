@@ -23,6 +23,7 @@ class j1Gui : public j1Module
 private:
 	TTF_Font * arrayFonts[MAX_FONTS];
 	bool showUIHitBox = false;
+	//UiItem canvas;
 public:
 
 	j1Gui();

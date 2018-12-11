@@ -89,14 +89,8 @@ bool j1Gui::PostUpdate()
 		thisItem->data->Draw();
 		if (showUIHitBox)
 		{
-			SDL_Rect rect = thisItem->data->hitBox;
-			if (thisItem->data->pivot != p2Point<int>(0, 0))
-			{
-				rect.x = rect.x - thisItem->data->pivot.x;
-				rect.y = rect.y - thisItem->data->pivot.y;
-			}
 			
-			App->render->DrawQuad(rect,255,255,255,255,false, false);
+			App->render->DrawQuad(thisItem->data->hitBox,255,255,255,255,false, false);
 		}
 	}
 	
