@@ -57,22 +57,25 @@ bool j1Gui::Update(float dt)
 			&& mousePos.y>thisItem->data->hitBox.y - thisItem->data->pivot.y 
 			&& mousePos.y < thisItem->data->hitBox.y - thisItem->data->pivot.y + thisItem->data->hitBox.h)
 		{
-			if (mouseButtonDown != 0)
+			if (mouseButtonDown != 0 && thisItem->data->state != CLICK)
 			{
-				thisItem->data->OnClick(mouseButtonDown);
-				if (thisItem->data->state != CLICKDOWN)
-					thisItem->data->state = CLICKDOWN;
+				thisItem->data->mouseButtonDown = mouseButtonDown;
+				thisItem->data->OnClickDown();
+				thisItem->data->state = CLICK;
 			}
 				
 			
-			else if (thisItem->data->state != HOVER)
+			else if (thisItem->data->state == IDLE)
 					thisItem->data->state = HOVER;
 			
 			
 		}
-		else  if (thisItem->data->state != IDLE)
+		else  if (thisItem->data->state == HOVER)
 			thisItem->data->state = IDLE;
-
+		if(thisItem->data->state == CLICK && App->input->GetMouseButtonState(thisItem->data->mouseButtonDown)==KEY_UP)
+		{
+			thisItem->data->state = IDLE;
+		}
 
 		
 	}
@@ -133,6 +136,14 @@ UiItem_Image * j1Gui::AddImage(SDL_Rect hitBox, const SDL_Rect * section, p2Poin
 	UiItem_Image* thisImage = (UiItem_Image*)newImage;
 	return thisImage;
 	
+}
+
+UiItem_Button * j1Gui::AddButton(SDL_Rect hitBox, const SDL_Rect* idle, const SDL_Rect * click, const SDL_Rect * hover, p2Point<int> pivot)
+{
+	UiItem* newButton = new UiItem_Button(hitBox, idle, click, hover, pivot);
+	ListItemUI.add(newButton);
+	UiItem_Button* button = (UiItem_Button*)newButton;
+	return button;
 }
 
  

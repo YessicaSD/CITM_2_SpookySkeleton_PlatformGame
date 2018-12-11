@@ -10,8 +10,7 @@ enum UI_STATES
 {
 	IDLE,
 	HOVER,
-	CLICKDOWN,
-	CLICKUP,
+	CLICK,
 	MAX_STATES,
 };
 
@@ -22,12 +21,12 @@ public:
 	UI_STATES state = IDLE;
 	SDL_Rect hitBox;
 	p2Point<int> pivot = {0,0};
-	
+	uint mouseButtonDown = 0;
 	UiItem(SDL_Rect hitBox, p2Point<int> pivot = {0,0}):hitBox(hitBox),pivot(pivot)
 	{}
 
 	virtual void Draw() {};
-	virtual void OnClick(uint mouseButton){}
+	virtual void OnClickDown(){}
 
 
 

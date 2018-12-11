@@ -8,14 +8,10 @@ class UiItem_Button :public UiItem
 {
 protected:
 	SDL_Rect frames[MAX_STATES];
-
-
-public:
-	SDL_Rect section = {0,0,0,0};
 	
 public:
-	UiItem_Button(SDL_Rect hitBox, const SDL_Rect* section, p2Point<int> pivot);
-	
+	UiItem_Button(SDL_Rect hitBox, const SDL_Rect * idle, const SDL_Rect * click=nullptr, const SDL_Rect * hover = nullptr, p2Point<int> pivot = { 0,0 });
+	void Draw() override;
 
 };
 

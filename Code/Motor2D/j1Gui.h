@@ -6,6 +6,7 @@
 #include "UiItem.h"
 #include "UiItem_Image.h"
 #include "UiItem_Label.h"
+#include "UiItem_Button.h"
 
 #define CURSOR_WIDTH 2
 
@@ -38,7 +39,7 @@ public:
 	// Gui creation functions
 	UiItem_Label* AddLabel(SDL_Rect hitBox, const char* text, SDL_Color color, TTF_Font* font);
 	UiItem_Image* AddImage(SDL_Rect hitBox, const SDL_Rect* section, p2Point<int> pivot = {0,0});
-
+	UiItem_Button* AddButton(SDL_Rect hitBox, const SDL_Rect * idle, const SDL_Rect * click = NULL, const SDL_Rect * hover = NULL, p2Point<int> pivot = { 0,0 });
 	const SDL_Texture* getTexture() const;
 	p2List<UiItem*> ListItemUI;
 

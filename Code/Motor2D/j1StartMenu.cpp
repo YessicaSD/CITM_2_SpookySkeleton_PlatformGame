@@ -15,7 +15,20 @@ bool j1StartMenu::Start()
 	App->win->scale = 1.0F;
 	SDL_Rect Rect = { 0,93,374,377 };
 	App->Gui->AddImage({ 328,28,374,377 }, &Rect);
-	
+	SDL_Rect ButtonFrames[3];
+	ButtonFrames[0] = { 374,0,253,161 };
+	ButtonFrames[1] = { 374,161,253,161 };
+	ButtonFrames[2] = { 374,322,253,161 };
+	App->Gui->AddButton({ 388,402,252,146 },(const SDL_Rect*) &ButtonFrames[0], (const SDL_Rect*)&ButtonFrames[2], (const SDL_Rect*)&ButtonFrames[1]);
+	App->Gui->AddButton({ 392,565,252,146 }, (const SDL_Rect*)&ButtonFrames[0], (const SDL_Rect*)&ButtonFrames[2], (const SDL_Rect*)&ButtonFrames[1]);
+	ButtonFrames[0] = { 186,0,70,70 };
+	ButtonFrames[1] = { 256,0,70,70 };
+	ButtonFrames[2] = { 627,0,70,70 };
+	App->Gui->AddButton({915,31,70,70}, (const SDL_Rect*)&ButtonFrames[0], (const SDL_Rect*)&ButtonFrames[1], (const SDL_Rect*)&ButtonFrames[2]);
+	ButtonFrames[0] = { 0,0,93,93 };
+	ButtonFrames[1] = { 256,0,70,70 };
+	//App->Gui->AddButton({ 83,67,64,65 });
+
 	return true;
 }
 
