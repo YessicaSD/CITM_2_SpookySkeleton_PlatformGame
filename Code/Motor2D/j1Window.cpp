@@ -77,7 +77,7 @@ bool j1Window::Awake(pugi::xml_node& config)
 		}
 
 		
-		SDL_Surface* icon = IMG_Load("gui/Icon.png");
+		SDL_Surface* icon = IMG_Load("textures/gui/Icon.png");
 		SDL_SetWindowIcon(window, icon);
 		SDL_FreeSurface(icon);
 	}

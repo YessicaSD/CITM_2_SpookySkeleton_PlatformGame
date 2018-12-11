@@ -21,11 +21,11 @@ enum TypeFont
 class j1Gui : public j1Module
 {
 private:
-	TTF_Font * arrayFonts[MAX_FONTS];
+	
 	bool showUIHitBox = false;
-	//UiItem canvas;
+	UiItem* canvas = new UiItem({0,0,0,0});
 public:
-
+	TTF_Font * arrayFonts[MAX_FONTS];
 	j1Gui();
 
 	~j1Gui();
@@ -38,7 +38,7 @@ public:
 	bool CleanUp() override;
 
 	// Gui creation functions
-	UiItem_Label* AddLabel(SDL_Rect hitBox, const char* text, SDL_Color color, TTF_Font* font);
+	UiItem_Label* AddLabel(const char* text, SDL_Color color, TTF_Font* font, p2Point<int> pos);
 	UiItem_Image* AddImage(SDL_Rect hitBox, const SDL_Rect* section, p2Point<int> pivot = {0,0});
 	UiItem_Button* AddButton(SDL_Rect hitBox, const SDL_Rect * idle, const SDL_Rect * click = NULL, const SDL_Rect * hover = NULL, p2Point<int> pivot = { 0,0 });
 	const SDL_Texture* getTexture() const;

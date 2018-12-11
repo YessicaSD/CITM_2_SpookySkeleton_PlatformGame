@@ -37,7 +37,7 @@ bool j1Gui::Start()
 {
 	UITexture = App->tex->Load(PathTextureUI.GetString());
 	arrayFonts[BASE_FONT] = App->font->Load("fonts/open_sans/OpenSans-Bold.ttf");
-	arrayFonts[COPPERPLATE_B_I_24] = App->font->Load("fonts/CopperPlate/CopperPlate_BoldItalic.ttf",24);
+	arrayFonts[COPPERPLATE_B_I_24] = App->font->Load("fonts/CopperPlate/CopperPlate_BoldItalic.ttf",72);
 	SDL_Rect sec = { 485, 829, 328, 103 };
 	
 	return true;
@@ -115,9 +115,9 @@ bool j1Gui::CleanUp()
 }
 
 
-UiItem_Label* j1Gui::AddLabel(SDL_Rect hitBox, const char* text, SDL_Color color, TTF_Font * font)
+UiItem_Label* j1Gui::AddLabel(const char* text, SDL_Color color, TTF_Font * font, p2Point<int> pos)
 {
-	UiItem* newLabel = new UiItem_Label(hitBox, text, color, font);
+	UiItem* newLabel = new UiItem_Label( text, color, font, pos);
 	ListItemUI.add(newLabel);
 	UiItem_Label* thisLabel = (UiItem_Label*) newLabel;
 	return thisLabel;
