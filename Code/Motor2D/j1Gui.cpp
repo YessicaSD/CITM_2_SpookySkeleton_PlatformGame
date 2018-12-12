@@ -30,6 +30,7 @@ bool j1Gui::Awake(pugi::xml_node& conf)
 	PathTextureUI = conf.child("UITexture").attribute("file").as_string("");
 	arrayFonts[BASE_FONT] = App->font->Load("fonts/open_sans/OpenSans-Bold.ttf");
 	arrayFonts[COPPERPLATE_B_I_48] = App->font->Load("fonts/CopperPlate/CopperPlate_BoldItalic.ttf", 48);
+	arrayFonts[COPPERPLATE_B_I_24] = App->font->Load("fonts/CopperPlate/CopperPlate_BoldItalic.ttf", 24);
 	return ret;
 }
 
@@ -57,25 +58,25 @@ bool j1Gui::Update(float dt)
 			&& mousePos.y>thisItem->data->hitBox.y - thisItem->data->pivot.y 
 			&& mousePos.y < thisItem->data->hitBox.y - thisItem->data->pivot.y + thisItem->data->hitBox.h)
 		{
-			if (mouseButtonDown != 0 && thisItem->data->state != CLICK)
+			if (thisItem->data->state != CLICK && mouseButtonDown != 0)
 			{
 				thisItem->data->mouseButtonDown = mouseButtonDown;
 				thisItem->data->OnClickDown();
 				thisItem->data->state = CLICK;
 			}
-				
+			if (thisItem->data->state == CLICK && App->input->GetMouseButtonState(thisItem->data->mouseButtonDown) == KEY_UP)
+			{
+				thisItem->data->state = HOVER;
+			}
 			
 			else if (thisItem->data->state == IDLE)
 					thisItem->data->state = HOVER;
 			
 			
 		}
-		else  if (thisItem->data->state == HOVER)
+		else  if (thisItem->data->state != IDLE)
 			thisItem->data->state = IDLE;
-		if(thisItem->data->state == CLICK && App->input->GetMouseButtonState(thisItem->data->mouseButtonDown)==KEY_UP)
-		{
-			thisItem->data->state = IDLE;
-		}
+		
 
 		
 	}
