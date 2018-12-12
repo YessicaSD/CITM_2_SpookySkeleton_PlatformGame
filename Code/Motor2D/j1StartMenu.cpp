@@ -4,6 +4,8 @@
 #include "j1Window.h"
 #include "j1Textures.h"
 #include "j1Gui.h"
+#include "j1Input.h"
+#include "j1Audio.h"
 j1StartMenu::j1StartMenu()
 {
 	name.create("StartMenu");
@@ -12,6 +14,8 @@ j1StartMenu::j1StartMenu()
 bool j1StartMenu::Start()
 {
 	Background = App->tex->Load("textures/StartMenu/Background.png");
+	App->audio->PlayMusic("audio/music/spooky_skeletons.ogg");
+
 	App->win->scale = 1.0F;
 	SDL_Rect Rect = { 0,93,374,377 };
 	App->Gui->AddImage({ 328,28,374,377 }, &Rect);
@@ -34,6 +38,12 @@ bool j1StartMenu::Start()
 
 bool j1StartMenu::Update(float dt)
 {
+	if (App->input->GetKey(SDL_SCANCODE_KP_PLUS) == KEY_DOWN)
+		App->audio->SetVolume(MIX_MAX_VOLUME/16);
+
+	if (App->input->GetKey(SDL_SCANCODE_KP_MINUS) == KEY_DOWN)
+		App->audio->SetVolume(-(MIX_MAX_VOLUME / 16));
+
 	App->render->Blit(Background, 0, 0, NULL, SDL_FLIP_NONE, 0.0F);
 	
 	return true;

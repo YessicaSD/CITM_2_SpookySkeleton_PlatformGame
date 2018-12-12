@@ -50,6 +50,8 @@ bool j1Audio::Awake(pugi::xml_node& config)
 		ret = true;
 	}
 
+	Mix_VolumeMusic(final_volume);
+
 	return ret;
 }
 
@@ -102,8 +104,10 @@ bool j1Audio::PlayMusic(const char* path, float fade_time)
 		Mix_FreeMusic(music);
 	}
 
-	Mix_VolumeMusic(MIX_MAX_VOLUME/5);
+	//Mix_VolumeMusic(MIX_MAX_VOLUME);
 	music = Mix_LoadMUS(path);
+
+
 
 	if(music == NULL)
 	{
@@ -133,6 +137,20 @@ bool j1Audio::PlayMusic(const char* path, float fade_time)
 	LOG("Successfully playing %s", path);
 	return ret;
 }
+
+//set the volume of the game
+void j1Audio::SetVolume(int volume)
+{
+	
+		final_volume += volume;
+		if (final_volume < 0 || final_volume > MIX_MAX_VOLUME)
+			final_volume = (final_volume < 0)? 0 : MIX_MAX_VOLUME ;
+		
+		Mix_VolumeMusic(final_volume);
+	
+	
+}
+
 
 // Load WAV
 unsigned int j1Audio::LoadFx(const char* path)
