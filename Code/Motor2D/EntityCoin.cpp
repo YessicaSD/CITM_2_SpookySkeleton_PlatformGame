@@ -21,12 +21,11 @@ EntityCoin::EntityCoin(fPoint pos, Animation * anim, SDL_Texture * tex, entities
 	
 	for (uint AnimNum = 0; AnimNum < (uint)CoinState::STATE_MAX; ++AnimNum)
 	{
-		anim_coin[AnimNum].speed = anim[0].speed;
-		for (int j = 0; j < anim[0].numFrames; ++j)
+		anim_coin[AnimNum].speed = anim[AnimNum].speed;
+		for (int j = 0; j < anim[AnimNum].numFrames; ++j)
 		{
-			anim_coin[AnimNum].PushBack(anim[0].ReturnFrame(j));
+			anim_coin[AnimNum].PushBack(anim[AnimNum].ReturnFrame(j));
 		}
-
 	}
 	pugi::xml_node nodeCoin = App->entity->entitiesNodeDoc.child("coin");
 	pugi::xml_node nodeCol = nodeCoin.child("collider");

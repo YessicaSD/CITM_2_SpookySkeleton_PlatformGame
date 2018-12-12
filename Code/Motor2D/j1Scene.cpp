@@ -103,6 +103,11 @@ void j1Scene::LoadEntities(const pugi::xml_node& entitiesNode)
 	{
 		entitiesArrayInfo.PushBack(EntitiesInfo (ENEMI_ZOMBIE, { entityNode.attribute("x").as_float(),entityNode.attribute("y").as_float() }));
 	}
+	//coins---------------------------
+	for (pugi::xml_node entityNode = entitiesNode.child("coin"); entityNode; entityNode = entityNode.next_sibling("coin"))
+	{
+		entitiesArrayInfo.PushBack(EntitiesInfo(COIN, { entityNode.attribute("x").as_float(),entityNode.attribute("y").as_float() }));
+	}
 }
 // Called each loop iteration
 bool j1Scene::PreUpdate(float dt)
