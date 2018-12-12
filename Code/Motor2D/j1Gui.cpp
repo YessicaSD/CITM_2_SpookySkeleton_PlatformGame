@@ -15,6 +15,7 @@ j1Gui::j1Gui() : j1Module()
 	{
 		arrayFonts[iter] = nullptr;
 	}
+	ListItemUI.add(canvas);
 }
 
 // Destructor
@@ -118,7 +119,7 @@ bool j1Gui::CleanUp()
 }
 
 
-UiItem_Label* j1Gui::AddLabel(const char* text, SDL_Color color, TTF_Font * font, p2Point<int> pos, const UiItem* parent )
+UiItem_Label* j1Gui::AddLabel(const char* text, SDL_Color color, TTF_Font * font, p2Point<int> pos, UiItem * parent)
 {
 	UiItem* newLabel = new UiItem_Label( text, color, font, pos);
 	ListItemUI.add(newLabel);
@@ -126,16 +127,25 @@ UiItem_Label* j1Gui::AddLabel(const char* text, SDL_Color color, TTF_Font * font
 	return thisLabel;
 }
 
-UiItem_Image * j1Gui::AddImage(SDL_Rect hitBox, const SDL_Rect * section, p2Point<int> pivot, const UiItem * parent )
+UiItem_Image * j1Gui::AddImage(SDL_Rect hitBox, const SDL_Rect * section, p2Point<int> pivot, UiItem * parent)
 {
 	UiItem* newImage = new UiItem_Image(hitBox, section, pivot);
 	ListItemUI.add(newImage);
-	UiItem_Image* thisImage = (UiItem_Image*)newImage;
-	return thisImage;
+
+	if (parent == NULL)
+	{
+		newImage->parent = canvas;
+	}
+	else
+	{
+		parent->childs.add(newImage);
+		newImage->parent = (UiItem *)parent;
+	}
+	return (UiItem_Image*)newImage;
 	
 }
 
-UiItem_Button * j1Gui::AddButton(SDL_Rect hitBox, const SDL_Rect* idle, const SDL_Rect * click, const SDL_Rect * hover, p2Point<int> pivot, const UiItem* parent)
+UiItem_Button * j1Gui::AddButton(SDL_Rect hitBox, const SDL_Rect* idle, const SDL_Rect * click, const SDL_Rect * hover, p2Point<int> pivot, UiItem * parent)
 {
 	UiItem* newButton = new UiItem_Button(hitBox, idle, click, hover, pivot);
 	ListItemUI.add(newButton);
