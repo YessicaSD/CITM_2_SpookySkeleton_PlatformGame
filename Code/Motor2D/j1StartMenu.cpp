@@ -17,6 +17,7 @@ bool j1StartMenu::Start()
 {
 	Background = App->tex->Load("textures/StartMenu/Background.png");
 	App->audio->PlayMusic("audio/music/spooky_skeletons.ogg");
+	fx_death_aux = App->audio->LoadFx("audio/fx/smw_stomp_bones.wav");
 
 	App->win->scale = 1.0F;
 	SDL_Rect Rect = { 0,93,374,377 };
@@ -52,6 +53,15 @@ bool j1StartMenu::Update(float dt)
 
 	if (App->input->GetKey(SDL_SCANCODE_KP_MINUS) == KEY_DOWN)
 		App->audio->SetVolume(-(MIX_MAX_VOLUME / 16));
+
+	if (App->input->GetKey(SDL_SCANCODE_P) == KEY_DOWN)
+		App->audio->SetFxVolume(MIX_MAX_VOLUME / 16);
+
+	if (App->input->GetKey(SDL_SCANCODE_O) == KEY_DOWN)
+		App->audio->SetFxVolume(-(MIX_MAX_VOLUME / 16));
+
+	if (App->input->GetKey(SDL_SCANCODE_Y) == KEY_DOWN)
+		App->audio->PlayFx(fx_death_aux);
 
 	App->render->Blit(Background, 0, 0, NULL, SDL_FLIP_NONE, 0.0F);
 	

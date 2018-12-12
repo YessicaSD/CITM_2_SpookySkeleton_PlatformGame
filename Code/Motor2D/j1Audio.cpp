@@ -175,6 +175,20 @@ unsigned int j1Audio::LoadFx(const char* path)
 	return ret;
 }
 
+// Set FX volume
+void j1Audio::SetFxVolume(int volume)
+{
+	/*final_fx_volume += volume;
+	if (final_fx_volume < 0 || final_fx_volume > MIX_MAX_VOLUME)
+		final_fx_volume = (final_fx_volume < 0) ? 0 : MIX_MAX_VOLUME;
+
+	p2List<Mix_Chunk*>*item_fx = fx.start;
+	for ()
+	{
+		Mix_VolumeChunk(final_fx_volume);
+	}*/
+}
+
 // Play WAV
 bool j1Audio::PlayFx(unsigned int id, int repeat)
 {
