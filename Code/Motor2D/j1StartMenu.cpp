@@ -21,7 +21,7 @@ bool j1StartMenu::Start()
 
 	App->win->scale = 1.0F;
 	SDL_Rect Rect = { 0,93,374,377 };
-	App->Gui->AddImage({ 328,28,374,377 }, &Rect);
+	App->Gui->AddImage({ 328,28,374,377 }, &Rect, {0,0}, NULL);
 	SDL_Rect ButtonFrames[3];
 	ButtonFrames[0] = { 374,0,253,161 };
 	ButtonFrames[1] = { 374,161,253,161 };
@@ -37,10 +37,10 @@ bool j1StartMenu::Start()
 	App->Gui->AddButton({ 51,35,65,65 }, (const SDL_Rect*)&ButtonFrames[0], (const SDL_Rect*)&ButtonFrames[1], (const SDL_Rect*)&ButtonFrames[1], {14,12});
 	UiItem_Label* label = App->Gui->AddLabel("Play", { 62,32,28,255 }, App->Gui->arrayFonts[COPPERPLATE_B_I_48], {430,460});
 	SDL_Color color = {113,57,36,255};
-	label->ChangeTextureHoverOrIDLE(NULL, &color, NULL);
+	label->ChangeTextureHover(NULL, &color, NULL);
 
 	label = App->Gui->AddLabel("Continue", { 62,32,28,255 }, App->Gui->arrayFonts[COPPERPLATE_B_I_24], { 440,635 });
-	label->ChangeTextureHoverOrIDLE(NULL, &color, NULL);
+	label->ChangeTextureHover(NULL, &color, NULL);
 
 
 	return true;

@@ -20,7 +20,7 @@ UiItem_Label::UiItem_Label( p2SString text, SDL_Color color, TTF_Font * font, p2
 	this->color = color;
 }
 
-bool UiItem_Label::ChangeTextureHoverOrIDLE(const p2SString * string, const SDL_Color * color, const TTF_Font * font, bool ChanegHoverTex)
+bool UiItem_Label::ChangeTextureHover(const p2SString * string, const SDL_Color * color, const TTF_Font * font)
 {
 	bool ret = false;
 	assert(string != NULL || color != NULL || font != NULL);
@@ -33,14 +33,10 @@ bool UiItem_Label::ChangeTextureHoverOrIDLE(const p2SString * string, const SDL_
 	
 	if (ret = (aux != nullptr) ? true : false)
 	{
-		SDL_Texture** tex = (ChanegHoverTex == true) ? &textureHover : &texture;
-		if (textureHover != texture)
-		{
-			App->tex->UnLoad(*tex);
-		}
+		if(texture!= textureHover)
+			App->tex->UnLoad(textureHover);
 
-		*tex = aux;
-		
+		textureHover = aux;
 	}
 
 	return ret;
