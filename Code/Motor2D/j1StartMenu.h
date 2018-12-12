@@ -11,6 +11,7 @@ class j1StartMenu:public j1Module
 private:
 	SDL_Texture * Background = nullptr;
 	UiItem_Image* titleImage = nullptr;
+	uint fx_death_aux;
 public:
 	j1StartMenu();
 	bool Start() override;
