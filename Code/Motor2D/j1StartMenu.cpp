@@ -28,7 +28,7 @@ bool j1StartMenu::Start()
 	ButtonFrames[0] = { 0,0,93,93 };
 	ButtonFrames[1] = { 93,0,93,93 };
 	App->Gui->AddButton({ 51,35,65,65 }, (const SDL_Rect*)&ButtonFrames[0], (const SDL_Rect*)&ButtonFrames[1], (const SDL_Rect*)&ButtonFrames[1], {14,12});
-	App->Gui->AddLabel("Play", { 62,32,28,255 }, App->Gui->arrayFonts[COPPERPLATE_B_I_24], {475,459});
+	App->Gui->AddLabel("Play", { 62,32,28,255 }, App->Gui->arrayFonts[COPPERPLATE_B_I_48], {430,460});
 	return true;
 }
 

@@ -28,7 +28,8 @@ bool j1Gui::Awake(pugi::xml_node& conf)
 	bool ret = true;
 
 	PathTextureUI = conf.child("UITexture").attribute("file").as_string("");
-
+	arrayFonts[BASE_FONT] = App->font->Load("fonts/open_sans/OpenSans-Bold.ttf");
+	arrayFonts[COPPERPLATE_B_I_48] = App->font->Load("fonts/CopperPlate/CopperPlate_BoldItalic.ttf", 48);
 	return ret;
 }
 
@@ -36,8 +37,7 @@ bool j1Gui::Awake(pugi::xml_node& conf)
 bool j1Gui::Start()
 {
 	UITexture = App->tex->Load(PathTextureUI.GetString());
-	arrayFonts[BASE_FONT] = App->font->Load("fonts/open_sans/OpenSans-Bold.ttf");
-	arrayFonts[COPPERPLATE_B_I_24] = App->font->Load("fonts/CopperPlate/CopperPlate_BoldItalic.ttf",72);
+	
 	SDL_Rect sec = { 485, 829, 328, 103 };
 	
 	return true;
