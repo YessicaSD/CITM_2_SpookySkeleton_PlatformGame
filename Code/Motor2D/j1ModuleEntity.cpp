@@ -14,6 +14,7 @@
 #include "Player.h"
 #include "EntityBat.h"
 #include "EntityZombie.h"
+#include "EntityCoin.h"
 
 #include "Brofiler/Brofiler.h"
 
@@ -73,6 +74,7 @@ bool j1Entities::Start()
 
 	LoadAnimations(entitiesNodeDoc.child("player1").child("animation"));
 	LoadAnimations(entitiesNodeDoc.child("bat").child("animation"));
+	LoadAnimations(entitiesNodeDoc.child("coin").child("animation"));
 	LoadAnimations(entitiesNodeDoc.child("zombie").child("animation"));
 
 	return ret;
@@ -171,6 +173,10 @@ j1Entity* j1Entities::AddEntity(const EntitiesInfo& entity)
 		case ENEMI_ZOMBIE:
 			newEntity = new EntityZombie(entity.pos, entitiesAnimation[ENEMI_ZOMBIE], entitiesTexture, entity.type);
 		break;
+
+		case COIN:
+			newEntity = new EntityCoin(entity.pos, entitiesAnimation[COIN], entitiesTexture, entity.type);
+			break;
 	}
 		list_Entities.add(newEntity);
 

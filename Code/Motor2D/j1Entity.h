@@ -16,6 +16,7 @@ enum entities_types
 	PLAYER = 0,
 	ENEMY_BAT,
 	ENEMI_ZOMBIE,
+	COIN,
 	UNKNOW,
 };
 class j1Entity 
