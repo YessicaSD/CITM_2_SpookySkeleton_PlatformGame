@@ -76,6 +76,8 @@ https://github.com/YessicaSD/PlatformGame
 		
 		Third Assignment:
 			- Added Icon to the window and the .exe
+			- Added GUI module and items (label, button and image)
+
 		Second Assignment:
 			- Save and Load
 			- Walking enemy(Zombie)
@@ -88,7 +90,8 @@ https://github.com/YessicaSD/PlatformGame
 			- Add pathFinding Module
 	
 -----------------------------------------------------------Pol Recasens--------------------------------------------------------------
-		
+		Third Assignment:
+			- 
 		Second Assignment:
 		- Modified map levels
 		- Enemy sprite sheet
