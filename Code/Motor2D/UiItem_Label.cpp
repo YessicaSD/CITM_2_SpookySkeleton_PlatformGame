@@ -5,6 +5,7 @@
 #include "j1Fonts.h"
 #include "j1Textures.h"
 #include "j1Render.h"
+#include "p2Defs.h"
 
 UiItem_Label::UiItem_Label( p2SString text, SDL_Color color, TTF_Font * font, p2Point<int> position):UiItem()
 {
@@ -22,9 +23,8 @@ UiItem_Label::UiItem_Label( p2SString text, SDL_Color color, TTF_Font * font, p2
 bool UiItem_Label::ChangeTextureHoverOrIDLE(const p2SString * string, const SDL_Color * color, const TTF_Font * font, bool ChanegHoverTex)
 {
 	bool ret = false;
-	if (string == NULL && color == NULL && font == NULL)
-		return false;
-
+	assert(string != NULL || color != NULL || font != NULL);
+	
 	const char* txt = (string != NULL) ? string->GetString() : this->text.GetString();
 	SDL_Color col = (color != NULL) ? *color : this->color;
 	TTF_Font * f = (font != NULL) ? (TTF_Font *) font : this->font;

@@ -12,6 +12,8 @@ protected:
 public:
 	UiItem_Button(SDL_Rect hitBox, const SDL_Rect * idle, const SDL_Rect * click=nullptr, const SDL_Rect * hover = nullptr, p2Point<int> pivot = { 0,0 });
 	void Draw() override;
+	void OnClickUp() override;
+	void OnClickDown() override;
 
 };
 

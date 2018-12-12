@@ -64,8 +64,10 @@ bool j1Gui::Update(float dt)
 				thisItem->data->OnClickDown();
 				thisItem->data->state = CLICK;
 			}
+
 			if (thisItem->data->state == CLICK && App->input->GetMouseButtonState(thisItem->data->mouseButtonDown) == KEY_UP)
 			{
+				thisItem->data->OnClickUp();
 				thisItem->data->state = HOVER;
 			}
 			

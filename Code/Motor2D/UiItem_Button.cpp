@@ -24,3 +24,11 @@ void UiItem_Button::Draw()
 	App->render->Blit((SDL_Texture*)App->Gui->getTexture(), hitBox.x-pivot.x, hitBox.y-pivot.y, &frames[state], SDL_FLIP_NONE, 0.0f);
 }
 
+void UiItem_Button::OnClickUp()
+{
+}
+
+void UiItem_Button::OnClickDown()
+{
+}
+
