@@ -54,27 +54,27 @@ void UiItem::DrawChildrens()
 
 }
 
-bool UiItem::AddParent(UiItem * parent)
-{
-	assert(parent != nullptr);
-	if (this->parent == nullptr)
-	{
-		this->parent = parent;
-		parent->childs.add(this);
-	}
-	else
-	{
-		int pos = this->parent->childs.find(this);
-		assert(pos != -1);
-
-		p2List_item<UiItem*>* me = this->parent->childs.At(pos);
-		this->parent->childs.del(me);
-		this->parent = parent;
-		parent->childs.add(this);
-	}
-	
-	return false;
-}
+//bool UiItem::AddParent(UiItem * parent)
+//{
+//	assert(parent != nullptr);
+//	if (this->parent == nullptr)
+//	{
+//		this->parent = parent;
+//		parent->childs.add(this);
+//	}
+//	else
+//	{
+//		int pos = this->parent->childs.find(this);
+//		assert(pos != -1);
+//
+//		p2List_item<UiItem*>* me = this->parent->childs.At(pos);
+//		this->parent->childs.del(me);
+//		this->parent = parent;
+//		parent->childs.add(this);
+//	}
+//	
+//	return false;
+//}
 
 UiItem::UiItem(const iPoint & pos, UiItem* const parent): parent(parent)
 {

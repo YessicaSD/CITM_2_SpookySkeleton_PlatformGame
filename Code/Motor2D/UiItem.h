@@ -56,7 +56,7 @@ public:
 	}
 	void AddToPos(const iPoint& value);
 	void DrawChildrens();
-	bool AddParent(UiItem* parent);
+	
 
 	virtual void Draw() {};
 	virtual void OnClickDown(){}
