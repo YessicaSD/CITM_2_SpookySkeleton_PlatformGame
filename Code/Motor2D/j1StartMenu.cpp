@@ -16,7 +16,7 @@ j1StartMenu::j1StartMenu()
 bool j1StartMenu::Start()
 {
 	Background = App->tex->Load("textures/StartMenu/Background.png");
-	App->audio->PlayMusic("audio/music/spooky_skeletons.ogg");
+	App->audio->PlayMusic("audio/music/menu_music.ogg");
 	fx_death_aux = App->audio->LoadFx("audio/fx/smw_stomp_bones.wav");
 
 	App->win->scale = 1.0F;
