@@ -329,10 +329,12 @@ void Player::OnCollision(Collider * otherColl)
 		otherColl->to_delete = true;
 	}
 
-	/*if (otherColl->type == COLLIDER_COIN)
+	if (otherColl->type == COLLIDER_COIN)
 	{
-		otherColl->to_delete = true;
-	}*/
+		points += 100;
+		if (points == 200)
+			LOG("200 MY BABYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY");
+	}
 
 	if (otherColl->type == COLLIDER_ENEMY && state != STATE_ATTACK)
 		state = STATE_DEATH;

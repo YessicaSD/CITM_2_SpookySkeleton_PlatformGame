@@ -39,7 +39,7 @@ j1Collision::j1Collision()
 	matrix[COLLIDER_PLAYER][COLLIDER_SPECIAL] = true;
 	matrix[COLLIDER_PLAYER][COLLIDER_ICE] = true;
 	matrix[COLLIDER_PLAYER][COLLIDER_ENTITY] = true;
-	//matrix[COLLIDER_PLAYER][COLLIDER_COIN] = true;
+	matrix[COLLIDER_PLAYER][COLLIDER_COIN] = true;
 	
 	//Collider enemy -----------------------------------------------------
 	matrix[COLLIDER_ENEMY][COLLIDER_PLAYER] = true;
