@@ -86,21 +86,20 @@ bool j1Gui::Update(float dt)
 	return true;
 }
 // Called after all Updates
+
 bool j1Gui::PostUpdate()
 {
-	for (p2List_item<UiItem*>* thisItem = ListItemUI.start; thisItem; thisItem = thisItem->next)
+	if (canvas->enable)
 	{
-		thisItem->data->Draw();
-		if (showUIHitBox)
-		{
-			
-			App->render->DrawQuad(thisItem->data->hitBox,255,255,255,255,false, false);
-		}
+		canvas->DrawChildrens();
 	}
 	
 	if (App->input->GetKey(SDL_SCANCODE_F8) == KEY_DOWN)
 	{
-		showUIHitBox = !showUIHitBox;
+		for (p2List_item<UiItem*>* thisItem = ListItemUI.start; thisItem; thisItem = thisItem->next)
+		{
+			thisItem->data->showHitBox = !thisItem->data->showHitBox;
+		}
 	}
 
 	return true;
@@ -121,36 +120,54 @@ bool j1Gui::CleanUp()
 
 UiItem_Label* j1Gui::AddLabel(const char* text, SDL_Color color, TTF_Font * font, p2Point<int> pos, UiItem * parent)
 {
-	UiItem* newLabel = new UiItem_Label( text, color, font, pos);
-	ListItemUI.add(newLabel);
-	UiItem_Label* thisLabel = (UiItem_Label*) newLabel;
-	return thisLabel;
+	UiItem* newUIItem = new UiItem_Label( text, color, font, pos);
+	ListItemUI.add(newUIItem);
+	if (parent == NULL)
+	{
+		newUIItem->AddParent(canvas);
+		
+	}
+	else
+	{
+		newUIItem->AddParent(parent);
+	}
+
+	return (UiItem_Label*) newUIItem;
+
 }
 
 UiItem_Image * j1Gui::AddImage(SDL_Rect hitBox, const SDL_Rect * section, p2Point<int> pivot, UiItem * parent)
 {
-	UiItem* newImage = new UiItem_Image(hitBox, section, pivot);
-	ListItemUI.add(newImage);
+	UiItem* newUIItem = new UiItem_Image(hitBox, section, pivot);
+	ListItemUI.add(newUIItem);
 
 	if (parent == NULL)
 	{
-		newImage->parent = canvas;
+		newUIItem->AddParent(canvas);
+
 	}
 	else
 	{
-		parent->childs.add(newImage);
-		newImage->parent = (UiItem *)parent;
+		newUIItem->AddParent(parent);
 	}
-	return (UiItem_Image*)newImage;
+	return (UiItem_Image*)newUIItem;
 	
 }
 
 UiItem_Button * j1Gui::AddButton(SDL_Rect hitBox, const SDL_Rect* idle, const SDL_Rect * click, const SDL_Rect * hover, p2Point<int> pivot, UiItem * parent)
 {
-	UiItem* newButton = new UiItem_Button(hitBox, idle, click, hover, pivot);
-	ListItemUI.add(newButton);
-	UiItem_Button* button = (UiItem_Button*)newButton;
-	return button;
+	UiItem* newUIItem = new UiItem_Button(hitBox, idle, click, hover, pivot);
+	ListItemUI.add(newUIItem);
+	if (parent == NULL)
+	{
+		newUIItem->AddParent(canvas);
+
+	}
+	else
+	{
+		newUIItem->AddParent(parent);
+	}
+	return (UiItem_Button*)newUIItem;
 }
 
  
