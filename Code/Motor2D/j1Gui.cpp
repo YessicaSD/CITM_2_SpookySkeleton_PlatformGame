@@ -54,6 +54,18 @@ bool j1Gui::Update(float dt)
 	uint mouseButtonDown = App->input->GetMouseButtonDown();
 	for (p2List_item<UiItem*>* thisItem = ListItemUI.start; thisItem; thisItem = thisItem->next)
 	{
+		if (thisItem->data->draggable && thisItem->data->mouseButtonDown != 0)
+		{
+			iPoint mouseMotion;
+			App->input->GetMouseMotion(mouseMotion);
+			LOG("I'M IN!! X: %i Y: %i", mouseMotion.x, mouseMotion.y);
+			thisItem->data->AddToPos(mouseMotion);
+		}
+
+		if (App->input->GetMouseButtonState(thisItem->data->mouseButtonDown) == KEY_UP)
+			thisItem->data->mouseButtonDown = 0;
+		
+
 		if (mousePos.x > thisItem->data->hitBox.x-thisItem->data->pivot.x 
 			&& mousePos.x < thisItem->data->hitBox.x - thisItem->data->pivot.x + thisItem->data->hitBox.w 
 			&& mousePos.y>thisItem->data->hitBox.y - thisItem->data->pivot.y 
@@ -75,15 +87,7 @@ bool j1Gui::Update(float dt)
 			else if (thisItem->data->state == IDLE)
 					thisItem->data->state = HOVER;
 			
-			if (thisItem->data->draggable && thisItem->data->state==CLICK )
-			{
-				
-				iPoint mouseMotion;
-				App->input->GetMouseMotion(mouseMotion);
-				LOG("I'M IN!! X: %i Y: %i",mouseMotion.x, mouseMotion.y);
-				thisItem->data->AddToPos(mouseMotion);
-				
-			}
+			
 		}
 		else  if (thisItem->data->state != IDLE)
 			thisItem->data->state = IDLE;
@@ -126,57 +130,43 @@ bool j1Gui::CleanUp()
 }
 
 
-UiItem_Label* j1Gui::AddLabel(const char* text, SDL_Color color, TTF_Font * font, p2Point<int> pos, UiItem * parent)
+UiItem_Label* j1Gui::AddLabel(const char* text, SDL_Color color, TTF_Font *const font, p2Point<int> pos, UiItem *const parent = NULL)
 {
-	UiItem* newUIItem = new UiItem_Label( text, color, font, pos);
-	ListItemUI.add(newUIItem);
+	UiItem* newUIItem = nullptr;
 	if (parent == NULL)
-	{
-		newUIItem->AddParent(canvas);
-		
-	}
+		newUIItem = new UiItem_Label(text, color, font, pos, canvas);
 	else
-	{
-		newUIItem->AddParent(parent);
-	}
+		newUIItem = new UiItem_Label(text, color, font, pos, parent);
 
+	ListItemUI.add(newUIItem);
 	return (UiItem_Label*) newUIItem;
 
 }
 
-UiItem_Image * j1Gui::AddImage(SDL_Rect hitBox, const SDL_Rect * section, p2Point<int> pivot, UiItem * parent)
+UiItem_Image * j1Gui::AddImage(SDL_Rect hitBox, const SDL_Rect * section, UiItem *const parent = NULL, p2Point<int> pivot)
 {
-	UiItem* newUIItem = new UiItem_Image(hitBox, section, pivot);
-	ListItemUI.add(newUIItem);
-
+	UiItem* newUIItem = nullptr;
 	if (parent == NULL)
-	{
-		newUIItem->AddParent(canvas);
-
-	}
+		newUIItem = new UiItem_Image(hitBox, section, canvas, pivot);
 	else
-	{
-		newUIItem->AddParent(parent);
-	}
+		newUIItem = new UiItem_Image(hitBox, section, parent, pivot);
 
+	ListItemUI.add(newUIItem);
 
 	return (UiItem_Image*)newUIItem;
 	
 }
 
-UiItem_Button * j1Gui::AddButton(SDL_Rect hitBox, const SDL_Rect* idle, const SDL_Rect * click, const SDL_Rect * hover, p2Point<int> pivot, UiItem * parent)
+UiItem_Button * j1Gui::AddButton(SDL_Rect hitBox, const SDL_Rect* idle, UiItem *const parent = NULL, const SDL_Rect * click, const SDL_Rect * hover, p2Point<int> pivot)
 {
-	UiItem* newUIItem = new UiItem_Button(hitBox, idle, click, hover, pivot);
-	ListItemUI.add(newUIItem);
-	if (parent == NULL)
-	{
-		newUIItem->AddParent(canvas);
-
-	}
+	UiItem* newUIItem = nullptr;
+	if(parent == NULL)
+		newUIItem = new UiItem_Button(hitBox, idle, canvas, click, hover, pivot);
 	else
-	{
-		newUIItem->AddParent(parent);
-	}
+		newUIItem = new UiItem_Button(hitBox, idle, parent, click, hover, pivot);
+
+	ListItemUI.add(newUIItem);
+
 	return (UiItem_Button*)newUIItem;
 }
 

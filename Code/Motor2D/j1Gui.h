@@ -24,7 +24,7 @@ class j1Gui : public j1Module
 private:
 	
 	bool showUIHitBox = false;
-	UiItem* canvas = new UiItem({0,0,0,0});
+	UiItem* canvas = new UiItem({0,0,0,0},NULL);
 public:
 	TTF_Font * arrayFonts[MAX_FONTS];
 	j1Gui();
@@ -39,9 +39,9 @@ public:
 	bool CleanUp() override;
 
 	// Gui creation functions
-	UiItem_Label* AddLabel(const char* text, SDL_Color color, TTF_Font* font, p2Point<int> pos, UiItem * parent=NULL);
-	UiItem_Image* AddImage(SDL_Rect hitBox, const SDL_Rect* section, p2Point<int> pivot = {0,0}, UiItem * parent=NULL);
-	UiItem_Button* AddButton(SDL_Rect hitBox, const SDL_Rect * idle, const SDL_Rect * click = NULL, const SDL_Rect * hover = NULL, p2Point<int> pivot = { 0,0 }, UiItem * parent=NULL);
+	UiItem_Label* AddLabel(const char* text, SDL_Color color, TTF_Font *const font, p2Point<int> pos, UiItem *const parent);
+	UiItem_Image* AddImage(SDL_Rect hitBox, const SDL_Rect* section, UiItem *const parent, p2Point<int> pivot = {0,0});
+	UiItem_Button* AddButton(SDL_Rect hitBox, const SDL_Rect * idle, UiItem *const parent, const SDL_Rect * click = NULL, const SDL_Rect * hover = NULL, p2Point<int> pivot = { 0,0 });
 	const SDL_Texture* getTexture() const;
 	p2List<UiItem*> ListItemUI;
 

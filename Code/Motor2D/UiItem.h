@@ -36,20 +36,10 @@ public:
 	
 	
 	UiItem() {}
-	UiItem(SDL_Rect hitBox, p2Point<int> pivot = {0,0}, UiItem * parent = NULL):pivot(pivot)
-	{
-		this->hitBox = hitBox;
-		if (parent)
-		{
-			this->hitBox.x += parent->localPos.x;
-			this->hitBox.y += parent->localPos.y;
-		}
-		
-		
-		
+
+	UiItem(SDL_Rect hitBox, UiItem *const parent, p2Point<int> pivot = { 0,0 }); 
 	
-	}
-	iPoint DefineScreenPos()
+	iPoint UpdateScreenPos()
 	{
 		worldPos = localPos;
 		for (UiItem*  thisParent = this->parent; thisParent; thisParent= thisParent->parent)
@@ -59,7 +49,7 @@ public:
 	
 		return worldPos;
 	}
-	iPoint GetScreenRect()
+	iPoint GetScreenPos()
 	{
 		return worldPos;
 	}

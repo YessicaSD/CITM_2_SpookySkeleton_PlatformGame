@@ -5,8 +5,15 @@
 
 void UiItem::AddToPos(const iPoint & value)
 {
-	localPos += value;
-	worldPos += value;
+	iPoint v = value;
+	if (v.x == -1 || v.x == 1)
+		v.x = 0;
+
+	if (v.y == -1 || v.y == 1)
+		v.y = 0;
+
+	localPos += v;
+	worldPos += v;
 	hitBox.x = worldPos.x;
 	hitBox.y = worldPos.y;
 	/*if (this->childs.Count() > 0)
@@ -69,4 +76,18 @@ bool UiItem::AddParent(UiItem * parent)
 	return false;
 }
 
+UiItem::UiItem(SDL_Rect hitBox, UiItem *const parent, p2Point<int> pivot) :pivot(pivot),parent(parent)
+{
+	this->hitBox = hitBox;
+	if (parent != nullptr)
+	{
+		parent->childs.add(this);
+		if (parent)
+		{
+			this->hitBox.x += parent->localPos.x;
+			this->hitBox.y += parent->localPos.y;
+		}
+	}
+	
 
+}
