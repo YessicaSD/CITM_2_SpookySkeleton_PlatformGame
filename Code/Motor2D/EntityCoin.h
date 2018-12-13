@@ -22,7 +22,7 @@ private:
 	Animation anim_coin[(uint)CoinState::STATE_MAX];
 	CoinState state = CoinState::STATE_IDLE;
 	iPoint rectMesure = { 0,0 };
-	bool batdeath_fx = false;
+	bool coin_fx = false;
 	j1Timer timer;
 	int halfTileSize = 16;
 

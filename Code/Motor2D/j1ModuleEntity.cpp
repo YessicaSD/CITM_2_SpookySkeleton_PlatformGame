@@ -52,6 +52,7 @@ bool j1Entities::Awake(pugi::xml_node &node)
 	fx_death = App->audio->LoadFx("audio/fx/smw_stomp_bones.wav");
 	fx_jump = App->audio->LoadFx("audio/fx/jump.wav");
 	fx_batdeath = App->audio->LoadFx("audio/fx/bat_death.wav");
+	fx_coin = App->audio->LoadFx("audio/fx/coin2.wav");
 
 	return true;
 }

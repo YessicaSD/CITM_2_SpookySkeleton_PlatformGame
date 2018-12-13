@@ -39,9 +39,13 @@ j1Collision::j1Collision()
 	matrix[COLLIDER_PLAYER][COLLIDER_SPECIAL] = true;
 	matrix[COLLIDER_PLAYER][COLLIDER_ICE] = true;
 	matrix[COLLIDER_PLAYER][COLLIDER_ENTITY] = true;
+	//matrix[COLLIDER_PLAYER][COLLIDER_COIN] = true;
 	
 	//Collider enemy -----------------------------------------------------
 	matrix[COLLIDER_ENEMY][COLLIDER_PLAYER] = true;
+
+	//Collider coin
+	matrix[COLLIDER_COIN][COLLIDER_PLAYER] = true;
 
 	//Collider God--------------------------------------------------------
 	matrix[COLLIDER_GOD][COLLIDER_WALL] = true;
@@ -163,6 +167,9 @@ bool j1Collision::PostUpdate()
 			break;
 		case COLLIDER_ENTITY:
 			App->render->DrawQuad(colliders[i]->rect, 25, 25, 255, alpha);
+			break;
+		case COLLIDER_COIN:
+			App->render->DrawQuad(colliders[i]->rect, 0, 125, 125, alpha);
 			break;
 
 

@@ -32,7 +32,8 @@ EntityCoin::EntityCoin(fPoint pos, Animation * anim, SDL_Texture * tex, entities
 	rectMesure = { nodeCol.attribute("w").as_int(), nodeCol.attribute("h").as_int() };
 	
 	SDL_Rect playerCoin = { (pos.x - rectMesure.x / 2), (pos.y - rectMesure.y), rectMesure.x, rectMesure.y };
-	collider = App->collision->AddCollider(playerCoin, COLLIDER_ENTITY, App->entity);
+	collider = App->collision->AddCollider(playerCoin, COLLIDER_COIN, App->entity);
+	coin_fx = true;
 }
 
 EntityCoin::~EntityCoin()
@@ -43,10 +44,10 @@ bool EntityCoin::PreUpdate(float dt)
 {
 	this->dt = dt;
 
-	if (state == CoinState::STATE_DEATH && batdeath_fx)
+	if (state == CoinState::STATE_DEATH && coin_fx)
 	{
-		App->audio->PlayFx(App->entity->fx_batdeath);
-		batdeath_fx = false;
+		App->audio->PlayFx(App->entity->fx_coin);
+		coin_fx = false;
 	}
 
 	collider->SetPos((position.x + speed.x * dt) - collider->rect.w / 2, (position.y + speed.y * dt) - collider->rect.h);
@@ -73,15 +74,10 @@ void EntityCoin::OnCollision(Collider * otherCollider)
 {
 	if (otherCollider->type == COLLIDER_PLAYER)
 	{
-		bool PlayerIsOn = otherCollider->rect.y + otherCollider->rect.h*0.5F < collider->rect.y;
-		if (PlayerIsOn)
-		{
+		
 			EntityCoin::state = CoinState::STATE_DEATH;
 			collider->to_delete = true;
-		}
-		else
-		{
-			otherCollider->to_delete = true;
-		}
+		
+		
 	}
 }
