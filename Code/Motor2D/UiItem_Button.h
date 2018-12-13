@@ -16,7 +16,15 @@ public:
 	void Draw() override;
 	void OnClickUp() override;
 	void OnClickDown() override;
-
+	~UiItem_Button()
+	{
+	/*	if (this->parent != nullptr)
+		{
+			uint pos = this->parent->childs.find(this);
+			thisParent->childs.del(thisParent->childs.At(pos));
+			this->parent = nullptr;
+		}*/
+	}
 };
 
 #endif

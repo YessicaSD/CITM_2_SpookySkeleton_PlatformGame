@@ -16,7 +16,7 @@ enum UI_STATES
 
 class UiItem
 {
-private:
+protected:
 	iPoint localPos = {0,0};
 	iPoint worldPos = {0,0};
 	UiItem* parent = nullptr;
@@ -61,7 +61,17 @@ public:
 	virtual void Draw() {};
 	virtual void OnClickDown(){}
 	virtual void OnClickUp(){}
-
+	
+	~UiItem()
+	{
+		if (this->parent != nullptr)
+		{
+			UiItem* thisParent = this->parent;
+			uint pos = thisParent->childs.find(this);
+			thisParent->childs.del(thisParent->childs.At(pos));
+			this->parent = nullptr;
+		}
+	}
 
 };
 

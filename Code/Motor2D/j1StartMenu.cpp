@@ -8,17 +8,20 @@
 #include "j1Audio.h"
 #include "UiItem_Label.h"
 #include "j1Module.h"
+#include "ModuleFadeToBack.h"
 j1StartMenu::j1StartMenu()
 {
 	name.create("StartMenu");
 }
+
 void FadeToScene()
 {
-	/*j1Module* thisModule = (j1Module*)App->pathfinding;
+	App->fade->FadeToBlack(1);
+	j1Module* thisModule = (j1Module*)App->pathfinding;
 	thisModule->Enable();
-
-	App->map->Enable()*/
+	App->StartMenu->Disable();
 }
+
 bool j1StartMenu::Start()
 {
 	Background = App->tex->Load("textures/StartMenu/Background.png");
@@ -31,24 +34,28 @@ bool j1StartMenu::Start()
 	SDL_Rect ButtonFrames[3] = { { 374,0,253,161 } ,{ 374,161,253,161 },{ 374,322,253,161 } };
 
 	UiItem_Button* buttonPlay = App->Gui->AddButton({ 388,402,252,146 },(const SDL_Rect*) &ButtonFrames[0],NULL , (const SDL_Rect*)&ButtonFrames[2], (const SDL_Rect*)&ButtonFrames[1]);
+	thisMenuItems.add(buttonPlay);
+
 	UiItem_Label* label = App->Gui->AddLabel("Play", { 62,32,28,255 }, App->Gui->arrayFonts[COPPERPLATE_B_I_48], { 45,60 }, buttonPlay);
 	SDL_Color color = { 113,57,36,255 };
 	label->ChangeTextureHover(NULL, &color, NULL);
-	App->Gui->AddButton({ 392,565,252,146 }, (const SDL_Rect*)&ButtonFrames[0], NULL, (const SDL_Rect*)&ButtonFrames[2], (const SDL_Rect*)&ButtonFrames[1]);
+	buttonPlay->AddFuntion(&FadeToScene);
+	thisMenuItems.add(label);
+	thisMenuItems.add(App->Gui->AddButton({ 392,565,252,146 }, (const SDL_Rect*)&ButtonFrames[0], NULL, (const SDL_Rect*)&ButtonFrames[2], (const SDL_Rect*)&ButtonFrames[1]));
 	
 	
 	ButtonFrames[0] = { 186,0,70,70 };
 	ButtonFrames[1] = { 256,0,70,70 };
 	ButtonFrames[2] = { 627,0,70,70 };
-	App->Gui->AddButton({915,31,70,70}, (const SDL_Rect*)&ButtonFrames[0], NULL, (const SDL_Rect*)&ButtonFrames[1], (const SDL_Rect*)&ButtonFrames[2]);
+	thisMenuItems.add(App->Gui->AddButton({915,31,70,70}, (const SDL_Rect*)&ButtonFrames[0], NULL, (const SDL_Rect*)&ButtonFrames[1], (const SDL_Rect*)&ButtonFrames[2]));
 	ButtonFrames[0] = { 0,0,93,93 };
 	ButtonFrames[1] = { 93,0,93,93 };
-	App->Gui->AddButton({ 51,35,65,65 }, (const SDL_Rect*)&ButtonFrames[0], NULL, (const SDL_Rect*)&ButtonFrames[1], (const SDL_Rect*)&ButtonFrames[1], {14,12});
+	thisMenuItems.add(App->Gui->AddButton({ 51,35,65,65 }, (const SDL_Rect*)&ButtonFrames[0], NULL, (const SDL_Rect*)&ButtonFrames[1], (const SDL_Rect*)&ButtonFrames[1], {14,12}));
 	
 
 	label = App->Gui->AddLabel("Continue", { 62,32,28,255 }, App->Gui->arrayFonts[COPPERPLATE_B_I_24], { 440,635 }, NULL);
 	label->ChangeTextureHover(NULL, &color, NULL);
-
+	thisMenuItems.add(label);
 
 	return true;
 }
@@ -72,5 +79,14 @@ bool j1StartMenu::Update(float dt)
 
 	App->render->Blit(Background, 0, 0, NULL, SDL_FLIP_NONE, 0.0F);
 	
+	return true;
+}
+bool j1StartMenu::CleanUp()
+{
+	for(p2List_item<UiItem*>* thisItem = thisMenuItems.start; thisItem; thisItem = thisItem->next)
+	{
+		App->Gui->ListItemUI.del(thisItem);
+		
+	}
 	return true;
 }

@@ -39,5 +39,9 @@ void UiItem_Button::OnClickUp()
 
 void UiItem_Button::OnClickDown()
 {
+	if (funtionOnClick)
+	{
+		funtionOnClick();
+	}
 }
 
