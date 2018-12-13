@@ -20,6 +20,14 @@ UiItem_Button::UiItem_Button(SDL_Rect hitBox, const SDL_Rect * idle, UiItem* con
 		frames[HOVER] = *idle;
 }
 
+void UiItem_Button::AddFuntion(void(*funtionOnClick)())
+{
+	if (funtionOnClick != nullptr)
+	{
+		this->funtionOnClick = funtionOnClick;
+	}
+}
+
 void UiItem_Button::Draw()
 {
 	App->render->Blit((SDL_Texture*)App->Gui->getTexture(), hitBox.x-pivot.x, hitBox.y-pivot.y, &frames[state], SDL_FLIP_NONE, 0.0f);

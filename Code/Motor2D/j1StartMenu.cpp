@@ -7,12 +7,18 @@
 #include "j1Input.h"
 #include "j1Audio.h"
 #include "UiItem_Label.h"
-
+#include "j1Module.h"
 j1StartMenu::j1StartMenu()
 {
 	name.create("StartMenu");
 }
+void FadeToScene()
+{
+	/*j1Module* thisModule = (j1Module*)App->pathfinding;
+	thisModule->Enable();
 
+	App->map->Enable()*/
+}
 bool j1StartMenu::Start()
 {
 	Background = App->tex->Load("textures/StartMenu/Background.png");

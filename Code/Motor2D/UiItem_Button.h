@@ -8,9 +8,11 @@ class UiItem_Button :public UiItem
 {
 protected:
 	SDL_Rect frames[MAX_STATES];
-	
+	void (*funtionOnClick) () = nullptr;
 public:
 	UiItem_Button(SDL_Rect hitBox, const SDL_Rect * idle, UiItem* const parent, const SDL_Rect * click=nullptr, const SDL_Rect * hover = nullptr, p2Point<int> pivot = { 0,0 });
+	void AddFuntion(void(*funtionOnClick) ());
+
 	void Draw() override;
 	void OnClickUp() override;
 	void OnClickDown() override;
