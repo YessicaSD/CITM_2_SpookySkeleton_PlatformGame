@@ -8,10 +8,6 @@ There is one playable character, a skeleton, and two different levels with a spo
 The first level is set inside a cave, and the second level is set in the outside of that cave.
 
 
-## Installation
-Decompress the .zip file in any directory and execute the executable inside the decompressed folder.
-
-
 ## How to play:
 [SPACE] = Jump
 
@@ -71,12 +67,16 @@ https://github.com/YessicaSD/PlatformGame
 	- Controls buttons sprites: https://hyohnoo.itch.io/keyboard-controller-keys 
 	- Some UI elements: https://www.gamedevmarket.net/asset/gui-icons-8656/
 
+## Inovations 
+	- Background animations with Tile program
+
 ## What have done each member:
 -----------------------------------------------------Yessica Servin Dominguez------------------------------------------------------
 		
 		Third Assignment:
 			- Added Icon to the window and the .exe
 			- Added GUI module and items (label, button and image)
+			- Added animations with tile
 
 		Second Assignment:
 			- Save and Load

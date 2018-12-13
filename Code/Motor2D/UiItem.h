@@ -17,8 +17,8 @@ enum UI_STATES
 class UiItem
 {
 private:
-	iPoint localPos;
-	iPoint worldPos;
+	iPoint localPos = {0,0};
+	iPoint worldPos = {0,0};
 	UiItem* parent = nullptr;
 	p2List<UiItem*> childs;
 
@@ -28,28 +28,15 @@ public:
 	bool interactive = true;
 	bool draggable = true;
 
-
 	UI_STATES state = IDLE;
 	SDL_Rect hitBox = {0,0,0,0};
 	p2Point<int> pivot = {0,0};
 	uint mouseButtonDown = 0;
 	
+	UiItem(const iPoint& pos, UiItem* const parent);
+	UiItem(SDL_Rect hitBox, UiItem *const parent, p2Point<int> pivot = { 0,0 }); 
 	
-	UiItem() {}
-	UiItem(SDL_Rect hitBox, p2Point<int> pivot = {0,0}, UiItem * parent = NULL):pivot(pivot)
-	{
-		this->hitBox = hitBox;
-		if (parent)
-		{
-			this->hitBox.x += parent->localPos.x;
-			this->hitBox.y += parent->localPos.y;
-		}
-		
-		
-		
-	
-	}
-	iPoint DefineScreenPos()
+	iPoint UpdateScreenPos()
 	{
 		worldPos = localPos;
 		for (UiItem*  thisParent = this->parent; thisParent; thisParent= thisParent->parent)
@@ -59,7 +46,7 @@ public:
 	
 		return worldPos;
 	}
-	iPoint GetScreenRect()
+	iPoint GetScreenPos()
 	{
 		return worldPos;
 	}

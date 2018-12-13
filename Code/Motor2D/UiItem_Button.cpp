@@ -4,8 +4,9 @@
 #include "j1Gui.h"
 #include "p2Point.h"
 
-UiItem_Button::UiItem_Button(SDL_Rect hitBox, const SDL_Rect * idle, const SDL_Rect * click, const SDL_Rect * hover, p2Point<int> pivot ) : UiItem(hitBox, pivot)
+UiItem_Button::UiItem_Button(SDL_Rect hitBox, const SDL_Rect * idle, UiItem* const parent, const SDL_Rect * click, const SDL_Rect * hover, p2Point<int> pivot ) : UiItem(hitBox, parent, pivot )
 {
+	assert(parent != nullptr);
 	frames[IDLE] = *idle;
 
 	if (click)

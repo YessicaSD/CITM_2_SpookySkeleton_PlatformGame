@@ -19,7 +19,7 @@ class UiItem_Label : public UiItem
 		SDL_Texture* textureHover = nullptr;
 
 	public:
-		UiItem_Label( p2SString text, SDL_Color color, TTF_Font * font, p2Point<int> position);
+		UiItem_Label( p2SString text, SDL_Color color, TTF_Font * font, p2Point<int> position, UiItem * const parent);
 		bool ChangeTextureHover(const p2SString * textHover, const SDL_Color* color, const TTF_Font* font);
 		void Draw() override;
 };

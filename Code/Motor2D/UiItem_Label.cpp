@@ -7,8 +7,9 @@
 #include "j1Render.h"
 #include "p2Defs.h"
 
-UiItem_Label::UiItem_Label( p2SString text, SDL_Color color, TTF_Font * font, p2Point<int> position):UiItem()
+UiItem_Label::UiItem_Label( p2SString text, SDL_Color color, TTF_Font * font, p2Point<int> position, UiItem * const parent):UiItem(position, parent)
 {
+	assert(parent != nullptr);
 	hitBox.x = position.x;
 	hitBox.y = position.y;
 	texture = App->font->Print(text.GetString(), color, font);
