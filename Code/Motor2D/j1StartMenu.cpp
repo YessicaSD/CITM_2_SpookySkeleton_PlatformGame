@@ -25,7 +25,7 @@ bool j1StartMenu::Start()
 	SDL_Rect ButtonFrames[3] = { { 374,0,253,161 } ,{ 374,161,253,161 },{ 374,322,253,161 } };
 
 	UiItem_Button* buttonPlay = App->Gui->AddButton({ 388,402,252,146 },(const SDL_Rect*) &ButtonFrames[0],NULL , (const SDL_Rect*)&ButtonFrames[2], (const SDL_Rect*)&ButtonFrames[1]);
-	UiItem_Label* label = App->Gui->AddLabel("Play", { 62,32,28,255 }, App->Gui->arrayFonts[COPPERPLATE_B_I_48], { 430,460 }, buttonPlay);
+	UiItem_Label* label = App->Gui->AddLabel("Play", { 62,32,28,255 }, App->Gui->arrayFonts[COPPERPLATE_B_I_48], { 45,60 }, buttonPlay);
 	SDL_Color color = { 113,57,36,255 };
 	label->ChangeTextureHover(NULL, &color, NULL);
 	App->Gui->AddButton({ 392,565,252,146 }, (const SDL_Rect*)&ButtonFrames[0], NULL, (const SDL_Rect*)&ButtonFrames[2], (const SDL_Rect*)&ButtonFrames[1]);

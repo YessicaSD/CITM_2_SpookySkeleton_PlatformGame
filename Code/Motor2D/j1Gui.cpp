@@ -58,7 +58,6 @@ bool j1Gui::Update(float dt)
 		{
 			iPoint mouseMotion;
 			App->input->GetMouseMotion(mouseMotion);
-			LOG("I'M IN!! X: %i Y: %i", mouseMotion.x, mouseMotion.y);
 			thisItem->data->AddToPos(mouseMotion);
 		}
 

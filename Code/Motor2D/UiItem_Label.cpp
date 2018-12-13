@@ -10,8 +10,8 @@
 UiItem_Label::UiItem_Label( p2SString text, SDL_Color color, TTF_Font * font, p2Point<int> position, UiItem * const parent):UiItem(position, parent)
 {
 	assert(parent != nullptr);
-	hitBox.x = position.x;
-	hitBox.y = position.y;
+	//hitBox.x = position.x;
+	//hitBox.y = position.y;
 	texture = App->font->Print(text.GetString(), color, font);
 	textureHover = texture;
 	App->tex->GetSize(texture,(uint &) hitBox.w, (uint &)hitBox.h);
