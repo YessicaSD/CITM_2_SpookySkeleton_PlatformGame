@@ -5,6 +5,7 @@
 #include "j1Gui.h"
 UiItem_Image::UiItem_Image(SDL_Rect hitBox, const SDL_Rect * section, UiItem* const parent, p2Point<int> pivot) : UiItem(hitBox, parent,pivot)
 {
+	assert(parent != nullptr);
 	frame = *section;
 	
 }

@@ -76,6 +76,22 @@ bool UiItem::AddParent(UiItem * parent)
 	return false;
 }
 
+UiItem::UiItem(const iPoint & pos, UiItem* const parent): parent(parent)
+{
+		hitBox.x = pos.x;
+		hitBox.y = pos.y;
+
+		if (parent != nullptr)
+		{
+			parent->childs.add(this);
+			if (parent)
+			{
+				this->hitBox.x += parent->localPos.x;
+				this->hitBox.y += parent->localPos.y;
+			}
+		}
+}
+
 UiItem::UiItem(SDL_Rect hitBox, UiItem *const parent, p2Point<int> pivot) :pivot(pivot),parent(parent)
 {
 	this->hitBox = hitBox;
