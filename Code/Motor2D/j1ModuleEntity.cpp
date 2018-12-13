@@ -74,8 +74,8 @@ bool j1Entities::Start()
 
 	LoadAnimations(entitiesNodeDoc.child("player1").child("animation"));
 	LoadAnimations(entitiesNodeDoc.child("bat").child("animation"));
-	LoadAnimations(entitiesNodeDoc.child("coin").child("animation"));
 	LoadAnimations(entitiesNodeDoc.child("zombie").child("animation"));
+	LoadAnimations(entitiesNodeDoc.child("coin").child("animation"));
 
 	return ret;
 }
