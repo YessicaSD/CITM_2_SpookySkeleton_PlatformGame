@@ -26,6 +26,9 @@ public:
 	bool showHitBox = false;
 	bool enable = true;
 	bool interactive = true;
+	bool draggable = true;
+
+
 	UI_STATES state = IDLE;
 	SDL_Rect hitBox = {0,0,0,0};
 	p2Point<int> pivot = {0,0};

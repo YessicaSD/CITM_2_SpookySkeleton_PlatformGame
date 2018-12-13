@@ -47,7 +47,7 @@ public:
 
 private:
 
-	SDL_Texture* UITexture;
+	SDL_Texture const * UITexture;
 	p2SString PathTextureUI;
 };
 

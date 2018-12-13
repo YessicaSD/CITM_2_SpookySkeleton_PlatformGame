@@ -29,7 +29,7 @@ bool j1StartMenu::Start()
 	SDL_Color color = { 113,57,36,255 };
 	label->ChangeTextureHover(NULL, &color, NULL);
 	App->Gui->AddButton({ 392,565,252,146 }, (const SDL_Rect*)&ButtonFrames[0], (const SDL_Rect*)&ButtonFrames[2], (const SDL_Rect*)&ButtonFrames[1]);
-	buttonPlay->enable = false;
+	
 	
 	ButtonFrames[0] = { 186,0,70,70 };
 	ButtonFrames[1] = { 256,0,70,70 };

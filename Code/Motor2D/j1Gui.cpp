@@ -50,7 +50,7 @@ bool j1Gui::Start()
 bool j1Gui::Update(float dt)
 {
 	iPoint mousePos;
-	App->input->GetMousePosition(mousePos.x, mousePos.y);
+	App->input->GetMousePosition(mousePos);
 	uint mouseButtonDown = App->input->GetMouseButtonDown();
 	for (p2List_item<UiItem*>* thisItem = ListItemUI.start; thisItem; thisItem = thisItem->next)
 	{
@@ -75,7 +75,10 @@ bool j1Gui::Update(float dt)
 			else if (thisItem->data->state == IDLE)
 					thisItem->data->state = HOVER;
 			
-			
+			if (thisItem->data->draggable && thisItem->data->state==CLICK )
+			{
+				//App->input->GetMouseMotion
+			}
 		}
 		else  if (thisItem->data->state != IDLE)
 			thisItem->data->state = IDLE;

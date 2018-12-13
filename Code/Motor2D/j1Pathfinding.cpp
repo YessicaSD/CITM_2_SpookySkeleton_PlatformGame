@@ -41,9 +41,9 @@ bool j1PathFinding::PostUpdate()
 		static iPoint origin;
 		static bool origin_selected = false;
 
-		int x, y;
-		App->input->GetMousePosition(x, y);
-		iPoint p = App->render->ScreenToWorld(x, y);
+		iPoint mousePos;
+		App->input->GetMousePosition(mousePos);
+		iPoint p = App->render->ScreenToWorld(mousePos.x, mousePos.y);
 		p = App->map->WorldToMap(p.x, p.y);
 
 		if (App->input->GetMouseButtonState(SDL_BUTTON_LEFT) == KEY_DOWN)
