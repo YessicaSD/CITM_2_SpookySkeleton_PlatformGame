@@ -2,6 +2,23 @@
 #include "j1App.h"
 #include "j1Render.h"
 
+
+void UiItem::AddToPos(const iPoint & value)
+{
+	localPos += value;
+	worldPos += value;
+	hitBox.x = worldPos.x;
+	hitBox.y = worldPos.y;
+	/*if (this->childs.Count() > 0)
+	{
+		for (p2List_item<UiItem*>* thisItem = this->childs.start;thisItem; thisItem= thisItem->next)
+		{
+			thisItem->data->AddToPos(value);
+		}
+	}*/
+
+}
+
 void UiItem::DrawChildrens()
 {
 	if (this->childs.Count() > 0)
@@ -13,6 +30,7 @@ void UiItem::DrawChildrens()
 				thisItem->data->Draw();
 				if (thisItem->data->showHitBox)
 				{
+					
 					App->render->DrawQuad(thisItem->data->hitBox, 255, 255, 255, 255, false, false);
 				}
 			}

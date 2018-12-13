@@ -67,7 +67,7 @@ public:
 	{
 		return childs.Count();
 	}
-
+	void AddToPos(const iPoint& value);
 	void DrawChildrens();
 	bool AddParent(UiItem* parent);
 

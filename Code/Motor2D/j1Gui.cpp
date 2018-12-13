@@ -77,7 +77,12 @@ bool j1Gui::Update(float dt)
 			
 			if (thisItem->data->draggable && thisItem->data->state==CLICK )
 			{
-				//App->input->GetMouseMotion
+				
+				iPoint mouseMotion;
+				App->input->GetMouseMotion(mouseMotion);
+				LOG("I'M IN!! X: %i Y: %i",mouseMotion.x, mouseMotion.y);
+				thisItem->data->AddToPos(mouseMotion);
+				
 			}
 		}
 		else  if (thisItem->data->state != IDLE)
@@ -153,6 +158,8 @@ UiItem_Image * j1Gui::AddImage(SDL_Rect hitBox, const SDL_Rect * section, p2Poin
 	{
 		newUIItem->AddParent(parent);
 	}
+
+
 	return (UiItem_Image*)newUIItem;
 	
 }
