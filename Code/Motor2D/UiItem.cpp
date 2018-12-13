@@ -16,13 +16,13 @@ void UiItem::AddToPos(const iPoint & value)
 	worldPos += v;
 	hitBox.x = worldPos.x;
 	hitBox.y = worldPos.y;
-	/*if (this->childs.Count() > 0)
+	if (this->childs.Count() > 0)
 	{
 		for (p2List_item<UiItem*>* thisItem = this->childs.start;thisItem; thisItem= thisItem->next)
 		{
 			thisItem->data->AddToPos(value);
 		}
-	}*/
+	}
 
 }
 
