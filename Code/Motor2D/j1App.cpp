@@ -40,7 +40,7 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	scene = new j1Scene();
 	font = new j1Fonts();
 	Gui = new j1Gui();
-	StartMenu = new j1StartMenu();
+	//StartMenu = new j1StartMenu();
 
 	// Ordered for awake / Start / Update
 	// Reverse order of CleanUp
@@ -52,9 +52,8 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(map);
 		map->active = false;
 	AddModule(entity);
-	AddModule(StartMenu);
+	//AddModule(StartMenu);
 	AddModule(scene);
-		scene->active = false;
 	AddModule(font);
 	AddModule(pathfinding);
 	pathfinding->active = false;

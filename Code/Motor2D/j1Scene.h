@@ -1,26 +1,57 @@
 #ifndef __j1SCENE_H__
 #define __j1SCENE_H__
 
+
 #include "j1Module.h"
 #include "j1ModuleEntity.h"
 #include "p2Point.h"
 #include "p2DynArray.h"
+#include <map>
+
+class UiItem_Image;
+class UiItem;
 struct SDL_Texture;
+enum class SceneState
+{
+	STARTMENU,
+	GAME,
+	PAUSE,
+	SETTING,
+	MAX_STATES
+};
+
+void FadeToScene();
 
 
 class j1Scene : public j1Module
 {
+	
 private:
+	//Start Menu variables -------------------------
+	SceneState state = SceneState::STARTMENU;
+	p2List<UiItem*> thisMenuItems;
+	std::map<const char*, void(*)()> mapOfFuntions =
+	{ { "FadeToScene" , FadeToScene } };
+
+	
+
+	//Game variables --------------------------------
+
 	p2DynArray<EntitiesInfo> entitiesArrayInfo;
+	SDL_Texture * Background = nullptr;
+	UiItem_Image* titleImage = nullptr;
+	uint fx_death_aux;
+	pugi::xml_document	sceneFile;
+	pugi::xml_node sceneNode;
+	pugi::xml_node saveNode;
+	float horizontalScreenDivision;
+
 public:
 	uint num_thismaplvl = 1;
 	bool loadingSaveFile = false;
 
 private:
-	pugi::xml_document	sceneFile;
-	pugi::xml_node sceneNode;
-	pugi::xml_node saveNode;
-	float horizontalScreenDivision;
+	
 public:
 	bool loadedLeve = true;
 	j1Scene();
@@ -55,7 +86,8 @@ public:
 	
 
 	bool Save(pugi::xml_node&) const override;
-	
+	void AudioControl();
+	bool LoadStartMenu();
 
 private:
 	SDL_Texture * debug_tex;

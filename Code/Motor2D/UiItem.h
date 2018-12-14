@@ -62,16 +62,8 @@ public:
 	virtual void OnClickDown(){}
 	virtual void OnClickUp(){}
 	
-	~UiItem()
-	{
-		if (this->parent != nullptr)
-		{
-			UiItem* thisParent = this->parent;
-			uint pos = thisParent->childs.find(this);
-			thisParent->childs.del(thisParent->childs.At(pos));
-			this->parent = nullptr;
-		}
-	}
+	~UiItem();
+
 
 };
 

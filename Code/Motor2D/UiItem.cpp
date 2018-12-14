@@ -54,6 +54,18 @@ void UiItem::DrawChildrens()
 
 }
 
+UiItem::~UiItem()
+{
+	/*if (this->parent != nullptr)
+	{
+		hitBox = { 0,0,0,0 };
+		UiItem* thisParent = this->parent;
+		uint pos = thisParent->childs.find(this);
+		thisParent->childs.del(thisParent->childs.At(pos));
+		this->parent = nullptr;
+	}*/
+}
+
 //bool UiItem::AddParent(UiItem * parent)
 //{
 //	assert(parent != nullptr);
