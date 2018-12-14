@@ -326,14 +326,15 @@ void Player::OnCollision(Collider * otherColl)
 
 	if (otherColl->type==COLLIDER_ENTITY && state == STATE_ATTACK)
 	{
+		points += 200;
+		LOG("YOU HAVEEE %u  POINTS", points);
 		otherColl->to_delete = true;
 	}
 
 	if (otherColl->type == COLLIDER_COIN)
 	{
-		points += 100;
-		if (points == 200)
-			LOG("200 MY BABYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY");
+		coin_points++;
+		points += 50;
 	}
 
 	if (otherColl->type == COLLIDER_ENEMY && state != STATE_ATTACK)
