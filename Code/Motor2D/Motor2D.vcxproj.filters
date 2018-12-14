@@ -76,9 +76,6 @@
     <ClCompile Include="j1Fonts.cpp">
       <Filter>Desenvolupament  ========\Modules\Core</Filter>
     </ClCompile>
-    <ClCompile Include="j1StartMenu.cpp">
-      <Filter>Desenvolupament  ========\Modules\Scenes</Filter>
-    </ClCompile>
     <ClCompile Include="j1Scene.cpp">
       <Filter>Desenvolupament  ========\Modules\Scenes</Filter>
     </ClCompile>
@@ -188,9 +185,6 @@
     </ClInclude>
     <ClInclude Include="j1Module.h">
       <Filter>Desenvolupament  ========\Modules</Filter>
-    </ClInclude>
-    <ClInclude Include="j1StartMenu.h">
-      <Filter>Desenvolupament  ========\Modules\Scenes</Filter>
     </ClInclude>
     <ClInclude Include="j1Scene.h">
       <Filter>Desenvolupament  ========\Modules\Scenes</Filter>

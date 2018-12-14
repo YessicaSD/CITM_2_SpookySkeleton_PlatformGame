@@ -17,7 +17,7 @@
 #include "j1Scene.h"
 #include "j1Fonts.h"
 #include "j1Gui.h"
-#include "j1StartMenu.h"
+
 #include "Brofiler/Brofiler.h"
 
 // Constructor
@@ -50,6 +50,7 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(audio);
 	
 	AddModule(map);
+	map->active = false;
 	AddModule(entity);
 	AddModule(scene);
 	AddModule(font);

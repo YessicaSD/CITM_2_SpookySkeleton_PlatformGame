@@ -95,29 +95,29 @@ UiItem::UiItem(const iPoint & pos, UiItem* const parent): parent(parent)
 		localPos = pos;
 		if (parent != nullptr)
 		{
+			this->parent = parent;
 			parent->childs.add(this);
 			this->UpdateScreenPos();
-			if (parent)
-			{
-				this->hitBox.x = worldPos.x;
-				this->hitBox.y = worldPos.y;
-			}
+			this->hitBox.x = worldPos.x;
+			this->hitBox.y = worldPos.y;
 		}
 }
 
 UiItem::UiItem(SDL_Rect hitBox, UiItem *const parent, p2Point<int> pivot) :pivot(pivot),parent(parent)
 {
+
 	this->hitBox = hitBox;
 	localPos = { hitBox.x, hitBox.y };
+		if (parent != nullptr)
+		{
+			this->parent = parent;
+			parent->childs.add(this);
+			this->UpdateScreenPos();
+			this->hitBox.x = worldPos.x;
+			this->hitBox.y = worldPos.y;
 
-	if (parent != nullptr)
-	{
-		parent->childs.add(this);
-		this->UpdateScreenPos();
-		this->hitBox.x = worldPos.x;
-		this->hitBox.y = worldPos.y;
+		}
 		
-	}
 	
 
 }

@@ -80,7 +80,7 @@ struct MapLayer
 	uint width = 0u;
 	uint height = 0u;
 	float parallax_velocity = 0.0f;
-	
+	bool visible = true;
 
 	tile*		arrayOfIds = nullptr;
 	Properties	properties;

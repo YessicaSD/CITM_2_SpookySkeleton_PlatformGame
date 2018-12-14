@@ -25,7 +25,7 @@ class j1Gui : public j1Module
 private:
 	
 	bool showUIHitBox = false;
-	UiItem* canvas = new UiItem({0,0,0,0},NULL);
+	UiItem* canvas = nullptr;
 public:
 	TTF_Font * arrayFonts[MAX_FONTS];
 	j1Gui();
@@ -44,6 +44,7 @@ public:
 	UiItem_Image* AddImage(SDL_Rect hitBox, const SDL_Rect* section, UiItem *const parent, p2Point<int> pivot = {0,0});
 	UiItem_Button* AddButton(SDL_Rect hitBox, const SDL_Rect * idle, UiItem *const parent, const SDL_Rect * click = NULL, const SDL_Rect * hover = NULL, p2Point<int> pivot = { 0,0 });
 	UiItem_Bar* AddBar(SDL_Rect hitBox, const SDL_Rect* section, UiItem *const parent, p2Point<int> pivot = { 0,0 });
+	UiItem* AddEmptyElement(iPoint pos, UiItem * const parent=nullptr);
 	const SDL_Texture* getTexture() const;
 	p2List<UiItem*> ListItemUI;
 

@@ -21,17 +21,19 @@ enum class SceneState
 };
 
 void FadeToScene();
-
+void ExitGame();
 
 class j1Scene : public j1Module
 {
 	
 private:
+
 	//Start Menu variables -------------------------
 	
 	p2List<UiItem*> thisMenuItems;
 	std::map<const char*, void(*)()> mapOfFuntions =
-	{ { "FadeToScene" , FadeToScene } };
+	{ { "FadeToScene" , FadeToScene }, {"ExitGame", ExitGame }
+	};
 	
 	//Game variables --------------------------------
 	p2DynArray<EntitiesInfo> entitiesArrayInfo;
@@ -44,9 +46,11 @@ private:
 	float horizontalScreenDivision;
 
 public:
+	bool exitGame = false;
 	//Start Menu variables -------------------------
-	SceneState state = SceneState::GAME;
-	UiItem* starMenupanel = nullptr;
+	SceneState state = SceneState::STARTMENU;
+
+	UiItem* startMenupanel = nullptr;
 	UiItem* settingPanel = nullptr;
 
 	// Game variables ------------------
