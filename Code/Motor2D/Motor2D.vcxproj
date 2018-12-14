@@ -14,7 +14,7 @@
     <ProjectGuid>{2AF9969B-F202-497B-AF30-7BEF9CE8005E}</ProjectGuid>
     <RootNamespace>programacio_2</RootNamespace>
     <ProjectName>Motor 2D</ProjectName>
-    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -102,6 +102,7 @@
     <ClCompile Include="j1Scene.cpp" />
     <ClCompile Include="j1StartMenu.cpp" />
     <ClCompile Include="UiItem.cpp" />
+    <ClCompile Include="UiItem_Bar.cpp" />
     <ClCompile Include="UiItem_Button.cpp" />
     <ClCompile Include="UiItem_Image.cpp" />
     <ClCompile Include="UiItem_Label.cpp" />
@@ -140,6 +141,7 @@
     <ClInclude Include="PugiXml\src\pugiconfig.hpp" />
     <ClInclude Include="PugiXml\src\pugixml.hpp" />
     <ClInclude Include="j1Scene.h" />
+    <ClInclude Include="UiItem_Bar.h" />
     <ClInclude Include="UiItem_Button.h" />
     <ClInclude Include="UiItem_Image.h" />
     <ClInclude Include="UiItem_Label.h" />

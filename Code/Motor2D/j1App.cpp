@@ -50,11 +50,11 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(audio);
 	
 	AddModule(map);
-		map->active = false;
+		//map->active = false;
 	AddModule(entity);
-	AddModule(StartMenu);
+	//AddModule(StartMenu);
 	AddModule(scene);
-		scene->active = false;
+		//scene->active = false;
 	AddModule(font);
 	AddModule(pathfinding);
 	pathfinding->active = false;

@@ -88,6 +88,9 @@
     <ClCompile Include="EntityCoin.cpp">
       <Filter>Desenvolupament  ========\Modules\Entities\Entities</Filter>
     </ClCompile>
+    <ClCompile Include="UiItem_Bar.cpp">
+      <Filter>Desenvolupament  ========\Modules\GUI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="j1App.h">
@@ -197,6 +200,9 @@
     </ClInclude>
     <ClInclude Include="EntityCoin.h">
       <Filter>Desenvolupament  ========\Modules\Entities\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="UiItem_Bar.h">
+      <Filter>Desenvolupament  ========\Modules\GUI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -169,6 +169,18 @@ UiItem_Button * j1Gui::AddButton(SDL_Rect hitBox, const SDL_Rect* idle, UiItem *
 	return (UiItem_Button*)newUIItem;
 }
 
+UiItem_Bar * j1Gui::AddBar(SDL_Rect hitBox, const SDL_Rect* section, UiItem *const parent, p2Point<int> pivot )
+{
+	UiItem* newUIItem = nullptr;
+	if (parent == NULL)
+		newUIItem = new UiItem_Bar(hitBox, section, canvas, pivot);
+	else
+		newUIItem = new UiItem_Bar(hitBox, section, parent, pivot);
+
+	ListItemUI.add(newUIItem);
+	return (UiItem_Bar*)newUIItem;
+}
+
  
 // const getter for atlas
  const SDL_Texture* j1Gui::getTexture() const
