@@ -52,7 +52,9 @@ public:
 	// Game variables ------------------
 	uint num_thismaplvl = 1;
 	bool loadingSaveFile = false;
-
+	uint points = 0;
+	uint coin_points = 0;
+	uint player_lives = 3;
 	
 public:
 	bool loadedLeve = true;

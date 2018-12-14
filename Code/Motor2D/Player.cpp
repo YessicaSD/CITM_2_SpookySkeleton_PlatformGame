@@ -80,6 +80,7 @@ Player::Player(fPoint position, Animation* anim, SDL_Texture* tex, entities_type
 	
 	death_fx = true;
 	jump_fx = true;
+	get_hurt = true;
 	maxSpeed = { nodePlayer.attribute("Speed_x").as_float(), nodePlayer.attribute("Speed_y").as_float() };
 
 }
@@ -148,6 +149,19 @@ bool Player::PreUpdate(float dt)
 				App->audio->PlayFx(App->entity->fx_death);
 				death_fx = false;
 			}
+
+			if (get_hurt)
+			{
+				if (App->scene->player_lives > 0)
+				{
+					App->scene->player_lives--;
+				}
+				else
+					LOG("PLAYER LIVES ARE %u", App->scene->player_lives);
+
+				get_hurt = false;
+			}
+			
 		}
 
 		if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_IDLE && App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_IDLE)
@@ -326,15 +340,15 @@ void Player::OnCollision(Collider * otherColl)
 
 	if (otherColl->type==COLLIDER_ENTITY && state == STATE_ATTACK)
 	{
-		points += 200;
-		LOG("YOU HAVEEE %u  POINTS", points);
+		App->scene->points += 200;
+		LOG("YOU HAVEEE %u  POINTS", App->scene->points);
 		otherColl->to_delete = true;
 	}
 
 	if (otherColl->type == COLLIDER_COIN)
 	{
-		coin_points++;
-		points += 50;
+		App->scene->coin_points++;
+		App->scene->points += 50;
 	}
 
 	if (otherColl->type == COLLIDER_ENEMY && state != STATE_ATTACK)
@@ -343,7 +357,10 @@ void Player::OnCollision(Collider * otherColl)
 
 
 	if (otherColl->type == COLLIDER_RESPAWN)
-		App->fade->FadeToBlack(App->scene->num_thismaplvl);
+	{
+		state = STATE_DEATH;
+		//App->fade->FadeToBlack(App->scene->num_thismaplvl);
+	}
 
 	
 

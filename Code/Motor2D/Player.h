@@ -34,6 +34,7 @@ private:
 	bool right = true;
 	bool iceMovement = false;
 	bool death_fx = false;
+	bool get_hurt = false;
 	bool jump_fx = false;
 	uint acceleration_x=100;
 	void DebugModeInput();
@@ -45,8 +46,7 @@ public:
 		void Draw() override;
 		void OnCollision(Collider* collider);
 		PlayerState state = STATE_SPAWN;
-		uint coin_points = 0;
-		uint points = 0;
+		
 //protected:
 //	Animation * animation = nullptr;
 //	fPoint maxSpeed = { 0.0F,0.0F };

@@ -14,6 +14,7 @@
 #include "j1Map.h"
 #include "j1Pathfinding.h"
 #include "j1Gui.h"
+#include "Player.h"
 
 
 #include "UiItem_Label.h"
@@ -146,6 +147,8 @@ bool j1Scene::Update(float dt)
 			break;
 		}
 	
+	
+
 	AudioControl();
 	return true;
 }
