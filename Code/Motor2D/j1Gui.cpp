@@ -122,7 +122,7 @@ bool j1Gui::CleanUp()
 	LOG("Freeing GUI");
 	for (p2List_item<UiItem*>* thisItem = ListItemUI.start; thisItem; thisItem = thisItem->next)
 	{
-		ListItemUI.del(thisItem);
+		delete thisItem->data;
 	}
 	ListItemUI.clear();
 	return true;

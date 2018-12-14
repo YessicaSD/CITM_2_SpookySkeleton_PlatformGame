@@ -16,10 +16,16 @@ j1StartMenu::j1StartMenu()
 
 void FadeToScene()
 {
-	App->fade->FadeToBlack(1);
 	j1Module* thisModule = (j1Module*)App->pathfinding;
 	thisModule->Enable();
+	
 	App->StartMenu->Disable();
+	App->fade->FadeToBlack(1);
+	for (p2List_item<UiItem*>* thisitem = App->StartMenu->thisMenuItems.start; thisitem; thisitem = thisitem->next)
+	{
+		thisitem->data->enable = false;
+	}
+	
 }
 
 bool j1StartMenu::Start()
@@ -30,7 +36,7 @@ bool j1StartMenu::Start()
 
 	App->win->scale = 1.0F;
 	SDL_Rect Rect = { 0,93,374,377 };
-	App->Gui->AddImage({ 328,28,374,377 }, &Rect, NULL, {0,0});
+	thisMenuItems.add(App->Gui->AddImage({ 328,28,374,377 }, &Rect, NULL, {0,0}));
 	SDL_Rect ButtonFrames[3] = { { 374,0,253,161 } ,{ 374,161,253,161 },{ 374,322,253,161 } };
 
 	UiItem_Button* buttonPlay = App->Gui->AddButton({ 388,402,252,146 },(const SDL_Rect*) &ButtonFrames[0],NULL , (const SDL_Rect*)&ButtonFrames[2], (const SDL_Rect*)&ButtonFrames[1]);
@@ -83,10 +89,6 @@ bool j1StartMenu::Update(float dt)
 }
 bool j1StartMenu::CleanUp()
 {
-	for(p2List_item<UiItem*>* thisItem = thisMenuItems.start; thisItem; thisItem = thisItem->next)
-	{
-		App->Gui->ListItemUI.del(thisItem);
-		
-	}
+	
 	return true;
 }

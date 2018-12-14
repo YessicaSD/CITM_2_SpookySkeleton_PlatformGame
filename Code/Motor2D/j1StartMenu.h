@@ -13,8 +13,9 @@ private:
 	SDL_Texture * Background = nullptr;
 	UiItem_Image* titleImage = nullptr;
 	uint fx_death_aux;
-	p2List<UiItem*> thisMenuItems;
+	
 public:
+	p2List<UiItem*> thisMenuItems;
 	j1StartMenu();
 	bool Start() override;
 	bool Update(float dt) override;
