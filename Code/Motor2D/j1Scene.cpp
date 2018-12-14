@@ -367,8 +367,14 @@ void FadeToScene()
 	j1Module* thisModule = (j1Module*)App->pathfinding;
 	thisModule->Enable();
 	
-	App->fade->FadeToBlack(1);
 	App->scene->state = SceneState::GAME;
+	App->fade->FadeToBlack(1);
+	if (App->map->IsEnabled())
+		LOG("IS TRUE");	
+
+	
+	App->map->active = true;
+	
 }
 void ExitGame()
 {

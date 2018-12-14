@@ -50,6 +50,7 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(audio);
 	
 	AddModule(map);
+	map->active = false;
 	AddModule(entity);
 	AddModule(scene);
 	AddModule(font);
