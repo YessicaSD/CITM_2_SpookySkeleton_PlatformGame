@@ -26,7 +26,7 @@ bool j1StartMenu::Update(float dt)
 {
 	
 
-	App->render->Blit(Background, 0, 0, NULL, SDL_FLIP_NONE, 0.0F);
+	
 	
 	return true;
 }

@@ -28,15 +28,12 @@ class j1Scene : public j1Module
 	
 private:
 	//Start Menu variables -------------------------
-	SceneState state = SceneState::STARTMENU;
+	
 	p2List<UiItem*> thisMenuItems;
 	std::map<const char*, void(*)()> mapOfFuntions =
 	{ { "FadeToScene" , FadeToScene } };
-
 	
-
 	//Game variables --------------------------------
-
 	p2DynArray<EntitiesInfo> entitiesArrayInfo;
 	SDL_Texture * Background = nullptr;
 	UiItem_Image* titleImage = nullptr;
@@ -47,10 +44,15 @@ private:
 	float horizontalScreenDivision;
 
 public:
+	//Start Menu variables -------------------------
+	SceneState state = SceneState::STARTMENU;
+	UiItem* starMenupanel = nullptr;
+	UiItem* settingPanel = nullptr;
+
+	// Game variables ------------------
 	uint num_thismaplvl = 1;
 	bool loadingSaveFile = false;
 
-private:
 	
 public:
 	bool loadedLeve = true;
@@ -75,6 +77,8 @@ public:
 
 	// Called before all Updates
 	bool PostUpdate() override;
+
+	void DebugControls();
 
 	void CameraLogic(float dt);
 

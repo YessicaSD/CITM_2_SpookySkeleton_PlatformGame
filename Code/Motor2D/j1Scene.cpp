@@ -106,31 +106,7 @@ bool j1Scene::Start()
 	
 	return true;
 }
-void j1Scene::LoadEntities(const pugi::xml_node& entitiesNode)
-{
-	entitiesArrayInfo.Clear();
-	//players---------------------------
-	for (pugi::xml_node playerNode = entitiesNode.child("player"); playerNode !=NULL; playerNode = playerNode.next_sibling("player"))
-	{
-		entitiesArrayInfo.PushBack(EntitiesInfo(PLAYER, { playerNode.attribute("x").as_float(),playerNode.attribute("y").as_float() }));
-	}
-	//bats-----------------------------
-	for (pugi::xml_node entityNode = entitiesNode.child("bat"); entityNode; entityNode = entityNode.next_sibling("bat"))
-	{
-		entitiesArrayInfo.PushBack(EntitiesInfo (ENEMY_BAT, { entityNode.attribute("x").as_float(),entityNode.attribute("y").as_float() }));
-		
-	}
-	//zombies---------------------------
-	for (pugi::xml_node entityNode = entitiesNode.child("zombie"); entityNode; entityNode = entityNode.next_sibling("zombie"))
-	{
-		entitiesArrayInfo.PushBack(EntitiesInfo (ENEMI_ZOMBIE, { entityNode.attribute("x").as_float(),entityNode.attribute("y").as_float() }));
-	}
-	//coins---------------------------
-	for (pugi::xml_node entityNode = entitiesNode.child("coin"); entityNode; entityNode = entityNode.next_sibling("coin"))
-	{
-		entitiesArrayInfo.PushBack(EntitiesInfo(COIN, { entityNode.attribute("x").as_float(),entityNode.attribute("y").as_float() }));
-	}
-}
+
 // Called each loop iteration
 bool j1Scene::PreUpdate(float dt)
 {
@@ -142,13 +118,51 @@ bool j1Scene::PreUpdate(float dt)
 bool j1Scene::Update(float dt)
 {
 	BROFILER_CATEGORY("Update_Scene.cpp", Profiler::Color::Coral)
-	//Load and save game---------------------------------------------------
-	if (App->input->GetKey(SDL_SCANCODE_F6) == KEY_DOWN)
-		App->LoadGame();
+		switch (state)
+		{
+		case SceneState::STARTMENU:
+			
+			App->render->Blit(Background, 0, 0, NULL, SDL_FLIP_NONE, 0.0F);
+			break;
 
-	if (App->input->GetKey(SDL_SCANCODE_F5) == KEY_DOWN)
-		App->SaveGame();
+		case SceneState::GAME:
+			DebugControls();
 
+			//Load and save game---------------------------------------------------
+			if (App->input->GetKey(SDL_SCANCODE_F6) == KEY_DOWN)
+				App->LoadGame();
+
+			if (App->input->GetKey(SDL_SCANCODE_F5) == KEY_DOWN)
+				App->SaveGame();
+			break;
+
+		case SceneState::PAUSE:
+			break;
+		case SceneState::SETTING:
+			break;
+		case SceneState::MAX_STATES:
+			break;
+		default:
+			break;
+		}
+	
+	AudioControl();
+	return true;
+}
+
+// Called each loop iteration
+bool j1Scene::PostUpdate()
+{
+	bool ret = true;
+
+	if (App->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN)
+		ret = false;
+
+	return ret;
+}
+
+void j1Scene::DebugControls()
+{
 	//Camera controls -----------------------------------------------------
 	if (App->input->GetKey(SDL_SCANCODE_KP_8) == KEY_REPEAT)
 		App->render->camera.y -= 5;
@@ -170,30 +184,12 @@ bool j1Scene::Update(float dt)
 	{
 		App->fade->FadeToBlack(App->scene->num_thismaplvl);
 	}
-	if (App->input->GetKey(SDL_SCANCODE_F8))
+	if (App->input->GetKey(SDL_SCANCODE_F3))
 	{
 		App->fade->FadeToBlack(2);
 
 	}
-
-	AudioControl();
-	return true;
 }
-
-// Called each loop iteration
-bool j1Scene::PostUpdate()
-{
-	bool ret = true;
-	/*CameraLogic(dt);*/
-
-
-
-	if (App->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN)
-		ret = false;
-
-	return ret;
-}
-
 void j1Scene::CameraLogic(float dt)
 {
 	iPoint offset(App->win->width*0.5F, App->win->height*0.5F);
@@ -227,6 +223,8 @@ void j1Scene::CameraLogic(float dt)
 bool j1Scene::CleanUp()
 {
 	LOG("Freeing scene");
+	App->tex->UnLoad(Background);
+	App->win->scale = 2.0F;
 	App->entity->DestroyAllEntities();
 
 	return true;
@@ -329,9 +327,39 @@ bool j1Scene::LoadStartMenu()
 	return true;
 }
 
+void j1Scene::LoadEntities(const pugi::xml_node& entitiesNode)
+{
+	entitiesArrayInfo.Clear();
+	//players---------------------------
+	for (pugi::xml_node playerNode = entitiesNode.child("player"); playerNode != NULL; playerNode = playerNode.next_sibling("player"))
+	{
+		entitiesArrayInfo.PushBack(EntitiesInfo(PLAYER, { playerNode.attribute("x").as_float(),playerNode.attribute("y").as_float() }));
+	}
+	//bats-----------------------------
+	for (pugi::xml_node entityNode = entitiesNode.child("bat"); entityNode; entityNode = entityNode.next_sibling("bat"))
+	{
+		entitiesArrayInfo.PushBack(EntitiesInfo(ENEMY_BAT, { entityNode.attribute("x").as_float(),entityNode.attribute("y").as_float() }));
+
+	}
+	//zombies---------------------------
+	for (pugi::xml_node entityNode = entitiesNode.child("zombie"); entityNode; entityNode = entityNode.next_sibling("zombie"))
+	{
+		entitiesArrayInfo.PushBack(EntitiesInfo(ENEMI_ZOMBIE, { entityNode.attribute("x").as_float(),entityNode.attribute("y").as_float() }));
+	}
+	//coins---------------------------
+	for (pugi::xml_node entityNode = entitiesNode.child("coin"); entityNode; entityNode = entityNode.next_sibling("coin"))
+	{
+		entitiesArrayInfo.PushBack(EntitiesInfo(COIN, { entityNode.attribute("x").as_float(),entityNode.attribute("y").as_float() }));
+	}
+}
+
 void FadeToScene()
 {
 	j1Module* thisModule = (j1Module*)App->pathfinding;
 	thisModule->Enable();
+	
 	App->fade->FadeToBlack(1);
+	App->scene->state = SceneState::GAME;
 }
+//void ExitGame()
+

@@ -13,56 +13,55 @@ enum UI_STATES
 	CLICK,
 	MAX_STATES,
 };
-
 class UiItem
 {
-protected:
-	iPoint localPos = {0,0};
-	iPoint worldPos = {0,0};
-	UiItem* parent = nullptr;
-	p2List<UiItem*> childs;
+	protected:
+		iPoint localPos = {0,0};
+		iPoint worldPos = {0,0};
+		UiItem* parent = nullptr;
+		p2List<UiItem*> childs;
 
-public:
-	bool showHitBox = false;
-	bool enable = true;
-	bool interactive = true;
-	bool draggable = true;
+	public:
+		bool showHitBox = false;
+		bool enable = true;
+		bool interactive = true;
+		bool draggable = true;
 
-	UI_STATES state = IDLE;
-	SDL_Rect hitBox = {0,0,0,0};
-	p2Point<int> pivot = {0,0};
-	uint mouseButtonDown = 0;
+		UI_STATES state = IDLE;
+		SDL_Rect hitBox = {0,0,0,0};
+		p2Point<int> pivot = {0,0};
+		uint mouseButtonDown = 0;
 	
-	UiItem(const iPoint& pos, UiItem* const parent);
-	UiItem(SDL_Rect hitBox, UiItem *const parent, p2Point<int> pivot = { 0,0 }); 
+		UiItem(const iPoint& pos, UiItem* const parent);
+		UiItem(SDL_Rect hitBox, UiItem *const parent, p2Point<int> pivot = { 0,0 }); 
 	
-	iPoint UpdateScreenPos()
-	{
-		worldPos = localPos;
-		for (UiItem*  thisParent = this->parent; thisParent; thisParent= thisParent->parent)
+		iPoint UpdateScreenPos()
 		{
-			worldPos += thisParent->localPos;
-		}
+			worldPos = localPos;
+			for (UiItem*  thisParent = this->parent; thisParent; thisParent= thisParent->parent)
+			{
+				worldPos += thisParent->localPos;
+			}
 	
-		return worldPos;
-	}
-	iPoint GetScreenPos()
-	{
-		return worldPos;
-	}
-	uint ReturnNumOfChilds() const 
-	{
-		return childs.Count();
-	}
-	void AddToPos(const iPoint& value);
-	void DrawChildrens();
+			return worldPos;
+		}
+		iPoint GetScreenPos()
+		{
+			return worldPos;
+		}
+		uint ReturnNumOfChilds() const 
+		{
+			return childs.Count();
+		}
+		void AddToPos(const iPoint& value);
+		void DrawChildrens();
 	
 
-	virtual void Draw() {};
-	virtual void OnClickDown(){}
-	virtual void OnClickUp(){}
+		virtual void Draw() {};
+		virtual void OnClickDown(){}
+		virtual void OnClickUp(){}
 	
-	~UiItem();
+		~UiItem();
 
 
 };
