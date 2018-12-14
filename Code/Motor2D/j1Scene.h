@@ -45,7 +45,7 @@ private:
 
 public:
 	//Start Menu variables -------------------------
-	SceneState state = SceneState::STARTMENU;
+	SceneState state = SceneState::GAME;
 	UiItem* starMenupanel = nullptr;
 	UiItem* settingPanel = nullptr;
 
