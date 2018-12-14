@@ -104,7 +104,7 @@ bool j1Map::PostUpdate()
 
 	for (p2List_item<MapLayer*>* item_layer = level.layers.start; item_layer; item_layer = item_layer->next)
 	{
-		if (item_layer->data->properties.GetAsFloat("draw", -1) == 0)
+		if (!item_layer->data->visible)
 			continue;
 
 		for (uint row = 0; row<level.height; row++)
@@ -556,6 +556,10 @@ bool j1Map::LoadLayer(pugi::xml_node& node, MapLayer* layer)
 	layer->name = node.attribute("name").as_string();
 	layer->width = node.attribute("width").as_uint();
 	layer->height = node.attribute("height").as_uint();
+	if (node.attribute("visible"))
+	{
+		layer->visible = false;
+	}
 	LoadLayerProperties(node,layer->properties );
 
 	pugi::xml_node layer_data = node.child("data");

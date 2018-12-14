@@ -158,6 +158,8 @@ bool j1Scene::PostUpdate()
 	if (App->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN)
 		ret = false;
 
+	if (exitGame)
+		return false;
 	return ret;
 }
 
@@ -313,7 +315,10 @@ bool j1Scene::LoadStartMenu()
 	ButtonFrames[0] = { 186,0,70,70 };
 	ButtonFrames[1] = { 256,0,70,70 };
 	ButtonFrames[2] = { 627,0,70,70 };
-	thisMenuItems.add(App->Gui->AddButton({ 915,31,70,70 }, (const SDL_Rect*)&ButtonFrames[0], NULL, (const SDL_Rect*)&ButtonFrames[1], (const SDL_Rect*)&ButtonFrames[2]));
+	UiItem_Button* buttonExit = App->Gui->AddButton({ 915,31,70,70 }, (const SDL_Rect*)&ButtonFrames[0], NULL, (const SDL_Rect*)&ButtonFrames[1], (const SDL_Rect*)&ButtonFrames[2]);
+	thisMenuItems.add(buttonExit);
+	buttonExit->AddFuntion(mapOfFuntions["ExitGame"]);
+	
 	ButtonFrames[0] = { 0,0,93,93 };
 	ButtonFrames[1] = { 93,0,93,93 };
 	thisMenuItems.add(App->Gui->AddButton({ 51,35,65,65 }, (const SDL_Rect*)&ButtonFrames[0], NULL, (const SDL_Rect*)&ButtonFrames[1], (const SDL_Rect*)&ButtonFrames[1], { 14,12 }));
@@ -361,5 +366,8 @@ void FadeToScene()
 	App->fade->FadeToBlack(1);
 	App->scene->state = SceneState::GAME;
 }
-//void ExitGame()
+void ExitGame()
+{
+	App->scene->exitGame = true;
+}
 

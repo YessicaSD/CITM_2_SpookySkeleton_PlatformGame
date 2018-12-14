@@ -17,7 +17,7 @@
 #include "j1Scene.h"
 #include "j1Fonts.h"
 #include "j1Gui.h"
-#include "j1StartMenu.h"
+
 #include "Brofiler/Brofiler.h"
 
 // Constructor

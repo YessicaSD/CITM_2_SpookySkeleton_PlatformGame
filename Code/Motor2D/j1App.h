@@ -92,7 +92,6 @@ public:
 	j1Textures*			tex = nullptr;
 	j1Audio*			audio = nullptr;
 	j1Map*				map = nullptr;
-	j1Player*			player1 = nullptr;
 	j1Entities*			entity = nullptr;
 	j1Collision*		collision = nullptr;
 	j1FadeToBlack*		fade = nullptr;
