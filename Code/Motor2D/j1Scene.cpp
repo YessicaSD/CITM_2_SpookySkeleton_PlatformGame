@@ -59,40 +59,42 @@ bool j1Scene::Start()
 		LoadStartMenu();
 		break;
 	case SceneState::GAME:
-		//Pick level node-----------------------------------------
-		//pugi::xml_node entitiesNode;
-		//if (loadingSaveFile == true)
-		//{
-		//	loadingSaveFile = false;
-		//}
-		//else
-		//{
-		//	pugi::xml_node levelNode = sceneNode.child("level");
-		//	if (levelNode == NULL)
-		//	{
-		//		LOG("ERROR ENTITIES LOADING FILE");
-		//		return false;
-		//	}
+	{	//Pick level node-----------------------------------------
+		pugi::xml_node entitiesNode;
+		if (loadingSaveFile == true)
+		{
+			loadingSaveFile = false;
+		}
+		else
+		{
+			pugi::xml_node levelNode = sceneNode.child("level");
+			if (levelNode == NULL)
+			{
+				LOG("ERROR ENTITIES LOADING FILE");
+				return false;
+			}
 
-		//	for (uint i = 1; i < num_thismaplvl; ++i)
-		//	{
-		//		levelNode = levelNode.next_sibling("level");
-		//	}
-		//	//Load enemies -----------------------------------------
-		//	entitiesNode = levelNode.child("entities");
-		//	if (entitiesNode == nullptr)
-		//		return false;
-		//	LoadEntities(entitiesNode);
-		//}
-		//uint numEnemies = entitiesArrayInfo.Count();
-		//if (numEnemies > 0)
-		//{
-		//	for (uint i = 0; i < numEnemies; ++i)
-		//	{
-		//		App->entity->AddEntity(entitiesArrayInfo[i]);
-		//	}
-		//}
-		//break;
+			for (uint i = 1; i < num_thismaplvl; ++i)
+			{
+				levelNode = levelNode.next_sibling("level");
+			}
+			//Load enemies -----------------------------------------
+			entitiesNode = levelNode.child("entities");
+			if (entitiesNode == nullptr)
+				return false;
+			LoadEntities(entitiesNode);
+		}
+		uint numEnemies = entitiesArrayInfo.Count();
+		if (numEnemies > 0)
+		{
+			for (uint i = 0; i < numEnemies; ++i)
+			{
+				App->entity->AddEntity(entitiesArrayInfo[i]);
+			}
+		}
+	}
+			
+		break;
 	case SceneState::PAUSE:
 		
 		break;
