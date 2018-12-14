@@ -369,10 +369,6 @@ void FadeToScene()
 	
 	App->scene->state = SceneState::GAME;
 	App->fade->FadeToBlack(1);
-	if (App->map->IsEnabled())
-		LOG("IS TRUE");	
-
-	
 	App->map->active = true;
 	
 }
