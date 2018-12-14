@@ -15,12 +15,14 @@ j1Gui::j1Gui() : j1Module()
 	{
 		arrayFonts[iter] = nullptr;
 	}
-	ListItemUI.add(canvas);
+	
 }
 
 // Destructor
 j1Gui::~j1Gui()
-{}
+{
+
+}
 
 // Called before render is available
 bool j1Gui::Awake(pugi::xml_node& conf)
@@ -32,6 +34,8 @@ bool j1Gui::Awake(pugi::xml_node& conf)
 	arrayFonts[BASE_FONT] = App->font->Load("fonts/open_sans/OpenSans-Bold.ttf");
 	arrayFonts[COPPERPLATE_B_I_48] = App->font->Load("fonts/CopperPlate/CopperPlate_BoldItalic.ttf", 48);
 	arrayFonts[COPPERPLATE_B_I_24] = App->font->Load("fonts/CopperPlate/CopperPlate_BoldItalic.ttf", 24);
+	canvas = new UiItem({ 0,0,0,0 }, NULL);
+	ListItemUI.add(canvas);
 	return ret;
 }
 
@@ -120,11 +124,15 @@ bool j1Gui::PostUpdate()
 bool j1Gui::CleanUp()
 {
 	LOG("Freeing GUI");
+
 	for (p2List_item<UiItem*>* thisItem = ListItemUI.start; thisItem; thisItem = thisItem->next)
 	{
 		delete thisItem->data;
 	}
 	ListItemUI.clear();
+	canvas = nullptr;
+	
+
 	return true;
 }
 
@@ -179,6 +187,18 @@ UiItem_Bar * j1Gui::AddBar(SDL_Rect hitBox, const SDL_Rect* section, UiItem *con
 
 	ListItemUI.add(newUIItem);
 	return (UiItem_Bar*)newUIItem;
+}
+
+UiItem* j1Gui::AddEmptyElement(iPoint pos, UiItem * const parent)
+{
+	UiItem* newUIItem = nullptr;
+	if (parent == NULL)
+		newUIItem = new UiItem(pos, canvas);
+	else
+		newUIItem = new UiItem(pos, parent);
+
+	ListItemUI.add(newUIItem);
+	return newUIItem;
 }
 
  

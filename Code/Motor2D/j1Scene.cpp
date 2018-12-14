@@ -291,13 +291,17 @@ void j1Scene::AudioControl()
 
 bool j1Scene::LoadStartMenu()
 {
+	App->win->scale = 1.0F;
+
 	Background = App->tex->Load("textures/StartMenu/Background.png");
 	App->audio->PlayMusic("audio/music/menu_music.ogg");
 	fx_death_aux = App->audio->LoadFx("audio/fx/smw_stomp_bones.wav");
 
-	App->win->scale = 1.0F;
+	startMenupanel = App->Gui->AddEmptyElement({ 0,0 });
+
 	SDL_Rect Rect = { 0,93,374,377 };
-	thisMenuItems.add(App->Gui->AddImage({ 328,28,374,377 }, &Rect, NULL, { 0,0 }));
+	thisMenuItems.add(App->Gui->AddImage({ 328,28,374,377 }, &Rect, startMenupanel, { 0,0 }));
+
 	SDL_Rect ButtonFrames[3] = { { 374,0,253,161 } ,{ 374,161,253,161 },{ 374,322,253,161 } };
 
 	UiItem_Button* buttonPlay = App->Gui->AddButton({ 388,402,252,146 }, (const SDL_Rect*)&ButtonFrames[0], NULL, (const SDL_Rect*)&ButtonFrames[2], (const SDL_Rect*)&ButtonFrames[1]);

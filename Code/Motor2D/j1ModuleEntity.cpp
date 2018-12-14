@@ -138,8 +138,9 @@ bool j1Entities::CleanUp()
 	{
 		App->tex->UnLoad(entitiesTexture);
 	}
-	
-	DestroyAllEntities();
+	if (list_Entities.Count() > 0)
+		DestroyAllEntities();
+
 	entitiesAnimation.clear();
 	return true;
 }
@@ -195,13 +196,13 @@ bool j1Entities::DestroyEntity(p2List_item<j1Entity*>* entity)
 
 void j1Entities::DestroyAllEntities()
 {
+	
 	p2List_item<j1Entity*>* itemEntity = nullptr;
 	for (itemEntity = list_Entities.end; itemEntity != nullptr ; itemEntity = itemEntity->prev)
 	{
-		RELEASE(itemEntity->data);
-		list_Entities.del(itemEntity);
+		delete itemEntity->data;
 	}
-	
+	list_Entities.clear();
 }
 
 bool j1Entities::LoadAnimations(pugi::xml_node animNode) 

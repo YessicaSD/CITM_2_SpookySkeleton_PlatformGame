@@ -18,14 +18,14 @@ class UiItem
 	protected:
 		iPoint localPos = {0,0};
 		iPoint worldPos = {0,0};
-		UiItem* parent = nullptr;
+		UiItem* parent = NULL;
 		p2List<UiItem*> childs;
 
 	public:
 		bool showHitBox = false;
 		bool enable = true;
 		bool interactive = true;
-		bool draggable = true;
+		bool draggable = false;
 
 		UI_STATES state = IDLE;
 		SDL_Rect hitBox = {0,0,0,0};
