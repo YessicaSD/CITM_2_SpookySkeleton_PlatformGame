@@ -259,7 +259,7 @@ void Player::OnCollision(Collider * otherColl)
 	bool PlayerIsOnTheRight = position.x >= otherColl->rect.x + otherColl->rect.w  && position.y > otherColl->rect.y;
 	bool PlayerIsUnder = position.y > otherColl->rect.y + otherColl->rect.h && collider->rect.x + collider->rect.w - 5 > otherColl->rect.x && collider->rect.x + 5 < otherColl->rect.x + otherColl->rect.w;
 	
-	if (otherColl->type == COLLIDER_WALL)
+	if (otherColl->type == COLLIDER_WALL || otherColl->type == COLLIDER_SPECIAL)
 	{
 		if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_UP || App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_UP)
 		{

@@ -7,6 +7,7 @@
 #include "UiItem_Image.h"
 #include "UiItem_Label.h"
 #include "UiItem_Button.h"
+#include "UiItem_Bar.h"
 
 #define CURSOR_WIDTH 2
 
@@ -42,6 +43,7 @@ public:
 	UiItem_Label* AddLabel(const char* text, SDL_Color color, TTF_Font *const font, p2Point<int> pos, UiItem *const parent);
 	UiItem_Image* AddImage(SDL_Rect hitBox, const SDL_Rect* section, UiItem *const parent, p2Point<int> pivot = {0,0});
 	UiItem_Button* AddButton(SDL_Rect hitBox, const SDL_Rect * idle, UiItem *const parent, const SDL_Rect * click = NULL, const SDL_Rect * hover = NULL, p2Point<int> pivot = { 0,0 });
+	UiItem_Bar* AddBar(SDL_Rect hitBox, const SDL_Rect* section, UiItem *const parent, p2Point<int> pivot = { 0,0 });
 	const SDL_Texture* getTexture() const;
 	p2List<UiItem*> ListItemUI;
 
