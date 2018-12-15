@@ -6,6 +6,7 @@
 #include "j1Scene.h"
 #include "ModuleFadeToBack.h"
 #include "j1Map.h"
+#include "Brofiler\Brofiler.h"
 
 UiItem_Button::UiItem_Button(SDL_Rect hitBox, const SDL_Rect * idle, UiItem* const parent, const SDL_Rect * click, const SDL_Rect * hover, p2Point<int> pivot ) : UiItem(hitBox, parent, pivot )
 {
@@ -40,6 +41,7 @@ void UiItem_Button::AddFuntion(p2SString & string)
 }
 void UiItem_Button::Draw()
 {
+	BROFILER_CATEGORY("Draw_Button.cpp", Profiler::Color::AliceBlue)
 	App->render->Blit((SDL_Texture*)App->Gui->getTexture(), hitBox.x-pivot.x, hitBox.y-pivot.y, &frames[state], SDL_FLIP_NONE, 0.0f);
 }
 

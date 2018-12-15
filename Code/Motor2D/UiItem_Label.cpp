@@ -6,6 +6,7 @@
 #include "j1Textures.h"
 #include "j1Render.h"
 #include "p2Defs.h"
+#include "Brofiler\Brofiler.h"
 
 UiItem_Label::UiItem_Label( p2SString text, SDL_Color color, TTF_Font * font, p2Point<int> position, UiItem * const parent):UiItem(position, parent)
 {
@@ -23,6 +24,7 @@ UiItem_Label::UiItem_Label( p2SString text, SDL_Color color, TTF_Font * font, p2
 
 bool UiItem_Label::ChangeTextureHover(const p2SString * string, const SDL_Color * color, const TTF_Font * font)
 {
+	BROFILER_CATEGORY("ChangeTextureHover_Label.cpp", Profiler::Color::Azure)
 	bool ret = false;
 	assert(string != NULL || color != NULL || font != NULL);
 	

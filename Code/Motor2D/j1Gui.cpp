@@ -9,6 +9,7 @@
 #include "j1Fonts.h"
 #include "ModuleFadeToBack.h"
 #include "j1Map.h"
+#include "Brofiler\Brofiler.h"
 
 j1Gui::j1Gui() : j1Module()
 {
@@ -55,6 +56,7 @@ bool j1Gui::Start()
 
 bool j1Gui::Update(float dt)
 {
+	BROFILER_CATEGORY("Update_Gui.cpp", Profiler::Color::Coral)
 	iPoint mousePos;
 	App->input->GetMousePosition(mousePos);
 	uint mouseButtonDown = App->input->GetMouseButtonDown();
@@ -106,6 +108,7 @@ bool j1Gui::Update(float dt)
 
 bool j1Gui::PostUpdate()
 {
+	BROFILER_CATEGORY("PostUpdate_Gui.cpp", Profiler::Color::MediumSlateBlue)
 	if (canvas->enable)
 	{
 		canvas->DrawChildrens();

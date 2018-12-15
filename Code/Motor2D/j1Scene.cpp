@@ -169,6 +169,7 @@ bool j1Scene::Update(float dt)
 // Called each loop iteration
 bool j1Scene::PostUpdate()
 {
+	BROFILER_CATEGORY("PostUpdate_Scene.cpp", Profiler::Color::MediumSlateBlue)
 	bool ret = true;
 
 	if (App->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN)
@@ -305,6 +306,7 @@ void j1Scene::AudioControl()
 
 bool j1Scene::LoadStartMenu(pugi::xml_node& nodeScene)
 {
+	BROFILER_CATEGORY("LoadStartMenu.cpp", Profiler::Color::Red)
 	pugi::xml_node startMenuNode = nodeScene.child("StartMenu");
 
 	App->win->scale = 1.0F;
@@ -333,6 +335,7 @@ bool j1Scene::LoadStartMenu(pugi::xml_node& nodeScene)
 }
 void j1Scene::LoadUiElement(UiItem*parent, pugi::xml_node node)
 {
+	BROFILER_CATEGORY("LoadUiElement.cpp", Profiler::Color::Red)
 	for (pugi::xml_node imageNode = node.child("images").child("image"); imageNode; imageNode = imageNode.next_sibling("image"))
 	{
 		SDL_Rect hitBox = { imageNode.child("hitbox").attribute("x").as_int(), imageNode.child("hitbox").attribute("y").as_int(), imageNode.child("hitbox").attribute("w").as_int(), imageNode.child("hitbox").attribute("h").as_int() };
@@ -411,6 +414,7 @@ void j1Scene::LoadUiElement(UiItem*parent, pugi::xml_node node)
 
 bool j1Scene::LoadSettings()
 {
+	BROFILER_CATEGORY("LoadSettings.cpp", Profiler::Color::Red)
 	App->win->scale = 1.0F;
 	Background = App->tex->Load("textures/StartMenu/Background.png");
 	App->audio->PlayMusic("audio/music/menu_music.ogg");

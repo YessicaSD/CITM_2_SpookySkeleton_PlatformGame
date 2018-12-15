@@ -1,7 +1,7 @@
 #include "UiItem.h"
 #include "j1App.h"
 #include "j1Render.h"
-
+#include "Brofiler\Brofiler.h"
 
 void UiItem::AddToPos(const iPoint & value)
 {
@@ -28,6 +28,7 @@ void UiItem::AddToPos(const iPoint & value)
 
 void UiItem::DrawChildrens()
 {
+	BROFILER_CATEGORY("Draw_UiItem.cpp", Profiler::Color::Aqua)
 	if (this->childs.Count() > 0)
 	{
 		for (p2List_item<UiItem*>* thisItem = this->childs.start; thisItem; thisItem = thisItem->next)
