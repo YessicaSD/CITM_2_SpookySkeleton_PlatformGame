@@ -329,34 +329,6 @@ bool j1Scene::LoadStartMenu(pugi::xml_node& nodeScene)
 	startMenupanel = App->Gui->AddEmptyElement({ 0,0 });
 	LoadUiElement(startMenupanel, startMenuNode.child("gui").child("startMenuPanel"));
 
-	/*
-	
-	UiItem_Label* label = App->Gui->AddLabel("Play", { 62,32,28,255 }, App->Gui->arrayFonts[COPPERPLATE_B_I_48], { 45,60 }, buttonPlay);
-	SDL_Color color = { 113,57,36,255 };
-	label->ChangeTextureHover(NULL, &color, NULL);
-
-	buttonPlay->AddFuntion(mapOfFuntions["FadeToScene"]);
-	thisMenuItems.add(label);
-	thisMenuItems.add(App->Gui->AddButton({ 392,565,252,146 }, (const SDL_Rect*)&ButtonFrames[0], NULL, , (const SDL_Rect*)&ButtonFrames[2], (const SDL_Rect*)&ButtonFrames[1]));
-
-
-	ButtonFrames[0] = { 186,0,70,70 };
-	ButtonFrames[1] = { 256,0,70,70 };
-	ButtonFrames[2] = { 627,0,70,70 };
-	UiItem_Button* buttonExit = App->Gui->AddButton({ 915,31,70,70 }, (const SDL_Rect*)&ButtonFrames[0], NULL, , (const SDL_Rect*)&ButtonFrames[1], (const SDL_Rect*)&ButtonFrames[2]);
-	thisMenuItems.add(buttonExit);
-	buttonExit->AddFuntion(mapOfFuntions["ExitGame"]);
-	
-	ButtonFrames[0] = { 0,0,93,93 };
-	ButtonFrames[1] = { 93,0,93,93 };
-	thisMenuItems.add(App->Gui->AddButton({ 51,35,65,65 }, (const SDL_Rect*)&ButtonFrames[0], NULL, , (const SDL_Rect*)&ButtonFrames[1], (const SDL_Rect*)&ButtonFrames[1], { 14,12 }));
-
-
-	label = App->Gui->AddLabel("Continue", { 62,32,28,255 }, App->Gui->arrayFonts[COPPERPLATE_B_I_24], { 440,635 }, NULL);
-	label->ChangeTextureHover(NULL, &color, NULL);
-	thisMenuItems.add(label);
-*/
-
 	return true;
 }
 void j1Scene::LoadUiElement(UiItem*parent, pugi::xml_node node)
@@ -371,10 +343,16 @@ void j1Scene::LoadUiElement(UiItem*parent, pugi::xml_node node)
 			LoadUiElement(newElement, imageNode.child("childs"));
 		}
 	}
-	for (pugi::xml_node buttonNode = node.child("buttons").child("button"); buttonNode; buttonNode = buttonNode.next_sibling("image"))
+	for (pugi::xml_node buttonNode = node.child("buttons").child("button"); buttonNode; buttonNode = buttonNode.next_sibling("button"))
 	{
 		SDL_Rect hitBox = { buttonNode.child("hitbox").attribute("x").as_int(), buttonNode.child("hitbox").attribute("y").as_int(), buttonNode.child("hitbox").attribute("w").as_int(), buttonNode.child("hitbox").attribute("h").as_int() };
 		SDL_Rect sectionIdle = { buttonNode.child("idleSec").attribute("x").as_int(), buttonNode.child("idleSec").attribute("y").as_int(), buttonNode.child("idleSec").attribute("w").as_int(), buttonNode.child("idleSec").attribute("h").as_int() };
+		iPoint pivot = { 0,0 };
+		pugi::xml_node pivotNode = buttonNode.child("pivot");
+		if (pivotNode)
+		{
+			pivot = { pivotNode.attribute("x").as_int(0),pivotNode.attribute("y").as_int(0) };
+		}
 		pugi::xml_node hoverSecNode = buttonNode.child("hoverSec");
 		SDL_Rect* sectionHove = nullptr;
 		if (hoverSecNode)
@@ -390,7 +368,7 @@ void j1Scene::LoadUiElement(UiItem*parent, pugi::xml_node node)
 			sectionClick = &click;
 		}
 		p2SString funtionPath = buttonNode.attribute("funtion").as_string();
-		UiItem*newElement = App->Gui->AddButton(hitBox, &sectionIdle, funtionPath, parent, sectionClick, sectionHove);
+		UiItem*newElement = App->Gui->AddButton(hitBox, &sectionIdle, funtionPath, parent, sectionClick, sectionHove, pivot);
 		if (buttonNode.child("childs"))
 		{
 			LoadUiElement(newElement, buttonNode.child("childs"));
@@ -401,7 +379,33 @@ void j1Scene::LoadUiElement(UiItem*parent, pugi::xml_node node)
 		p2SString text = labelNode.attribute("text").as_string();
 		SDL_Color color = { labelNode.child("color").attribute("r").as_uint(),labelNode.child("color").attribute("g").as_uint(),labelNode.child("color").attribute("b").as_uint(),labelNode.child("color").attribute("a").as_uint() };
 		p2SString font=labelNode.attribute("font").as_string();
-		App->Gui->AddLabel(text.GetString(), color, App->font->getFont(font), {labelNode.attribute("pos_x").as_int(),labelNode.attribute("pos_y").as_int()},parent);
+		UiItem_Label*newElement = App->Gui->AddLabel(text.GetString(), color, App->font->getFont(font), {labelNode.attribute("pos_x").as_int(),labelNode.attribute("pos_y").as_int()},parent);
+		pugi::xml_node hoverNode = labelNode.child("hover");
+		if (hoverNode)
+		{
+			p2SString* string = nullptr;
+			SDL_Color* color = nullptr;
+			TTF_Font* font = nullptr;
+
+			if (hoverNode.attribute("text"))
+			{
+				p2SString aux = hoverNode.attribute("text").as_string();
+				string = &aux;
+			}
+			if (hoverNode.attribute("font"))
+			{
+				p2SString aux = hoverNode.attribute("font").as_string();
+				font = App->font->getFont(aux);
+
+			}
+			pugi::xml_node colorNode = hoverNode.child("color");
+			if (colorNode)
+			{
+				SDL_Color aux = { colorNode.attribute("r").as_uint(),colorNode.attribute("g").as_uint(),colorNode.attribute("b").as_uint(),colorNode.attribute("a").as_uint() };
+				color = &aux;
+			}
+			newElement->ChangeTextureHover(string, color, font);
+		}
 	}
 }
 
