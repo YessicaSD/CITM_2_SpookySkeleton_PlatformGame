@@ -32,9 +32,8 @@ void UiItem_Image::Move()
 		}
 
 		else
-		{
 			this->draggable = true;
-		}
+
 	}
 }
 
