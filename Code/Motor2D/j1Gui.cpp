@@ -5,17 +5,21 @@
 #include "j1Render.h"
 #include "j1Textures.h"
 #include "j1Input.h"
-
+#include "j1Scene.h"
 #include "j1Fonts.h"
+#include "ModuleFadeToBack.h"
+#include "j1Map.h"
 
 j1Gui::j1Gui() : j1Module()
 {
 	name.create("gui");
-	for (uint iter =0; iter <MAX_FONTS; iter++)
-	{
-		arrayFonts[iter] = nullptr;
-	}
 	
+	canvas = new UiItem({ 0,0,0,0 }, NULL);
+	ListItemUI.add(canvas);
+
+	mapOfFuntions.pushBack("FadeToScene", FadeToScene);
+	mapOfFuntions.pushBack("ExitGame", ExitGame);
+
 }
 
 // Destructor
@@ -31,11 +35,9 @@ bool j1Gui::Awake(pugi::xml_node& conf)
 	bool ret = true;
 
 	PathTextureUI = conf.child("UITexture").attribute("file").as_string("");
-	arrayFonts[BASE_FONT] = App->font->Load("fonts/open_sans/OpenSans-Bold.ttf");
-	arrayFonts[COPPERPLATE_B_I_48] = App->font->Load("fonts/CopperPlate/CopperPlate_BoldItalic.ttf", 48);
-	arrayFonts[COPPERPLATE_B_I_24] = App->font->Load("fonts/CopperPlate/CopperPlate_BoldItalic.ttf", 24);
-	canvas = new UiItem({ 0,0,0,0 }, NULL);
-	ListItemUI.add(canvas);
+	
+	
+
 	return ret;
 }
 
@@ -164,7 +166,7 @@ UiItem_Image * j1Gui::AddImage(SDL_Rect hitBox, const SDL_Rect * section, UiItem
 	
 }
 
-UiItem_Button * j1Gui::AddButton(SDL_Rect hitBox, const SDL_Rect* idle, UiItem *const parent = NULL, const SDL_Rect * click, const SDL_Rect * hover, p2Point<int> pivot)
+UiItem_Button * j1Gui::AddButton(SDL_Rect hitBox, const SDL_Rect* idle, p2SString& funtionName, UiItem * const parent, const SDL_Rect * click, const SDL_Rect * hover, p2Point<int> pivot)
 {
 	UiItem* newUIItem = nullptr;
 	if(parent == NULL)
@@ -173,7 +175,8 @@ UiItem_Button * j1Gui::AddButton(SDL_Rect hitBox, const SDL_Rect* idle, UiItem *
 		newUIItem = new UiItem_Button(hitBox, idle, parent, click, hover, pivot);
 
 	ListItemUI.add(newUIItem);
-
+	UiItem_Button* button = (UiItem_Button*)newUIItem;
+	button->AddFuntion(funtionName);
 	return (UiItem_Button*)newUIItem;
 }
 
@@ -208,5 +211,20 @@ UiItem* j1Gui::AddEmptyElement(iPoint pos, UiItem * const parent)
 	return UITexture;
 }
 
+ //funtions----------------------------------------------
+ void FadeToScene()
+ {
+	 j1Module* thisModule = (j1Module*)App->pathfinding;
+	 thisModule->Enable();
+
+	 App->scene->state = SceneState::GAME;
+	 App->fade->FadeToBlack(1);
+	 App->map->active = true;
+
+ }
+ void ExitGame()
+ {
+	 App->scene->exitGame = true;
+ }
 // class Gui ---------------------------------------------------
 

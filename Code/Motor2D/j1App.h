@@ -85,19 +85,25 @@ private:
 
 public:
 
+	pugi::xml_document	config_file;
+	pugi::xml_node		config;
+	pugi::xml_node		app_config;
+
 	// Modules
 	j1Window*			win=nullptr;
 	j1Input*			input = nullptr;
 	j1Render*			render = nullptr;
 	j1Textures*			tex = nullptr;
 	j1Audio*			audio = nullptr;
+	j1Fonts*			font = nullptr;
+
 	j1Map*				map = nullptr;
 	j1Entities*			entity = nullptr;
 	j1Collision*		collision = nullptr;
 	j1FadeToBlack*		fade = nullptr;
 	j1PathFinding*		pathfinding = nullptr;
 	j1Scene*			scene = nullptr;
-	j1Fonts*			font = nullptr;
+	
 	j1Gui*              Gui = nullptr;
 
 	float				dt = 0.0F;
