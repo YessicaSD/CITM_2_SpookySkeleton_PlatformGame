@@ -48,6 +48,7 @@ bool j1Scene::Awake(pugi::xml_node& node)
 
 	sceneNode = sceneFile.child("scene");
 	horizontalScreenDivision = App->win->width / 8;
+	//state = SceneState::STARTMENU;
 	return ret;
 }
 
@@ -366,6 +367,12 @@ bool j1Scene::LoadSettings()
 	UiItem_Image* thumb_fx = App->Gui->AddImage({ 157,-15,51,52 }, &Rect_thumb_fx, slider_fx, { 0,0 });
 	thisMenuItems.add(thumb_fx);
 	thumb_fx->draggable = true;
+
+	// Sound mute
+	SDL_Rect Rect_sound_mute = { 713,0,60,103 };
+	UiItem_Image* sound_mute = App->Gui->AddImage({ 220,235,60,103 }, &Rect_sound_mute, settingPanel, { 0,0 });
+	thisMenuItems.add(sound_mute);
+	
 	
 	return true;
 }
