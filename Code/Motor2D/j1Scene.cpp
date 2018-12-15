@@ -342,11 +342,26 @@ bool j1Scene::LoadSettings()
 	App->audio->PlayMusic("audio/music/menu_music.ogg");
 	settingPanel = App->Gui->AddEmptyElement({ 0,0 });
 
-	// This is not the audio slider sprite, it must be changed later!!
-	SDL_Rect Rect = { 0,93,374,377 };
-	UiItem_Bar* slider_volume = App->Gui->AddBar({ 328,28,374,377 }, &Rect, startMenupanel, { 0,0 });
+	// White Slider volume
+	SDL_Rect Rect_slider_volume = { 0,525,367,21 };
+	UiItem_Bar* slider_volume = App->Gui->AddBar({ 310,276,367,21 }, &Rect_slider_volume, settingPanel, { 0,0 });
 	thisMenuItems.add(slider_volume);
 
+	// Thumb volume
+	SDL_Rect Rect_thumb_volume = { 646,140,51,52 };
+	UiItem_Image* thumb_volume = App->Gui->AddImage({ 157,-15,51,52 }, &Rect_thumb_volume, slider_volume, { 0,0 });
+	thisMenuItems.add(thumb_volume);
+
+	// White Slider fx
+	SDL_Rect Rect_slider_fx = { 0,525,367,21 };
+	UiItem_Bar* slider_fx = App->Gui->AddBar({ 310,440,367,21 }, &Rect_slider_fx, settingPanel, { 0,0 });
+	thisMenuItems.add(slider_fx);
+
+	// Thumb fx
+	SDL_Rect Rect_thumb_fx = { 646,140,51,52 };
+	UiItem_Image* thumb_fx = App->Gui->AddImage({ 157,-15,51,52 }, &Rect_thumb_fx, slider_fx, { 0,0 });
+	thisMenuItems.add(thumb_fx);
+	
 	return true;
 }
 
