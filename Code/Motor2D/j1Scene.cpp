@@ -16,7 +16,6 @@
 #include "j1Gui.h"
 #include "Player.h"
 
-
 #include "UiItem_Label.h"
 #include "UiItem.h"
 #include "ModuleFadeToBack.h"
@@ -35,6 +34,7 @@ j1Scene::~j1Scene()
 bool j1Scene::Awake(pugi::xml_node& node)
 {
 	LOG("Loading Scene");
+	sceneNode = node;
 	bool ret = true;
 	const char* path = node.child("idle").child_value();
 	
@@ -49,6 +49,11 @@ bool j1Scene::Awake(pugi::xml_node& node)
 	sceneNode = sceneFile.child("scene");
 	horizontalScreenDivision = App->win->width / 8;
 	//state = SceneState::STARTMENU;
+
+	levelsNode = sceneFile.child("scene");
+	horizontalScreenDivision = App->win->width * 0.125F;
+
+
 	return ret;
 }
 
@@ -58,7 +63,12 @@ bool j1Scene::Start()
 	switch (state)
 	{
 	case SceneState::STARTMENU:
-		LoadStartMenu();
+	{
+		App->win->scale = 1.0F;
+		LoadStartMenu(sceneNode);
+	
+		
+	}
 		break;
 	case SceneState::GAME:
 	{	//Pick level node-----------------------------------------
@@ -69,7 +79,7 @@ bool j1Scene::Start()
 		}
 		else
 		{
-			pugi::xml_node levelNode = sceneNode.child("level");
+			pugi::xml_node levelNode = levelsNode.child("level");
 			if (levelNode == NULL)
 			{
 				LOG("ERROR ENTITIES LOADING FILE");
@@ -293,50 +303,106 @@ void j1Scene::AudioControl()
 
 }
 
-bool j1Scene::LoadStartMenu()
+bool j1Scene::LoadStartMenu(pugi::xml_node& nodeScene)
 {
+	pugi::xml_node startMenuNode = nodeScene.child("StartMenu");
+
 	App->win->scale = 1.0F;
 
-	Background = App->tex->Load("textures/StartMenu/Background.png");
-	App->audio->PlayMusic("audio/music/menu_music.ogg");
+	const char* backgroundPath = startMenuNode.child("background").child_value();
+	const char* mainMusicStartMenu = startMenuNode.child("music").child_value();
+	if (Background == nullptr)
+		Background = App->tex->Load(backgroundPath);
+
+	App->audio->PlayMusic(mainMusicStartMenu);
+
+	
+	for(pugi::xml_node sfxNode = startMenuNode.child("soundEffects").child("sfx"); sfxNode ; sfxNode = sfxNode.next_sibling("sfx"))
+	{
+		sfx newSfx(sfxNode.attribute("name").as_string(), sfxNode.child_value());
+		arraySfx.PushBack(newSfx);
+		
+	} 
+	if (fx_death_aux == 0)
+		fx_death_aux = App->audio->LoadFx(findSfxPath("test"));
 
 	startMenupanel = App->Gui->AddEmptyElement({ 0,0 });
+	LoadUiElement(startMenupanel, startMenuNode.child("gui").child("startMenuPanel"));
 
-	SDL_Rect Rect = { 0,93,374,377 };
-	thisMenuItems.add(App->Gui->AddImage({ 328,28,374,377 }, &Rect, startMenupanel, { 0,0 }));
-
-	SDL_Rect ButtonFrames[3] = { { 374,0,253,161 } ,{ 374,161,253,161 },{ 374,322,253,161 } };
-
-	UiItem_Button* buttonPlay = App->Gui->AddButton({ 388,402,252,146 }, (const SDL_Rect*)&ButtonFrames[0], NULL, (const SDL_Rect*)&ButtonFrames[2], (const SDL_Rect*)&ButtonFrames[1]);
-	thisMenuItems.add(buttonPlay);
-
+	/*
+	
 	UiItem_Label* label = App->Gui->AddLabel("Play", { 62,32,28,255 }, App->Gui->arrayFonts[COPPERPLATE_B_I_48], { 45,60 }, buttonPlay);
 	SDL_Color color = { 113,57,36,255 };
 	label->ChangeTextureHover(NULL, &color, NULL);
 
 	buttonPlay->AddFuntion(mapOfFuntions["FadeToScene"]);
 	thisMenuItems.add(label);
-	thisMenuItems.add(App->Gui->AddButton({ 392,565,252,146 }, (const SDL_Rect*)&ButtonFrames[0], NULL, (const SDL_Rect*)&ButtonFrames[2], (const SDL_Rect*)&ButtonFrames[1]));
+	thisMenuItems.add(App->Gui->AddButton({ 392,565,252,146 }, (const SDL_Rect*)&ButtonFrames[0], NULL, , (const SDL_Rect*)&ButtonFrames[2], (const SDL_Rect*)&ButtonFrames[1]));
 
 
 	ButtonFrames[0] = { 186,0,70,70 };
 	ButtonFrames[1] = { 256,0,70,70 };
 	ButtonFrames[2] = { 627,0,70,70 };
-	UiItem_Button* buttonExit = App->Gui->AddButton({ 915,31,70,70 }, (const SDL_Rect*)&ButtonFrames[0], NULL, (const SDL_Rect*)&ButtonFrames[1], (const SDL_Rect*)&ButtonFrames[2]);
+	UiItem_Button* buttonExit = App->Gui->AddButton({ 915,31,70,70 }, (const SDL_Rect*)&ButtonFrames[0], NULL, , (const SDL_Rect*)&ButtonFrames[1], (const SDL_Rect*)&ButtonFrames[2]);
 	thisMenuItems.add(buttonExit);
 	buttonExit->AddFuntion(mapOfFuntions["ExitGame"]);
 	
 	ButtonFrames[0] = { 0,0,93,93 };
 	ButtonFrames[1] = { 93,0,93,93 };
-	thisMenuItems.add(App->Gui->AddButton({ 51,35,65,65 }, (const SDL_Rect*)&ButtonFrames[0], NULL, (const SDL_Rect*)&ButtonFrames[1], (const SDL_Rect*)&ButtonFrames[1], { 14,12 }));
+	thisMenuItems.add(App->Gui->AddButton({ 51,35,65,65 }, (const SDL_Rect*)&ButtonFrames[0], NULL, , (const SDL_Rect*)&ButtonFrames[1], (const SDL_Rect*)&ButtonFrames[1], { 14,12 }));
 
 
 	label = App->Gui->AddLabel("Continue", { 62,32,28,255 }, App->Gui->arrayFonts[COPPERPLATE_B_I_24], { 440,635 }, NULL);
 	label->ChangeTextureHover(NULL, &color, NULL);
 	thisMenuItems.add(label);
-
+*/
 
 	return true;
+}
+void j1Scene::LoadUiElement(UiItem*parent, pugi::xml_node node)
+{
+	for (pugi::xml_node imageNode = node.child("images").child("image"); imageNode; imageNode = imageNode.next_sibling("image"))
+	{
+		SDL_Rect hitBox = { imageNode.child("hitbox").attribute("x").as_int(), imageNode.child("hitbox").attribute("y").as_int(), imageNode.child("hitbox").attribute("w").as_int(), imageNode.child("hitbox").attribute("h").as_int() };
+		SDL_Rect sectionIdle = { imageNode.child("idleSec").attribute("x").as_int(), imageNode.child("idleSec").attribute("y").as_int(), imageNode.child("idleSec").attribute("w").as_int(), imageNode.child("idleSec").attribute("h").as_int() };
+		UiItem*newElement = App->Gui->AddImage(hitBox, &sectionIdle, parent);
+		if (imageNode.child("childs"))
+		{
+			LoadUiElement(newElement, imageNode.child("childs"));
+		}
+	}
+	for (pugi::xml_node buttonNode = node.child("buttons").child("button"); buttonNode; buttonNode = buttonNode.next_sibling("image"))
+	{
+		SDL_Rect hitBox = { buttonNode.child("hitbox").attribute("x").as_int(), buttonNode.child("hitbox").attribute("y").as_int(), buttonNode.child("hitbox").attribute("w").as_int(), buttonNode.child("hitbox").attribute("h").as_int() };
+		SDL_Rect sectionIdle = { buttonNode.child("idleSec").attribute("x").as_int(), buttonNode.child("idleSec").attribute("y").as_int(), buttonNode.child("idleSec").attribute("w").as_int(), buttonNode.child("idleSec").attribute("h").as_int() };
+		pugi::xml_node hoverSecNode = buttonNode.child("hoverSec");
+		SDL_Rect* sectionHove = nullptr;
+		if (hoverSecNode)
+		{
+			SDL_Rect hover = { hoverSecNode.attribute("x").as_int(), hoverSecNode.attribute("y").as_int(), hoverSecNode.attribute("w").as_int(), hoverSecNode.attribute("h").as_int() };
+			sectionHove = &hover;
+		}
+		pugi::xml_node clickSecNode = buttonNode.child("clickSec");
+		SDL_Rect* sectionClick = nullptr;
+		if (clickSecNode)
+		{
+			SDL_Rect click = { clickSecNode.attribute("x").as_int(), clickSecNode.attribute("y").as_int(), clickSecNode.attribute("w").as_int(), clickSecNode.attribute("h").as_int() };
+			sectionClick = &click;
+		}
+		p2SString funtionPath = buttonNode.attribute("funtion").as_string();
+		UiItem*newElement = App->Gui->AddButton(hitBox, &sectionIdle, funtionPath, parent, sectionClick, sectionHove);
+		if (buttonNode.child("childs"))
+		{
+			LoadUiElement(newElement, buttonNode.child("childs"));
+		}
+	}
+	for (pugi::xml_node labelNode = node.child("labels").child("label"); labelNode; labelNode = labelNode.next_sibling("image"))
+	{
+		p2SString text = labelNode.attribute("text").as_string();
+		SDL_Color color = { labelNode.child("color").attribute("r").as_uint(),labelNode.child("color").attribute("g").as_uint(),labelNode.child("color").attribute("b").as_uint(),labelNode.child("color").attribute("a").as_uint() };
+		p2SString font=labelNode.attribute("font").as_string();
+		App->Gui->AddLabel(text.GetString(), color, App->font->getFont(font), {labelNode.attribute("pos_x").as_int(),labelNode.attribute("pos_y").as_int()},parent);
+	}
 }
 
 bool j1Scene::LoadSettings()
@@ -377,6 +443,7 @@ bool j1Scene::LoadSettings()
 	return true;
 }
 
+
 void j1Scene::LoadEntities(const pugi::xml_node& entitiesNode)
 {
 	entitiesArrayInfo.Clear();
@@ -402,19 +469,15 @@ void j1Scene::LoadEntities(const pugi::xml_node& entitiesNode)
 		entitiesArrayInfo.PushBack(EntitiesInfo(COIN, { entityNode.attribute("x").as_float(),entityNode.attribute("y").as_float() }));
 	}
 }
+const char* j1Scene::findSfxPath(const char* name)
+{
+	uint size = arraySfx.Count();
+	for (uint num = 0; num < size; ++num)
+	{
+		if (arraySfx[num].name == name)
+			return arraySfx[num].path.GetString();
+	}
+	return "";
+}
 
-void FadeToScene()
-{
-	j1Module* thisModule = (j1Module*)App->pathfinding;
-	thisModule->Enable();
-	
-	App->scene->state = SceneState::GAME;
-	App->fade->FadeToBlack(1);
-	App->map->active = true;
-	
-}
-void ExitGame()
-{
-	App->scene->exitGame = true;
-}
 

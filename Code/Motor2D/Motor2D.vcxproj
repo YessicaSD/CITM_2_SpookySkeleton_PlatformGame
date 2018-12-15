@@ -111,6 +111,7 @@
     <ClInclude Include="EntityBat.h" />
     <ClInclude Include="EntityCoin.h" />
     <ClInclude Include="EntityZombie.h" />
+    <ClInclude Include="p2Map.h" />
     <ClInclude Include="UiItem.h" />
     <ClInclude Include="j1Collision.h" />
     <ClInclude Include="j1Entity.h" />

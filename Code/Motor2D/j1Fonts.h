@@ -6,11 +6,20 @@
 
 #define DEFAULT_FONT "fonts/open_sans/OpenSans-Regular.ttf"
 #define DEFAULT_FONT_SIZE 12
+#include "SDL_TTF\include\SDL_ttf.h"
 #include "p2List.h"
+#include "p2Map.h"
 
 struct SDL_Texture;
 struct _TTF_Font;
 
+enum TypeFont
+{
+	BASE_FONT,
+	COPPERPLATE_B_I_24,
+	COPPERPLATE_B_I_48,
+	MAX_FONTS
+};
 class j1Fonts : public j1Module
 {
 public:
@@ -35,9 +44,15 @@ public:
 	bool CalcSize(const char* text, int& width, int& height, _TTF_Font* font = NULL) const;
 
 public:
-
-	p2List<_TTF_Font*>	fonts;
+	p2List<TTF_Font*> fonts;
+	p2Map<TTF_Font*> mapOfFonts;
 	_TTF_Font*			default;
+	TTF_Font* getFont(p2SString& string)
+	{
+		int aux = mapOfFonts.Find(string);
+		assert(aux != -1);
+		return mapOfFonts.At(aux);
+	}
 };
 
 

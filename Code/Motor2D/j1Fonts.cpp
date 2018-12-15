@@ -5,12 +5,12 @@
 #include "j1Fonts.h"
 
 #include "SDL\include\SDL.h"
-#include "SDL_TTF\include\SDL_ttf.h"
+
 #pragma comment( lib, "SDL_ttf/libx86/SDL2_ttf.lib" )
 
 j1Fonts::j1Fonts() : j1Module()
 {
-	name.create("fonts");
+
 }
 
 // Destructor
@@ -20,10 +20,11 @@ j1Fonts::~j1Fonts()
 // Called before render is available
 bool j1Fonts::Awake(pugi::xml_node& conf)
 {
+	name.create("fonts");
 	LOG("Init True Type Font library");
 	bool ret = true;
 
-	if(TTF_Init() == -1)
+	if (TTF_Init() == -1)
 	{
 		LOG("SDL_ttf could not initialize! SDL_ttf Error: %s\n", TTF_GetError());
 		ret = false;
@@ -33,9 +34,16 @@ bool j1Fonts::Awake(pugi::xml_node& conf)
 		const char* path = conf.child("default_font").attribute("file").as_string(DEFAULT_FONT);
 		int size = conf.child("default_font").attribute("size").as_int(DEFAULT_FONT_SIZE);
 		default = Load(path, size);
+		mapOfFonts.pushBack("defaultFont", default);
+
+		TTF_Font* aux = Load("fonts/CopperPlate/CopperPlate_BoldItalic.ttf", 48);
+		mapOfFonts.pushBack("CooperPlateBI48",aux);
+
+		aux = App->font->Load("fonts/CopperPlate/CopperPlate_BoldItalic.ttf", 24);
+		mapOfFonts.pushBack("CooperPlateBI24", aux);
 	}
 
-	return ret;
+	return true;
 }
 
 // Called before quitting

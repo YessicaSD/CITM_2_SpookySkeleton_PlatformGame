@@ -35,6 +35,41 @@
 
   <entities>entities.xml</entities>
   <scene>
+    <StartMenu>
+      <background>textures/StartMenu/Background.png</background>
+      <music>audio/music/menu_music.ogg</music>
+      <soundEffects>
+        <sfx name= "test">audio/fx/smw_stomp_bones.wav</sfx>
+      </soundEffects>
+    <gui>
+      <startMenuPanel>
+          <images>
+            <image name ="title">
+               <hitbox x="328" y="28" w="374" h="377"/>
+               <idleSec x="0" y="93" w="374" h="377"/>
+               <parent name="startMenuPanel"/>
+            </image>
+      
+      </images>
+      <buttons>
+        <button name="playButton" funtion = "FadeToScene">
+          <hitbox x="388"  y="402" w="374" h="377"/>
+          <idleSec x="374" y="0" w="253" h="161" />
+          <hoverSec x="374" y="161" w="253" h="161" />
+          <clickSec x="374" y="322" w="253" h="161" />
+          <childs>
+            <labels>
+              <label text="Play" font="CooperPlateBI48" pos_x="45" pos_y ="60" >
+                <color r="62" g="32" b="28" a="255"/>
+              </label>
+            </labels>
+          </childs>
+        </button>
+      </buttons>
+      </startMenuPanel>
+    
+    </gui>
+    </StartMenu>
     <idle>ScenesInfo.xml</idle>
     <saveFile>save_game.xml</saveFile>
   </scene>

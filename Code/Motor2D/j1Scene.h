@@ -6,10 +6,11 @@
 #include "j1ModuleEntity.h"
 #include "p2Point.h"
 #include "p2DynArray.h"
-#include <map>
+
 
 class UiItem_Image;
 class UiItem;
+
 struct SDL_Texture;
 enum class SceneState
 {
@@ -20,30 +21,36 @@ enum class SceneState
 	MAX_STATES
 };
 
-void FadeToScene();
-void ExitGame();
+struct sfx
+{
+	p2SString name = "";
+	p2SString path= "";
+	sfx(){}
+	sfx(const char* name, const char* path) : name(name), path(path)
+	{	}
+};
 
 class j1Scene : public j1Module
 {
 	
 private:
-
 	//Start Menu variables -------------------------
 	
 	p2List<UiItem*> thisMenuItems;
-	std::map<const char*, void(*)()> mapOfFuntions =
-	{ { "FadeToScene" , FadeToScene }, {"ExitGame", ExitGame }
-	};
+	p2DynArray<sfx> arraySfx;
+	void LoadUiElement(UiItem*parent, pugi::xml_node node);
 	
 	//Game variables --------------------------------
 	p2DynArray<EntitiesInfo> entitiesArrayInfo;
 	SDL_Texture * Background = nullptr;
 	UiItem_Image* titleImage = nullptr;
-	uint fx_death_aux;
+	uint fx_death_aux = 0;
 	pugi::xml_document	sceneFile;
-	pugi::xml_node sceneNode;
+	pugi::xml_node levelsNode;
 	pugi::xml_node saveNode;
+	pugi::xml_node sceneNode;
 	float horizontalScreenDivision;
+	const char* findSfxPath(const char*);
 
 public:
 	bool exitGame = false;
@@ -97,8 +104,10 @@ public:
 
 	bool Save(pugi::xml_node&) const override;
 	void AudioControl();
-	bool LoadStartMenu();
+
+	bool LoadStartMenu(pugi::xml_node& nodeScene);
 	bool LoadSettings();
+
 
 private:
 	SDL_Texture * debug_tex;

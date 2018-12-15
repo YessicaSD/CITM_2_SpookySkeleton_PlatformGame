@@ -48,12 +48,13 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(win);
 	AddModule(tex);
 	AddModule(audio);
-	
+	AddModule(font);
+
 	AddModule(map);
 	map->active = false;
 	AddModule(entity);
 	AddModule(scene);
-	AddModule(font);
+	
 	AddModule(pathfinding);
 	pathfinding->active = false;
 	AddModule(collision);
@@ -90,9 +91,6 @@ bool j1App::Awake()
 {
 	
 
-	pugi::xml_document	config_file;
-	pugi::xml_node		config;
-	pugi::xml_node		app_config;
 
 	bool ret = false;
 		

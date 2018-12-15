@@ -198,6 +198,9 @@
     <ClInclude Include="UiItem_Bar.h">
       <Filter>Desenvolupament  ========\Modules\GUI</Filter>
     </ClInclude>
+    <ClInclude Include="p2Map.h">
+      <Filter>Programacio 2 ===========</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Programacio 2 ===========">
