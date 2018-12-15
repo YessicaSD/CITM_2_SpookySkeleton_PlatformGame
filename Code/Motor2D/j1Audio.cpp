@@ -139,16 +139,16 @@ bool j1Audio::PlayMusic(const char* path, float fade_time)
 }
 
 //set the volume of the game
-void j1Audio::SetVolume(int volume)
+void j1Audio::SetVolume(float volume)
 {
 	
-		final_volume += volume;
-		if (final_volume < 0 || final_volume > MIX_MAX_VOLUME)
-			final_volume = (final_volume < 0)? 0 : MIX_MAX_VOLUME ;
-		
+		final_volume = MIX_MAX_VOLUME*volume;
+		if (final_volume < 0.0f || final_volume > MIX_MAX_VOLUME)
+			final_volume = (final_volume < 0.0f) ? 0.0f : MIX_MAX_VOLUME;
+	
+
 		Mix_VolumeMusic(final_volume);
-	
-	
+		last_volume = volume;
 }
 
 
@@ -177,11 +177,11 @@ unsigned int j1Audio::LoadFx(const char* path)
 }
 
 // Set FX volume
-void j1Audio::SetFxVolume(int volume)
+void j1Audio::SetFxVolume(float volume)
 {
-	final_fx_volume += volume;
-	if (final_fx_volume < 0 || final_fx_volume > MIX_MAX_VOLUME)
-		final_fx_volume = (final_fx_volume < 0) ? 0 : MIX_MAX_VOLUME;
+	final_fx_volume = MIX_MAX_VOLUME*volume;;
+	if (final_fx_volume < 0.0f || final_fx_volume > MIX_MAX_VOLUME)
+		final_fx_volume = (final_fx_volume < 0.0f) ? 0.0f : MIX_MAX_VOLUME;
 
 	
 	for (p2List_item<Mix_Chunk*>*item_fx = fx.start; item_fx; item_fx = item_fx->next)

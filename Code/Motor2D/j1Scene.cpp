@@ -51,7 +51,6 @@ bool j1Scene::Awake(pugi::xml_node& node)
 	levelsNode = sceneFile.child("scene");
 	horizontalScreenDivision = App->win->width * 0.125F;
 
-
 	return ret;
 }
 
@@ -123,7 +122,10 @@ bool j1Scene::Update(float dt)
 		switch (state)
 		{
 		case SceneState::STARTMENU:
-			
+			result_volume = volume_bar->GetBarValue();
+			App->audio->SetVolume(result_volume);
+			result_fx = fx_bar->GetBarValue();
+			App->audio->SetFxVolume(result_fx);
 			App->render->Blit(Background, 0, 0, NULL, SDL_FLIP_NONE, 0.0F);
 			break;
 
@@ -148,9 +150,8 @@ bool j1Scene::Update(float dt)
 		default:
 			break;
 		}
-	
-	
-	bar->GetBarValue();
+
+
 	AudioControl();
 	return true;
 }
@@ -306,7 +307,6 @@ bool j1Scene::LoadStartMenu(pugi::xml_node& nodeScene)
 		Background = App->tex->Load(backgroundPath);
 
 	App->audio->PlayMusic(mainMusicStartMenu);
-
 	
 	for(pugi::xml_node sfxNode = startMenuNode.child("soundEffects").child("sfx"); sfxNode ; sfxNode = sfxNode.next_sibling("sfx"))
 	{
@@ -415,12 +415,25 @@ bool j1Scene::LoadSettings(pugi::xml_node& settingNode)
 	SDL_Rect Rect_slider_volume = { 0,525,367,21 };
 	UiItem_Bar* slider_volume = App->Gui->AddBar({ 310,276,367,21 }, &Rect_slider_volume, settingPanel, { 0,0 });
 	bar = slider_volume;
+	volume_bar = slider_volume;
 	
+	
+	
+
 
 	
 	// White Slider fx
 	SDL_Rect Rect_slider_fx = { 0,525,367,21 };
 	UiItem_Bar* slider_fx = App->Gui->AddBar({ 310,530,367,21 }, &Rect_slider_fx, settingPanel, { 0,0 });
+	fx_bar = slider_fx;
+	
+
+
+	// Sound mute
+	SDL_Rect Rect_sound_mute = { 713,0,60,103 };
+	UiItem_Image* sound_mute = App->Gui->AddImage({ 220,235,60,103 }, &Rect_sound_mute, settingPanel, { 0,0 });
+	
+
 	
 	
 	return true;

@@ -18,25 +18,5 @@ void UiItem_Image::Draw()
 	App->render->Blit((SDL_Texture*)App->Gui->getTexture(), hitBox.x-pivot.x, hitBox.y-pivot.y, &frame, SDL_FLIP_NONE, 0.0F);
 }
 
-void UiItem_Image::Move()
-{
-	BROFILER_CATEGORY("Move_Image.cpp", Profiler::Color::Black)
-	//if (App->scene->state == SceneState::SETTING && this->draggable)
-	//{
-	//	if (hitBox.x > parent->hitBox.x + parent->hitBox.w)
-	//	{
-	//		this->draggable = false;
-	//		hitBox.x = parent->hitBox.x + parent->hitBox.w - (hitBox.w / 2);
-	//	}
-	//	else if (hitBox.x < parent->hitBox.x - (hitBox.w / 2))
-	//	{
-	//		this->draggable = false;
-	//		hitBox.x = parent->hitBox.x - (hitBox.w / 2);
-	//	}
 
-	//	else
-	//		this->draggable = true;
-
-	//}
-}
 

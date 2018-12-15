@@ -71,7 +71,6 @@ bool j1Gui::Update(float dt)
 			{
 				thisItem->data->AddToPos(mouseMotion);
 			}
-			
 		}
 
 		if (mousePos.x > thisItem->data->hitBox.x-thisItem->data->pivot.x 

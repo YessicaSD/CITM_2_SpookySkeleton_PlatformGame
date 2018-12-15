@@ -43,15 +43,24 @@ private:
 	//Game variables --------------------------------
 	p2DynArray<EntitiesInfo> entitiesArrayInfo;
 	SDL_Texture * Background = nullptr;
+
+	UiItem_Image* titleImage = nullptr;
+	UiItem_Bar* volume_bar = nullptr;
+	UiItem_Bar* fx_bar = nullptr;
+
 	
 	UiItem_Bar* bar = nullptr;
+
 	uint fx_death_aux = 0;
 	pugi::xml_document	sceneFile;
 	pugi::xml_node levelsNode;
 	pugi::xml_node saveNode;
 	pugi::xml_node sceneNode;
 	float horizontalScreenDivision;
+	float result_volume = 0.0f;
+	float result_fx = 0.0f;
 	const char* findSfxPath(const char*);
+	
 
 public:
 	bool exitGame = false;

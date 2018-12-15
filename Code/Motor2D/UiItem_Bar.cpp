@@ -27,12 +27,13 @@ void UiItem_Bar::Draw()
 	App->render->Blit((SDL_Texture*)App->Gui->getTexture(), hitBox.x - pivot.x, hitBox.y - pivot.y, &frame_bar, SDL_FLIP_NONE, 0.0F);
 }
 
-void UiItem_Bar::GetBarValue()
+float UiItem_Bar::GetBarValue()
 {
-	uint ipos_bar = thumb->hitBox.x + (thumb->hitBox.w/2);
-	uint fixed_pos = hitBox.x + (thumb->hitBox.w / 2);
-	uint fpos_bar = hitBox.x + hitBox.w - (thumb->hitBox.w / 2);
-	uint final_pos = (ipos_bar - fixed_pos) / fpos_bar;
-	LOG("FINAL POSITION OF THE THUMB IS %u", final_pos);
+	float ipos_bar = thumb->hitBox.x + (thumb->hitBox.w/2);
+	float fixed_pos = hitBox.x + (thumb->hitBox.w / 2);
+	float fpos_bar = hitBox.x + hitBox.w - (thumb->hitBox.w / 2);
+	float final_pos = (ipos_bar - fixed_pos) / (fpos_bar-fixed_pos);
+	LOG("FINAL POSITION OF THE THUMB IS %.2f", final_pos);
+	return final_pos;
 }
 
