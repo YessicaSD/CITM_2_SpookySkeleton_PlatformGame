@@ -11,6 +11,7 @@ UiItem_Bar::UiItem_Bar(SDL_Rect hitBox, const SDL_Rect* section, UiItem*const pa
 	assert(parent != nullptr);
 	frame_bar = *section;
 
+
 }
 
 void UiItem_Bar::Draw()

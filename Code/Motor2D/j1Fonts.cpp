@@ -34,13 +34,13 @@ bool j1Fonts::Awake(pugi::xml_node& conf)
 		const char* path = conf.child("default_font").attribute("file").as_string(DEFAULT_FONT);
 		int size = conf.child("default_font").attribute("size").as_int(DEFAULT_FONT_SIZE);
 		default = Load(path, size);
-		mapOfFonts.pushBack("defaultFont", default);
+		mapOfFonts.PushBack("defaultFont", default);
 
 		TTF_Font* aux = Load("fonts/CopperPlate/CopperPlate_BoldItalic.ttf", 48);
-		mapOfFonts.pushBack("CooperPlateBI48",aux);
+		mapOfFonts.PushBack("CooperPlateBI48",aux);
 
 		aux = App->font->Load("fonts/CopperPlate/CopperPlate_BoldItalic.ttf", 24);
-		mapOfFonts.pushBack("CooperPlateBI24", aux);
+		mapOfFonts.PushBack("CooperPlateBI24", aux);
 	}
 
 	return true;

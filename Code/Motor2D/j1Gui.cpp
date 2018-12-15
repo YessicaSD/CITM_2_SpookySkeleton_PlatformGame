@@ -18,8 +18,8 @@ j1Gui::j1Gui() : j1Module()
 	canvas = new UiItem({ 0,0,0,0 }, NULL);
 	ListItemUI.add(canvas);
 
-	mapOfFuntions.pushBack("FadeToScene", FadeToScene);
-	mapOfFuntions.pushBack("ExitGame", ExitGame);
+	mapOfFuntions.PushBack("FadeToScene", FadeToScene);
+	mapOfFuntions.PushBack("ExitGame", ExitGame);
 
 }
 
@@ -223,10 +223,12 @@ UiItem* j1Gui::AddEmptyElement(iPoint pos, UiItem * const parent)
  {
 	 j1Module* thisModule = (j1Module*)App->pathfinding;
 	 thisModule->Enable();
+	 thisModule->active = true;
+	 App->map->active = true;
 
 	 App->scene->state = SceneState::GAME;
 	 App->fade->FadeToBlack(1);
-	 App->map->active = true;
+	
 
  }
  void ExitGame()
