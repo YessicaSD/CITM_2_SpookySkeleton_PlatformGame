@@ -63,8 +63,8 @@ bool j1Scene::Start()
 	{
 		App->win->scale = 1.0F;
 		LoadStartMenu(sceneNode);
-		LoadSettings();
-		
+		LoadSettings(sceneNode.child("settingsMenu"));
+		settingPanel->enable = true;
 	}
 		break;
 	case SceneState::GAME:
@@ -110,7 +110,7 @@ bool j1Scene::Start()
 		
 		break;
 	case SceneState::SETTING:
-		
+
 		break;
 	default:
 		break;
@@ -161,6 +161,7 @@ bool j1Scene::Update(float dt)
 		default:
 			break;
 		}
+
 
 	AudioControl();
 	return true;
@@ -411,48 +412,39 @@ void j1Scene::LoadUiElement(UiItem*parent, pugi::xml_node node)
 	}
 }
 
-bool j1Scene::LoadSettings()
+bool j1Scene::LoadSettings(pugi::xml_node& settingNode)
 {
 	BROFILER_CATEGORY("LoadSettings.cpp", Profiler::Color::Red)
-	App->win->scale = 1.0F;
 	Background = App->tex->Load("textures/StartMenu/Background.png");
 	App->audio->PlayMusic("audio/music/menu_music.ogg");
 	settingPanel = App->Gui->AddEmptyElement({ 0,0 });
+	
+	LoadUiElement(settingPanel, settingNode);
 
 	// White Slider volume
 	SDL_Rect Rect_slider_volume = { 0,525,367,21 };
 	UiItem_Bar* slider_volume = App->Gui->AddBar({ 310,276,367,21 }, &Rect_slider_volume, settingPanel, { 0,0 });
+	bar = slider_volume;
 	volume_bar = slider_volume;
-	thisMenuItems.add(slider_volume);
+	
+	
+	
 
+
+	
 	// White Slider fx
 	SDL_Rect Rect_slider_fx = { 0,525,367,21 };
 	UiItem_Bar* slider_fx = App->Gui->AddBar({ 310,530,367,21 }, &Rect_slider_fx, settingPanel, { 0,0 });
 	fx_bar = slider_fx;
-	thisMenuItems.add(slider_fx);
+	
+
 
 	// Sound mute
 	SDL_Rect Rect_sound_mute = { 713,0,60,103 };
 	UiItem_Image* sound_mute = App->Gui->AddImage({ 220,235,60,103 }, &Rect_sound_mute, settingPanel, { 0,0 });
-	thisMenuItems.add(sound_mute);
 	
-	// Sound full
-	SDL_Rect Rect_sound_full = { 797,0,107,104 };
-	UiItem_Image* sound_full = App->Gui->AddImage({ 700,235,107,104 }, &Rect_sound_full, settingPanel, { 0,0 });
-	thisMenuItems.add(sound_full);
 
-	// Fx icon
-	SDL_Rect Rect_fx_icon = { 662,230,126,125 };
-	UiItem_Image* fx_icon = App->Gui->AddImage({ 170,480,126,125 }, &Rect_fx_icon, settingPanel, { 0,0 });
-	thisMenuItems.add(fx_icon);
-
-	// Label Volume
-	UiItem_Label* label_volume = App->Gui->AddLabel("MUSIC VOLUME", { 255,255,255,255 }, App->font->fonts[2], { 360,200 }, settingPanel);
-	thisMenuItems.add(label_volume);
-
-	// Label FX
-	UiItem_Label* label_fx = App->Gui->AddLabel("FX VOLUME", { 255,255,255,255 }, App->font->fonts[2], { 390,460 }, settingPanel);
-	thisMenuItems.add(label_fx);
+	
 	
 	return true;
 }

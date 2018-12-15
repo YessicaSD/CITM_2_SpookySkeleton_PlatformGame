@@ -99,9 +99,37 @@
       </buttons>
         
       </startMenuPanel>
-    
+      
     </gui>
     </StartMenu>
+    <settingsMenu>
+      <images>
+        <image name ="Sound mute">
+          <hitbox x="220" y="235" w="60" h="103"/>
+          <idleSec x="713" y="0" w="60" h="103"/>
+        
+        </image>
+        <image name ="Sound full">
+          <hitbox x="700" y="235" w="107" h="104"/>
+          <idleSec x="797" y="0" w="107" h="104"/>
+        </image>
+        <image name ="Fx icon">
+          <hitbox x="170" y="480" w="126" h="125"/>
+          <idleSec x="662" y="230" w="126" h="125"/>
+        </image>
+      </images>
+      <labels>
+        <label text="MUSIC VOLUME" font="CooperPlateBI24" pos_x="360" pos_y ="200" >
+          <color r="255" g="255" b="255" a="255"/>
+          
+        </label>
+        <label text="FX VOLUME" font="CooperPlateBI24" pos_x="390" pos_y ="460" >
+          <color r="255" g="255" b="255" a="255"/>
+
+        </label>
+      </labels>
+      
+    </settingsMenu>
     <idle>ScenesInfo.xml</idle>
     <saveFile>save_game.xml</saveFile>
   </scene>
