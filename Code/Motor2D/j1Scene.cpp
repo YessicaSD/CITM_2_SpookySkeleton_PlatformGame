@@ -46,9 +46,6 @@ bool j1Scene::Awake(pugi::xml_node& node)
 	}
 	uint width, height;
 
-	sceneNode = sceneFile.child("scene");
-	horizontalScreenDivision = App->win->width / 8;
-	//state = SceneState::STARTMENU;
 
 	levelsNode = sceneFile.child("scene");
 	horizontalScreenDivision = App->win->width * 0.125F;
@@ -367,7 +364,7 @@ void j1Scene::LoadUiElement(UiItem*parent, pugi::xml_node node)
 			SDL_Rect click = { clickSecNode.attribute("x").as_int(), clickSecNode.attribute("y").as_int(), clickSecNode.attribute("w").as_int(), clickSecNode.attribute("h").as_int() };
 			sectionClick = &click;
 		}
-		p2SString funtionPath = buttonNode.attribute("funtion").as_string();
+		p2SString funtionPath = buttonNode.attribute("funtion").as_string("ExitGame");
 		UiItem*newElement = App->Gui->AddButton(hitBox, &sectionIdle, funtionPath, parent, sectionClick, sectionHove, pivot);
 		if (buttonNode.child("childs"))
 		{

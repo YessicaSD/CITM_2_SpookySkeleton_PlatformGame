@@ -159,7 +159,8 @@ unsigned int j1Audio::LoadFx(const char* path)
 
 	if(!active)
 		return 0;
-
+	if (path == nullptr)
+		return 0;
 	Mix_Chunk* chunk = Mix_LoadWAV(path);
 	Mix_VolumeChunk(chunk, 20);
 	if(chunk == NULL)

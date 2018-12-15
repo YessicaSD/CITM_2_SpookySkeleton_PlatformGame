@@ -55,7 +55,7 @@ private:
 public:
 	bool exitGame = false;
 	//Start Menu variables -------------------------
-	SceneState state = SceneState::SETTING;
+	SceneState state = SceneState::STARTMENU;
 
 	UiItem* startMenupanel = nullptr;
 	UiItem* settingPanel = nullptr;
