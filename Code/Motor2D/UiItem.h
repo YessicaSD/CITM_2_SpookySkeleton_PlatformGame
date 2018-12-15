@@ -65,6 +65,7 @@ class UiItem
 		{
 			return parent;
 		}
+		void returnChildList(p2List<UiItem*> & List);
 		~UiItem();
 
 

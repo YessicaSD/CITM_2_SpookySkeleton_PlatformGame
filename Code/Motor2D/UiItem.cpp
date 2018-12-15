@@ -133,3 +133,16 @@ UiItem::UiItem(SDL_Rect hitBox, UiItem *const parent, p2Point<int> pivot) :pivot
 	
 
 }
+
+void UiItem:: returnChildList(p2List<UiItem*>& List)
+{
+	List.add(this);
+	for (p2List_item<UiItem*>* iterator = List.start; iterator != nullptr; iterator = iterator->next) {
+		if (iterator->data->enable)
+		{
+			for (p2List_item<UiItem*>* childIterator = iterator->data->childs.start; childIterator != nullptr; childIterator = childIterator->next) {
+				List.add(childIterator->data);
+			}
+		}
+	}
+}

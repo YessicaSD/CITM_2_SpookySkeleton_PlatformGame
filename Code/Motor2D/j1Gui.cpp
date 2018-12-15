@@ -61,7 +61,10 @@ bool j1Gui::Update(float dt)
 	iPoint mousePos;
 	App->input->GetMousePosition(mousePos);
 	uint mouseButtonDown = App->input->GetMouseButtonDown();
-	for (p2List_item<UiItem*>* thisItem = ListItemUI.start; thisItem; thisItem = thisItem->next)
+	p2List<UiItem*> listUpdate;
+	canvas->returnChildList(listUpdate);
+
+	for (p2List_item<UiItem*>* thisItem = listUpdate.start; thisItem; thisItem = thisItem->next)
 	{
 		if (thisItem->data->draggable && thisItem->data->mouseButtonDown != 0)
 		{
@@ -98,7 +101,7 @@ bool j1Gui::Update(float dt)
 		}
 		else  if (thisItem->data->state != IDLE)
 			thisItem->data->state = IDLE;
-		if (App->input->GetMouseButtonState(thisItem->data->mouseButtonDown) == KEY_UP)
+		if (App->input->GetMouseButtonState(thisItem->data->mouseButtonDown) == KEY_UP || App->input->GetMouseButtonState(thisItem->data->mouseButtonDown) == KEY_IDLE)
 			thisItem->data->mouseButtonDown = 0;
 
 		
