@@ -100,6 +100,7 @@ bool j1Scene::Start()
 		
 		break;
 	case SceneState::SETTING:
+		LoadSettings();
 		break;
 	default:
 		break;
@@ -140,6 +141,7 @@ bool j1Scene::Update(float dt)
 		case SceneState::PAUSE:
 			break;
 		case SceneState::SETTING:
+			App->render->Blit(Background, 0, 0, NULL, SDL_FLIP_NONE, 0.0F);
 			break;
 		case SceneState::MAX_STATES:
 			break;
@@ -338,6 +340,7 @@ bool j1Scene::LoadStartMenu()
 
 bool j1Scene::LoadSettings()
 {
+	App->win->scale = 1.0F;
 	Background = App->tex->Load("textures/StartMenu/Background.png");
 	App->audio->PlayMusic("audio/music/menu_music.ogg");
 	settingPanel = App->Gui->AddEmptyElement({ 0,0 });
@@ -351,6 +354,7 @@ bool j1Scene::LoadSettings()
 	SDL_Rect Rect_thumb_volume = { 646,140,51,52 };
 	UiItem_Image* thumb_volume = App->Gui->AddImage({ 157,-15,51,52 }, &Rect_thumb_volume, slider_volume, { 0,0 });
 	thisMenuItems.add(thumb_volume);
+	thumb_volume->draggable = true;
 
 	// White Slider fx
 	SDL_Rect Rect_slider_fx = { 0,525,367,21 };
@@ -361,6 +365,7 @@ bool j1Scene::LoadSettings()
 	SDL_Rect Rect_thumb_fx = { 646,140,51,52 };
 	UiItem_Image* thumb_fx = App->Gui->AddImage({ 157,-15,51,52 }, &Rect_thumb_fx, slider_fx, { 0,0 });
 	thisMenuItems.add(thumb_fx);
+	thumb_fx->draggable = true;
 	
 	return true;
 }

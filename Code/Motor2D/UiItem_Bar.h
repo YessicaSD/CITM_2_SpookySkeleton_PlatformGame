@@ -12,6 +12,7 @@ public:
 	UiItem_Bar(SDL_Rect hitBox, const SDL_Rect* section, UiItem*const parent, p2Point<int> pivot = { 0,0 });
 	~UiItem_Bar() {}
 	void Draw() override;
+
 protected:
 	SDL_Rect frame_bar;
 };
