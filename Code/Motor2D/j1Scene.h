@@ -98,6 +98,7 @@ public:
 	bool Save(pugi::xml_node&) const override;
 	void AudioControl();
 	bool LoadStartMenu();
+	bool LoadSettings();
 
 private:
 	SDL_Texture * debug_tex;

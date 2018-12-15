@@ -287,8 +287,6 @@ void j1Scene::AudioControl()
 	if (App->input->GetKey(SDL_SCANCODE_O) == KEY_DOWN)
 		App->audio->SetFxVolume(-(MIX_MAX_VOLUME / 16));
 
-	if (App->input->GetKey(SDL_SCANCODE_Y) == KEY_DOWN)
-		App->audio->PlayFx(fx_death_aux);
 
 }
 
@@ -298,7 +296,6 @@ bool j1Scene::LoadStartMenu()
 
 	Background = App->tex->Load("textures/StartMenu/Background.png");
 	App->audio->PlayMusic("audio/music/menu_music.ogg");
-	fx_death_aux = App->audio->LoadFx("audio/fx/smw_stomp_bones.wav");
 
 	startMenupanel = App->Gui->AddEmptyElement({ 0,0 });
 
@@ -335,6 +332,20 @@ bool j1Scene::LoadStartMenu()
 	label->ChangeTextureHover(NULL, &color, NULL);
 	thisMenuItems.add(label);
 
+
+	return true;
+}
+
+bool j1Scene::LoadSettings()
+{
+	Background = App->tex->Load("textures/StartMenu/Background.png");
+	App->audio->PlayMusic("audio/music/menu_music.ogg");
+	settingPanel = App->Gui->AddEmptyElement({ 0,0 });
+
+	// This is not the audio slider sprite, it must be changed later!!
+	SDL_Rect Rect = { 0,93,374,377 };
+	UiItem_Bar* slider_volume = App->Gui->AddBar({ 328,28,374,377 }, &Rect, startMenupanel, { 0,0 });
+	thisMenuItems.add(slider_volume);
 
 	return true;
 }
