@@ -37,14 +37,13 @@ class j1Scene : public j1Module
 private:
 	//Start Menu variables -------------------------
 	
-	p2List<UiItem*> thisMenuItems;
 	p2DynArray<sfx> arraySfx;
 	void LoadUiElement(UiItem*parent, pugi::xml_node node);
 	
 	//Game variables --------------------------------
 	p2DynArray<EntitiesInfo> entitiesArrayInfo;
 	SDL_Texture * Background = nullptr;
-	UiItem_Image* titleImage = nullptr;
+	
 	UiItem_Bar* bar = nullptr;
 	uint fx_death_aux = 0;
 	pugi::xml_document	sceneFile;
@@ -108,7 +107,7 @@ public:
 	void AudioControl();
 
 	bool LoadStartMenu(pugi::xml_node& nodeScene);
-	bool LoadSettings();
+	bool LoadSettings(pugi::xml_node& SettingNode);
 
 
 private:
