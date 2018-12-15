@@ -11,7 +11,7 @@ private:
 	p2DynArray<p2SString> clave;
 	p2DynArray<TYPE> varibles;
 public:
-	int Find(p2SString string)
+	int Find(p2SString& string)
 	{
 		int ret = -1;
 		for (uint num=0;num<numElements; ++num)
@@ -29,7 +29,7 @@ public:
 		assert(num < numElements);
 		return varibles[num];
 	}
-	void pushBack(p2SString clave, TYPE variable)
+	void PushBack(p2SString clave, TYPE variable)
 	{
 		++numElements;
 		this->clave.PushBack(clave);

@@ -155,10 +155,11 @@ bool j1App::Update()
 
 	if(ret == true)
 		ret = DoUpdate();
+	
 
 	if(ret == true)
 		ret = PostUpdate();
-
+	
 	FinishUpdate();
 
 	if (App->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN)

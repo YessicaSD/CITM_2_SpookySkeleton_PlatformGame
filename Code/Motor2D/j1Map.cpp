@@ -99,8 +99,8 @@ bool j1Map::PostUpdate()
 	BROFILER_CATEGORY("PostUpdate_Map.cpp", Profiler::Color::MediumSlateBlue)
 	bool ret = true;
 
-	if (map_loaded == false)
-		return false;
+	//if (map_loaded == false)
+	//	return false;
 
 	for (p2List_item<MapLayer*>* item_layer = level.layers.start; item_layer; item_layer = item_layer->next)
 	{

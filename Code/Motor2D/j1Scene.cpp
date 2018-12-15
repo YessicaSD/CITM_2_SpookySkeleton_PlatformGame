@@ -70,6 +70,8 @@ bool j1Scene::Start()
 		break;
 	case SceneState::GAME:
 	{	//Pick level node-----------------------------------------
+		if (startMenupanel->enable)
+			startMenupanel->enable = false;
 		pugi::xml_node entitiesNode;
 		if (loadingSaveFile == true)
 		{

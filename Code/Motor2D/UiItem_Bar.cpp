@@ -13,9 +13,11 @@ UiItem_Bar::UiItem_Bar(SDL_Rect hitBox, const SDL_Rect* section, UiItem*const pa
 	assert(parent != nullptr);
 	frame_bar = *section;
 
+
 	SDL_Rect Rect_thumb_volume = { 646,140,51,52 };
 	thumb = App->Gui->AddImage({ 157,-15,51,52 }, &Rect_thumb_volume, this, { 0,0 });
 	thumb->draggable = true;
+
 
 }
 
