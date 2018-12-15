@@ -53,7 +53,7 @@
       </images>
       <buttons>
         <button name="playButton" funtion = "FadeToScene">
-          <hitbox x="388"  y="402" w="374" h="377"/>
+          <hitbox x="388"  y="402" w="252" h="146"/>
           <idleSec x="374" y="0" w="253" h="161" />
           <hoverSec x="374" y="161" w="253" h="161" />
           <clickSec x="374" y="322" w="253" h="161" />
@@ -61,11 +61,43 @@
             <labels>
               <label text="Play" font="CooperPlateBI48" pos_x="45" pos_y ="60" >
                 <color r="62" g="32" b="28" a="255"/>
+                <hover>
+                  <color r="113" g="57" b="36" a="255"/>
+                </hover>
               </label>
             </labels>
           </childs>
         </button>
+        <button name ="continue" funtion = "FadeToScene">
+          <hitbox x="392"  y="565" w="252" h="146"/>
+          <idleSec x="374" y="0" w="253" h="161" />
+          <hoverSec x="374" y="161" w="253" h="161" />
+          <clickSec x="374" y="322" w="253" h="161" />
+          <childs>
+            <labels>
+              <label text="Continue" font="CooperPlateBI24" pos_x="50" pos_y ="67">
+                <color r="62" g="32" b="28" a="255"/>
+                <hover>
+                  <color r="113" g="57" b="36" a="255"/>
+                </hover>
+              </label>
+            </labels>
+          </childs>
+        </button>
+        <button name ="exit" funtion = "FadeToScene">
+          <hitbox x="915"  y="31" w="70" h="70"/>
+          <idleSec x="186" y="0" w="70" h="70" />
+          <hoverSec x="627" y="0" w="70" h="70" />
+          <clickSec x="256" y="0" w="70" h="70" />
+        </button>
+        <button name ="setting" funtion = "FadeToScene">
+          <hitbox x="51"  y="35" w="70" h="70"/>
+          <idleSec x="0" y="0" w="93" h="93" />
+          <hoverSec x="93" y="0" w="93" h="93" />
+          <pivot x="14" y="12"/>
+        </button>
       </buttons>
+        
       </startMenuPanel>
     
     </gui>
