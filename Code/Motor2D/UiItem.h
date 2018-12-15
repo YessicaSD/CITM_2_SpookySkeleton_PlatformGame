@@ -61,7 +61,10 @@ class UiItem
 		virtual void Move() {}
 		virtual void OnClickDown(){}
 		virtual void OnClickUp(){}
-	
+		bool HaveParent()
+		{
+			return parent;
+		}
 		~UiItem();
 
 

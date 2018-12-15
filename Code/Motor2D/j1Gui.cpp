@@ -66,7 +66,11 @@ bool j1Gui::Update(float dt)
 		{
 			iPoint mouseMotion;
 			App->input->GetMouseMotion(mouseMotion);
-			thisItem->data->AddToPos(mouseMotion);
+			if (thisItem->data->HaveParent())
+			{
+				thisItem->data->AddToPos(mouseMotion);
+			}
+			
 		}
 
 		if (App->input->GetMouseButtonState(thisItem->data->mouseButtonDown) == KEY_UP)

@@ -11,11 +11,22 @@ void UiItem::AddToPos(const iPoint & value)
 
 	if (v.y == -1 || v.y == 1)
 		v.y = 0;
-
-	localPos += v;
-	worldPos += v;
-	hitBox.x = worldPos.x;
-	//hitBox.y = worldPos.y;
+	iPoint auxWorld = worldPos;
+	auxWorld += v;
+	
+	if (auxWorld.x >= this->parent->hitBox.x && auxWorld.x + this->hitBox.w <= this->parent->hitBox.x + this->parent->hitBox.w)
+	{
+		worldPos.x = auxWorld.x;
+		localPos.x += v.x;
+		hitBox.x = worldPos.x;
+	}
+	if (auxWorld.y >= this->parent->hitBox.y && auxWorld.y + this->hitBox.h <= this->parent->hitBox.y + this->parent->hitBox.h)
+	{
+		worldPos.y = auxWorld.y;
+		localPos.y += v.y;
+		hitBox.y = worldPos.y;
+	}
+	
 	if (this->childs.Count() > 0)
 	{
 		for (p2List_item<UiItem*>* thisItem = this->childs.start;thisItem; thisItem= thisItem->next)

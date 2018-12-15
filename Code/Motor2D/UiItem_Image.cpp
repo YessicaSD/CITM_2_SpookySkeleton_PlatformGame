@@ -21,22 +21,22 @@ void UiItem_Image::Draw()
 void UiItem_Image::Move()
 {
 	BROFILER_CATEGORY("Move_Image.cpp", Profiler::Color::Black)
-	if (App->scene->state == SceneState::SETTING && this->draggable)
-	{
-		if (hitBox.x > parent->hitBox.x + parent->hitBox.w)
-		{
-			this->draggable = false;
-			hitBox.x = parent->hitBox.x + parent->hitBox.w - (hitBox.w / 2);
-		}
-		else if (hitBox.x < parent->hitBox.x - (hitBox.w / 2))
-		{
-			this->draggable = false;
-			hitBox.x = parent->hitBox.x - (hitBox.w / 2);
-		}
+	//if (App->scene->state == SceneState::SETTING && this->draggable)
+	//{
+	//	if (hitBox.x > parent->hitBox.x + parent->hitBox.w)
+	//	{
+	//		this->draggable = false;
+	//		hitBox.x = parent->hitBox.x + parent->hitBox.w - (hitBox.w / 2);
+	//	}
+	//	else if (hitBox.x < parent->hitBox.x - (hitBox.w / 2))
+	//	{
+	//		this->draggable = false;
+	//		hitBox.x = parent->hitBox.x - (hitBox.w / 2);
+	//	}
 
-		else
-			this->draggable = true;
+	//	else
+	//		this->draggable = true;
 
-	}
+	//}
 }
 
