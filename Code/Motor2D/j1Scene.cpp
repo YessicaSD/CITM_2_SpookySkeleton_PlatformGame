@@ -17,6 +17,7 @@
 #include "Player.h"
 
 #include "UiItem_Label.h"
+#include "UiItem_Bar.h"
 #include "UiItem.h"
 #include "ModuleFadeToBack.h"
 
@@ -158,7 +159,7 @@ bool j1Scene::Update(float dt)
 		}
 	
 	
-
+	bar->GetBarValue();
 	AudioControl();
 	return true;
 }
@@ -422,22 +423,10 @@ bool j1Scene::LoadSettings()
 	UiItem_Bar* slider_volume = App->Gui->AddBar({ 310,276,367,21 }, &Rect_slider_volume, settingPanel, { 0,0 });
 	thisMenuItems.add(slider_volume);
 
-	// Thumb volume
-	SDL_Rect Rect_thumb_volume = { 646,140,51,52 };
-	UiItem_Image* thumb_volume = App->Gui->AddImage({ 157,-15,51,52 }, &Rect_thumb_volume, slider_volume, { 0,0 });
-	thisMenuItems.add(thumb_volume);
-	thumb_volume->draggable = true;
-
 	// White Slider fx
 	SDL_Rect Rect_slider_fx = { 0,525,367,21 };
 	UiItem_Bar* slider_fx = App->Gui->AddBar({ 310,530,367,21 }, &Rect_slider_fx, settingPanel, { 0,0 });
 	thisMenuItems.add(slider_fx);
-
-	// Thumb fx
-	SDL_Rect Rect_thumb_fx = { 646,140,51,52 };
-	UiItem_Image* thumb_fx = App->Gui->AddImage({ 157,-15,51,52 }, &Rect_thumb_fx, slider_fx, { 0,0 });
-	thisMenuItems.add(thumb_fx);
-	thumb_fx->draggable = true;
 
 	// Sound mute
 	SDL_Rect Rect_sound_mute = { 713,0,60,103 };

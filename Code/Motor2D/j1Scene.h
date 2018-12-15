@@ -9,6 +9,7 @@
 
 
 class UiItem_Image;
+class UiItem_Bar;
 class UiItem;
 
 struct SDL_Texture;
@@ -44,6 +45,7 @@ private:
 	p2DynArray<EntitiesInfo> entitiesArrayInfo;
 	SDL_Texture * Background = nullptr;
 	UiItem_Image* titleImage = nullptr;
+	UiItem_Bar* bar = nullptr;
 	uint fx_death_aux = 0;
 	pugi::xml_document	sceneFile;
 	pugi::xml_node levelsNode;
