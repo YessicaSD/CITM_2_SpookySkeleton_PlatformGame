@@ -58,17 +58,14 @@ bool j1Scene::Awake(pugi::xml_node& node)
 // Called before the first frame
 bool j1Scene::Start()
 {
-	switch (state)
-	{
-	case SceneState::STARTMENU:
+	if(state== SceneState::STARTMENU)
 	{
 		App->win->scale = 1.0F;
 		LoadStartMenu(sceneNode);
 		LoadSettings(sceneNode.child("settingsMenu"));
 		settingPanel->enable = false;
 	}
-		break;
-	case SceneState::GAME:
+	if (state == SceneState::GAME)
 	{	//Pick level node-----------------------------------------
 		if (startMenupanel->enable)
 			startMenupanel->enable = false;
@@ -106,16 +103,8 @@ bool j1Scene::Start()
 		}
 	}
 			
-		break;
-	case SceneState::PAUSE:
 		
-		break;
-	case SceneState::SETTING:
-		
-		break;
-	default:
-		break;
-	}
+	
 	
 	return true;
 }
@@ -371,7 +360,8 @@ void j1Scene::LoadUiElement(UiItem*parent, pugi::xml_node node)
 			sectionClick = &click;
 		}
 		p2SString funtionPath = buttonNode.attribute("funtion").as_string("ExitGame");
-		UiItem*newElement = App->Gui->AddButton(hitBox, &sectionIdle, funtionPath, parent, sectionClick, sectionHove, pivot);
+		bool down = buttonNode.attribute("Up");
+		UiItem*newElement = App->Gui->AddButton(hitBox, &sectionIdle, funtionPath, !down, parent, sectionClick, sectionHove, pivot);
 		if (buttonNode.child("childs"))
 		{
 			LoadUiElement(newElement, buttonNode.child("childs"));

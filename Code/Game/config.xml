@@ -84,13 +84,13 @@
             </labels>
           </childs>
         </button>
-        <button name ="exit" funtion = "FadeToScene">
+        <button name ="exit" funtion = "ExitGame" Up="">
           <hitbox x="915"  y="31" w="70" h="70"/>
           <idleSec x="186" y="0" w="70" h="70" />
           <hoverSec x="627" y="0" w="70" h="70" />
           <clickSec x="256" y="0" w="70" h="70" />
         </button>
-        <button name ="setting" funtion = "FadeToScene">
+        <button name ="setting" funtion = "GoToSetting">
           <hitbox x="51"  y="35" w="70" h="70"/>
           <idleSec x="0" y="0" w="93" h="93" />
           <hoverSec x="93" y="0" w="93" h="93" />

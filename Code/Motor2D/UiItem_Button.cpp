@@ -24,19 +24,25 @@ UiItem_Button::UiItem_Button(SDL_Rect hitBox, const SDL_Rect * idle, UiItem* con
 		frames[HOVER] = *idle;
 }
 
-void UiItem_Button::AddFuntion(void(*funtionOnClick)())
+void UiItem_Button::AddFuntion(void(*funtionOnClick)(), bool Down)
 {
 	if (funtionOnClick != nullptr)
 	{
-		this->funtionOnClick = funtionOnClick;
+		if (Down)
+			this->funtionOnClick = funtionOnClick;
+		else
+			this->funtionOnUp = funtionOnClick;
 	}
 }
-void UiItem_Button::AddFuntion(p2SString & string)
+void UiItem_Button::AddFuntion(p2SString & string, bool Down)
 {
 	if (&string != nullptr)
 	{
 		uint num = App->Gui->mapOfFuntions.Find(string);
-		this->funtionOnClick = App->Gui->mapOfFuntions.At(num);
+		if (Down)
+			this->funtionOnClick = App->Gui->mapOfFuntions.At(num);
+		else
+			this->funtionOnUp = App->Gui->mapOfFuntions.At(num);
 	}
 }
 void UiItem_Button::Draw()
@@ -47,6 +53,10 @@ void UiItem_Button::Draw()
 
 void UiItem_Button::OnClickUp()
 {
+	if (funtionOnUp)
+	{
+		funtionOnUp();
+	}
 }
 
 void UiItem_Button::OnClickDown()

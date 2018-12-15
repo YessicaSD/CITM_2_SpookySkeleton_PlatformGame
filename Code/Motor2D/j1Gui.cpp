@@ -20,7 +20,8 @@ j1Gui::j1Gui() : j1Module()
 
 	mapOfFuntions.PushBack("FadeToScene", FadeToScene);
 	mapOfFuntions.PushBack("ExitGame", ExitGame);
-
+	mapOfFuntions.PushBack("GoToSetting", GoToSetting);
+	
 }
 
 // Destructor
@@ -73,10 +74,6 @@ bool j1Gui::Update(float dt)
 			
 		}
 
-		if (App->input->GetMouseButtonState(thisItem->data->mouseButtonDown) == KEY_UP)
-			thisItem->data->mouseButtonDown = 0;
-		
-
 		if (mousePos.x > thisItem->data->hitBox.x-thisItem->data->pivot.x 
 			&& mousePos.x < thisItem->data->hitBox.x - thisItem->data->pivot.x + thisItem->data->hitBox.w 
 			&& mousePos.y>thisItem->data->hitBox.y - thisItem->data->pivot.y 
@@ -102,7 +99,8 @@ bool j1Gui::Update(float dt)
 		}
 		else  if (thisItem->data->state != IDLE)
 			thisItem->data->state = IDLE;
-		
+		if (App->input->GetMouseButtonState(thisItem->data->mouseButtonDown) == KEY_UP)
+			thisItem->data->mouseButtonDown = 0;
 
 		
 	}
@@ -173,7 +171,7 @@ UiItem_Image * j1Gui::AddImage(SDL_Rect hitBox, const SDL_Rect * section, UiItem
 	
 }
 
-UiItem_Button * j1Gui::AddButton(SDL_Rect hitBox, const SDL_Rect* idle, p2SString& funtionName, UiItem * const parent, const SDL_Rect * click, const SDL_Rect * hover, p2Point<int> pivot)
+UiItem_Button * j1Gui::AddButton(SDL_Rect hitBox, const SDL_Rect* idle, p2SString& funtionName, bool Down, UiItem * const parent, const SDL_Rect * click, const SDL_Rect * hover, p2Point<int> pivot)
 {
 	UiItem* newUIItem = nullptr;
 	if(parent == NULL)
@@ -183,7 +181,7 @@ UiItem_Button * j1Gui::AddButton(SDL_Rect hitBox, const SDL_Rect* idle, p2SStrin
 
 	ListItemUI.add(newUIItem);
 	UiItem_Button* button = (UiItem_Button*)newUIItem;
-	button->AddFuntion(funtionName);
+	button->AddFuntion(funtionName, Down);
 	return (UiItem_Button*)newUIItem;
 }
 
@@ -235,5 +233,10 @@ UiItem* j1Gui::AddEmptyElement(iPoint pos, UiItem * const parent)
  {
 	 App->scene->exitGame = true;
  }
-// class Gui ---------------------------------------------------
+ void GoToSetting()
+ {
+	 App->scene->startMenupanel->enable = false;
+	 App->scene->settingPanel->enable = true;
+ }
+
 
