@@ -35,8 +35,7 @@ class j1Scene : public j1Module
 	
 private:
 	//Start Menu variables -------------------------
-	const char* backgroundPath;
-	const char* mainMusicStartMenu;
+	
 	p2List<UiItem*> thisMenuItems;
 	p2DynArray<sfx> arraySfx;
 	void LoadUiElement(UiItem*parent, pugi::xml_node node);
@@ -47,8 +46,9 @@ private:
 	UiItem_Image* titleImage = nullptr;
 	uint fx_death_aux = 0;
 	pugi::xml_document	sceneFile;
-	pugi::xml_node sceneNode;
+	pugi::xml_node levelsNode;
 	pugi::xml_node saveNode;
+	pugi::xml_node sceneNode;
 	float horizontalScreenDivision;
 	const char* findSfxPath(const char*);
 
@@ -63,7 +63,9 @@ public:
 	// Game variables ------------------
 	uint num_thismaplvl = 1;
 	bool loadingSaveFile = false;
-
+	uint points = 0;
+	uint coin_points = 0;
+	uint player_lives = 3;
 	
 public:
 	bool loadedLeve = true;
@@ -102,7 +104,10 @@ public:
 
 	bool Save(pugi::xml_node&) const override;
 	void AudioControl();
+
 	bool LoadStartMenu(pugi::xml_node& nodeScene);
+	bool LoadSettings();
+
 
 private:
 	SDL_Texture * debug_tex;

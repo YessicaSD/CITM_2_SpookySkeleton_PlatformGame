@@ -15,3 +15,4 @@ void UiItem_Bar::Draw()
 {
 	App->render->Blit((SDL_Texture*)App->Gui->getTexture(), hitBox.x - pivot.x, hitBox.y - pivot.y, &frame_bar, SDL_FLIP_NONE, 0.0F);
 }
+

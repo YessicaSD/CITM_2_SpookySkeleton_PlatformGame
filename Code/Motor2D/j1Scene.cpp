@@ -14,6 +14,7 @@
 #include "j1Map.h"
 #include "j1Pathfinding.h"
 #include "j1Gui.h"
+#include "Player.h"
 
 #include "UiItem_Label.h"
 #include "UiItem.h"
@@ -33,6 +34,7 @@ j1Scene::~j1Scene()
 bool j1Scene::Awake(pugi::xml_node& node)
 {
 	LOG("Loading Scene");
+	sceneNode = node;
 	bool ret = true;
 	const char* path = node.child("idle").child_value();
 	
@@ -44,10 +46,10 @@ bool j1Scene::Awake(pugi::xml_node& node)
 	}
 	uint width, height;
 
-	sceneNode = sceneFile.child("scene");
+	levelsNode = sceneFile.child("scene");
 	horizontalScreenDivision = App->win->width * 0.125F;
 
-	LoadStartMenu(node);
+	
 	
 	return ret;
 }
@@ -60,11 +62,9 @@ bool j1Scene::Start()
 	case SceneState::STARTMENU:
 	{
 		App->win->scale = 1.0F;
-		if(Background==nullptr)
-			Background = App->tex->Load(backgroundPath);
-		App->audio->PlayMusic(mainMusicStartMenu);
-		if(fx_death_aux==0)
-			fx_death_aux = App->audio->LoadFx(findSfxPath("test"));
+		LoadStartMenu(sceneNode);
+	
+		
 	}
 		break;
 	case SceneState::GAME:
@@ -76,7 +76,7 @@ bool j1Scene::Start()
 		}
 		else
 		{
-			pugi::xml_node levelNode = sceneNode.child("level");
+			pugi::xml_node levelNode = levelsNode.child("level");
 			if (levelNode == NULL)
 			{
 				LOG("ERROR ENTITIES LOADING FILE");
@@ -108,6 +108,7 @@ bool j1Scene::Start()
 		
 		break;
 	case SceneState::SETTING:
+		LoadSettings();
 		break;
 	default:
 		break;
@@ -148,6 +149,7 @@ bool j1Scene::Update(float dt)
 		case SceneState::PAUSE:
 			break;
 		case SceneState::SETTING:
+			App->render->Blit(Background, 0, 0, NULL, SDL_FLIP_NONE, 0.0F);
 			break;
 		case SceneState::MAX_STATES:
 			break;
@@ -155,6 +157,8 @@ bool j1Scene::Update(float dt)
 			break;
 		}
 	
+	
+
 	AudioControl();
 	return true;
 }
@@ -293,8 +297,6 @@ void j1Scene::AudioControl()
 	if (App->input->GetKey(SDL_SCANCODE_O) == KEY_DOWN)
 		App->audio->SetFxVolume(-(MIX_MAX_VOLUME / 16));
 
-	if (App->input->GetKey(SDL_SCANCODE_Y) == KEY_DOWN)
-		App->audio->PlayFx(fx_death_aux);
 
 }
 
@@ -302,14 +304,25 @@ bool j1Scene::LoadStartMenu(pugi::xml_node& nodeScene)
 {
 	pugi::xml_node startMenuNode = nodeScene.child("StartMenu");
 
-	backgroundPath = startMenuNode.child("background").child_value();
-	mainMusicStartMenu = startMenuNode.child("music").child_value();
+	App->win->scale = 1.0F;
+
+	const char* backgroundPath = startMenuNode.child("background").child_value();
+	const char* mainMusicStartMenu = startMenuNode.child("music").child_value();
+	if (Background == nullptr)
+		Background = App->tex->Load(backgroundPath);
+
+	App->audio->PlayMusic(mainMusicStartMenu);
+
+	
 	for(pugi::xml_node sfxNode = startMenuNode.child("soundEffects").child("sfx"); sfxNode ; sfxNode = sfxNode.next_sibling("sfx"))
 	{
 		sfx newSfx(sfxNode.attribute("name").as_string(), sfxNode.child_value());
 		arraySfx.PushBack(newSfx);
 		
 	} 
+	if (fx_death_aux == 0)
+		fx_death_aux = App->audio->LoadFx(findSfxPath("test"));
+
 	startMenupanel = App->Gui->AddEmptyElement({ 0,0 });
 	LoadUiElement(startMenupanel, startMenuNode.child("gui").child("startMenuPanel"));
 
@@ -385,10 +398,43 @@ void j1Scene::LoadUiElement(UiItem*parent, pugi::xml_node node)
 		p2SString text = labelNode.attribute("text").as_string();
 		SDL_Color color = { labelNode.child("color").attribute("r").as_uint(),labelNode.child("color").attribute("g").as_uint(),labelNode.child("color").attribute("b").as_uint(),labelNode.child("color").attribute("a").as_uint() };
 		p2SString font=labelNode.attribute("font").as_string();
-
 		App->Gui->AddLabel(text.GetString(), color, App->font->getFont(font), {labelNode.attribute("pos_x").as_int(),labelNode.attribute("pos_y").as_int()},parent);
 	}
 }
+
+bool j1Scene::LoadSettings()
+{
+	App->win->scale = 1.0F;
+	Background = App->tex->Load("textures/StartMenu/Background.png");
+	App->audio->PlayMusic("audio/music/menu_music.ogg");
+	settingPanel = App->Gui->AddEmptyElement({ 0,0 });
+
+	// White Slider volume
+	SDL_Rect Rect_slider_volume = { 0,525,367,21 };
+	UiItem_Bar* slider_volume = App->Gui->AddBar({ 310,276,367,21 }, &Rect_slider_volume, settingPanel, { 0,0 });
+	thisMenuItems.add(slider_volume);
+
+	// Thumb volume
+	SDL_Rect Rect_thumb_volume = { 646,140,51,52 };
+	UiItem_Image* thumb_volume = App->Gui->AddImage({ 157,-15,51,52 }, &Rect_thumb_volume, slider_volume, { 0,0 });
+	thisMenuItems.add(thumb_volume);
+	thumb_volume->draggable = true;
+
+	// White Slider fx
+	SDL_Rect Rect_slider_fx = { 0,525,367,21 };
+	UiItem_Bar* slider_fx = App->Gui->AddBar({ 310,440,367,21 }, &Rect_slider_fx, settingPanel, { 0,0 });
+	thisMenuItems.add(slider_fx);
+
+	// Thumb fx
+	SDL_Rect Rect_thumb_fx = { 646,140,51,52 };
+	UiItem_Image* thumb_fx = App->Gui->AddImage({ 157,-15,51,52 }, &Rect_thumb_fx, slider_fx, { 0,0 });
+	thisMenuItems.add(thumb_fx);
+	thumb_fx->draggable = true;
+	
+	return true;
+}
+
+
 void j1Scene::LoadEntities(const pugi::xml_node& entitiesNode)
 {
 	entitiesArrayInfo.Clear();
@@ -419,7 +465,6 @@ const char* j1Scene::findSfxPath(const char* name)
 	uint size = arraySfx.Count();
 	for (uint num = 0; num < size; ++num)
 	{
-		
 		if (arraySfx[num].name == name)
 			return arraySfx[num].path.GetString();
 	}

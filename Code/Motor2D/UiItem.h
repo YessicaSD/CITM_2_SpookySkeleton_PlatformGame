@@ -58,6 +58,7 @@ class UiItem
 	
 
 		virtual void Draw() {};
+		virtual void Move() {}
 		virtual void OnClickDown(){}
 		virtual void OnClickUp(){}
 	

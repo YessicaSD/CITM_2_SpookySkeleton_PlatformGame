@@ -12,6 +12,7 @@
 				UiItem_Image(SDL_Rect hitBox, const SDL_Rect* section, UiItem*const parent, p2Point<int> pivot = {0,0});
 
 				void Draw() override;
+				void Move() override;
 	};
 #endif // !UIITEM_IMAGE_H
 
