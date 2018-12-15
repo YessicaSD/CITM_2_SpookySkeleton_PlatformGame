@@ -47,7 +47,6 @@ void UiItem::DrawChildrens()
 			if (thisItem->data->enable)
 			{
 				thisItem->data->Draw();
-				thisItem->data->Move();
 				if (thisItem->data->showHitBox)
 				{
 					

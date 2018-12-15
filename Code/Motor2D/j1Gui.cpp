@@ -70,7 +70,6 @@ bool j1Gui::Update(float dt)
 			{
 				thisItem->data->AddToPos(mouseMotion);
 			}
-			
 		}
 
 		if (App->input->GetMouseButtonState(thisItem->data->mouseButtonDown) == KEY_UP)

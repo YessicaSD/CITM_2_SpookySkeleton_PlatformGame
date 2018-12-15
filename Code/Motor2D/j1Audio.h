@@ -35,17 +35,18 @@ public:
 	bool PlayFx(unsigned int fx, int repeat = 0);
 
 	// Set music volume
-	void SetVolume(int volume);
+	void SetVolume(float volume);
 
 	// Set FX volume
-	void SetFxVolume(int volume);
+	void SetFxVolume(float volume);
 
 private:
 
 	_Mix_Music*			music;
 	p2List<Mix_Chunk*>	fx;
-	int final_volume = MIX_MAX_VOLUME / 2;
-	int final_fx_volume = MIX_MAX_VOLUME / 4;
+	float final_volume = MIX_MAX_VOLUME;
+	float final_fx_volume = MIX_MAX_VOLUME;
+	float last_volume = 0.0f;
 };
 
 #endif // __j1AUDIO_H__
