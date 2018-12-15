@@ -64,7 +64,7 @@ bool j1Scene::Start()
 	{
 		App->win->scale = 1.0F;
 		LoadStartMenu(sceneNode);
-	
+		LoadSettings();
 		
 	}
 		break;
@@ -111,7 +111,7 @@ bool j1Scene::Start()
 		
 		break;
 	case SceneState::SETTING:
-		LoadSettings();
+		
 		break;
 	default:
 		break;
@@ -423,6 +423,7 @@ bool j1Scene::LoadSettings()
 	// White Slider volume
 	SDL_Rect Rect_slider_volume = { 0,525,367,21 };
 	UiItem_Bar* slider_volume = App->Gui->AddBar({ 310,276,367,21 }, &Rect_slider_volume, settingPanel, { 0,0 });
+	bar = slider_volume;
 	thisMenuItems.add(slider_volume);
 
 	// White Slider fx
