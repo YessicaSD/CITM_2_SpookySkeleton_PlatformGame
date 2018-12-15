@@ -161,6 +161,9 @@ bool Player::PreUpdate(float dt)
 					LOG("PLAYER LIVES ARE %u", App->scene->player_lives);
 					App->scene->points = 0;
 					App->scene->coin_points = 0;
+					App->scene->player_lives = 3;
+					App->map->active = false;
+					App->scene->state = SceneState::STARTMENU;
 				}
 					
 

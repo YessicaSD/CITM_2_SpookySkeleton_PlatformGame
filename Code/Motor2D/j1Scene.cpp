@@ -48,9 +48,6 @@ bool j1Scene::Awake(pugi::xml_node& node)
 
 	sceneNode = sceneFile.child("scene");
 	horizontalScreenDivision = App->win->width / 8;
-
-	state = SceneState::STARTMENU;
-
 	return ret;
 }
 
