@@ -18,7 +18,7 @@ void UiItem_Image::Draw()
 
 void UiItem_Image::Move()
 {
-	if (App->scene->state == SceneState::SETTING)
+	if (App->scene->state == SceneState::SETTING && this->draggable)
 	{
 		if (hitBox.x > parent->hitBox.x + parent->hitBox.w)
 		{
