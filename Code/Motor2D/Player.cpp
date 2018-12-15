@@ -157,7 +157,12 @@ bool Player::PreUpdate(float dt)
 					App->scene->player_lives--;
 				}
 				else
+				{
 					LOG("PLAYER LIVES ARE %u", App->scene->player_lives);
+					App->scene->points = 0;
+					App->scene->coin_points = 0;
+				}
+					
 
 				get_hurt = false;
 			}
