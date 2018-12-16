@@ -165,7 +165,13 @@
           <color r="255" g="255" b="255" a="255"/>
         </label>
       </labels>
-     
+      <buttons>
+        <button name ="BackToMenu" funtion = "BackToStartMenu">
+          <hitbox x="50"  y="250" w="80" h="80"/>
+          <idleSec x="626" y="410" w="80" h="80" />
+          <hoverSec x="706" y="409" w="80" h="80" />
+        </button>
+      </buttons>
     </PausePanel>
     <GameUi>
       <images>

@@ -20,6 +20,7 @@ void LoadGame();
 void OpenPage();
 void OpenCredits();
 void BackToSettings();
+void BackToStartMenu();
 // ---------------------------------------------------
 class j1Gui : public j1Module
 {
