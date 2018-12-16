@@ -230,10 +230,10 @@ void j1App::FinishUpdate()
 	else
 		framecapstring = "OFF";
 		
-	sprintf_s(WinTitle, 300, "¡Spooky_Skeleton! _FPS:%.2u Av.FPS: %.2f Last Frame Ms: %02u  Time since startup: %.3f FrameCap: %s  VSYNC OFF",
-		framerate,avg_fps, last_frame_ms,seconds_since_startup, framecapstring.GetString());
+	/*sprintf_s(WinTitle, 300, "Spooky_Skeleton! _FPS:%.2u Av.FPS: %.2f Last Frame Ms: %02u  Time since startup: %.3f FrameCap: %s  VSYNC OFF",
+		framerate,avg_fps, last_frame_ms,seconds_since_startup, framecapstring.GetString());*/
 
-	
+	sprintf_s(WinTitle, 300, "Spooky_Skeleton!");
 	App->win->SetTitle(WinTitle);
 
 	

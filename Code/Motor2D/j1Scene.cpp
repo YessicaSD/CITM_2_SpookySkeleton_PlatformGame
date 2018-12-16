@@ -74,11 +74,12 @@ bool j1Scene::Start()
 		settingPanel->enable = false;
 		startMenupanel->enable = true;
 		PausePanel->enable = false;
-
+		GameUiPanel->enable = false;
 	}
 	if (state == SceneState::GAME)
 	{	//Pick level node-----------------------------------------ç
 		App->win->scale = 2.0F;
+		GameUiPanel->enable = true;
 		if (startMenupanel->enable)
 			startMenupanel->enable = false;
 		pugi::xml_node entitiesNode;

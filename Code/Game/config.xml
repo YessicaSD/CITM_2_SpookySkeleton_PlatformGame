@@ -159,7 +159,7 @@
     </PausePanel>
     <GameUi>
       <images>
-        <image name="hearts" speed="10" scale="1">
+        <image name="hearts1" speed="10" scale="1">
           <hitbox x="10" y="10" w="25" h="22"/>
           <idleSec x="0" y="635" w="25" h="22"/>
           <idleSec x="25" y="635" w="25" h="22"/>
@@ -169,7 +169,7 @@
           <idleSec x="125" y="635" w="25" h="22"/>
           <idleSec x="150" y="635" w="25" h="22"/>
         </image>
-        <image name="hearts" speed="10" scale="1">
+        <image name="hearts2" speed="10" scale="1">
           <hitbox x="35" y="10" w="25" h="22"/>
           <idleSec x="0" y="635" w="25" h="22"/>
           <idleSec x="25" y="635" w="25" h="22"/>
@@ -179,7 +179,7 @@
           <idleSec x="125" y="635" w="25" h="22"/>
           <idleSec x="150" y="635" w="25" h="22"/>
         </image>
-        <image name="hearts" speed="10" scale="1">
+        <image name="hearts3" speed="10" scale="1">
           <hitbox x="60" y="10" w="25" h="22"/>
           <idleSec x="0" y="635" w="25" h="22"/>
           <idleSec x="25" y="635" w="25" h="22"/>
@@ -189,7 +189,22 @@
           <idleSec x="125" y="635" w="25" h="22"/>
           <idleSec x="150" y="635" w="25" h="22"/>
         </image>
+        <image name="Coin" speed="10" scale="1">
+          <hitbox x="150" y="10" w="25" h="22"/>
+          <idleSec x="0" y="635" w="25" h="22"/>
+          <idleSec x="25" y="635" w="25" h="22"/>
+          <idleSec x="50" y="635" w="25" h="22"/>
+          <idleSec x="75" y="635" w="25" h="22"/>
+          <idleSec x="100" y="635" w="25" h="22"/>
+          <idleSec x="125" y="635" w="25" h="22"/>
+          <idleSec x="150" y="635" w="25" h="22"/>
+        </image>
       </images>
+      <labels>
+        <label name="NumCoinsLabel" text="Num: 0" font="CooperPlateBI24" pos_x="200" pos_y ="50" >
+          <color r="255" g="255" b="255" a="255"/>
+        </label>
+      </labels>
     </GameUi>
     <idle>ScenesInfo.xml</idle>
     <saveFile>save_game.xml</saveFile>
