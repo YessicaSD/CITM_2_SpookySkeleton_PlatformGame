@@ -60,7 +60,7 @@ bool j1Scene::Start()
 	if(state== SceneState::STARTMENU)
 	{
 		App->win->scale = 1.0F;
-
+		App->map->active = false;
 		if (!LoadedUi)
 		{
 			LoadStartMenu(sceneNode);
@@ -161,12 +161,6 @@ bool j1Scene::Update(float dt)
 					PausePanel->enable = false;
 				}
 			}
-				
-			
-			
-			
-
-
 		}
 	
 	AudioControl();
@@ -178,8 +172,6 @@ bool j1Scene::PostUpdate()
 {
 	BROFILER_CATEGORY("PostUpdate_Scene.cpp", Profiler::Color::MediumSlateBlue)
 	bool ret = true;
-
-	
 
 	if (exitGame)
 		return false;
