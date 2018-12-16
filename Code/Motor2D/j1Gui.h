@@ -52,7 +52,8 @@ public:
 	p2List<UiItem*> ListItemUI;
 
 private:
-
+	uint click_fx;
+	bool clicked = false;
 	SDL_Texture const * UITexture;
 	p2SString PathTextureUI;
 };
