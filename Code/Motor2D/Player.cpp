@@ -361,7 +361,9 @@ void Player::OnCollision(Collider * otherColl)
 	{
 		App->scene->coin_points++;
 		App->scene->points += 50;
-		App->scene->label_coin;
+
+		str_coin.create("%u", App->scene->coin_points);
+		App->scene->label_coin->ChangeTextureIdle(&str_coin,NULL, NULL);
 	}
 
 	if (otherColl->type == COLLIDER_ENEMY && state != STATE_ATTACK)

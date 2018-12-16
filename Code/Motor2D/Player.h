@@ -28,6 +28,7 @@ private:
 	//PlayerState state = STATE_SPAWN;
 	fPoint maxSpeed = { 0.0F,0.0F };
 	iPoint distansToCam = { 0,0 };
+	p2SString str_coin;
 
 	bool canJump = false;
 	bool debugMode = false;
