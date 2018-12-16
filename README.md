@@ -100,6 +100,7 @@ https://polkira7.wixsite.com/spookyskeleton
 			- Added slider item
 			- Added coins
 			- Added the functions to change the volume and fx
+			- Added all fx
 			
 			
 		Second Assignment:

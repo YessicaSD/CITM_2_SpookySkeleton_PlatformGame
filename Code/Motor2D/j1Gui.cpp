@@ -3,6 +3,7 @@
 #include "p2Log.h"
 #include "j1App.h"
 #include "j1Render.h"
+#include "j1Audio.h"
 #include "j1Textures.h"
 #include "j1Input.h"
 #include "j1Scene.h"
@@ -38,8 +39,8 @@ bool j1Gui::Awake(pugi::xml_node& conf)
 	bool ret = true;
 
 	PathTextureUI = conf.child("UITexture").attribute("file").as_string("");
-	
-	
+	click_fx = App->audio->LoadFx("audio/fx/click2 .wav");
+	clicked = true;
 
 	return ret;
 }
@@ -84,9 +85,10 @@ bool j1Gui::Update(float dt)
 		{
 			if (thisItem->data->state != CLICK && mouseButtonDown != 0)
 			{
+				App->audio->PlayFx(click_fx);
 				thisItem->data->mouseButtonDown = mouseButtonDown;
 				thisItem->data->OnClickDown();
-				thisItem->data->state = CLICK;
+				thisItem->data->state = CLICK;	
 			}
 
 			if (thisItem->data->state == CLICK && App->input->GetMouseButtonState(thisItem->data->mouseButtonDown) == KEY_UP)
