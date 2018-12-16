@@ -432,14 +432,19 @@ bool j1Scene::LoadSettings(pugi::xml_node& settingNode)
 
 	// White Slider volume
 	SDL_Rect Rect_slider_volume = { 0,525,367,21 };
-	UiItem_Bar* slider_volume = App->Gui->AddBar({ 310,276,367,21 }, &Rect_slider_volume, settingPanel, { 0,0 });
+	UiItem_Bar* slider_volume = App->Gui->AddBar({ 310,276,367,21 }, &Rect_slider_volume, settingPanel, { 0,0 }, HORIZONTAL);
 	bar = slider_volume;
 	volume_bar = slider_volume;
 	
 	// White Slider fx
 	SDL_Rect Rect_slider_fx = { 0,525,367,21 };
-	UiItem_Bar* slider_fx = App->Gui->AddBar({ 310,530,367,21 }, &Rect_slider_fx, settingPanel, { 0,0 });
+	UiItem_Bar* slider_fx = App->Gui->AddBar({ 310,530,367,21 }, &Rect_slider_fx, settingPanel, { 0,0 }, HORIZONTAL);
 	fx_bar = slider_fx;
+
+	// Credits slider
+	SDL_Rect Rect_credits_slider = { 0,525,367,21 };
+	UiItem_Bar* slider_credits = App->Gui->AddBar({ 720,400 }, 367, &Rect_credits_slider, settingPanel, { 0,0 }, VERTICAL);
+	fx_bar = slider_credits;
 
 	return true;
 }

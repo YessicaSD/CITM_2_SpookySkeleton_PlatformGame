@@ -203,16 +203,28 @@ UiItem_Button * j1Gui::AddButton(SDL_Rect hitBox, const SDL_Rect* idle, p2SStrin
 	return (UiItem_Button*)newUIItem;
 }
 
-UiItem_Bar * j1Gui::AddBar(SDL_Rect hitBox, const SDL_Rect* section, UiItem *const parent, p2Point<int> pivot )
+UiItem_Bar * j1Gui::AddBar(SDL_Rect hitBox, const SDL_Rect* section, UiItem *const parent, p2Point<int> pivot, TypeBar type )
 {
 	UiItem* newUIItem = nullptr;
 	if (parent == NULL)
-		newUIItem = new UiItem_Bar(hitBox, section, canvas, pivot);
+		newUIItem = new UiItem_Bar(hitBox, section, canvas, pivot, type);
 	else
-		newUIItem = new UiItem_Bar(hitBox, section, parent, pivot);
+		newUIItem = new UiItem_Bar(hitBox, section, parent, pivot, type);
 
 	ListItemUI.add(newUIItem);
 	return (UiItem_Bar*)newUIItem;
+}
+UiItem_Bar* j1Gui::AddBar(iPoint pos, uint mesure, const SDL_Rect* section, UiItem*const parent, p2Point<int> pivot, TypeBar type)
+{
+	UiItem* newUIItem = nullptr;
+	if (parent == NULL)
+		newUIItem = new UiItem_Bar(pos, mesure, section, canvas, pivot, type);
+	else
+		newUIItem = new UiItem_Bar(pos, mesure, section, parent, pivot, type);
+
+	ListItemUI.add(newUIItem);
+	return (UiItem_Bar*)newUIItem;
+
 }
 
 UiItem* j1Gui::AddEmptyElement(iPoint pos, UiItem * const parent)

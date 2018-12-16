@@ -49,7 +49,6 @@ void UiItem::DrawChildrens(float dt)
 				thisItem->data->Draw(dt);
 				if (thisItem->data->showHitBox)
 				{
-					
 					App->render->DrawQuad(thisItem->data->hitBox, 255, 255, 255, 255, false, false);
 				}
 			}
