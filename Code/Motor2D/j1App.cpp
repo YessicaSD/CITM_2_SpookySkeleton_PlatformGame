@@ -162,8 +162,7 @@ bool j1App::Update()
 	
 	FinishUpdate();
 
-	if (App->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN)
-		ret = false;
+
 	return ret;
 }
 
@@ -187,7 +186,7 @@ void j1App::PrepareUpdate()
 {
 	frame_count++;
 	dt = frame_time.ReadSec();
-	if (dt >= 2)
+	if (dt >= 2.0F || pause==true)
 	{
 		dt = 0;
 	}

@@ -107,6 +107,7 @@ public:
 	j1Gui*              Gui = nullptr;
 
 	float				dt = 0.0F;
+	bool				pause=false;
 private:
 
 	p2List<j1Module*>	modules;

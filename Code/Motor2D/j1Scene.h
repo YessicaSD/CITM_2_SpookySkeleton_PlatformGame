@@ -17,8 +17,6 @@ enum class SceneState
 {
 	STARTMENU,
 	GAME,
-	PAUSE,
-	SETTING,
 	MAX_STATES
 };
 
@@ -39,7 +37,12 @@ private:
 	
 	p2DynArray<sfx> arraySfx;
 	void LoadUiElement(UiItem*parent, pugi::xml_node node);
-	
+	bool LoadedUi = false;
+
+	bool LoadStartMenu(pugi::xml_node& nodeScene);
+	bool LoadSettings(pugi::xml_node& SettingNode);
+
+
 	//Game variables --------------------------------
 	p2DynArray<EntitiesInfo> entitiesArrayInfo;
 	SDL_Texture * Background = nullptr;
@@ -115,9 +118,7 @@ public:
 	bool Save(pugi::xml_node&) const override;
 	void AudioControl();
 
-	bool LoadStartMenu(pugi::xml_node& nodeScene);
-	bool LoadSettings(pugi::xml_node& SettingNode);
-
+	
 
 private:
 	SDL_Texture * debug_tex;

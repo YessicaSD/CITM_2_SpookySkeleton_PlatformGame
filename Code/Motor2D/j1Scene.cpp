@@ -119,17 +119,17 @@ bool j1Scene::PreUpdate(float dt)
 bool j1Scene::Update(float dt)
 {
 	BROFILER_CATEGORY("Update_Scene.cpp", Profiler::Color::Coral)
-		switch (state)
+
+		if (state == SceneState::STARTMENU)
 		{
-		case SceneState::STARTMENU:
 			result_volume = volume_bar->GetBarValue();
 			App->audio->SetVolume(result_volume);
 			result_fx = fx_bar->GetBarValue();
 			App->audio->SetFxVolume(result_fx);
 			App->render->Blit(Background, 0, 0, NULL, SDL_FLIP_NONE, 0.0F);
-			break;
-
-		case SceneState::GAME:
+		}
+		if (state == SceneState::GAME)
+		{
 			DebugControls();
 
 			//Load and save game---------------------------------------------------
@@ -138,20 +138,16 @@ bool j1Scene::Update(float dt)
 
 			if (App->input->GetKey(SDL_SCANCODE_F5) == KEY_DOWN)
 				App->SaveGame();
-			break;
 
-		case SceneState::PAUSE:
-			break;
-		case SceneState::SETTING:
-			App->render->Blit(Background, 0, 0, NULL, SDL_FLIP_NONE, 0.0F);
-			break;
-		case SceneState::MAX_STATES:
-			break;
-		default:
-			break;
+			if (App->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN)
+				App->pause = !App->pause;
+			
+			
+			
+
+
 		}
-
-
+	
 	AudioControl();
 	return true;
 }
@@ -162,8 +158,7 @@ bool j1Scene::PostUpdate()
 	BROFILER_CATEGORY("PostUpdate_Scene.cpp", Profiler::Color::MediumSlateBlue)
 	bool ret = true;
 
-	if (App->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN)
-		ret = false;
+	
 
 	if (exitGame)
 		return false;
