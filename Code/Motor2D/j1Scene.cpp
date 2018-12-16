@@ -505,7 +505,7 @@ bool j1Scene::LoadGameUi(pugi::xml_node& SettingNode)
 	heart[0] = GameUiPanel->FindChildByName("hearts1");
 	heart[1] = GameUiPanel->FindChildByName("hearts2");
 	heart[2] = GameUiPanel->FindChildByName("hearts3");
-
+	label_coin = (UiItem_Label *)GameUiPanel->FindChildByName("NumCoinsLabel");
 	return true;
 }
 bool j1Scene::LoadCredits(pugi::xml_node& SceneNode)

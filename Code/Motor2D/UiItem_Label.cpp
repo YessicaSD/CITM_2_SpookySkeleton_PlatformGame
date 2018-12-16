@@ -51,7 +51,7 @@ bool UiItem_Label::ChangeTextureIdle(const p2SString * string, const SDL_Color *
 	BROFILER_CATEGORY("ChangeTextureHover_Label.cpp", Profiler::Color::Azure)
 		bool ret = false;
 	assert(string != NULL || color != NULL || font != NULL);
-
+	
 	const char* txt = (string != NULL) ? string->GetString() : this->text.GetString();
 	SDL_Color col = (color != NULL) ? *color : this->color;
 	TTF_Font * f = (font != NULL) ? (TTF_Font *)font : this->font;
