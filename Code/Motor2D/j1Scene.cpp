@@ -70,11 +70,12 @@ bool j1Scene::Start()
 			LoadedUi = true;
 		}
 
-		App->audio->PlayMusic(sceneNode.child("music").child_value());
 		settingPanel->enable = false;
 		startMenupanel->enable = true;
 		PausePanel->enable = false;
 		GameUiPanel->enable = false;
+		App->audio->PlayMusic("audio/music/menu_music.ogg");
+
 	}
 	if (state == SceneState::GAME)
 	{	//Pick level node-----------------------------------------ç
@@ -282,6 +283,12 @@ bool j1Scene::Save(pugi::xml_node & node) const
 			entity.append_attribute("x").set_value((int)enemiesIterator->data->position.x);
 			entity.append_attribute("y").set_value((int)enemiesIterator->data->position.y);
 			break;
+		case COIN:
+			entity = nodeEntities.append_child("coin");
+			entity.append_attribute("x").set_value((int)enemiesIterator->data->position.x);
+			entity.append_attribute("y").set_value((int)enemiesIterator->data->position.y);
+			break;
+
 		default:
 			break;
 		}
@@ -454,8 +461,7 @@ bool j1Scene::LoadSettings(pugi::xml_node& settingNode)
 	// Credits slider
 	SDL_Rect Rect_credits_slider = { 0,525,367,21 };
 	UiItem_Bar* slider_credits = App->Gui->AddBar({ 720,400 }, 367, &Rect_credits_slider, settingPanel, { 0,0 }, VERTICAL);
-	fx_bar = slider_credits;
-
+	
 	return true;
 }
 

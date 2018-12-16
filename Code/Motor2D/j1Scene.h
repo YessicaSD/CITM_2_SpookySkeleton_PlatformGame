@@ -39,7 +39,7 @@ public:
 
 private:
 	SDL_Texture * debug_tex;
-
+	UiItem* heart[3] = { nullptr,nullptr,nullptr };
 private:
 	//Start Menu variables -------------------------
 	

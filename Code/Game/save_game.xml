@@ -12,7 +12,7 @@
 	<scene>
 		<level>
 			<entities>
-				<player x="299" y="386" />
+				<player x="60" y="384" />
 				<bat x="1088" y="64" />
 				<bat x="2300" y="200" />
 				<bat x="3424" y="96" />
@@ -22,6 +22,16 @@
 				<zombie x="2976" y="320" />
 				<zombie x="3840" y="96" />
 				<zombie x="4544" y="320" />
+				<coin x="416" y="320" />
+				<coin x="1376" y="96" />
+				<coin x="2400" y="310" />
+				<coin x="3328" y="256" />
+				<coin x="3552" y="128" />
+				<coin x="3552" y="320" />
+				<coin x="3936" y="32" />
+				<coin x="3744" y="32" />
+				<coin x="4000" y="352" />
+				<coin x="4320" y="288" />
 			</entities>
 		</level>
 	</scene>
@@ -30,6 +40,6 @@
 	<gui />
 	<fade />
 	<renderer>
-		<camera x="479" y="136" />
+		<camera x="0" y="134" />
 	</renderer>
 </game_state>
