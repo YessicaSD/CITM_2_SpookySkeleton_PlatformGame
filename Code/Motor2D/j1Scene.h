@@ -70,7 +70,9 @@ private:
 
 	UiItem_Image* titleImage = nullptr;
 	UiItem_Bar* volume_bar = nullptr;
+	UiItem_Bar* volume_bar_pause = nullptr;
 	UiItem_Bar* fx_bar = nullptr;
+	UiItem_Bar* fx_bar_pause = nullptr;
 	float timer;
 	p2SString str_timer;
 	j1Timer timer_sec;
