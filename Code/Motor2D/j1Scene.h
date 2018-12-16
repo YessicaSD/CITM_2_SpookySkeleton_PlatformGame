@@ -10,6 +10,7 @@
 
 class UiItem_Image;
 class UiItem_Bar;
+class UiItem_Label;
 class UiItem;
 
 struct SDL_Texture;
@@ -36,10 +37,12 @@ public:
 	UiItem* settingPanel = nullptr;
 	UiItem* PausePanel = nullptr;
 	UiItem* GameUiPanel = nullptr;
+	UiItem_Label * label_coin = nullptr;
 
 private:
 	SDL_Texture * debug_tex;
 	UiItem* heart[3] = { nullptr,nullptr,nullptr };
+	
 private:
 	//Start Menu variables -------------------------
 	

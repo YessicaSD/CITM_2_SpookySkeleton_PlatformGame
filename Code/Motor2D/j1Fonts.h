@@ -19,6 +19,8 @@ enum TypeFont
 	COPPERPLATE_B_I_24,
 	COPPERPLATE_B_I_48,
 	OPENSANS_S_B_12,
+	COPPERPLATE_B_I_12,
+
 	MAX_FONTS
 };
 class j1Fonts : public j1Module

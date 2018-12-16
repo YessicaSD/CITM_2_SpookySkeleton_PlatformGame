@@ -9,6 +9,7 @@
 #include "j1Window.h"
 #include "ModuleFadeToBack.h"
 #include "j1Scene.h"
+#include "UiItem_Label.h"
 #include "j1Pathfinding.h"
 #include "Brofiler/Brofiler.h"
 
@@ -360,6 +361,7 @@ void Player::OnCollision(Collider * otherColl)
 	{
 		App->scene->coin_points++;
 		App->scene->points += 50;
+		App->scene->label_coin;
 	}
 
 	if (otherColl->type == COLLIDER_ENEMY && state != STATE_ATTACK)

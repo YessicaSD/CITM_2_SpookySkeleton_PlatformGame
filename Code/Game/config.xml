@@ -147,6 +147,16 @@
             </labels>
           </childs>
         </button>
+        <button name ="InternetButton" funtion = "OpenPage">
+          <hitbox x="30"  y="700" w="52" h="51"/>
+          <idleSec x="627" y="358" w="52" h="51" />
+          <hoverSec x="683" y="358" w="52" h="51" />
+        </button>
+        <button name ="CreditsButton" funtion = "OpenPage">
+          <hitbox x="90"  y="700" w="50" h="50"/>
+          <idleSec x="740" y="358" w="50" h="50" />
+          <hoverSec x="790" y="358" w="50" h="50" />
+        </button>
       </buttons>
     </settingsMenu>
     <PausePanel>
