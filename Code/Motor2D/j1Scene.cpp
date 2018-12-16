@@ -82,6 +82,7 @@ bool j1Scene::Start()
 	if (state == SceneState::GAME)
 	{	//Pick level node-----------------------------------------
 		timer_sec.Start();
+		App->map->active = true;
 		App->win->scale = 2.0F;
 		GameUiPanel->enable = true;
 		if (startMenupanel->enable)

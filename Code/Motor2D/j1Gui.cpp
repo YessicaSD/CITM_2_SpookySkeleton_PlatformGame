@@ -265,6 +265,17 @@ UiItem* j1Gui::AddEmptyElement(iPoint pos, UiItem * const parent)
 	
 
  }
+ void LoadGame()
+ {
+	 j1Module* thisModule = (j1Module*)App->pathfinding;
+	 thisModule->Enable();
+	 thisModule->active = true;
+	 App->scene->state = SceneState::GAME;
+	
+	
+	 App->LoadGame();
+
+ }
  void ExitGame()
  {
 	 App->scene->exitGame = true;
@@ -279,17 +290,7 @@ UiItem* j1Gui::AddEmptyElement(iPoint pos, UiItem * const parent)
 	 App->scene->startMenupanel->enable = true;
 	 App->scene->settingPanel->enable = false;
  }
- void LoadGame()
- {
-	 App->scene->state = SceneState::GAME;
-	 j1Module* thisModule = (j1Module*)App->pathfinding;
-	 thisModule->Enable();
-	 thisModule->active = true;
-	 App->map->active = true;
-
-	 App->LoadGame();
-	 
- }
+ 
  void OpenPage()
  {
 	 ShellExecuteA(NULL, "open", "https://polkira7.wixsite.com/spookyskeleton", NULL, NULL, SW_SHOWNORMAL);
