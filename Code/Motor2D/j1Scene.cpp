@@ -158,6 +158,12 @@ bool j1Scene::Update(float dt)
 			DebugControls();
 			timer = timer_sec.ReadSec();
 			str_timer.create("%.2f seconds", timer);
+
+			result_volume = volume_bar_pause->GetBarValue();
+			App->audio->SetVolume(result_volume);
+			result_fx = fx_bar_pause->GetBarValue();
+			App->audio->SetFxVolume(result_fx);
+
 			App->scene->label_timer->ChangeTextureIdle(&str_timer, NULL, NULL);
 
 
@@ -416,12 +422,12 @@ bool j1Scene::LoadPauseGameUi(pugi::xml_node & SettingNode)
 
 	// White Slider volume
 	SDL_Rect Rect_slider_volume_pause = { 0,515,122,7 };
-	UiItem_Bar* slider_volume_pause = App->Gui->AddBar({ 80,276,367,21 }, &Rect_slider_volume_pause, PausePanel, { 0,0 }, HORIZONTAL);
+	UiItem_Bar* slider_volume_pause = App->Gui->AddBar({ 200,130 }, 122, Rect_slider_volume_pause, PausePanel, { 0,0 }, HORIZONTAL);
 	volume_bar_pause = slider_volume_pause;
 
 	// White Slider fx
 	SDL_Rect Rect_slider_fx_pause = { 0,515,122,7 };
-	UiItem_Bar* slider_fx_pause = App->Gui->AddBar({ 80,400,367,21 }, &Rect_slider_fx_pause, PausePanel, { 0,0 }, HORIZONTAL);
+	UiItem_Bar* slider_fx_pause = App->Gui->AddBar({ 200,200 }, 122, Rect_slider_fx_pause, PausePanel, { 0,0 }, HORIZONTAL);
 	fx_bar_pause = slider_fx_pause;
 	return true;
 }

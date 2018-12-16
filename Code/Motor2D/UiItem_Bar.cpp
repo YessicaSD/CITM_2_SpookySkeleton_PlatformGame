@@ -55,7 +55,7 @@ UiItem_Bar::UiItem_Bar(iPoint pos, uint mesure, const SDL_Rect* section, UiItem*
 
 			if (parent->name == "PausePanel")
 			{
-				Rect_thumb_volume = { 129,504,17,17 };
+				Rect_thumb_volume = { 129,505,17,17 };
 				thumb = App->Gui->AddImage({ (int)(hitBox.w*0.5),-(int)(hitBox.h*0.5),17,17 }, &Rect_thumb_volume, this, { 0,0 });
 				this->type = type;
 				thumb->draggable = true;
