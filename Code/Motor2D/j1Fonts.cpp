@@ -41,6 +41,9 @@ bool j1Fonts::Awake(pugi::xml_node& conf)
 
 		aux = App->font->Load("fonts/CopperPlate/CopperPlate_BoldItalic.ttf", 24);
 		mapOfFonts.PushBack("CooperPlateBI24", aux);
+
+		aux = App->font->Load("fonts/open_sans/OpenSans-Semibold.ttf", 12);
+		mapOfFonts.PushBack("OpenSAnsSB12", aux);
 	}
 
 	return true;
