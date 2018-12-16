@@ -218,7 +218,13 @@
       </labels>
     </GameUi>
     <CreditsPanel>
-      
+      <images>
+        <image name="panelCredits" scale="2.5">
+          <hitbox x="300" y="193" w="396" h="360"/>
+          <idleSec x="367" y="483" w="288" h="291"/>
+          <pivot x="245" y="180"/>
+        </image>
+      </images>
     </CreditsPanel>
     <idle>ScenesInfo.xml</idle>
     <saveFile>save_game.xml</saveFile>

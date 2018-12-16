@@ -75,6 +75,7 @@ bool j1Scene::Start()
 		startMenupanel->enable = true;
 		PausePanel->enable = false;
 		GameUiPanel->enable = false;
+		CreditsPanel->enable = false;
 		App->audio->PlayMusic("audio/music/menu_music.ogg");
 
 	}
@@ -367,102 +368,7 @@ bool j1Scene::LoadStartMenu(pugi::xml_node& nodeScene)
 
 	return true;
 }
-void j1Scene::LoadUiElement(UiItem*parent, pugi::xml_node node)
-{
-	BROFILER_CATEGORY("LoadUiElement.cpp", Profiler::Color::Red)
-	for (pugi::xml_node uiNode = node.child("images").child("image"); uiNode; uiNode = uiNode.next_sibling("image"))
-	{
-		SDL_Rect hitBox = { uiNode.child("hitbox").attribute("x").as_int(), uiNode.child("hitbox").attribute("y").as_int(), uiNode.child("hitbox").attribute("w").as_int(), uiNode.child("hitbox").attribute("h").as_int() };
-		Animation anim;
-		if (uiNode.attribute("speed"))
-		{
-			anim.speed = uiNode.attribute("speed").as_float();
-		}
-		for (pugi::xml_node animNode = uiNode.child("idleSec"); animNode; animNode = animNode.next_sibling("idleSec"))
-		{
-			SDL_Rect sectionIdle = { animNode.attribute("x").as_int(), animNode.attribute("y").as_int(), animNode.attribute("w").as_int(), animNode.attribute("h").as_int() };
-			anim.PushBack(sectionIdle);
-		}
-		UiItem_Image*newElement = App->Gui->AddImage(hitBox, anim, parent);
-		newElement->name = (uiNode.attribute("name")) ? uiNode.attribute("name").as_string() : "";
-		newElement->scaled = (uiNode.attribute("scale")) ? true : false;
-		newElement->scale = (newElement->scaled) ? uiNode.attribute("scale").as_float():1;
-		if (uiNode.child("childs"))
-		{
-			LoadUiElement(newElement, uiNode.child("childs"));
-		}
-	}
-	for (pugi::xml_node uiNode = node.child("buttons").child("button"); uiNode; uiNode = uiNode.next_sibling("button"))
-	{
-		SDL_Rect hitBox = { uiNode.child("hitbox").attribute("x").as_int(), uiNode.child("hitbox").attribute("y").as_int(), uiNode.child("hitbox").attribute("w").as_int(), uiNode.child("hitbox").attribute("h").as_int() };
-		SDL_Rect sectionIdle = { uiNode.child("idleSec").attribute("x").as_int(), uiNode.child("idleSec").attribute("y").as_int(), uiNode.child("idleSec").attribute("w").as_int(), uiNode.child("idleSec").attribute("h").as_int() };
-		iPoint pivot = { 0,0 };
-		pugi::xml_node pivotNode = uiNode.child("pivot");
-		if (pivotNode)
-		{
-			pivot = { pivotNode.attribute("x").as_int(0),pivotNode.attribute("y").as_int(0) };
-		}
-		pugi::xml_node hoverSecNode = uiNode.child("hoverSec");
-		SDL_Rect* sectionHove = nullptr;
-		if (hoverSecNode)
-		{
-			SDL_Rect hover = { hoverSecNode.attribute("x").as_int(), hoverSecNode.attribute("y").as_int(), hoverSecNode.attribute("w").as_int(), hoverSecNode.attribute("h").as_int() };
-			sectionHove = &hover;
-		}
-		
-		SDL_Rect* sectionClick = nullptr;
-		if (pugi::xml_node clickSecNode = uiNode.child("clickSec"))
-		{
-			SDL_Rect click = { clickSecNode.attribute("x").as_int(), clickSecNode.attribute("y").as_int(), clickSecNode.attribute("w").as_int(), clickSecNode.attribute("h").as_int() };
-			sectionClick = &click;
-		}
 
-		p2SString funtionPath = uiNode.attribute("funtion").as_string("ExitGame");
-		bool down = uiNode.attribute("Up");
-		UiItem*newElement = App->Gui->AddButton(hitBox, &sectionIdle, funtionPath, !down, parent, sectionClick, sectionHove, pivot);
-		newElement->name = (uiNode.attribute("name")) ? uiNode.attribute("name").as_string() : "";
-		
-		if (uiNode.child("childs"))
-		{
-			LoadUiElement(newElement, uiNode.child("childs"));
-		}
-	}
-	for (pugi::xml_node uiNode = node.child("labels").child("label"); uiNode; uiNode = uiNode.next_sibling("label"))
-	{
-		p2SString text = uiNode.attribute("text").as_string();
-		SDL_Color color = { uiNode.child("color").attribute("r").as_uint(),uiNode.child("color").attribute("g").as_uint(),uiNode.child("color").attribute("b").as_uint(),uiNode.child("color").attribute("a").as_uint() };
-		p2SString font=uiNode.attribute("font").as_string();
-		UiItem_Label*newElement = App->Gui->AddLabel(text.GetString(), color, App->font->getFont(font), {uiNode.attribute("pos_x").as_int(),uiNode.attribute("pos_y").as_int()},parent);
-		
-		newElement->name = (uiNode.attribute("name")) ? uiNode.attribute("name").as_string() : "";
-
-		if (pugi::xml_node hoverNode = uiNode.child("hover"))
-		{
-			p2SString* string = nullptr;
-			SDL_Color* color = nullptr;
-			TTF_Font* font = nullptr;
-
-			if (hoverNode.attribute("text"))
-			{
-				p2SString aux = hoverNode.attribute("text").as_string();
-				string = &aux;
-			}
-			if (hoverNode.attribute("font"))
-			{
-				p2SString aux = hoverNode.attribute("font").as_string();
-				font = App->font->getFont(aux);
-
-			}
-			pugi::xml_node colorNode = hoverNode.child("color");
-			if (colorNode)
-			{
-				SDL_Color aux = { colorNode.attribute("r").as_uint(),colorNode.attribute("g").as_uint(),colorNode.attribute("b").as_uint(),colorNode.attribute("a").as_uint() };
-				color = &aux;
-			}
-			newElement->ChangeTextureHover(string, color, font);
-		}
-	}
-}
 
 bool j1Scene::LoadSettings(pugi::xml_node& settingNode)
 {
@@ -511,9 +417,111 @@ bool j1Scene::LoadGameUi(pugi::xml_node& SettingNode)
 bool j1Scene::LoadCredits(pugi::xml_node& SceneNode)
 {
 	CreditsPanel = App->Gui->AddEmptyElement({ 0,0 });
+	LoadUiElement(CreditsPanel, SceneNode.child("CreditsPanel"));
 	return true;
 }
+void j1Scene::LoadUiElement(UiItem*parent, pugi::xml_node node)
+{
+	BROFILER_CATEGORY("LoadUiElement.cpp", Profiler::Color::Red)
+		for (pugi::xml_node uiNode = node.child("images").child("image"); uiNode; uiNode = uiNode.next_sibling("image"))
+		{
+			SDL_Rect hitBox = { uiNode.child("hitbox").attribute("x").as_int(), uiNode.child("hitbox").attribute("y").as_int(), uiNode.child("hitbox").attribute("w").as_int(), uiNode.child("hitbox").attribute("h").as_int() };
+			Animation anim;
+			iPoint pivot = { 0,0 };
+			if (uiNode.attribute("speed"))
+			{
+				anim.speed = uiNode.attribute("speed").as_float();
+			}
+			for (pugi::xml_node animNode = uiNode.child("idleSec"); animNode; animNode = animNode.next_sibling("idleSec"))
+			{
+				SDL_Rect sectionIdle = { animNode.attribute("x").as_int(), animNode.attribute("y").as_int(), animNode.attribute("w").as_int(), animNode.attribute("h").as_int() };
+				anim.PushBack(sectionIdle);
+			}
+			if (pugi::xml_node pivotNode = uiNode.child("pivot"))
+			{
+				pivot = { pivotNode.attribute("x").as_int(0),pivotNode.attribute("y").as_int(0) };
+			}
 
+			UiItem_Image*newElement = App->Gui->AddImage(hitBox, anim, parent, pivot);
+			newElement->name = (uiNode.attribute("name")) ? uiNode.attribute("name").as_string() : "";
+			newElement->scaled = (uiNode.attribute("scale")) ? true : false;
+			newElement->scale = (newElement->scaled) ? uiNode.attribute("scale").as_float() : 1;
+			if (uiNode.child("childs"))
+			{
+				LoadUiElement(newElement, uiNode.child("childs"));
+			}
+		}
+	for (pugi::xml_node uiNode = node.child("buttons").child("button"); uiNode; uiNode = uiNode.next_sibling("button"))
+	{
+		SDL_Rect hitBox = { uiNode.child("hitbox").attribute("x").as_int(), uiNode.child("hitbox").attribute("y").as_int(), uiNode.child("hitbox").attribute("w").as_int(), uiNode.child("hitbox").attribute("h").as_int() };
+		SDL_Rect sectionIdle = { uiNode.child("idleSec").attribute("x").as_int(), uiNode.child("idleSec").attribute("y").as_int(), uiNode.child("idleSec").attribute("w").as_int(), uiNode.child("idleSec").attribute("h").as_int() };
+		iPoint pivot = { 0,0 };
+		pugi::xml_node pivotNode = uiNode.child("pivot");
+		if (pivotNode)
+		{
+			pivot = { pivotNode.attribute("x").as_int(0),pivotNode.attribute("y").as_int(0) };
+		}
+		pugi::xml_node hoverSecNode = uiNode.child("hoverSec");
+		SDL_Rect* sectionHove = nullptr;
+		if (hoverSecNode)
+		{
+			SDL_Rect hover = { hoverSecNode.attribute("x").as_int(), hoverSecNode.attribute("y").as_int(), hoverSecNode.attribute("w").as_int(), hoverSecNode.attribute("h").as_int() };
+			sectionHove = &hover;
+		}
+
+		SDL_Rect* sectionClick = nullptr;
+		if (pugi::xml_node clickSecNode = uiNode.child("clickSec"))
+		{
+			SDL_Rect click = { clickSecNode.attribute("x").as_int(), clickSecNode.attribute("y").as_int(), clickSecNode.attribute("w").as_int(), clickSecNode.attribute("h").as_int() };
+			sectionClick = &click;
+		}
+
+		p2SString funtionPath = uiNode.attribute("funtion").as_string("ExitGame");
+		bool down = uiNode.attribute("Up");
+		UiItem*newElement = App->Gui->AddButton(hitBox, &sectionIdle, funtionPath, !down, parent, sectionClick, sectionHove, pivot);
+		newElement->name = (uiNode.attribute("name")) ? uiNode.attribute("name").as_string() : "";
+
+		if (uiNode.child("childs"))
+		{
+			LoadUiElement(newElement, uiNode.child("childs"));
+		}
+	}
+	for (pugi::xml_node uiNode = node.child("labels").child("label"); uiNode; uiNode = uiNode.next_sibling("label"))
+	{
+		p2SString text = uiNode.attribute("text").as_string();
+		SDL_Color color = { uiNode.child("color").attribute("r").as_uint(),uiNode.child("color").attribute("g").as_uint(),uiNode.child("color").attribute("b").as_uint(),uiNode.child("color").attribute("a").as_uint() };
+		p2SString font = uiNode.attribute("font").as_string();
+		UiItem_Label*newElement = App->Gui->AddLabel(text.GetString(), color, App->font->getFont(font), { uiNode.attribute("pos_x").as_int(),uiNode.attribute("pos_y").as_int() }, parent);
+
+		newElement->name = (uiNode.attribute("name")) ? uiNode.attribute("name").as_string() : "";
+
+		if (pugi::xml_node hoverNode = uiNode.child("hover"))
+		{
+			p2SString* string = nullptr;
+			SDL_Color* color = nullptr;
+			TTF_Font* font = nullptr;
+
+			if (hoverNode.attribute("text"))
+			{
+				p2SString aux = hoverNode.attribute("text").as_string();
+				string = &aux;
+			}
+			if (hoverNode.attribute("font"))
+			{
+				p2SString aux = hoverNode.attribute("font").as_string();
+				font = App->font->getFont(aux);
+
+			}
+			pugi::xml_node colorNode = hoverNode.child("color");
+			if (colorNode)
+			{
+				SDL_Color aux = { colorNode.attribute("r").as_uint(),colorNode.attribute("g").as_uint(),colorNode.attribute("b").as_uint(),colorNode.attribute("a").as_uint() };
+				color = &aux;
+			}
+			newElement->ChangeTextureHover(string, color, font);
+		}
+	}
+}
 void j1Scene::LoadEntities(const pugi::xml_node& entitiesNode)
 {
 	entitiesArrayInfo.Clear();

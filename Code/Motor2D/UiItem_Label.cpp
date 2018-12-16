@@ -60,7 +60,9 @@ bool UiItem_Label::ChangeTextureIdle(const p2SString * string, const SDL_Color *
 
 	if (ret = (aux != nullptr) ? true : false)
 	{
-		App->tex->UnLoad(texture);
+		if(texture!=nullptr)
+			App->tex->UnLoad(texture);
+
 		texture = aux;
 	}
 	return ret;

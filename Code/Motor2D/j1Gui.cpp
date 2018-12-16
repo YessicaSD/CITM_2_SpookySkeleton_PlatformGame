@@ -292,5 +292,6 @@ UiItem* j1Gui::AddEmptyElement(iPoint pos, UiItem * const parent)
  }
  void OpenCredits()
  {
-
+	 App->scene->CreditsPanel->enable = true;
+	 App->scene->settingPanel->enable = false;
  }
