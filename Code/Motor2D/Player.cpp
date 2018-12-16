@@ -288,7 +288,7 @@ void Player::OnCollision(Collider * otherColl)
 	BROFILER_CATEGORY("PlayerOnCollision", Profiler::Color::Red)
 	bool PlayerIsOn = (int)position.y <= otherColl->rect.y 
 		&& (int)position.x >= otherColl->rect.x
-		&& (int)position.x <= otherColl->rect.x + otherColl->rect.w;
+		&& (int)position.x-collider->rect.w*0.5F <= otherColl->rect.x + otherColl->rect.w;
 	bool PlayerIsOnTheLeft = position.x <= otherColl->rect.x  && position.y > otherColl->rect.y;
 	bool PlayerIsOnTheRight = position.x >= otherColl->rect.x + otherColl->rect.w  && position.y > otherColl->rect.y;
 	bool PlayerIsUnder = position.y > otherColl->rect.y + otherColl->rect.h && collider->rect.x + collider->rect.w - 5 > otherColl->rect.x && collider->rect.x + 5 < otherColl->rect.x + otherColl->rect.w;
@@ -342,13 +342,14 @@ void Player::OnCollision(Collider * otherColl)
 		{
 			if (PlayerIsOnTheLeft)
 			{
-				speed.x = 0.0F;
+				speed.x = (int)(otherColl->rect.x - (position.x + collider->rect.w * 0.5));
 			}
 				
 
 			if (PlayerIsOnTheRight)
 			{
-				speed.x = 0.0F;
+					speed.x = (int)((otherColl->rect.x + otherColl->rect.w) - (position.x - collider->rect.w / 2));
+				
 			}
 				
 			
