@@ -80,6 +80,7 @@ bool UiItem_Label::ChangeTextureIdle(const p2SString * string, const SDL_Color *
 
 void UiItem_Label::Draw(const float&)
 {
+	BROFILER_CATEGORY("Draw_Bar.cpp", Profiler::Color::AliceBlue)
 	bool idle = (state == IDLE) ? true : false;
 
 	if (idle)

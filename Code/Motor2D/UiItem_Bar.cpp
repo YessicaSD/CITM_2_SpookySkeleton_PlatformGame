@@ -92,6 +92,7 @@ void UiItem_Bar::Draw(const float& dt)
 
 float UiItem_Bar::GetBarValue()
 {
+	BROFILER_CATEGORY("GetBarValue_Bar.cpp", Profiler::Color::Bisque)
 	if (this->type == TypeBar::HORIZONTAL)
 	{
 		float ipos_bar = thumb->hitBox.x + (thumb->hitBox.w / 2);
