@@ -338,8 +338,17 @@ void j1Scene::LoadUiElement(UiItem*parent, pugi::xml_node node)
 	for (pugi::xml_node imageNode = node.child("images").child("image"); imageNode; imageNode = imageNode.next_sibling("image"))
 	{
 		SDL_Rect hitBox = { imageNode.child("hitbox").attribute("x").as_int(), imageNode.child("hitbox").attribute("y").as_int(), imageNode.child("hitbox").attribute("w").as_int(), imageNode.child("hitbox").attribute("h").as_int() };
-		SDL_Rect sectionIdle = { imageNode.child("idleSec").attribute("x").as_int(), imageNode.child("idleSec").attribute("y").as_int(), imageNode.child("idleSec").attribute("w").as_int(), imageNode.child("idleSec").attribute("h").as_int() };
-		UiItem*newElement = App->Gui->AddImage(hitBox, &sectionIdle, parent);
+		Animation anim;
+		if (imageNode.attribute("speed"))
+		{
+			anim.speed = imageNode.attribute("speed").as_float();
+		}
+		for (pugi::xml_node animNode = imageNode.child("idleSec"); animNode; animNode = animNode = animNode.next_sibling("idleSec"))
+		{
+			SDL_Rect sectionIdle = { imageNode.child("idleSec").attribute("x").as_int(), imageNode.child("idleSec").attribute("y").as_int(), imageNode.child("idleSec").attribute("w").as_int(), imageNode.child("idleSec").attribute("h").as_int() };
+			anim.PushBack(sectionIdle);
+		}
+		UiItem*newElement = App->Gui->AddImage(hitBox, anim, parent);
 		if (imageNode.child("childs"))
 		{
 			LoadUiElement(newElement, imageNode.child("childs"));

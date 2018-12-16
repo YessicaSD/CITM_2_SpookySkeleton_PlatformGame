@@ -45,6 +45,7 @@ public:
 	// Gui creation functions
 	UiItem_Label* AddLabel(const char* text, SDL_Color color, TTF_Font *const font, p2Point<int> pos, UiItem *const parent);
 	UiItem_Image* AddImage(SDL_Rect hitBox, const SDL_Rect* section, UiItem *const parent, p2Point<int> pivot = {0,0});
+	UiItem_Image* AddImage(SDL_Rect hitBox, const Animation& section, UiItem *const parent, p2Point<int> pivot = { 0,0 });
 	UiItem_Button* AddButton(SDL_Rect hitBox, const SDL_Rect * idle, p2SString& funtionName, bool Down, UiItem * const parent = NULL, const SDL_Rect * click = NULL, const SDL_Rect * hover = NULL, p2Point<int> pivot = { 0,0 });
 	UiItem_Bar* AddBar(SDL_Rect hitBox, const SDL_Rect* section, UiItem *const parent, p2Point<int> pivot = { 0,0 });
 	UiItem* AddEmptyElement(iPoint pos, UiItem * const parent=nullptr);
