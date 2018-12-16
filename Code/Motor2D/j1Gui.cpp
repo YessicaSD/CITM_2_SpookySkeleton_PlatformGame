@@ -288,3 +288,7 @@ UiItem* j1Gui::AddEmptyElement(iPoint pos, UiItem * const parent)
  {
 	 ShellExecuteA(NULL, "open", "https://polkira7.wixsite.com/spookyskeleton", NULL, NULL, SW_SHOWNORMAL);
  }
+ void OpenCredits()
+ {
+
+ }
