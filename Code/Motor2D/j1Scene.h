@@ -10,6 +10,7 @@
 
 class UiItem_Image;
 class UiItem_Bar;
+class UiItem_Label;
 class UiItem;
 
 struct SDL_Texture;
@@ -37,8 +38,10 @@ public:
 	UiItem* PausePanel = nullptr;
 	UiItem* GameUiPanel = nullptr;
 	UiItem* CreditsPanel = nullptr;
+	UiItem_Label * label_coin = nullptr;
 
 	UiItem* heart[3] = { nullptr,nullptr,nullptr };
+	
 private:
 	bool LoadStartMenu(pugi::xml_node& nodeScene);
 	bool LoadSettings(pugi::xml_node& SettingNode);
