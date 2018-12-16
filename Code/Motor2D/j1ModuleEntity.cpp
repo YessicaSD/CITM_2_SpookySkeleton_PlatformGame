@@ -196,13 +196,17 @@ bool j1Entities::DestroyEntity(p2List_item<j1Entity*>* entity)
 
 void j1Entities::DestroyAllEntities()
 {
-	
-	p2List_item<j1Entity*>* itemEntity = nullptr;
-	for (itemEntity = list_Entities.end; itemEntity != nullptr ; itemEntity = itemEntity->prev)
+	if (list_Entities.Count() > 0)
 	{
-		delete itemEntity->data;
+		p2List_item<j1Entity*>* itemEntity = nullptr;
+		for (itemEntity = list_Entities.end; itemEntity != nullptr; itemEntity = itemEntity->prev)
+		{
+			delete itemEntity->data;
+		}
+		list_Entities.clear();
 	}
-	list_Entities.clear();
+
+	
 }
 
 bool j1Entities::LoadAnimations(pugi::xml_node animNode) 

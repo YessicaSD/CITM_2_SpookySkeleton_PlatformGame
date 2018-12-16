@@ -259,7 +259,7 @@ bool j1App::PreUpdate()
 		if (item->data->IsEnabled())
 		{
 			pModule = item->data;
-
+			
 			if (pModule->active == false) {
 				continue;
 			}

@@ -4,6 +4,7 @@
 #include "p2Log.h"
 #include "j1Map.h"
 #include "j1Scene.h"
+
 #include "Brofiler/Brofiler.h"
 j1FadeToBlack::~j1FadeToBlack()
 {
@@ -38,10 +39,10 @@ bool  j1FadeToBlack::Update(float dt)
 		if (now >= total_time)
 		{
 			App->map->Disable();
-			App->scene->Disable();
+			App->entity->DestroyAllEntities();
 
 			App->map->Enable();
-			App->scene->Enable();
+			App->scene->Start();
 			total_time += total_time;
 			start_time = SDL_GetTicks();
 			current_step = fade_step::fade_from_black;

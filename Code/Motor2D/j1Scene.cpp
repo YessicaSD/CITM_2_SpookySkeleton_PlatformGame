@@ -75,7 +75,8 @@ bool j1Scene::Start()
 
 	}
 	if (state == SceneState::GAME)
-	{	//Pick level node-----------------------------------------
+	{	//Pick level node-----------------------------------------ç
+		App->win->scale = 2.0F;
 		if (startMenupanel->enable)
 			startMenupanel->enable = false;
 		pugi::xml_node entitiesNode;
@@ -241,8 +242,7 @@ bool j1Scene::CleanUp()
 {
 	LOG("Freeing scene");
 	App->tex->UnLoad(Background);
-	App->win->scale = 2.0F;
-	App->entity->DestroyAllEntities();
+	
 
 	return true;
 }
