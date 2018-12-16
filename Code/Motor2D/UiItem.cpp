@@ -77,6 +77,18 @@ UiItem::~UiItem()
 	}*/
 }
 
+UiItem * UiItem::FindChildByName(const p2SString & name)
+{
+	for (p2List_item<UiItem*>* iter = childs.start; iter; iter = iter->next)
+	{
+		if (iter->data->name == name)
+		{
+			return iter->data;
+		}
+	}
+	return nullptr;
+}
+
 //bool UiItem::AddParent(UiItem * parent)
 //{
 //	assert(parent != nullptr);
@@ -145,3 +157,5 @@ void UiItem:: returnChildList(p2List<UiItem*>& List)
 		}
 	}
 }
+
+

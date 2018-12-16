@@ -167,6 +167,31 @@ bool j1Scene::Update(float dt)
 					PausePanel->enable = false;
 				}
 			}
+			if (player_lives == 3)
+			{
+				heart[0]->enable = true;
+				heart[1]->enable = true;
+				heart[2]->enable = true;
+			}
+			if (player_lives == 2)
+			{
+				heart[0]->enable = true;
+				heart[1]->enable = true;
+				heart[2]->enable = false;
+			}
+			if (player_lives == 1)
+			{
+				heart[0]->enable = true;
+				heart[1]->enable = false;
+				heart[2]->enable = false;
+			}
+			if (player_lives == 0)
+			{
+				heart[0]->enable = false;
+				heart[1]->enable = false;
+				heart[2]->enable = false;
+			}
+
 		}
 	
 	AudioControl();
@@ -476,6 +501,9 @@ bool j1Scene::LoadGameUi(pugi::xml_node& SettingNode)
 {
 	GameUiPanel = App->Gui->AddEmptyElement({ 0,0 });
 	LoadUiElement(GameUiPanel, SettingNode.child("GameUi"));
+	heart[0] = GameUiPanel->FindChildByName("hearts1");
+	heart[1] = GameUiPanel->FindChildByName("hearts2");
+	heart[2] = GameUiPanel->FindChildByName("hearts3");
 
 	return true;
 }
