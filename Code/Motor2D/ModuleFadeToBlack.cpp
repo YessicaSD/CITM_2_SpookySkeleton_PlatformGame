@@ -52,6 +52,7 @@ bool  j1FadeToBlack::Update(float dt)
 		normalized = 1.0f - normalized*dt;
 		if (now >= total_time)
 		{
+			App->pause = false;
 			App->map->active = true;
 			App->map->CleanUp();
 			App->map->Start();
@@ -59,6 +60,7 @@ bool  j1FadeToBlack::Update(float dt)
 			normalized = 0;
 			current_step = fade_step::none;
 			App->scene->Start();
+
 		}
 			
 	} break;

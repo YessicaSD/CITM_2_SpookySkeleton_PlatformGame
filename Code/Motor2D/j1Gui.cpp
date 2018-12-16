@@ -10,6 +10,7 @@
 #include "j1Fonts.h"
 #include "ModuleFadeToBack.h"
 #include "j1Map.h"
+#include "j1Pathfinding.h"
 #include "Brofiler\Brofiler.h"
 
 j1Gui::j1Gui() : j1Module()
@@ -27,6 +28,7 @@ j1Gui::j1Gui() : j1Module()
 	mapOfFuntions.PushBack("OpenPage", OpenPage);
 	mapOfFuntions.PushBack("OpenCredits", OpenCredits);
 	mapOfFuntions.PushBack("BackToSettings", BackToSettings);
+	mapOfFuntions.PushBack("BackToStartMenu", BackToStartMenu);
 	
 }
 
@@ -300,4 +302,14 @@ UiItem* j1Gui::AddEmptyElement(iPoint pos, UiItem * const parent)
  {
 	 App->scene->CreditsPanel->enable = false;
 	 App->scene->settingPanel->enable = true;
+ }
+ void BackToStartMenu()
+ {
+	 App->scene->points = 0;
+	 App->scene->coin_points = 0;
+	 App->scene->player_lives = 3;
+	 App->map->active = false;
+	 App->pathfinding->active = false;
+	 App->scene->state = SceneState::STARTMENU;
+	 App->fade->FadeToBlack(1);
  }
