@@ -9,6 +9,7 @@
 #include "j1Window.h"
 #include "ModuleFadeToBack.h"
 #include "j1Scene.h"
+#include "j1Pathfinding.h"
 #include "Brofiler/Brofiler.h"
 
 void Player::DebugModeInput()
@@ -163,7 +164,11 @@ bool Player::PreUpdate(float dt)
 					App->scene->coin_points = 0;
 					App->scene->player_lives = 3;
 					App->map->active = false;
+					App->pathfinding->active = false;
+					//App->entity->DestroyAllEntities();
+					//App->entity->active = false;
 					App->scene->state = SceneState::STARTMENU;
+					
 				}
 					
 
