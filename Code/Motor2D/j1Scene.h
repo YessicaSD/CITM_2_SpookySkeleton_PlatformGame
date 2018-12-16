@@ -40,7 +40,7 @@ public:
 	UiItem* CreditsPanel = nullptr;
 	UiItem_Label * label_coin = nullptr;
 	UiItem_Label* label_points = nullptr;
-
+	UiItem* ImagePanel = nullptr;
 	UiItem* heart[3] = { nullptr,nullptr,nullptr };
 	
 private:

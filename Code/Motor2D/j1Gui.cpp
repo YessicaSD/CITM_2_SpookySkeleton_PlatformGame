@@ -26,6 +26,7 @@ j1Gui::j1Gui() : j1Module()
 	mapOfFuntions.PushBack("LoadGame", LoadGame);
 	mapOfFuntions.PushBack("OpenPage", OpenPage);
 	mapOfFuntions.PushBack("OpenCredits", OpenCredits);
+	mapOfFuntions.PushBack("BackToSettings", BackToSettings);
 	
 }
 
@@ -294,4 +295,9 @@ UiItem* j1Gui::AddEmptyElement(iPoint pos, UiItem * const parent)
  {
 	 App->scene->CreditsPanel->enable = true;
 	 App->scene->settingPanel->enable = false;
+ }
+ void BackToSettings()
+ {
+	 App->scene->CreditsPanel->enable = false;
+	 App->scene->settingPanel->enable = true;
  }

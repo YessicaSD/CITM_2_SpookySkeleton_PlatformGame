@@ -19,6 +19,7 @@ void GoBackToMenu();
 void LoadGame();
 void OpenPage();
 void OpenCredits();
+void BackToSettings();
 // ---------------------------------------------------
 class j1Gui : public j1Module
 {

@@ -409,6 +409,29 @@ bool j1Scene::LoadCredits(pugi::xml_node& SceneNode)
 {
 	CreditsPanel = App->Gui->AddEmptyElement({ 0,0 });
 	LoadUiElement(CreditsPanel, SceneNode.child("CreditsPanel"));
+	std::string text = sceneNode.child("CreditsPanel").child("Text").child_value();
+	ImagePanel = CreditsPanel->FindChildByName("panelCredits");
+	std::string aux;
+	
+	UiItem* newLabel = nullptr;
+	for (uint iter=0; iter<text.size(); iter++ )
+	{
+		if (text[iter] == '/' )
+		{
+			if(newLabel==nullptr)
+				newLabel=App->Gui->AddLabel(aux.c_str(), { 182,154,120,255 }, App->font->fonts[COPPERPLATE_B_I_12], { 0,0 }, ImagePanel);
+			else
+				newLabel = App->Gui->AddLabel(aux.c_str(), { 182,154,120,255 }, App->font->fonts[COPPERPLATE_B_I_12], { 0,newLabel->hitBox.h+5 }, newLabel);
+
+			aux = "";
+		}
+		else
+		{
+			aux += text[iter];
+		}
+		
+	}
+	
 	return true;
 }
 void j1Scene::LoadUiElement(UiItem*parent, pugi::xml_node node)
@@ -437,6 +460,7 @@ void j1Scene::LoadUiElement(UiItem*parent, pugi::xml_node node)
 			newElement->name = (uiNode.attribute("name")) ? uiNode.attribute("name").as_string() : "";
 			newElement->scaled = (uiNode.attribute("scale")) ? true : false;
 			newElement->scale = (newElement->scaled) ? uiNode.attribute("scale").as_float() : 1;
+			newElement->cliping = (uiNode.attribute("clipping")) ? true : false;
 			if (uiNode.child("childs"))
 			{
 				LoadUiElement(newElement, uiNode.child("childs"));

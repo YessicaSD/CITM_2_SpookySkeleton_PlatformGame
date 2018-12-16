@@ -28,6 +28,7 @@ class UiItem
 		bool enable = true;
 		bool interactive = true;
 		bool draggable = false;
+		bool cliping = false;
 		p2SString name;
 		UI_STATES state = IDLE;
 		SDL_Rect hitBox = {0,0,0,0};

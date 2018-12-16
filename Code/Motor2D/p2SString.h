@@ -224,7 +224,7 @@ public:
 	{
 		return str;
 	}
-
+	
 	unsigned int GetCapacity() const
 	{
 		return size;
