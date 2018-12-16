@@ -42,8 +42,8 @@ void UiItem::DrawChildrens(float dt)
 	BROFILER_CATEGORY("Draw_UiItem.cpp", Profiler::Color::Aqua)
 	if (this->childs.Count() > 0)
 	{
-		if (cliping == true)
-			SDL_RenderSetClipRect(App->render->renderer,&hitBox);
+		if (clipping == true)
+			SDL_RenderSetClipRect(App->render->renderer, &hitBox);
 		
 		for (p2List_item<UiItem*>* thisItem = this->childs.start; thisItem; thisItem = thisItem->next)
 		{
@@ -57,8 +57,8 @@ void UiItem::DrawChildrens(float dt)
 			}
 
 		}
-		if(cliping)
-			SDL_RenderSetClipRect(App->render->renderer, NULL);
+		
+		
 		
 		for (p2List_item<UiItem*>* thisItem = this->childs.start; thisItem; thisItem = thisItem->next)
 		{
@@ -67,6 +67,8 @@ void UiItem::DrawChildrens(float dt)
 				thisItem->data->DrawChildrens(dt);
 			}
 		}
+		if (clipping)
+			SDL_RenderSetClipRect(App->render->renderer, NULL);
 	}
 
 }

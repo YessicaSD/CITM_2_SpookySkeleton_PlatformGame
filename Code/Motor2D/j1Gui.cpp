@@ -218,13 +218,13 @@ UiItem_Bar * j1Gui::AddBar(SDL_Rect hitBox, const SDL_Rect* section, UiItem *con
 	ListItemUI.add(newUIItem);
 	return (UiItem_Bar*)newUIItem;
 }
-UiItem_Bar* j1Gui::AddBar(iPoint pos, uint mesure, const SDL_Rect* section, UiItem*const parent, p2Point<int> pivot, TypeBar type)
+UiItem_Bar* j1Gui::AddBar(iPoint pos, uint mesure, const SDL_Rect section, UiItem*const parent, p2Point<int> pivot, TypeBar type)
 {
 	UiItem* newUIItem = nullptr;
 	if (parent == NULL)
-		newUIItem = new UiItem_Bar(pos, mesure, section, canvas, pivot, type);
+		newUIItem = new UiItem_Bar(pos, mesure, &section, canvas, pivot, type);
 	else
-		newUIItem = new UiItem_Bar(pos, mesure, section, parent, pivot, type);
+		newUIItem = new UiItem_Bar(pos, mesure, &section, parent, pivot, type);
 
 	ListItemUI.add(newUIItem);
 	return (UiItem_Bar*)newUIItem;

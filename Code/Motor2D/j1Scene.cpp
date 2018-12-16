@@ -145,6 +145,12 @@ bool j1Scene::Update(float dt)
 			App->audio->SetFxVolume(result_fx);
 			if(App->fade->GetStateFade()== App->fade->fade_step::none)
 				App->render->Blit(Background, 0, 0, NULL, SDL_FLIP_NONE, 0.0F);
+			if (CreditsPanel->enable)
+			{
+				
+				FistLabelPos->localPos.y = (textSize * -CreditsBar->GetBarValue());
+				FistLabelPos->UpdateScreenPos();
+			}
 		}
 		if (state == SceneState::GAME)
 		{
@@ -414,16 +420,23 @@ bool j1Scene::LoadCredits(pugi::xml_node& SceneNode)
 	std::string aux;
 	
 	UiItem* newLabel = nullptr;
+	
 	for (uint iter=0; iter<text.size(); iter++ )
 	{
 		if (text[iter] == '/' )
 		{
-			if(newLabel==nullptr)
-				newLabel=App->Gui->AddLabel(aux.c_str(), { 182,154,120,255 }, App->font->fonts[COPPERPLATE_B_I_12], { 0,0 }, ImagePanel);
+			if (newLabel == nullptr)
+			{
+				newLabel = App->Gui->AddLabel(aux.c_str(), { 182,154,120,255 }, App->font->fonts[COPPERPLATE_B_I_12], { 0,0 }, ImagePanel);
+				FistLabelPos = newLabel;
+				
+			}
+				
 			else
 				newLabel = App->Gui->AddLabel(aux.c_str(), { 182,154,120,255 }, App->font->fonts[COPPERPLATE_B_I_12], { 0,newLabel->hitBox.h+5 }, newLabel);
 
 			aux = "";
+			textSize += newLabel->hitBox.h + 5;
 		}
 		else
 		{
@@ -431,6 +444,8 @@ bool j1Scene::LoadCredits(pugi::xml_node& SceneNode)
 		}
 		
 	}
+	
+	CreditsBar = App->Gui->AddBar({ 958,129 }, 367, { 0,524,367,21 }, CreditsPanel, {0,0},VERTICAL);
 	
 	return true;
 }
@@ -460,7 +475,12 @@ void j1Scene::LoadUiElement(UiItem*parent, pugi::xml_node node)
 			newElement->name = (uiNode.attribute("name")) ? uiNode.attribute("name").as_string() : "";
 			newElement->scaled = (uiNode.attribute("scale")) ? true : false;
 			newElement->scale = (newElement->scaled) ? uiNode.attribute("scale").as_float() : 1;
-			newElement->cliping = (uiNode.attribute("clipping")) ? true : false;
+			if (uiNode.attribute("clipping"))
+			{
+				newElement->clipping = true;
+			}
+		
+			
 			if (uiNode.child("childs"))
 			{
 				LoadUiElement(newElement, uiNode.child("childs"));

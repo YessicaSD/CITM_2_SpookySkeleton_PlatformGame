@@ -18,17 +18,19 @@ class UiItem
 {
 
 	protected:
-		iPoint localPos = {0,0};
+		
 		iPoint worldPos = {0,0};
 		UiItem* parent = NULL;
 		p2List<UiItem*> childs;
 
 	public:
+		iPoint localPos = { 0,0 };
 		bool showHitBox = false;
 		bool enable = true;
 		bool interactive = true;
 		bool draggable = false;
-		bool cliping = false;
+		bool clipping = false;
+
 		p2SString name;
 		UI_STATES state = IDLE;
 		SDL_Rect hitBox = {0,0,0,0};
@@ -45,7 +47,17 @@ class UiItem
 			{
 				worldPos += thisParent->localPos;
 			}
-	
+
+			if (this->childs.Count() > 0)
+			{
+				for (p2List_item<UiItem*>* iter = childs.start; iter; iter = iter->next)
+				{
+					iter->data->UpdateScreenPos();
+				}
+				
+			}
+			hitBox.x = worldPos.x;
+			hitBox.y = worldPos.y;
 			return worldPos;
 		}
 		iPoint GetScreenPos()

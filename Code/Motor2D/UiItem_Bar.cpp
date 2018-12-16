@@ -74,8 +74,14 @@ float UiItem_Bar::GetBarValue()
 		float fixed_pos = hitBox.x + (thumb->hitBox.w / 2);
 		float fpos_bar = hitBox.x + hitBox.w - (thumb->hitBox.w / 2);
 		float final_pos = (ipos_bar - fixed_pos) / (fpos_bar - fixed_pos);
-		LOG("FINAL POSITION OF THE THUMB IS %.2f", final_pos);
 		return final_pos;
+	}
+	if (this->type == TypeBar::VERTICAL)
+	{
+		float startPos = (hitBox.y + thumb->hitBox.h*0.5);
+		float endPos = (hitBox.y + hitBox.h - (thumb->hitBox.h*0.5F));
+		float thumbPos = (thumb->hitBox.y + thumb->hitBox.h*0.5);
+		return((thumbPos - startPos)/ (endPos- startPos));
 	}
 }
 

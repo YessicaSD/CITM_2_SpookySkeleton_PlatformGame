@@ -41,6 +41,7 @@ public:
 	UiItem_Label * label_coin = nullptr;
 	UiItem_Label* label_points = nullptr;
 	UiItem* ImagePanel = nullptr;
+	UiItem* FistLabelPos = nullptr;
 	UiItem* heart[3] = { nullptr,nullptr,nullptr };
 	
 private:
@@ -54,7 +55,8 @@ private:
 
 private:
 	SDL_Texture * debug_tex;
-	
+	uint textSize = 0;
+	UiItem_Bar* CreditsBar = nullptr;
 private:
 	//Start Menu variables -------------------------
 	p2DynArray<sfx> arraySfx;
