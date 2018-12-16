@@ -186,6 +186,55 @@ bool j1Render::Blit(SDL_Texture* texture, int x, int y, const SDL_Rect* section,
 	return ret;
 }
 
+bool j1Render::Blit(SDL_Texture* texture, iPoint pos, const SDL_Rect* section, float speed , SDL_RendererFlip flip , float scale, double degreeAngle, iPoint pivot) const
+{
+	bool ret = true;
+	//float scale = App->win->GetScale();
+
+	SDL_Rect rect;
+	rect.x = (int)(-camera.x * speed) + pos.x * scale;
+	rect.y = (int)(-camera.y * speed) + pos.y * scale;
+
+	if (section != NULL)
+	{
+		rect.w = section->w;
+		rect.h = section->h;
+	}
+	else
+	{
+		SDL_QueryTexture(texture, NULL, NULL, &rect.w, &rect.h);
+	}
+
+	rect.w *= scale;
+	rect.h *= scale;
+
+	SDL_Point* p = NULL;
+	SDL_Point auxPivot;
+
+	if (pivot.x != INT_MAX && pivot.y != INT_MAX)
+	{
+		auxPivot.x = pivot.x;
+		auxPivot.y = pivot.y;
+		p = &auxPivot;
+	}
+
+	uint screenW = 0U, screenH = 0U;
+	App->win->GetWindowSize(screenW, screenH);
+
+	if (rect.x + rect.w < 0 || rect.x>(int)screenW || rect.y + rect.h<0 || rect.y>(int)screenH)
+	{
+		return false;
+	}
+
+	if (SDL_RenderCopyEx(renderer, texture, section, &rect, degreeAngle, p, flip) != 0)
+	{
+		LOG("Cannot blit to screen. SDL_RenderCopy error: %s", SDL_GetError());
+		ret = false;
+	}
+
+	return ret;
+}
+
 
 bool j1Render::DrawQuad(const SDL_Rect& rect, Uint8 r, Uint8 g, Uint8 b, Uint8 a, bool filled, bool use_camera) const
 {

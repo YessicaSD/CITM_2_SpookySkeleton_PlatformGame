@@ -159,8 +159,28 @@
     </PausePanel>
     <GameUi>
       <images>
-        <image name="hearts" speed="10">
+        <image name="hearts" speed="10" scale="1">
           <hitbox x="10" y="10" w="25" h="22"/>
+          <idleSec x="0" y="635" w="25" h="22"/>
+          <idleSec x="25" y="635" w="25" h="22"/>
+          <idleSec x="50" y="635" w="25" h="22"/>
+          <idleSec x="75" y="635" w="25" h="22"/>
+          <idleSec x="100" y="635" w="25" h="22"/>
+          <idleSec x="125" y="635" w="25" h="22"/>
+          <idleSec x="150" y="635" w="25" h="22"/>
+        </image>
+        <image name="hearts" speed="10" scale="1">
+          <hitbox x="35" y="10" w="25" h="22"/>
+          <idleSec x="0" y="635" w="25" h="22"/>
+          <idleSec x="25" y="635" w="25" h="22"/>
+          <idleSec x="50" y="635" w="25" h="22"/>
+          <idleSec x="75" y="635" w="25" h="22"/>
+          <idleSec x="100" y="635" w="25" h="22"/>
+          <idleSec x="125" y="635" w="25" h="22"/>
+          <idleSec x="150" y="635" w="25" h="22"/>
+        </image>
+        <image name="hearts" speed="10" scale="1">
+          <hitbox x="60" y="10" w="25" h="22"/>
           <idleSec x="0" y="635" w="25" h="22"/>
           <idleSec x="25" y="635" w="25" h="22"/>
           <idleSec x="50" y="635" w="25" h="22"/>
