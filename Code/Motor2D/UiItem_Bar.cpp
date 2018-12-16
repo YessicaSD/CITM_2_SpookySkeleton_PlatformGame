@@ -3,6 +3,7 @@
 #include "j1Render.h"
 #include "j1Gui.h"
 #include "UiItem.h"
+#include "j1Scene.h"
 #include "UiItem_Image.h"
 #include "Brofiler\Brofiler.h"
 #include "p2Point.h"
@@ -15,10 +16,21 @@ UiItem_Bar::UiItem_Bar(SDL_Rect hitBox, const SDL_Rect* section, UiItem*const pa
 
 	if (type == TypeBar::HORIZONTAL)
 	{
-		SDL_Rect Rect_thumb_volume = { 646,140,51,52 };
-		thumb = App->Gui->AddImage({ 157,-15,51,52 }, &Rect_thumb_volume, this, { 0,0 });
-		this->type = type;
-		thumb->draggable = true;
+		if (parent->name == "PausePanel")
+		{
+			SDL_Rect Rect_thumb_volume = { 129,505,17,17 };
+			thumb = App->Gui->AddImage({ 0,0,17,17 }, &Rect_thumb_volume, this, { 0,0 });
+			this->type = type;
+			thumb->draggable = true;
+		}
+		else
+		{
+			SDL_Rect Rect_thumb_volume = { 646,140,51,52 };
+			thumb = App->Gui->AddImage({ 157,-15,51,52 }, &Rect_thumb_volume, this, { 0,0 });
+			this->type = type;
+			thumb->draggable = true;
+		}
+			
 	}
 	if (type == TypeBar::VERTICAL)
 	{
@@ -36,12 +48,12 @@ UiItem_Bar::UiItem_Bar(iPoint pos, uint mesure, const SDL_Rect* section, UiItem*
 	frame_bar = *section;
 	if (type == HORIZONTAL)
 	{
-		hitBox.w = mesure;
-		hitBox.h = section->h;
-		SDL_Rect Rect_thumb_volume = { 646,140,51,52 };
-		thumb = App->Gui->AddImage({ 157,-15,51,52 }, &Rect_thumb_volume, this, { 0,0 });
-		this->type = type;
-		thumb->draggable = true;
+			hitBox.w = mesure;
+			hitBox.h = section->h;
+			SDL_Rect Rect_thumb_volume = { 646,140,51,52 };
+			thumb = App->Gui->AddImage({ 157,-15,51,52 }, &Rect_thumb_volume, this, { 0,0 });
+			this->type = type;
+			thumb->draggable = true;
 	}
 	if (type == VERTICAL)
 	{
