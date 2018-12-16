@@ -156,7 +156,7 @@
         </label>
       </labels>
       <images>
-        <image name="hurt">
+        <image name="hearts">
           <hitbox x="0" y="0" w="49" h="42"/>
           <idleSec x="0" y="634" w="49" h="42"/>
         </image>
