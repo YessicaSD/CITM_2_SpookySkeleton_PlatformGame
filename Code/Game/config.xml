@@ -164,10 +164,10 @@
         <label text="Pause" font="CooperPlateBI24" pos_x="200" pos_y ="50" >
           <color r="255" g="255" b="255" a="255"/>
         </label>
-        <label text="Music Volume" font="CooperPlateBI12" pos_x="200" pos_y ="50" >
+        <label text="Music Volume" font="CooperPlateBI12" pos_x="200" pos_y ="110" >
           <color r="255" g="255" b="255" a="255"/>
         </label>
-        <label text="Fx Volume" font="CooperPlateBI12" pos_x="200" pos_y ="50" >
+        <label text="Fx Volume" font="CooperPlateBI12" pos_x="200" pos_y ="180" >
           <color r="255" g="255" b="255" a="255"/>
         </label>
       </labels>
