@@ -152,7 +152,7 @@
           <idleSec x="627" y="358" w="52" h="51" />
           <hoverSec x="683" y="358" w="52" h="51" />
         </button>
-        <button name ="CreditsButton" funtion = "OpenPage">
+        <button name ="CreditsButton" funtion = "OpenCredits">
           <hitbox x="90"  y="700" w="50" h="50"/>
           <idleSec x="740" y="358" w="50" h="50" />
           <hoverSec x="790" y="358" w="50" h="50" />
@@ -217,6 +217,9 @@
         </label>
       </labels>
     </GameUi>
+    <CreditsPanel>
+      
+    </CreditsPanel>
     <idle>ScenesInfo.xml</idle>
     <saveFile>save_game.xml</saveFile>
   </scene>

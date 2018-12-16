@@ -36,23 +36,25 @@ public:
 	UiItem* settingPanel = nullptr;
 	UiItem* PausePanel = nullptr;
 	UiItem* GameUiPanel = nullptr;
+	UiItem* CreditsPanel = nullptr;
 
-private:
-	SDL_Texture * debug_tex;
 	UiItem* heart[3] = { nullptr,nullptr,nullptr };
 private:
-	//Start Menu variables -------------------------
-	
-	p2DynArray<sfx> arraySfx;
-	
-	bool LoadedUi = false;
-
 	bool LoadStartMenu(pugi::xml_node& nodeScene);
 	bool LoadSettings(pugi::xml_node& SettingNode);
 	bool LoadPauseGameUi(pugi::xml_node& SettingNode);
 	bool LoadGameUi(pugi::xml_node& SettingNode);
+	bool LoadCredits(pugi::xml_node& SceneNode);
 
 	void LoadUiElement(UiItem*parent, pugi::xml_node node);
+
+private:
+	SDL_Texture * debug_tex;
+	
+private:
+	//Start Menu variables -------------------------
+	p2DynArray<sfx> arraySfx;
+	bool LoadedUi = false;
 
 	//Game variables --------------------------------
 	p2DynArray<EntitiesInfo> entitiesArrayInfo;

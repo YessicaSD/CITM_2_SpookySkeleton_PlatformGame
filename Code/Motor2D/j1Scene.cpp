@@ -67,6 +67,7 @@ bool j1Scene::Start()
 			LoadSettings(sceneNode.child("settingsMenu"));
 			LoadPauseGameUi(sceneNode);
 			LoadGameUi(sceneNode);
+			LoadCredits(sceneNode);
 			LoadedUi = true;
 		}
 
@@ -505,6 +506,11 @@ bool j1Scene::LoadGameUi(pugi::xml_node& SettingNode)
 	heart[1] = GameUiPanel->FindChildByName("hearts2");
 	heart[2] = GameUiPanel->FindChildByName("hearts3");
 
+	return true;
+}
+bool j1Scene::LoadCredits(pugi::xml_node& SceneNode)
+{
+	CreditsPanel = App->Gui->AddEmptyElement({ 0,0 });
 	return true;
 }
 

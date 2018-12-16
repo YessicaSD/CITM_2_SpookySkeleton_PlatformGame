@@ -25,6 +25,8 @@ j1Gui::j1Gui() : j1Module()
 	mapOfFuntions.PushBack("GoBackToMenu", GoBackToMenu);
 	mapOfFuntions.PushBack("LoadGame", LoadGame);
 	mapOfFuntions.PushBack("OpenPage", OpenPage);
+	mapOfFuntions.PushBack("OpenCredits", OpenCredits);
+	
 }
 
 // Destructor
