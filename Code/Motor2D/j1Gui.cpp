@@ -60,6 +60,7 @@ bool j1Gui::Start()
 bool j1Gui::Update(float dt)
 {
 	BROFILER_CATEGORY("Update_Gui.cpp", Profiler::Color::Coral)
+	this->dt = dt;
 	iPoint mousePos;
 	App->input->GetMousePosition(mousePos);
 	uint mouseButtonDown = App->input->GetMouseButtonDown();
@@ -118,7 +119,7 @@ bool j1Gui::PostUpdate()
 	BROFILER_CATEGORY("PostUpdate_Gui.cpp", Profiler::Color::MediumSlateBlue)
 	if (canvas->enable)
 	{
-		canvas->DrawChildrens();
+		canvas->DrawChildrens(dt);
 	}
 	
 	if (App->input->GetKey(SDL_SCANCODE_F8) == KEY_DOWN)

@@ -139,7 +139,7 @@ bool j1Scene::Update(float dt)
 			result_fx = fx_bar->GetBarValue();
 			App->audio->SetFxVolume(result_fx);
 			if(App->fade->GetStateFade()== App->fade->fade_step::none)
-			App->render->Blit(Background, 0, 0, NULL, SDL_FLIP_NONE, 0.0F);
+				App->render->Blit(Background, 0, 0, NULL, SDL_FLIP_NONE, 0.0F);
 		}
 		if (state == SceneState::GAME)
 		{

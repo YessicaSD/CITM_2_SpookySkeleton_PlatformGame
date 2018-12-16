@@ -54,10 +54,10 @@ class UiItem
 			return childs.Count();
 		}
 		void AddToPos(const iPoint& value);
-		void DrawChildrens();
+		void DrawChildrens(float dt);
 	
 
-		virtual void Draw() {};
+		virtual void Draw(const float& dt) {};
 		//virtual float GetBarValue(){}
 		virtual void OnClickDown(){}
 		virtual void OnClickUp(){}

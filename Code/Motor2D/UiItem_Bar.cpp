@@ -21,7 +21,7 @@ UiItem_Bar::UiItem_Bar(SDL_Rect hitBox, const SDL_Rect* section, UiItem*const pa
 
 }
 
-void UiItem_Bar::Draw()
+void UiItem_Bar::Draw(const float& dt)
 {
 	BROFILER_CATEGORY("Draw_Bar.cpp", Profiler::Color::AliceBlue)
 	App->render->Blit((SDL_Texture*)App->Gui->getTexture(), hitBox.x - pivot.x, hitBox.y - pivot.y, &frame_bar, SDL_FLIP_NONE, 0.0F);

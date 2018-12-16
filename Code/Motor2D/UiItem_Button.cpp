@@ -45,7 +45,7 @@ void UiItem_Button::AddFuntion(p2SString & string, bool Down)
 			this->funtionOnUp = App->Gui->mapOfFuntions.At(num);
 	}
 }
-void UiItem_Button::Draw()
+void UiItem_Button::Draw(const float&)
 {
 	BROFILER_CATEGORY("Draw_Button.cpp", Profiler::Color::AliceBlue)
 	App->render->Blit((SDL_Texture*)App->Gui->getTexture(), hitBox.x-pivot.x, hitBox.y-pivot.y, &frames[state], SDL_FLIP_NONE, 0.0f);

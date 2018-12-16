@@ -20,7 +20,7 @@ public:
 	void AddFuntion(void(*funtionOnClick) (), bool Down=true);
 	void AddFuntion(p2SString & string, bool Down = true);
 
-	void Draw() override;
+	void Draw(const float&) override;
 	void OnClickUp() override;
 	void OnClickDown() override;
 

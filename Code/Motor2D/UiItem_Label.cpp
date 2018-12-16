@@ -51,7 +51,7 @@ bool UiItem_Label::ChangeTextureHover(const p2SString * string, const SDL_Color 
 
 
 
-void UiItem_Label::Draw()
+void UiItem_Label::Draw(const float&)
 {
 	bool idle = (state == IDLE) ? true : false;
 
