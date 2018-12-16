@@ -60,9 +60,19 @@ bool j1Scene::Start()
 	if(state== SceneState::STARTMENU)
 	{
 		App->win->scale = 1.0F;
-		LoadStartMenu(sceneNode);
-		LoadSettings(sceneNode.child("settingsMenu"));
+
+		if (!LoadedUi)
+		{
+			LoadStartMenu(sceneNode);
+			LoadSettings(sceneNode.child("settingsMenu"));
+			LoadGameUi(sceneNode);
+			LoadedUi = true;
+		}
+		
 		settingPanel->enable = false;
+		startMenupanel->enable = true;
+		PausePanel->enable = false;
+
 	}
 	if (state == SceneState::GAME)
 	{	//Pick level node-----------------------------------------
@@ -140,7 +150,18 @@ bool j1Scene::Update(float dt)
 				App->SaveGame();
 
 			if (App->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN)
+			{
 				App->pause = !App->pause;
+				if (App->pause)
+				{
+					PausePanel->enable = true;
+				}
+				else
+				{
+					PausePanel->enable = false;
+				}
+			}
+				
 			
 			
 			
@@ -412,25 +433,19 @@ bool j1Scene::LoadSettings(pugi::xml_node& settingNode)
 	bar = slider_volume;
 	volume_bar = slider_volume;
 	
-	
-	
-
-
-	
 	// White Slider fx
 	SDL_Rect Rect_slider_fx = { 0,525,367,21 };
 	UiItem_Bar* slider_fx = App->Gui->AddBar({ 310,530,367,21 }, &Rect_slider_fx, settingPanel, { 0,0 });
 	fx_bar = slider_fx;
-	
 
+	return true;
+}
 
-	// Sound mute
-	SDL_Rect Rect_sound_mute = { 713,0,60,103 };
-	UiItem_Image* sound_mute = App->Gui->AddImage({ 220,235,60,103 }, &Rect_sound_mute, settingPanel, { 0,0 });
-	
+bool j1Scene::LoadGameUi(pugi::xml_node & SettingNode)
+{
+	PausePanel = App->Gui->AddEmptyElement({ 0,0 });
+	LoadUiElement(PausePanel, SettingNode.child("GameUi"));
 
-	
-	
 	return true;
 }
 

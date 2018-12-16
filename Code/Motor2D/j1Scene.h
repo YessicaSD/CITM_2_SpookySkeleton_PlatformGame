@@ -31,17 +31,27 @@ struct sfx
 
 class j1Scene : public j1Module
 {
-	
+public:
+	UiItem * startMenupanel = nullptr;
+	UiItem* settingPanel = nullptr;
+	UiItem* PausePanel = nullptr;
+
+
+private:
+	SDL_Texture * debug_tex;
+
 private:
 	//Start Menu variables -------------------------
 	
 	p2DynArray<sfx> arraySfx;
-	void LoadUiElement(UiItem*parent, pugi::xml_node node);
+	
 	bool LoadedUi = false;
 
 	bool LoadStartMenu(pugi::xml_node& nodeScene);
 	bool LoadSettings(pugi::xml_node& SettingNode);
+	bool LoadGameUi(pugi::xml_node& SettingNode);
 
+	void LoadUiElement(UiItem*parent, pugi::xml_node node);
 
 	//Game variables --------------------------------
 	p2DynArray<EntitiesInfo> entitiesArrayInfo;
@@ -64,14 +74,13 @@ private:
 	float result_fx = 0.0f;
 	const char* findSfxPath(const char*);
 	
+	void AudioControl();
+
 
 public:
 	bool exitGame = false;
 	//Start Menu variables -------------------------
 	SceneState state = SceneState::STARTMENU;
-
-	UiItem* startMenupanel = nullptr;
-	UiItem* settingPanel = nullptr;
 
 	// Game variables ------------------
 	uint num_thismaplvl = 1;
@@ -81,47 +90,21 @@ public:
 	uint player_lives = 3;
 	
 public:
-	bool loadedLeve = true;
+	bool loadedLevel = true;
 	j1Scene();
-
-	// Destructor
-	virtual ~j1Scene();
-
-	// Called before render is available
+	~j1Scene();
 	bool Awake(pugi::xml_node&) override;
-
-	// Called before the first frame
 	bool Start()override;
-
 	void LoadEntities(const pugi::xml_node & entitiesNode);
-
-	// Called before all Updates
 	bool PreUpdate(float dt)override;
-
-	// Called each loop iteration
 	bool Update(float dt) override;
-
-	// Called before all Updates
 	bool PostUpdate() override;
-
 	void DebugControls();
-
 	void CameraLogic(float dt);
-
-
-	// Called before quitting
 	bool CleanUp()override;
-
 	bool Load(pugi::xml_node&) override;
-	
-
 	bool Save(pugi::xml_node&) const override;
-	void AudioControl();
 
-	
-
-private:
-	SDL_Texture * debug_tex;
 };
 
 #endif // __j1SCENE_H__

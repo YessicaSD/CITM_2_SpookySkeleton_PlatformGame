@@ -149,6 +149,13 @@
         </button>
       </buttons>
     </settingsMenu>
+    <GameUi>
+      <labels>
+        <label text="Pause" font="CooperPlateBI24" pos_x="360" pos_y ="200" >
+          <color r="255" g="255" b="255" a="255"/>
+        </label>
+      </labels>
+    </GameUi>
     <idle>ScenesInfo.xml</idle>
     <saveFile>save_game.xml</saveFile>
   </scene>
