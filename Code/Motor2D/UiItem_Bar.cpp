@@ -31,7 +31,7 @@ UiItem_Bar::UiItem_Bar(SDL_Rect hitBox, const SDL_Rect* section, UiItem*const pa
 
 }
 
-void UiItem_Bar::Draw()
+void UiItem_Bar::Draw(const float& dt)
 {
 	BROFILER_CATEGORY("Draw_Bar.cpp", Profiler::Color::AliceBlue)
 	if (this->type == TypeBar::HORIZONTAL)

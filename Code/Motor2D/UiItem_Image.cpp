@@ -8,14 +8,17 @@
 UiItem_Image::UiItem_Image(SDL_Rect hitBox, const SDL_Rect * section, UiItem* const parent, p2Point<int> pivot) : UiItem(hitBox, parent,pivot)
 {
 	assert(parent != nullptr);
-	frame = *section;
-	
+	animationIdle.PushBack(*section);
 }
 
-void UiItem_Image::Draw()
+UiItem_Image::UiItem_Image(SDL_Rect hitBox, const Animation& section, UiItem*const parent, p2Point<int> pivot) : UiItem(hitBox, parent, pivot)
+{
+	animationIdle = section;
+}
+void UiItem_Image::Draw(const float& dt)
 {
 	BROFILER_CATEGORY("Draw_Image.cpp", Profiler::Color::AliceBlue)
-	App->render->Blit((SDL_Texture*)App->Gui->getTexture(), hitBox.x-pivot.x, hitBox.y-pivot.y, &frame, SDL_FLIP_NONE, 0.0F);
+	App->render->Blit((SDL_Texture*)App->Gui->getTexture(), hitBox.x-pivot.x, hitBox.y-pivot.y, &animationIdle.GetCurrentFrame(dt), SDL_FLIP_NONE, 0.0F);
 }
 
 

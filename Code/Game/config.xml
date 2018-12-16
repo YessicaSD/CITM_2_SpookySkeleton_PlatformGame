@@ -151,10 +151,16 @@
     </settingsMenu>
     <GameUi>
       <labels>
-        <label text="Pause" font="CooperPlateBI24" pos_x="360" pos_y ="200" >
+        <label text="Pause" font="CooperPlateBI24" pos_x="200" pos_y ="50" >
           <color r="255" g="255" b="255" a="255"/>
         </label>
       </labels>
+      <images>
+        <image name="hurt">
+          <hitbox x="0" y="0" w="49" h="42"/>
+          <idleSec x="0" y="634" w="49" h="42"/>
+        </image>
+      </images>
     </GameUi>
     <idle>ScenesInfo.xml</idle>
     <saveFile>save_game.xml</saveFile>

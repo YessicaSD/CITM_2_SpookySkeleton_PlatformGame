@@ -37,7 +37,7 @@ void UiItem::AddToPos(const iPoint & value)
 
 }
 
-void UiItem::DrawChildrens()
+void UiItem::DrawChildrens(float dt)
 {
 	BROFILER_CATEGORY("Draw_UiItem.cpp", Profiler::Color::Aqua)
 	if (this->childs.Count() > 0)
@@ -46,7 +46,7 @@ void UiItem::DrawChildrens()
 		{
 			if (thisItem->data->enable)
 			{
-				thisItem->data->Draw();
+				thisItem->data->Draw(dt);
 				if (thisItem->data->showHitBox)
 				{
 					
@@ -59,7 +59,7 @@ void UiItem::DrawChildrens()
 		{
 			if (thisItem->data->enable && thisItem->data->childs.Count() > 0)
 			{
-				thisItem->data->DrawChildrens();
+				thisItem->data->DrawChildrens(dt);
 			}
 		}
 	}

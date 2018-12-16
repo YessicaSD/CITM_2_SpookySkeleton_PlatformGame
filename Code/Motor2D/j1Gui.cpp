@@ -60,6 +60,7 @@ bool j1Gui::Start()
 bool j1Gui::Update(float dt)
 {
 	BROFILER_CATEGORY("Update_Gui.cpp", Profiler::Color::Coral)
+	this->dt = dt;
 	iPoint mousePos;
 	App->input->GetMousePosition(mousePos);
 	uint mouseButtonDown = App->input->GetMouseButtonDown();
@@ -118,7 +119,7 @@ bool j1Gui::PostUpdate()
 	BROFILER_CATEGORY("PostUpdate_Gui.cpp", Profiler::Color::MediumSlateBlue)
 	if (canvas->enable)
 	{
-		canvas->DrawChildrens();
+		canvas->DrawChildrens(dt);
 	}
 	
 	if (App->input->GetKey(SDL_SCANCODE_F8) == KEY_DOWN)
@@ -174,6 +175,18 @@ UiItem_Image * j1Gui::AddImage(SDL_Rect hitBox, const SDL_Rect * section, UiItem
 
 	return (UiItem_Image*)newUIItem;
 	
+}
+UiItem_Image* j1Gui::AddImage(SDL_Rect hitBox, const Animation& section, UiItem *const parent, p2Point<int> pivot)
+{
+	UiItem* newUIItem = nullptr;
+	if (parent == NULL)
+		newUIItem = new UiItem_Image(hitBox, section, canvas, pivot);
+	else
+		newUIItem = new UiItem_Image(hitBox, section, parent, pivot);
+
+	ListItemUI.add(newUIItem);
+
+	return (UiItem_Image*)newUIItem;
 }
 
 UiItem_Button * j1Gui::AddButton(SDL_Rect hitBox, const SDL_Rect* idle, p2SString& funtionName, bool Down, UiItem * const parent, const SDL_Rect * click, const SDL_Rect * hover, p2Point<int> pivot)

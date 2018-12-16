@@ -7,12 +7,14 @@
 typedef unsigned int uint;
 class Animation
 {
+private:
+	SDL_Rect frames[MAX_FRAMES];
 public:
 	//Original variables----------------------------------
 	bool loop = true;
 	bool pingpong = false;
 	float speed = 1.0f;
-	SDL_Rect frames[MAX_FRAMES];
+	
 	float current_frame = 0;
 	int numFrames = 0;
 	int loops = 0;

@@ -20,7 +20,7 @@ class UiItem_Bar :public UiItem
 public:
 	UiItem_Bar(SDL_Rect hitBox, const SDL_Rect* section, UiItem*const parent, p2Point<int> pivot = { 0,0 }, TypeBar type = HORIZONTAL);
 	~UiItem_Bar() {}
-	void Draw() override;
+	void Draw(const float& dt) override;
 	float GetBarValue();
 
 protected:
