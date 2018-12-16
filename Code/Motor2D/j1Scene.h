@@ -73,6 +73,8 @@ private:
 	UiItem_Bar* volume_bar_pause = nullptr;
 	UiItem_Bar* fx_bar = nullptr;
 	UiItem_Bar* fx_bar_pause = nullptr;
+	UiItem* saveGame = nullptr;
+	j1Timer saveTimer;
 	float timer;
 	p2SString str_timer;
 	j1Timer timer_sec;

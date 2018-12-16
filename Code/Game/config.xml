@@ -237,6 +237,18 @@
           <idleSec x="81" y="665" w="5" h="14"/>
           <idleSec x="89" y="665" w="11" h="14"/>
         </image>
+        <image name="SaveIcon" speed="10" >
+          <hitbox x="450" y="325" w="33" h="31"/>
+          <idleSec x="0" y="603" w="33" h="31"/>
+          <idleSec x="33" y="602" w="33" h="31"/>
+          <idleSec x="66" y="603" w="33" h="31"/>
+          <idleSec x="66" y="603" w="33" h="32"/>
+          <idleSec x="97" y="603" w="33" h="32"/>
+          <idleSec x="129" y="603" w="33" h="32"/>
+          <idleSec x="161" y="603" w="33" h="32"/>
+          <idleSec x="193" y="603" w="33" h="32"/>
+          <idleSec x="225" y="603" w="33" h="32"/>
+        </image>
       </images>
       <labels>
         <label name="NumCoinsLabel" text="x 0" font="OpenSAnsSB12" pos_x="170" pos_y ="6" >

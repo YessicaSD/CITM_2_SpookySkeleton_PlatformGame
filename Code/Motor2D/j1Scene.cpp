@@ -76,6 +76,7 @@ bool j1Scene::Start()
 		PausePanel->enable = false;
 		GameUiPanel->enable = false;
 		CreditsPanel->enable = false;
+		saveGame->enable = false;
 		App->audio->PlayMusic("audio/music/menu_music.ogg");
 
 	}
@@ -149,7 +150,6 @@ bool j1Scene::Update(float dt)
 				App->render->Blit(Background, 0, 0, NULL, SDL_FLIP_NONE, 0.0F);
 			if (CreditsPanel->enable)
 			{
-				
 				FistLabelPos->localPos.y = (textSize * -CreditsBar->GetBarValue());
 				FistLabelPos->UpdateScreenPos();
 			}
@@ -173,7 +173,15 @@ bool j1Scene::Update(float dt)
 				App->LoadGame();
 
 			if (App->input->GetKey(SDL_SCANCODE_F5) == KEY_DOWN)
+			{
+				saveGame->enable = true;
 				App->SaveGame();
+				saveTimer.Start();
+			}
+			if (saveGame->enable && saveTimer.ReadSec()>2 )
+			{
+				saveGame->enable = false;
+				}
 
 			if (App->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN)
 			{
@@ -590,6 +598,7 @@ bool j1Scene::LoadGameUi(pugi::xml_node& SettingNode)
 	label_coin = (UiItem_Label *)GameUiPanel->FindChildByName("NumCoinsLabel");
 	label_points= (UiItem_Label *)GameUiPanel->FindChildByName("NumpointsLabel");
 	label_timer = (UiItem_Label *)GameUiPanel->FindChildByName("NumTimer");
+	saveGame = GameUiPanel->FindChildByName("SaveIcon");
 	return true;
 }
 

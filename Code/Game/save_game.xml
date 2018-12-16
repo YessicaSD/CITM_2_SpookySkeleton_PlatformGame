@@ -12,7 +12,7 @@
 	<scene>
 		<level>
 			<entities>
-				<player x="309" y="386" />
+				<player x="60" y="384" />
 				<bat x="1088" y="64" />
 				<bat x="2300" y="200" />
 				<bat x="3424" y="96" />
@@ -40,6 +40,6 @@
 	<gui />
 	<fade />
 	<renderer>
-		<camera x="499" y="136" />
+		<camera x="0" y="134" />
 	</renderer>
 </game_state>
