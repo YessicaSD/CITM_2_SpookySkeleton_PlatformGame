@@ -57,12 +57,16 @@ bool UiItem_Label::ChangeTextureIdle(const p2SString * string, const SDL_Color *
 	TTF_Font * f = (font != NULL) ? (TTF_Font *)font : this->font;
 
 	SDL_Texture* aux = App->font->Print(txt, col, f);
-
+	assert(aux != nullptr);
 	if (ret = (aux != nullptr) ? true : false)
 	{
-		if(texture!=nullptr)
-			App->tex->UnLoad(texture);
 
+		if (texture != nullptr)
+		{
+			App->tex->UnLoad(texture);
+			texture = nullptr;
+		}
+			
 		texture = aux;
 	}
 	return ret;

@@ -9,6 +9,8 @@
 #include "j1Audio.h"
 #include "j1Input.h"
 #include "j1Map.h"
+#include "j1Scene.h"
+#include "UiItem_Label.h"
 #include "j1Pathfinding.h"
 #include "j1Textures.h"
 #include "ModuleFadeToBack.h"
@@ -176,6 +178,14 @@ void EntityBat::OnCollision(Collider * otherCollider)
 		if (PlayerIsOn)
 		{
 			EntityBat::state = BatState::STATE_DEATH;
+			if (!death)
+			{
+				App->scene->points += 200;
+				str_points_bat.create("%u", App->scene->points);
+				App->scene->label_points->ChangeTextureIdle(&str_points_bat, NULL, NULL);
+			}
+				death = true;
+			
 			collider->to_delete = true;
 		}
 		else

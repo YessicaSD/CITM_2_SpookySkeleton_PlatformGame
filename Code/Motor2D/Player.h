@@ -29,6 +29,7 @@ private:
 	fPoint maxSpeed = { 0.0F,0.0F };
 	iPoint distansToCam = { 0,0 };
 	p2SString str_coin;
+	p2SString str_points;
 
 	bool canJump = false;
 	bool debugMode = false;
@@ -47,6 +48,7 @@ public:
 		void Draw() override;
 		void OnCollision(Collider* collider);
 		PlayerState state = STATE_SPAWN;
+		
 		
 //protected:
 //	Animation * animation = nullptr;

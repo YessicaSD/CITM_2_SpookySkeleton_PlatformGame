@@ -404,16 +404,7 @@ bool j1Scene::LoadPauseGameUi(pugi::xml_node & SettingNode)
 
 	return true;
 }
-bool j1Scene::LoadGameUi(pugi::xml_node& SettingNode)
-{
-	GameUiPanel = App->Gui->AddEmptyElement({ 0,0 });
-	LoadUiElement(GameUiPanel, SettingNode.child("GameUi"));
-	heart[0] = GameUiPanel->FindChildByName("hearts1");
-	heart[1] = GameUiPanel->FindChildByName("hearts2");
-	heart[2] = GameUiPanel->FindChildByName("hearts3");
-	label_coin = (UiItem_Label *)GameUiPanel->FindChildByName("NumCoinsLabel");
-	return true;
-}
+
 bool j1Scene::LoadCredits(pugi::xml_node& SceneNode)
 {
 	CreditsPanel = App->Gui->AddEmptyElement({ 0,0 });
@@ -522,6 +513,21 @@ void j1Scene::LoadUiElement(UiItem*parent, pugi::xml_node node)
 		}
 	}
 }
+
+bool j1Scene::LoadGameUi(pugi::xml_node& SettingNode)
+{
+	GameUiPanel = App->Gui->AddEmptyElement({ 0,0 });
+	LoadUiElement(GameUiPanel, SettingNode.child("GameUi"));
+	heart[0] = GameUiPanel->FindChildByName("hearts1");
+	heart[1] = GameUiPanel->FindChildByName("hearts2");
+	heart[2] = GameUiPanel->FindChildByName("hearts3");
+	label_coin = (UiItem_Label *)GameUiPanel->FindChildByName("NumCoinsLabel");
+	label_points= (UiItem_Label *)GameUiPanel->FindChildByName("NumpointsLabel");
+	return true;
+}
+
+
+
 void j1Scene::LoadEntities(const pugi::xml_node& entitiesNode)
 {
 	entitiesArrayInfo.Clear();
