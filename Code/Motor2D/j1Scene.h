@@ -87,6 +87,7 @@ private:
 	float horizontalScreenDivision;
 	float result_volume = 0.0f;
 	float result_fx = 0.0f;
+	
 	const char* findSfxPath(const char*);
 	
 	void AudioControl();
