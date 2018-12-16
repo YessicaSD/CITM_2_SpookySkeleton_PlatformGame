@@ -38,10 +38,10 @@
   <tile id="55" terrain=",0,0,0"/>
   <tile id="56">
    <animation>
-    <frame tileid="56" duration="100"/>
-    <frame tileid="57" duration="100"/>
-    <frame tileid="58" duration="100"/>
-    <frame tileid="59" duration="100"/>
+    <frame tileid="56" duration="500"/>
+    <frame tileid="57" duration="500"/>
+    <frame tileid="58" duration="500"/>
+    <frame tileid="59" duration="500"/>
    </animation>
   </tile>
   <tile id="65" terrain=",,,2"/>
@@ -2372,7 +2372,7 @@
  </layer>
  <layer id="2" name="Lights" width="150" height="15">
   <properties>
-   <property name="parallax" type="float" value="0.8"/>
+   <property name="parallax" type="float" value="0.5"/>
   </properties>
   <data>
    <tile/>
@@ -4629,7 +4629,7 @@
  </layer>
  <layer id="3" name="Lamp" width="150" height="15">
   <properties>
-   <property name="parallax" type="float" value="0.5"/>
+   <property name="parallax" type="float" value="0.8"/>
   </properties>
   <data>
    <tile/>
@@ -8910,8 +8910,8 @@
    <tile gid="34"/>
    <tile gid="35"/>
    <tile gid="26"/>
-   <tile/>
-   <tile/>
+   <tile gid="57"/>
+   <tile gid="57"/>
    <tile/>
    <tile/>
    <tile/>
@@ -8972,7 +8972,7 @@
    <tile gid="181"/>
    <tile/>
    <tile/>
-   <tile/>
+   <tile gid="57"/>
    <tile/>
    <tile/>
    <tile/>

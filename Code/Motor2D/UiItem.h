@@ -5,6 +5,7 @@
 
 #include "p2Point.h"
 #include "p2List.h"
+#include "p2SString.h"
 
 enum UI_STATES
 {
@@ -15,6 +16,7 @@ enum UI_STATES
 };
 class UiItem
 {
+
 	protected:
 		iPoint localPos = {0,0};
 		iPoint worldPos = {0,0};
@@ -26,7 +28,7 @@ class UiItem
 		bool enable = true;
 		bool interactive = true;
 		bool draggable = false;
-
+		p2SString name;
 		UI_STATES state = IDLE;
 		SDL_Rect hitBox = {0,0,0,0};
 		p2Point<int> pivot = {0,0};

@@ -65,6 +65,7 @@ bool j1Scene::Start()
 		{
 			LoadStartMenu(sceneNode);
 			LoadSettings(sceneNode.child("settingsMenu"));
+			LoadPauseGameUi(sceneNode);
 			LoadGameUi(sceneNode);
 			LoadedUi = true;
 		}
@@ -335,65 +336,71 @@ bool j1Scene::LoadStartMenu(pugi::xml_node& nodeScene)
 void j1Scene::LoadUiElement(UiItem*parent, pugi::xml_node node)
 {
 	BROFILER_CATEGORY("LoadUiElement.cpp", Profiler::Color::Red)
-	for (pugi::xml_node imageNode = node.child("images").child("image"); imageNode; imageNode = imageNode.next_sibling("image"))
+	for (pugi::xml_node uiNode = node.child("images").child("image"); uiNode; uiNode = uiNode.next_sibling("image"))
 	{
-		SDL_Rect hitBox = { imageNode.child("hitbox").attribute("x").as_int(), imageNode.child("hitbox").attribute("y").as_int(), imageNode.child("hitbox").attribute("w").as_int(), imageNode.child("hitbox").attribute("h").as_int() };
+		SDL_Rect hitBox = { uiNode.child("hitbox").attribute("x").as_int(), uiNode.child("hitbox").attribute("y").as_int(), uiNode.child("hitbox").attribute("w").as_int(), uiNode.child("hitbox").attribute("h").as_int() };
 		Animation anim;
-		if (imageNode.attribute("speed"))
+		if (uiNode.attribute("speed"))
 		{
-			anim.speed = imageNode.attribute("speed").as_float();
+			anim.speed = uiNode.attribute("speed").as_float();
 		}
-		for (pugi::xml_node animNode = imageNode.child("idleSec"); animNode; animNode = animNode = animNode.next_sibling("idleSec"))
+		for (pugi::xml_node animNode = uiNode.child("idleSec"); animNode; animNode = animNode.next_sibling("idleSec"))
 		{
-			SDL_Rect sectionIdle = { imageNode.child("idleSec").attribute("x").as_int(), imageNode.child("idleSec").attribute("y").as_int(), imageNode.child("idleSec").attribute("w").as_int(), imageNode.child("idleSec").attribute("h").as_int() };
+			SDL_Rect sectionIdle = { animNode.attribute("x").as_int(), animNode.attribute("y").as_int(), animNode.attribute("w").as_int(), animNode.attribute("h").as_int() };
 			anim.PushBack(sectionIdle);
 		}
 		UiItem*newElement = App->Gui->AddImage(hitBox, anim, parent);
-		if (imageNode.child("childs"))
+		newElement->name = (uiNode.attribute("name")) ? uiNode.attribute("name").as_string() : "";
+		
+		if (uiNode.child("childs"))
 		{
-			LoadUiElement(newElement, imageNode.child("childs"));
+			LoadUiElement(newElement, uiNode.child("childs"));
 		}
 	}
-	for (pugi::xml_node buttonNode = node.child("buttons").child("button"); buttonNode; buttonNode = buttonNode.next_sibling("button"))
+	for (pugi::xml_node uiNode = node.child("buttons").child("button"); uiNode; uiNode = uiNode.next_sibling("button"))
 	{
-		SDL_Rect hitBox = { buttonNode.child("hitbox").attribute("x").as_int(), buttonNode.child("hitbox").attribute("y").as_int(), buttonNode.child("hitbox").attribute("w").as_int(), buttonNode.child("hitbox").attribute("h").as_int() };
-		SDL_Rect sectionIdle = { buttonNode.child("idleSec").attribute("x").as_int(), buttonNode.child("idleSec").attribute("y").as_int(), buttonNode.child("idleSec").attribute("w").as_int(), buttonNode.child("idleSec").attribute("h").as_int() };
+		SDL_Rect hitBox = { uiNode.child("hitbox").attribute("x").as_int(), uiNode.child("hitbox").attribute("y").as_int(), uiNode.child("hitbox").attribute("w").as_int(), uiNode.child("hitbox").attribute("h").as_int() };
+		SDL_Rect sectionIdle = { uiNode.child("idleSec").attribute("x").as_int(), uiNode.child("idleSec").attribute("y").as_int(), uiNode.child("idleSec").attribute("w").as_int(), uiNode.child("idleSec").attribute("h").as_int() };
 		iPoint pivot = { 0,0 };
-		pugi::xml_node pivotNode = buttonNode.child("pivot");
+		pugi::xml_node pivotNode = uiNode.child("pivot");
 		if (pivotNode)
 		{
 			pivot = { pivotNode.attribute("x").as_int(0),pivotNode.attribute("y").as_int(0) };
 		}
-		pugi::xml_node hoverSecNode = buttonNode.child("hoverSec");
+		pugi::xml_node hoverSecNode = uiNode.child("hoverSec");
 		SDL_Rect* sectionHove = nullptr;
 		if (hoverSecNode)
 		{
 			SDL_Rect hover = { hoverSecNode.attribute("x").as_int(), hoverSecNode.attribute("y").as_int(), hoverSecNode.attribute("w").as_int(), hoverSecNode.attribute("h").as_int() };
 			sectionHove = &hover;
 		}
-		pugi::xml_node clickSecNode = buttonNode.child("clickSec");
+		
 		SDL_Rect* sectionClick = nullptr;
-		if (clickSecNode)
+		if (pugi::xml_node clickSecNode = uiNode.child("clickSec"))
 		{
 			SDL_Rect click = { clickSecNode.attribute("x").as_int(), clickSecNode.attribute("y").as_int(), clickSecNode.attribute("w").as_int(), clickSecNode.attribute("h").as_int() };
 			sectionClick = &click;
 		}
-		p2SString funtionPath = buttonNode.attribute("funtion").as_string("ExitGame");
-		bool down = buttonNode.attribute("Up");
+
+		p2SString funtionPath = uiNode.attribute("funtion").as_string("ExitGame");
+		bool down = uiNode.attribute("Up");
 		UiItem*newElement = App->Gui->AddButton(hitBox, &sectionIdle, funtionPath, !down, parent, sectionClick, sectionHove, pivot);
-		if (buttonNode.child("childs"))
+		newElement->name = (uiNode.attribute("name")) ? uiNode.attribute("name").as_string() : "";
+		if (uiNode.child("childs"))
 		{
-			LoadUiElement(newElement, buttonNode.child("childs"));
+			LoadUiElement(newElement, uiNode.child("childs"));
 		}
 	}
-	for (pugi::xml_node labelNode = node.child("labels").child("label"); labelNode; labelNode = labelNode.next_sibling("label"))
+	for (pugi::xml_node uiNode = node.child("labels").child("label"); uiNode; uiNode = uiNode.next_sibling("label"))
 	{
-		p2SString text = labelNode.attribute("text").as_string();
-		SDL_Color color = { labelNode.child("color").attribute("r").as_uint(),labelNode.child("color").attribute("g").as_uint(),labelNode.child("color").attribute("b").as_uint(),labelNode.child("color").attribute("a").as_uint() };
-		p2SString font=labelNode.attribute("font").as_string();
-		UiItem_Label*newElement = App->Gui->AddLabel(text.GetString(), color, App->font->getFont(font), {labelNode.attribute("pos_x").as_int(),labelNode.attribute("pos_y").as_int()},parent);
-		pugi::xml_node hoverNode = labelNode.child("hover");
-		if (hoverNode)
+		p2SString text = uiNode.attribute("text").as_string();
+		SDL_Color color = { uiNode.child("color").attribute("r").as_uint(),uiNode.child("color").attribute("g").as_uint(),uiNode.child("color").attribute("b").as_uint(),uiNode.child("color").attribute("a").as_uint() };
+		p2SString font=uiNode.attribute("font").as_string();
+		UiItem_Label*newElement = App->Gui->AddLabel(text.GetString(), color, App->font->getFont(font), {uiNode.attribute("pos_x").as_int(),uiNode.attribute("pos_y").as_int()},parent);
+		
+		newElement->name = (uiNode.attribute("name")) ? uiNode.attribute("name").as_string() : "";
+
+		if (pugi::xml_node hoverNode = uiNode.child("hover"))
 		{
 			p2SString* string = nullptr;
 			SDL_Color* color = nullptr;
@@ -449,14 +456,20 @@ bool j1Scene::LoadSettings(pugi::xml_node& settingNode)
 	return true;
 }
 
-bool j1Scene::LoadGameUi(pugi::xml_node & SettingNode)
+bool j1Scene::LoadPauseGameUi(pugi::xml_node & SettingNode)
 {
 	PausePanel = App->Gui->AddEmptyElement({ 0,0 });
-	LoadUiElement(PausePanel, SettingNode.child("GameUi"));
+	LoadUiElement(PausePanel, SettingNode.child("PausePanel"));
 
 	return true;
 }
+bool j1Scene::LoadGameUi(pugi::xml_node& SettingNode)
+{
+	GameUiPanel = App->Gui->AddEmptyElement({ 0,0 });
+	LoadUiElement(GameUiPanel, SettingNode.child("GameUi"));
 
+	return true;
+}
 
 void j1Scene::LoadEntities(const pugi::xml_node& entitiesNode)
 {

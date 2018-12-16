@@ -35,7 +35,7 @@ public:
 	UiItem * startMenupanel = nullptr;
 	UiItem* settingPanel = nullptr;
 	UiItem* PausePanel = nullptr;
-
+	UiItem* GameUiPanel = nullptr;
 
 private:
 	SDL_Texture * debug_tex;
@@ -49,6 +49,7 @@ private:
 
 	bool LoadStartMenu(pugi::xml_node& nodeScene);
 	bool LoadSettings(pugi::xml_node& SettingNode);
+	bool LoadPauseGameUi(pugi::xml_node& SettingNode);
 	bool LoadGameUi(pugi::xml_node& SettingNode);
 
 	void LoadUiElement(UiItem*parent, pugi::xml_node node);

@@ -491,7 +491,7 @@ bool j1Map::LoadPaternImage_tile(pugi::xml_node& tileset_node, Patern* set)
 			Animation* anim = new Animation();
 			idStrItem->id = tileNode.attribute("id").as_uint();
 			frame_node = frame_node.child("frame");
-			anim->speed = frame_node.attribute("duration").as_float() * 0.1F;
+			anim->speed = frame_node.attribute("duration").as_float() *0.016;
 
 			for (; frame_node; frame_node = frame_node.next_sibling()) {
 				LOG("%u", frame_node.attribute("tileid").as_uint());

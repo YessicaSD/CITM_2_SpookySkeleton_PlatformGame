@@ -149,16 +149,25 @@
         </button>
       </buttons>
     </settingsMenu>
-    <GameUi>
+    <PausePanel>
       <labels>
         <label text="Pause" font="CooperPlateBI24" pos_x="200" pos_y ="50" >
           <color r="255" g="255" b="255" a="255"/>
         </label>
       </labels>
+     
+    </PausePanel>
+    <GameUi>
       <images>
-        <image name="hearts">
-          <hitbox x="0" y="0" w="49" h="42"/>
-          <idleSec x="0" y="634" w="49" h="42"/>
+        <image name="hearts" speed="10">
+          <hitbox x="10" y="10" w="25" h="22"/>
+          <idleSec x="0" y="635" w="25" h="22"/>
+          <idleSec x="25" y="635" w="25" h="22"/>
+          <idleSec x="50" y="635" w="25" h="22"/>
+          <idleSec x="75" y="635" w="25" h="22"/>
+          <idleSec x="100" y="635" w="25" h="22"/>
+          <idleSec x="125" y="635" w="25" h="22"/>
+          <idleSec x="150" y="635" w="25" h="22"/>
         </image>
       </images>
     </GameUi>
