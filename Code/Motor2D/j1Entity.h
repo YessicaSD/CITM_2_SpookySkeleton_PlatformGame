@@ -32,6 +32,7 @@ public:
 	fPoint speed = { 0.0F,0.0F };
 	Collider* collider = nullptr;
 	entities_types type = UNKNOW;
+	bool death = false;
 public:
 	j1Entity(fPoint position, SDL_Texture * tex, entities_types type);
 	virtual ~j1Entity();

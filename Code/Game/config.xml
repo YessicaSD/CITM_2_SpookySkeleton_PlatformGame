@@ -215,6 +215,9 @@
         <label name="NumCoinsLabel" text="x 0" font="OpenSAnsSB12" pos_x="170" pos_y ="6" >
           <color r="255" g="255" b="255" a="255"/>
         </label>
+        <label name="NumpointsLabel" text="0" font="OpenSAnsSB12" pos_x="250" pos_y ="6" >
+          <color r="255" g="255" b="255" a="255"/>
+        </label>
       </labels>
     </GameUi>
     <CreditsPanel>

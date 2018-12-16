@@ -85,6 +85,13 @@ Player::Player(fPoint position, Animation* anim, SDL_Texture* tex, entities_type
 	get_hurt = true;
 	maxSpeed = { nodePlayer.attribute("Speed_x").as_float(), nodePlayer.attribute("Speed_y").as_float() };
 
+	App->scene->coin_points = 0;
+	str_coin.create("x %u", App->scene->coin_points);
+	App->scene->label_coin->ChangeTextureIdle(&str_coin, NULL, NULL);
+
+	App->scene->points = 0;
+	str_points.create("%u", App->scene->points);
+	App->scene->label_points->ChangeTextureIdle(&str_points, NULL, NULL);
 }
 
 Player::~Player()
@@ -157,6 +164,7 @@ bool Player::PreUpdate(float dt)
 				if (App->scene->player_lives > 0)
 				{
 					App->scene->player_lives--;
+					App->scene->coin_points = 0;
 				}
 				else
 				{
@@ -353,7 +361,8 @@ void Player::OnCollision(Collider * otherColl)
 	if (otherColl->type==COLLIDER_ENTITY && state == STATE_ATTACK)
 	{
 		App->scene->points += 200;
-		LOG("YOU HAVEEE %u  POINTS", App->scene->points);
+		str_points.create("%u", App->scene->points);
+		App->scene->label_points->ChangeTextureIdle(&str_points, NULL, NULL);
 		otherColl->to_delete = true;
 	}
 
@@ -362,8 +371,11 @@ void Player::OnCollision(Collider * otherColl)
 		App->scene->coin_points++;
 		App->scene->points += 50;
 
-		str_coin.create("%u", App->scene->coin_points);
+		str_coin.create("x %u", App->scene->coin_points);
 		App->scene->label_coin->ChangeTextureIdle(&str_coin,NULL, NULL);
+
+		str_points.create("%u", App->scene->points);
+		App->scene->label_points->ChangeTextureIdle(&str_points, NULL, NULL);
 	}
 
 	if (otherColl->type == COLLIDER_ENEMY && state != STATE_ATTACK)

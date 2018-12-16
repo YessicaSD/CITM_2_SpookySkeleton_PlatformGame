@@ -29,7 +29,7 @@ private:
 	j1Timer timer;
 	int i = 0;
 	bool batdeath_fx = false;
-
+	p2SString str_points_bat;
 public:
 	EntityBat(fPoint pos, Animation* anim, SDL_Texture* tex, entities_types type);
 	~EntityBat();
