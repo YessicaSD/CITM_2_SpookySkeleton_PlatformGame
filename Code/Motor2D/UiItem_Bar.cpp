@@ -51,18 +51,17 @@ UiItem_Bar::UiItem_Bar(iPoint pos, uint mesure, const SDL_Rect* section, UiItem*
 		
 			hitBox.w = mesure;
 			hitBox.h = section->h;
-			
+			SDL_Rect Rect_thumb_volume = { 646,140,51,52 };
 
 			if (parent->name == "PausePanel")
 			{
-				SDL_Rect Rect_thumb_volume = { 129,505,17,17 };
+				Rect_thumb_volume = { 129,505,17,17 };
 				thumb = App->Gui->AddImage({ (int)(hitBox.w*0.5),-(int)(hitBox.h*0.5),17,17 }, &Rect_thumb_volume, this, { 0,0 });
 				this->type = type;
 				thumb->draggable = true;
 			}
 			else
 			{
-				SDL_Rect Rect_thumb_volume = { 646,140,51,52 };
 				thumb = App->Gui->AddImage({ 157,-15,51,52 }, &Rect_thumb_volume, this, { 0,0 });
 				this->type = type;
 				thumb->draggable = true;
