@@ -1,4 +1,4 @@
-# Spooky Skeleton - PlatformGame
+﻿# Spooky Skeleton - PlatformGame
 
 ## Introduction
 Spooky Skeleton is a 2D platform game.
@@ -81,6 +81,7 @@ https://polkira7.wixsite.com/spookyskeleton
 			- Added Icon to the window and the .exe
 			- Added GUI module and items (label, button and image)
 			- Added animations with tile
+			- Added Load from xml ui Items(slider not included yet)
 
 		Second Assignment:
 			- Save and Load

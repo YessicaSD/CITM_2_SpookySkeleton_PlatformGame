@@ -38,11 +38,8 @@ bool  j1FadeToBlack::Update(float dt)
 	{
 		if (now >= total_time)
 		{
-			App->map->Disable();
-			App->entity->DestroyAllEntities();
-
-			App->map->Enable();
-			App->scene->Start();
+			
+			
 			total_time += total_time;
 			start_time = SDL_GetTicks();
 			current_step = fade_step::fade_from_black;
@@ -51,10 +48,19 @@ bool  j1FadeToBlack::Update(float dt)
 
 	case fade_step::fade_from_black:
 	{
-		normalized = 1.0f - normalized;
-
+		LOG("%f", normalized);
+		normalized = 1.0f - normalized*dt;
 		if (now >= total_time)
+		{
+			App->map->active = true;
+			App->map->CleanUp();
+			App->map->Start();
+			App->entity->DestroyAllEntities();
+			normalized = 0;
 			current_step = fade_step::none;
+			App->scene->Start();
+		}
+			
 	} break;
 	}
 

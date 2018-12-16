@@ -68,7 +68,8 @@ bool j1Scene::Start()
 			LoadGameUi(sceneNode);
 			LoadedUi = true;
 		}
-		
+
+		App->audio->PlayMusic(sceneNode.child("music").child_value());
 		settingPanel->enable = false;
 		startMenupanel->enable = true;
 		PausePanel->enable = false;
@@ -137,6 +138,7 @@ bool j1Scene::Update(float dt)
 			App->audio->SetVolume(result_volume);
 			result_fx = fx_bar->GetBarValue();
 			App->audio->SetFxVolume(result_fx);
+			if(App->fade->GetStateFade()== App->fade->fade_step::none)
 			App->render->Blit(Background, 0, 0, NULL, SDL_FLIP_NONE, 0.0F);
 		}
 		if (state == SceneState::GAME)
@@ -307,14 +309,14 @@ bool j1Scene::LoadStartMenu(pugi::xml_node& nodeScene)
 	BROFILER_CATEGORY("LoadStartMenu.cpp", Profiler::Color::Red)
 	pugi::xml_node startMenuNode = nodeScene.child("StartMenu");
 
-	App->win->scale = 1.0F;
+	
 
 	const char* backgroundPath = startMenuNode.child("background").child_value();
-	const char* mainMusicStartMenu = startMenuNode.child("music").child_value();
+	
 	if (Background == nullptr)
 		Background = App->tex->Load(backgroundPath);
 
-	App->audio->PlayMusic(mainMusicStartMenu);
+	
 	
 	for(pugi::xml_node sfxNode = startMenuNode.child("soundEffects").child("sfx"); sfxNode ; sfxNode = sfxNode.next_sibling("sfx"))
 	{

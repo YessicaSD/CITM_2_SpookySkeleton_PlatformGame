@@ -225,8 +225,7 @@ UiItem* j1Gui::AddEmptyElement(iPoint pos, UiItem * const parent)
 	 j1Module* thisModule = (j1Module*)App->pathfinding;
 	 thisModule->Enable();
 	 thisModule->active = true;
-	 App->map->active = true;
-
+	
 	 App->scene->state = SceneState::GAME;
 	 App->fade->FadeToBlack(1);
 	

@@ -165,8 +165,6 @@ bool Player::PreUpdate(float dt)
 					App->scene->player_lives = 3;
 					App->map->active = false;
 					App->pathfinding->active = false;
-					//App->entity->DestroyAllEntities();
-					//App->entity->active = false;
 					App->scene->state = SceneState::STARTMENU;
 					
 				}

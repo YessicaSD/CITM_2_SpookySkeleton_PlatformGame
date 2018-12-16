@@ -18,7 +18,7 @@ public:
 
 	p2SString	name;
 	bool		active=false;
-
+	
 private:
 	bool enabled = true;
 protected:
