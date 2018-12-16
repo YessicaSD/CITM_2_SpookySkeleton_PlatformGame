@@ -194,19 +194,20 @@
           <idleSec x="125" y="635" w="25" h="22"/>
           <idleSec x="150" y="635" w="25" h="22"/>
         </image>
-        <image name="Coin" speed="10" scale="1">
-          <hitbox x="150" y="10" w="25" h="22"/>
-          <idleSec x="0" y="635" w="25" h="22"/>
-          <idleSec x="25" y="635" w="25" h="22"/>
-          <idleSec x="50" y="635" w="25" h="22"/>
-          <idleSec x="75" y="635" w="25" h="22"/>
-          <idleSec x="100" y="635" w="25" h="22"/>
-          <idleSec x="125" y="635" w="25" h="22"/>
-          <idleSec x="150" y="635" w="25" h="22"/>
+        <image name="Coin" speed="10" >
+          <hitbox x="150" y="8" w="14" h="14"/>
+          <idleSec x="0" y="665" w="14" h="14"/>
+          <idleSec x="16" y="665" w="11" h="14"/>
+          <idleSec x="30" y="665" w="5" h="14"/>
+          <idleSec x="38" y="665" w="11" h="14"/>
+          <idleSec x="51" y="665" w="14" h="14"/>
+          <idleSec x="67" y="665" w="11" h="14"/>
+          <idleSec x="81" y="665" w="5" h="14"/>
+          <idleSec x="89" y="665" w="11" h="14"/>
         </image>
       </images>
       <labels>
-        <label name="NumCoinsLabel" text="Num: 0" font="CooperPlateBI24" pos_x="200" pos_y ="50" >
+        <label name="NumCoinsLabel" text="x 0" font="CooperPlateBI24" pos_x="170" pos_y ="5" >
           <color r="255" g="255" b="255" a="255"/>
         </label>
       </labels>

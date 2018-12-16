@@ -69,17 +69,8 @@ class UiItem
 		}
 		void returnChildList(p2List<UiItem*> & List);
 		~UiItem();
-		UiItem* FindChildByName(const p2SString& name)
-		{
-			for (p2List_item<UiItem*>* iter = childs.start; iter; iter = iter->next)
-			{
-				if (iter->data->name == name)
-				{
-					return iter->data;
-				}
-			}
-			return nullptr;
-		}
+		UiItem* FindChildByName(const p2SString& name);
+		
 
 };
 
