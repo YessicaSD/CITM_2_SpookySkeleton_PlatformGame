@@ -21,7 +21,8 @@ j1Gui::j1Gui() : j1Module()
 	mapOfFuntions.PushBack("FadeToScene", FadeToScene);
 	mapOfFuntions.PushBack("ExitGame", ExitGame);
 	mapOfFuntions.PushBack("GoToSetting", GoToSetting);
-	
+	mapOfFuntions.PushBack("GoBackToMenu", GoBackToMenu);
+	mapOfFuntions.PushBack("LoadGame", LoadGame);
 }
 
 // Destructor
@@ -241,4 +242,18 @@ UiItem* j1Gui::AddEmptyElement(iPoint pos, UiItem * const parent)
 	 App->scene->settingPanel->enable = true;
  }
 
+ void GoBackToMenu() {
+	 App->scene->startMenupanel->enable = true;
+	 App->scene->settingPanel->enable = false;
+ }
+ void LoadGame()
+ {
+	 App->scene->state = SceneState::GAME;
+	 j1Module* thisModule = (j1Module*)App->pathfinding;
+	 thisModule->Enable();
+	 thisModule->active = true;
+	 App->map->active = true;
 
+	 App->LoadGame();
+	 
+ }

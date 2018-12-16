@@ -15,7 +15,8 @@
 void FadeToScene();
 void ExitGame();
 void GoToSetting();
-
+void GoBackToMenu();
+void LoadGame();
 // ---------------------------------------------------
 class j1Gui : public j1Module
 {

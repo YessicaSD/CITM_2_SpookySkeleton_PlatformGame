@@ -367,7 +367,7 @@ void j1Scene::LoadUiElement(UiItem*parent, pugi::xml_node node)
 			LoadUiElement(newElement, buttonNode.child("childs"));
 		}
 	}
-	for (pugi::xml_node labelNode = node.child("labels").child("label"); labelNode; labelNode = labelNode.next_sibling("image"))
+	for (pugi::xml_node labelNode = node.child("labels").child("label"); labelNode; labelNode = labelNode.next_sibling("label"))
 	{
 		p2SString text = labelNode.attribute("text").as_string();
 		SDL_Color color = { labelNode.child("color").attribute("r").as_uint(),labelNode.child("color").attribute("g").as_uint(),labelNode.child("color").attribute("b").as_uint(),labelNode.child("color").attribute("a").as_uint() };

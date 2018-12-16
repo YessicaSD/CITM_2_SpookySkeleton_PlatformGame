@@ -68,7 +68,7 @@
             </labels>
           </childs>
         </button>
-        <button name ="continue" funtion = "FadeToScene">
+        <button name ="continue" funtion = "LoadGame">
           <hitbox x="392"  y="565" w="252" h="146"/>
           <idleSec x="374" y="0" w="253" h="161" />
           <hoverSec x="374" y="161" w="253" h="161" />
@@ -107,7 +107,10 @@
         <image name ="Sound mute">
           <hitbox x="220" y="235" w="60" h="103"/>
           <idleSec x="713" y="0" w="60" h="103"/>
-        
+        </image>
+        <image name ="Settings">
+          <hitbox x="336" y="54" w="347" h="57"/>
+          <idleSec x="0" y="546" w="347" h="57"/>
         </image>
         <image name ="Sound full">
           <hitbox x="700" y="235" w="107" h="104"/>
@@ -121,14 +124,30 @@
       <labels>
         <label text="MUSIC VOLUME" font="CooperPlateBI24" pos_x="360" pos_y ="200" >
           <color r="255" g="255" b="255" a="255"/>
-          
         </label>
+        
         <label text="FX VOLUME" font="CooperPlateBI24" pos_x="390" pos_y ="460" >
           <color r="255" g="255" b="255" a="255"/>
-
         </label>
+        
+        
       </labels>
-      
+      <buttons>
+        <button name ="back" funtion = "GoBackToMenu">
+          <hitbox x="450"  y="653" w="90" h="25"/>
+          <idleSec x="0" y="0" w="0" h="0" />
+          <childs>
+            <labels>
+              <label text="Back" font="CooperPlateBI24" pos_x="0" pos_y ="0">
+                <color r="255" g="255" b="255" a="255"/>
+                <hover>
+                  <color r="150" g="129" b="112" a="255"/>
+                </hover>
+              </label>
+            </labels>
+          </childs>
+        </button>
+      </buttons>
     </settingsMenu>
     <idle>ScenesInfo.xml</idle>
     <saveFile>save_game.xml</saveFile>
