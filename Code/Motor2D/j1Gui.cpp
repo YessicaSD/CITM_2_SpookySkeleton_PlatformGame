@@ -24,6 +24,7 @@ j1Gui::j1Gui() : j1Module()
 	mapOfFuntions.PushBack("GoToSetting", GoToSetting);
 	mapOfFuntions.PushBack("GoBackToMenu", GoBackToMenu);
 	mapOfFuntions.PushBack("LoadGame", LoadGame);
+	mapOfFuntions.PushBack("OpenPage", OpenPage);
 }
 
 // Destructor
@@ -282,4 +283,8 @@ UiItem* j1Gui::AddEmptyElement(iPoint pos, UiItem * const parent)
 
 	 App->LoadGame();
 	 
+ }
+ void OpenPage()
+ {
+	 ShellExecuteA(NULL, "open", "https://polkira7.wixsite.com/spookyskeleton", NULL, NULL, SW_SHOWNORMAL);
  }

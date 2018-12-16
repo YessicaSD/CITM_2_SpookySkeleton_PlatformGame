@@ -17,6 +17,7 @@ void ExitGame();
 void GoToSetting();
 void GoBackToMenu();
 void LoadGame();
+void OpenPage();
 // ---------------------------------------------------
 class j1Gui : public j1Module
 {

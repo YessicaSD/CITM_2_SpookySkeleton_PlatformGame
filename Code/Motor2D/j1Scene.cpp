@@ -459,8 +459,8 @@ bool j1Scene::LoadSettings(pugi::xml_node& settingNode)
 	fx_bar = slider_fx;
 
 	// Credits slider
-	SDL_Rect Rect_credits_slider = { 0,525,367,21 };
-	UiItem_Bar* slider_credits = App->Gui->AddBar({ 720,400 }, 367, &Rect_credits_slider, settingPanel, { 0,0 }, VERTICAL);
+	/*SDL_Rect Rect_credits_slider = { 0,525,367,21 };
+	UiItem_Bar* slider_credits = App->Gui->AddBar({ 720,400 }, 367, &Rect_credits_slider, settingPanel, { 0,0 }, VERTICAL);*/
 	
 	return true;
 }
