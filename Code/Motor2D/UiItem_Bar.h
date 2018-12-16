@@ -7,11 +7,18 @@
 
 class UiItem_Image;
 
+enum TypeBar :uint
+{
+	VERTICAL,
+	HORIZONTAL,
+	MAX
+};
+
 class UiItem_Bar :public UiItem
 {
 	
 public:
-	UiItem_Bar(SDL_Rect hitBox, const SDL_Rect* section, UiItem*const parent, p2Point<int> pivot = { 0,0 });
+	UiItem_Bar(SDL_Rect hitBox, const SDL_Rect* section, UiItem*const parent, p2Point<int> pivot = { 0,0 }, TypeBar type = HORIZONTAL);
 	~UiItem_Bar() {}
 	void Draw() override;
 	float GetBarValue();
@@ -19,6 +26,8 @@ public:
 protected:
 	SDL_Rect frame_bar;
 	UiItem_Image* thumb = nullptr;
+	UiItem_Image* thumb_credits = nullptr;
+	TypeBar type = HORIZONTAL;
 };
 
 
