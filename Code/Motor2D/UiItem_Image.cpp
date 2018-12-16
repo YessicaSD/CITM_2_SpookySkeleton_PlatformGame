@@ -18,7 +18,10 @@ UiItem_Image::UiItem_Image(SDL_Rect hitBox, const Animation& section, UiItem*con
 void UiItem_Image::Draw(const float& dt)
 {
 	BROFILER_CATEGORY("Draw_Image.cpp", Profiler::Color::AliceBlue)
-	App->render->Blit((SDL_Texture*)App->Gui->getTexture(), hitBox.x-pivot.x, hitBox.y-pivot.y, &animationIdle.GetCurrentFrame(dt), SDL_FLIP_NONE, 0.0F);
+		if(scaled)
+			App->render->Blit((SDL_Texture*)App->Gui->getTexture(), { hitBox.x - pivot.x, hitBox.y - pivot.y }, &animationIdle.GetCurrentFrame(dt), 0.0F,SDL_FLIP_NONE,scale);
+		else
+			App->render->Blit((SDL_Texture*)App->Gui->getTexture(), hitBox.x-pivot.x, hitBox.y-pivot.y, &animationIdle.GetCurrentFrame(dt), SDL_FLIP_NONE, 0.0F);
 }
 
 

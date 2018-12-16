@@ -349,9 +349,10 @@ void j1Scene::LoadUiElement(UiItem*parent, pugi::xml_node node)
 			SDL_Rect sectionIdle = { animNode.attribute("x").as_int(), animNode.attribute("y").as_int(), animNode.attribute("w").as_int(), animNode.attribute("h").as_int() };
 			anim.PushBack(sectionIdle);
 		}
-		UiItem*newElement = App->Gui->AddImage(hitBox, anim, parent);
+		UiItem_Image*newElement = App->Gui->AddImage(hitBox, anim, parent);
 		newElement->name = (uiNode.attribute("name")) ? uiNode.attribute("name").as_string() : "";
-		
+		newElement->scaled = (uiNode.attribute("scale")) ? true : false;
+		newElement->scale = (newElement->scaled) ? uiNode.attribute("scale").as_float():1;
 		if (uiNode.child("childs"))
 		{
 			LoadUiElement(newElement, uiNode.child("childs"));
@@ -386,6 +387,7 @@ void j1Scene::LoadUiElement(UiItem*parent, pugi::xml_node node)
 		bool down = uiNode.attribute("Up");
 		UiItem*newElement = App->Gui->AddButton(hitBox, &sectionIdle, funtionPath, !down, parent, sectionClick, sectionHove, pivot);
 		newElement->name = (uiNode.attribute("name")) ? uiNode.attribute("name").as_string() : "";
+		
 		if (uiNode.child("childs"))
 		{
 			LoadUiElement(newElement, uiNode.child("childs"));
