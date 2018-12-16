@@ -26,6 +26,7 @@ UiItem_Button::UiItem_Button(SDL_Rect hitBox, const SDL_Rect * idle, UiItem* con
 
 void UiItem_Button::AddFuntion(void(*funtionOnClick)(), bool Down)
 {
+	BROFILER_CATEGORY("AddFunction_Button.cpp", Profiler::Color::Brown)
 	if (funtionOnClick != nullptr)
 	{
 		if (Down)
@@ -36,6 +37,7 @@ void UiItem_Button::AddFuntion(void(*funtionOnClick)(), bool Down)
 }
 void UiItem_Button::AddFuntion(p2SString & string, bool Down)
 {
+	BROFILER_CATEGORY("AddFunction2_Button.cpp", Profiler::Color::Brown)
 	if (&string != nullptr)
 	{
 		uint num = App->Gui->mapOfFuntions.Find(string);

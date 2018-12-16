@@ -5,6 +5,7 @@
 
 void UiItem::AddToPos(const iPoint & value)
 {
+	BROFILER_CATEGORY("AddToPos_UiItem.cpp", Profiler::Color::Beige)
 	iPoint v = value;
 	if (v.x == -1 || v.x == 1)
 		v.x = 0;

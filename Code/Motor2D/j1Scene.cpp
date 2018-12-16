@@ -368,7 +368,7 @@ void j1Scene::AudioControl()
 
 bool j1Scene::LoadStartMenu(pugi::xml_node& nodeScene)
 {
-	BROFILER_CATEGORY("LoadStartMenu.cpp", Profiler::Color::Red)
+	BROFILER_CATEGORY("LoadStartMenu", Profiler::Color::Red)
 	pugi::xml_node startMenuNode = nodeScene.child("StartMenu");
 
 	
@@ -398,7 +398,7 @@ bool j1Scene::LoadStartMenu(pugi::xml_node& nodeScene)
 
 bool j1Scene::LoadSettings(pugi::xml_node& settingNode)
 {
-	BROFILER_CATEGORY("LoadSettings.cpp", Profiler::Color::Red)
+	BROFILER_CATEGORY("LoadSettings", Profiler::Color::Red)
 	Background = App->tex->Load("textures/StartMenu/Background.png");
 	App->audio->PlayMusic("audio/music/menu_music.ogg");
 	settingPanel = App->Gui->AddEmptyElement({ 0,0 });
@@ -425,6 +425,7 @@ bool j1Scene::LoadSettings(pugi::xml_node& settingNode)
 
 bool j1Scene::LoadPauseGameUi(pugi::xml_node & SettingNode)
 {
+	BROFILER_CATEGORY("LoadPauseGameUi", Profiler::Color::Red)
 	PausePanel = App->Gui->AddEmptyElement({ 0,0 });
 	PausePanel->name = "PausePanel";
 	LoadUiElement(PausePanel, SettingNode.child("PausePanel"));
@@ -443,6 +444,7 @@ bool j1Scene::LoadPauseGameUi(pugi::xml_node & SettingNode)
 
 bool j1Scene::LoadCredits(pugi::xml_node& SceneNode)
 {
+	BROFILER_CATEGORY("LoadCredits", Profiler::Color::Red)
 	CreditsPanel = App->Gui->AddEmptyElement({ 0,0 });
 	LoadUiElement(CreditsPanel, SceneNode.child("CreditsPanel"));
 	std::string text = sceneNode.child("CreditsPanel").child("Text").child_value();
@@ -481,7 +483,7 @@ bool j1Scene::LoadCredits(pugi::xml_node& SceneNode)
 }
 void j1Scene::LoadUiElement(UiItem*parent, pugi::xml_node node)
 {
-	BROFILER_CATEGORY("LoadUiElement.cpp", Profiler::Color::Red)
+	BROFILER_CATEGORY("LoadUiElement", Profiler::Color::Red)
 		for (pugi::xml_node uiNode = node.child("images").child("image"); uiNode; uiNode = uiNode.next_sibling("image"))
 		{
 			SDL_Rect hitBox = { uiNode.child("hitbox").attribute("x").as_int(), uiNode.child("hitbox").attribute("y").as_int(), uiNode.child("hitbox").attribute("w").as_int(), uiNode.child("hitbox").attribute("h").as_int() };
@@ -590,6 +592,7 @@ void j1Scene::LoadUiElement(UiItem*parent, pugi::xml_node node)
 
 bool j1Scene::LoadGameUi(pugi::xml_node& SettingNode)
 {
+	BROFILER_CATEGORY("LoadGameUi", Profiler::Color::Red)
 	GameUiPanel = App->Gui->AddEmptyElement({ 0,0 });
 	LoadUiElement(GameUiPanel, SettingNode.child("GameUi"));
 	heart[0] = GameUiPanel->FindChildByName("hearts1");
