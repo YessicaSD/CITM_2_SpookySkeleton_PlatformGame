@@ -15,7 +15,7 @@
 #include "j1Pathfinding.h"
 #include "j1Gui.h"
 #include "Player.h"
-
+#include "j1Timer.h"
 #include "UiItem_Label.h"
 #include "UiItem_Bar.h"
 #include "UiItem.h"
@@ -80,7 +80,8 @@ bool j1Scene::Start()
 
 	}
 	if (state == SceneState::GAME)
-	{	//Pick level node-----------------------------------------ç
+	{	//Pick level node-----------------------------------------
+		timer_sec.Start();
 		App->win->scale = 2.0F;
 		GameUiPanel->enable = true;
 		if (startMenupanel->enable)
@@ -149,6 +150,10 @@ bool j1Scene::Update(float dt)
 		if (state == SceneState::GAME)
 		{
 			DebugControls();
+			timer = timer_sec.ReadSec();
+			str_timer.create("%.2f seconds", timer);
+			App->scene->label_timer->ChangeTextureIdle(&str_timer, NULL, NULL);
+
 
 			//Load and save game---------------------------------------------------
 			if (App->input->GetKey(SDL_SCANCODE_F6) == KEY_DOWN)
@@ -547,6 +552,7 @@ bool j1Scene::LoadGameUi(pugi::xml_node& SettingNode)
 	heart[2] = GameUiPanel->FindChildByName("hearts3");
 	label_coin = (UiItem_Label *)GameUiPanel->FindChildByName("NumCoinsLabel");
 	label_points= (UiItem_Label *)GameUiPanel->FindChildByName("NumpointsLabel");
+	label_timer = (UiItem_Label *)GameUiPanel->FindChildByName("NumTimer");
 	return true;
 }
 
