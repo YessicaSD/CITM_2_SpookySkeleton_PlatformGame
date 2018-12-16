@@ -8,6 +8,7 @@
 	class UiItem_Image : public UiItem
 	{		
 		Animation animationIdle;
+
 			public:
 				UiItem_Image(SDL_Rect hitBox, const SDL_Rect* section, UiItem*const parent, p2Point<int> pivot = {0,0});
 				UiItem_Image(SDL_Rect hitBox, const Animation& section, UiItem*const parent, p2Point<int> pivot = { 0,0 });
