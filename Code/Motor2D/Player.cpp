@@ -90,7 +90,7 @@ Player::Player(fPoint position, Animation* anim, SDL_Texture* tex, entities_type
 	App->scene->label_coin->ChangeTextureIdle(&str_coin, NULL, NULL);
 
 	App->scene->points = 0;
-	str_points.create("%u", App->scene->points);
+	str_points.create("POINTS : %u", App->scene->points);
 	App->scene->label_points->ChangeTextureIdle(&str_points, NULL, NULL);
 }
 
@@ -361,7 +361,7 @@ void Player::OnCollision(Collider * otherColl)
 	if (otherColl->type==COLLIDER_ENTITY && state == STATE_ATTACK)
 	{
 		App->scene->points += 200;
-		str_points.create("%u", App->scene->points);
+		str_points.create("POINTS : %u", App->scene->points);
 		App->scene->label_points->ChangeTextureIdle(&str_points, NULL, NULL);
 		otherColl->to_delete = true;
 	}
@@ -374,7 +374,7 @@ void Player::OnCollision(Collider * otherColl)
 		str_coin.create("x %u", App->scene->coin_points);
 		App->scene->label_coin->ChangeTextureIdle(&str_coin,NULL, NULL);
 
-		str_points.create("%u", App->scene->points);
+		str_points.create("POINTS : %u", App->scene->points);
 		App->scene->label_points->ChangeTextureIdle(&str_points, NULL, NULL);
 	}
 

@@ -181,7 +181,7 @@ void EntityBat::OnCollision(Collider * otherCollider)
 			if (!death)
 			{
 				App->scene->points += 200;
-				str_points_bat.create("%u", App->scene->points);
+				str_points_bat.create("POINTS : %u", App->scene->points);
 				App->scene->label_points->ChangeTextureIdle(&str_points_bat, NULL, NULL);
 			}
 				death = true;

@@ -6,12 +6,13 @@
 #include "j1ModuleEntity.h"
 #include "p2Point.h"
 #include "p2DynArray.h"
-
+#include "j1Timer.h"
 
 class UiItem_Image;
 class UiItem_Bar;
 class UiItem_Label;
 class UiItem;
+class j1Timer;
 
 struct SDL_Texture;
 enum class SceneState
@@ -40,6 +41,7 @@ public:
 	UiItem* CreditsPanel = nullptr;
 	UiItem_Label * label_coin = nullptr;
 	UiItem_Label* label_points = nullptr;
+	UiItem_Label* label_timer = nullptr;
 	UiItem* ImagePanel = nullptr;
 	UiItem* FistLabelPos = nullptr;
 	UiItem* heart[3] = { nullptr,nullptr,nullptr };
@@ -69,7 +71,9 @@ private:
 	UiItem_Image* titleImage = nullptr;
 	UiItem_Bar* volume_bar = nullptr;
 	UiItem_Bar* fx_bar = nullptr;
-
+	float timer;
+	p2SString str_timer;
+	j1Timer timer_sec;
 	
 	UiItem_Bar* bar = nullptr;
 
