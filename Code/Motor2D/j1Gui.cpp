@@ -29,7 +29,8 @@ j1Gui::j1Gui() : j1Module()
 	mapOfFuntions.PushBack("OpenCredits", OpenCredits);
 	mapOfFuntions.PushBack("BackToSettings", BackToSettings);
 	mapOfFuntions.PushBack("BackToStartMenu", BackToStartMenu);
-	
+	mapOfFuntions.PushBack("GoBackToPlay", GoBackToPlay);
+
 }
 
 // Destructor
@@ -312,4 +313,9 @@ UiItem* j1Gui::AddEmptyElement(iPoint pos, UiItem * const parent)
 	 App->pathfinding->active = false;
 	 App->scene->state = SceneState::STARTMENU;
 	 App->fade->FadeToBlack(1);
+ }
+ void GoBackToPlay()
+ {
+	 App->pause = false;
+	 App->scene->PausePanel->enable = false;
  }

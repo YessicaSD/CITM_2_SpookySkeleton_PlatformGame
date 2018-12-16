@@ -21,6 +21,7 @@ void OpenPage();
 void OpenCredits();
 void BackToSettings();
 void BackToStartMenu();
+void GoBackToPlay();
 // ---------------------------------------------------
 class j1Gui : public j1Module
 {
