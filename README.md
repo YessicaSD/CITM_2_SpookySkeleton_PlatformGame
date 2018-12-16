@@ -53,6 +53,10 @@ The first level is set inside a cave, and the second level is set in the outside
 ## Find this project on github:
 https://github.com/YessicaSD/PlatformGame
 
+## Game’s website
+https://polkira7.wixsite.com/spookyskeleton
+
+
 ## Credits:
 ### Coding:
 	- Yessica Servin Dominguez 
@@ -90,14 +94,19 @@ https://github.com/YessicaSD/PlatformGame
 			- Add pathFinding Module
 	
 -----------------------------------------------------------Pol Recasens--------------------------------------------------------------
+		
 		Third Assignment:
-			- 
+			- Added slider item
+			- Added coins
+			- Added the functions to change the volume and fx
+			
+			
 		Second Assignment:
-		- Modified map levels
-		- Enemy sprite sheet
+		- Modified map levels	
+		- Enemy sprite sheet	
 		- Enemies positions
-		- Bat entity
-		- Brofiler
+		- Bat entity		
+		- Brofiler		
 		- Player FX
 		- Pathfinding level 1 and level 2
 
