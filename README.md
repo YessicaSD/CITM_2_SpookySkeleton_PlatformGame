@@ -59,18 +59,18 @@ https://polkira7.wixsite.com/spookyskeleton
 
 ## Credits:
 ### Coding:
-	- Yessica Servin Dominguez 
-		Find her on:
-		Github: https://github.com/YessicaSD
+- Yessica Servin Dominguez 
+	
+	Github: https://github.com/YessicaSD
 
-	- Pol Recasens Sarra 
-		Find him on:
-		Github: https://github.com/PolRecasensSarra
+- Pol Recasens Sarra 
+	
+	Github: https://github.com/PolRecasensSarra
     
 ### Art:
-	- Controls buttons sprites: https://hyohnoo.itch.io/keyboard-controller-keys 
-	- Some UI elements: https://www.gamedevmarket.net/asset/gui-icons-8656/
-	- Skeleton: https://opengameart.org/content/animated-skeleton
+- Controls buttons sprites: https://hyohnoo.itch.io/keyboard-controller-keys 
+- Some UI elements: https://www.gamedevmarket.net/asset/gui-icons-8656/
+- Skeleton: https://opengameart.org/content/animated-skeleton
 
 ## Inovations 
 	- Background animations with Tile program
