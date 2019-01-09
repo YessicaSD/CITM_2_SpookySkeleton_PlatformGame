@@ -70,6 +70,7 @@ https://polkira7.wixsite.com/spookyskeleton
 ### Art:
 	- Controls buttons sprites: https://hyohnoo.itch.io/keyboard-controller-keys 
 	- Some UI elements: https://www.gamedevmarket.net/asset/gui-icons-8656/
+	- Skeleton: https://opengameart.org/content/animated-skeleton
 
 ## Inovations 
 	- Background animations with Tile program
