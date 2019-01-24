@@ -28,6 +28,7 @@ class j1Entities : public j1Module
 private:
 	p2List<Animation*> entitiesAnimation;
 	bool LoadAnimations(pugi::xml_node animNode);
+	
 public:
 	p2List<j1Entity*> list_Entities;
 	pugi::xml_document	enemiesFile;

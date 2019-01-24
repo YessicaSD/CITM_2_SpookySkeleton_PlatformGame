@@ -94,6 +94,7 @@ bool j1Entities::PreUpdate(float dt)
 		else
 		{
 			actualEntity->data->PreUpdate(dt);
+			App->collision->CheckCollision(actualEntity->data->collider);
 		}
 	}
 	return true;
@@ -238,5 +239,7 @@ bool j1Entities::LoadAnimations(pugi::xml_node animNode)
 
 	return ret;
 }
+
+
 
 

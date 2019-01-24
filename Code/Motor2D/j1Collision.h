@@ -59,46 +59,34 @@ struct Collider
 	}
 
 	bool CheckCollision(const SDL_Rect& r) const;
-
+	
 };
 
 
 class j1Collision : public j1Module 
 {
+
+	
+
 private:
 	int getFilledColNum();
 	Collider* colliders[MAX_COLLIDERS] = { nullptr };
 	bool matrix[COLLIDER_MAX][COLLIDER_MAX];
-	
 
 public:
+	void CheckCollision(Collider * thisColl);
 
 	j1Collision();
 	~j1Collision();
 
 	Collider* AddCollider(SDL_Rect rect, COLLIDER_TYPE type, j1Module* callback);
 	
-	
-
 	void Init()
 	{
 		name.create("collition");
 		active = true;
 	}
 
-	// Called before render is available
-	virtual bool Awake(pugi::xml_node&)
-	{
-		return true;
-	}
-
-	// Called before the first frame
-	 bool Start()
-	{
-		return true;
-	}
-
-	
 	 bool debug = false;
 
 	// Called each loop iteration
