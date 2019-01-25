@@ -94,7 +94,7 @@ bool j1Entities::PreUpdate(float dt)
 		else
 		{
 			actualEntity->data->PreUpdate(dt);
-			App->collision->CheckCollision(actualEntity->data->collider);
+			//App->collision->CheckCollision(actualEntity->data->collider);
 		}
 	}
 	return true;

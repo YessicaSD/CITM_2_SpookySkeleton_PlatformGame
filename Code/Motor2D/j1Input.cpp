@@ -145,6 +145,27 @@ bool j1Input::GetWindowEvent(j1EventWindow ev)
 	return windowEvents[ev];
 }
 
+float j1Input::GetHorizontal() const
+{
+	float ret = 0.0f;
+	if (GetKey(SDL_SCANCODE_RIGHT) == KEY_DOWN|| GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
+		ret += 1.0f;
+	if (GetKey(SDL_SCANCODE_LEFT) == KEY_DOWN || GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT)
+		ret -= 1.0f;
+	return ret;
+}
+
+float j1Input::GetVertical() const
+{
+
+	float ret = 0.0f;
+	if (GetKey(SDL_SCANCODE_UP) == KEY_DOWN || GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
+		ret += 1.0f;
+	if (GetKey(SDL_SCANCODE_DOWN) == KEY_DOWN || GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT)
+		ret -= 1.0f;
+	return ret;
+}
+
 void j1Input::GetMousePosition(iPoint & pos)
 {
 	pos = mousePos;

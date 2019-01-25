@@ -60,7 +60,7 @@ Player::Player(fPoint position, Animation* anim, SDL_Texture* tex, entities_type
 	rectMesure = {nodeCol.attribute("w").as_int(), nodeCol.attribute("h").as_int() };
 
 	SDL_Rect playerRect = { (position.x - rectMesure.x / 2), (position.y - rectMesure.y), rectMesure.x, rectMesure.y };
-	collider = App->collision->AddCollider(playerRect, COLLIDER_PLAYER, App->entity);
+	collider = App->collision->AddCollider(playerRect, COLLIDER_GOD, App->entity);
 
 	if (App->scene->num_thismaplvl == 1)
 	{
@@ -125,19 +125,11 @@ bool Player::PreUpdate(float dt)
 			state = STATE_JUMP;
 			speed.y = -maxSpeed.y;
 			canJump = false;
-			if (jump_fx)
-			{
-				App->audio->PlayFx(App->entity->fx_jump);
-				jump_fx = false;
-			}
-		
-
+			App->audio->PlayFx(App->entity->fx_jump);
 		}
 
 		
 
-		if (state == STATE_JUMP)
-			jump_fx = true;
 
 		if (App->input->GetKey(SDL_SCANCODE_Q) == KEY_DOWN
 			&& (state == PlayerState::STATE_IDLE || state == PlayerState::STATE_WALK))

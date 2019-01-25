@@ -61,7 +61,8 @@ public:
 	{
 		return mouse_buttons[id - 1];
 	}
-
+	float GetHorizontal() const;
+	float GetVertical() const;
 	// Check if a certain window event happened
 	bool GetWindowEvent(int code);
 
