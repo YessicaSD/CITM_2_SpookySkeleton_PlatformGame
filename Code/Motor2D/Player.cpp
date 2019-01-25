@@ -190,36 +190,24 @@ bool Player::PreUpdate(float dt)
 			
 			
 		}
-		if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
+
+		float horizontalInput = App->input->GetHorizontal();
+		if (horizontalInput != 0.0f)
 		{
 			if (state == STATE_IDLE || state == STATE_JUMP || state == STATE_WALK)
 			{
-				if (!right)
-					right = true;
-				if (speed.x < maxSpeed.x)
+				right = horizontalInput > 0.0f ? true : false;
+				
+				if (speed.x < maxSpeed.x && speed.x > -maxSpeed.x)
 				{
-					speed.x += acceleration_x * dt;
+					speed.x += horizontalInput*acceleration_x * dt;
 				}
 
 			}
 			if (state == STATE_IDLE)
 				state = STATE_WALK;
 		}
-		if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT)
-		{
-			if (state == STATE_IDLE || state == STATE_JUMP || state == STATE_WALK)
-			{
-				if (right)
-					right = false;
-				if (speed.x > -maxSpeed.x)
-				{
-					speed.x -= acceleration_x * dt;
-				}
-
-			}
-			if (state == STATE_IDLE)
-				state = STATE_WALK;
-		}
+			
 	}
 	else
 	{
