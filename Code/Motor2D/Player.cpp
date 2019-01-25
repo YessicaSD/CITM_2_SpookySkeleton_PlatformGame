@@ -115,16 +115,13 @@ bool Player::PreUpdate(float dt)
 
 	if (!debugMode)
 	{
-		
-
-
 		if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN
 			&& (state == STATE_IDLE || state == STATE_WALK)
 			&& canJump)
 		{
 			state = STATE_JUMP;
 			speed.y = -maxSpeed.y;
-			canJump = false;
+			
 			App->audio->PlayFx(App->entity->fx_jump);
 		}
 
@@ -215,6 +212,7 @@ bool Player::PreUpdate(float dt)
 	}
 
 	collider->SetPos((position.x + speed.x * dt) - collider->rect.w*0.5F, (position.y + speed.y * dt) - collider->rect.h);
+	canJump = false;
 	return true;
 }
 
@@ -239,6 +237,7 @@ void Player::Move(float dt)
 	}
 
 	collider->SetPos(position.x - collider->rect.w * 0.5f, position.y - collider->rect.h);
+	
 }
 
 void Player::Draw()
@@ -273,6 +272,9 @@ void Player::OnCollision(Collider * otherColl)
 	bool PlayerIsOnTheRight = position.x >= otherColl->rect.x + otherColl->rect.w  && position.y > otherColl->rect.y;
 	bool PlayerIsUnder = position.y > otherColl->rect.y + otherColl->rect.h && collider->rect.x + collider->rect.w - 5 > otherColl->rect.x && collider->rect.x + 5 < otherColl->rect.x + otherColl->rect.w;
 	
+	if (otherColl->type == COLLIDER_WALL || otherColl->type == COLLIDER_SPECIAL || otherColl->type == COLLIDER_ICE)
+		canJump = true;
+
 	if (otherColl->type == COLLIDER_WALL || otherColl->type == COLLIDER_SPECIAL)
 	{
 		if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_UP || App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_UP)
