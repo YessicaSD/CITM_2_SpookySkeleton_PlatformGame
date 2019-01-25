@@ -8,7 +8,7 @@
 #include "p2Point.h"
 #include "SDL/include/SDL_render.h"
 
-struct SDL_Texture;
+
 struct Collider;
 
 enum PlayerState : uint
@@ -25,11 +25,11 @@ class Player: public j1Entity
 {
 private:
 	Animation animation[STATE_MAX];
-	//PlayerState state = STATE_SPAWN;
 	fPoint maxSpeed = { 0.0F,0.0F };
 	iPoint distansToCam = { 0,0 };
 	p2SString str_coin;
 	p2SString str_points;
+	
 
 	bool canJump = false;
 	bool debugMode = false;
@@ -49,43 +49,6 @@ public:
 		void OnCollision(Collider* collider);
 		PlayerState state = STATE_SPAWN;
 		
-		
-//protected:
-//	Animation * animation = nullptr;
-//	fPoint maxSpeed = { 0.0F,0.0F };
-//
-//	bool right = true;
-//	float dt = 0.0F;
-//	bool iceMovement = false;
-//
-//	fPoint flplayerPosSaved;
-//	fPoint distansToCam;
-//	Collider* ColliderPlayer = nullptr;
-//
-//	bool moveDown = true;
-//	bool canJump = true;
-//	bool attack = false;
-//	bool death_fx = false;
-//	bool jump_fx = false;
-//	bool debugMode = false;
-//	bool fading = false;
-//	bool loading = false;
-//
-//
-//	pugi::xml_document	player_file;
-//	pugi::xml_node player_node;
-//
-//	PlayerState PlayerState = PlayerState::STATE_SPAWN;
-//	Animation Player_State[STATE_MAX];
-//
-//	uint death_anim_fx, jump, death;
-//	SDL_Texture* ptexture = nullptr;
-//
-//	Animation LoadAnimations(p2SString name);
-//	bool CreateCol();
-//	void DebugModeInput();
-//
-//
 
 };
 

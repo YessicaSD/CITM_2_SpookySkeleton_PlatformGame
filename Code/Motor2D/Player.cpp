@@ -102,38 +102,56 @@ bool Player::PreUpdate(float dt)
 {
 	BROFILER_CATEGORY("PreUpdate_Player.cpp", Profiler::Color::Salmon)
 	this->dt = dt;
-	if (collider == nullptr || collider->to_delete==true)
-	{
-		state = STATE_DEATH;
-	}
 	if (App->input->GetKey(SDL_SCANCODE_F10) == KEY_DOWN)
 	{
 		debugMode = !debugMode;
 		collider->type = (collider->type==COLLIDER_GOD)? COLLIDER_PLAYER:COLLIDER_GOD;
 	}
-		
 
 	if (!debugMode)
 	{
-		if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN
-			&& (state == STATE_IDLE || state == STATE_WALK)
-			&& canJump)
+		if (collider == nullptr || collider->to_delete == true)
 		{
-			state = STATE_JUMP;
-			speed.y = -maxSpeed.y;
-			
-			App->audio->PlayFx(App->entity->fx_jump);
+			state = STATE_DEATH;
 		}
+		if (state != STATE_SPAWN && state != STATE_DEATH)
+		{
+			if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN
+				&& canJump)
+			{
+				state = STATE_JUMP;
+				speed.y = -maxSpeed.y;
 
+				App->audio->PlayFx(App->entity->fx_jump);
+			}
+
+			if (App->input->GetKey(SDL_SCANCODE_Q) == KEY_DOWN
+				&& (state == PlayerState::STATE_IDLE || state == PlayerState::STATE_WALK))
+			{
+				speed.x = 0.0F;
+				state = STATE_ATTACK;
+			}
+
+
+			float horizontalInput = App->input->GetHorizontal();
+			if (horizontalInput != 0.0f)
+			{
+				if (state == STATE_IDLE || state == STATE_JUMP || state == STATE_WALK)
+				{
+					right = horizontalInput > 0.0f ? true : false;
+
+					if (speed.x < maxSpeed.x && speed.x > -maxSpeed.x)
+					{
+						speed.x += horizontalInput * acceleration_x * dt;
+					}
+
+				}
+
+				if (state == STATE_IDLE)
+					state = STATE_WALK;
+			}
+		}
 		
-
-
-		if (App->input->GetKey(SDL_SCANCODE_Q) == KEY_DOWN
-			&& (state == PlayerState::STATE_IDLE || state == PlayerState::STATE_WALK))
-		{
-			speed.x = 0.0F;
-			state = STATE_ATTACK;
-		}
 
 		if (state == STATE_DEATH)
 		{
@@ -173,37 +191,8 @@ bool Player::PreUpdate(float dt)
 			
 		}
 
-		if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_IDLE && App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_IDLE)
-		{
-			
-				if ((int)speed.x != 0)
-					speed.x += (speed.x>0) ? -100 * dt : 100 * dt;
-				else
-					speed.x = 0.0F;
-
-				if (state == STATE_WALK)
-					state = STATE_IDLE;
-
-			
-			
-		}
-
-		float horizontalInput = App->input->GetHorizontal();
-		if (horizontalInput != 0.0f)
-		{
-			if (state == STATE_IDLE || state == STATE_JUMP || state == STATE_WALK)
-			{
-				right = horizontalInput > 0.0f ? true : false;
-				
-				if (speed.x < maxSpeed.x && speed.x > -maxSpeed.x)
-				{
-					speed.x += horizontalInput*acceleration_x * dt;
-				}
-
-			}
-			if (state == STATE_IDLE)
-				state = STATE_WALK;
-		}
+		
+		
 			
 	}
 	else
@@ -221,7 +210,7 @@ void Player::Move(float dt)
 	BROFILER_CATEGORY("Move_Player.cpp", Profiler::Color::Black)
 	if (!debugMode)
 	{
-		
+		LOG("Speed x: %f  --- Speed y: %f", speed.x, speed.y);
 		position.x += speed.x * dt;
 		position.y += speed.y * dt;
 		////Gravity ------------------------------------------------------------------------
@@ -260,88 +249,121 @@ void Player::Draw()
 		App->render->Blit(texture, position.x - frameAnim.w/2, position.y - frameAnim.h, &frameAnim);
 	else
 		App->render->Blit(texture, position.x - frameAnim.w / 2, position.y - frameAnim.h, &frameAnim, SDL_FLIP_HORIZONTAL);
+	SDL_Rect pos = { position.x,position.y,1,1 };
+	App->render->DrawQuad(pos, 255, 0, 0, 255);
 }
 
 void Player::OnCollision(Collider * otherColl)
 {
+	
 	BROFILER_CATEGORY("PlayerOnCollision", Profiler::Color::Red)
 	bool PlayerIsOn = (int)position.y <= otherColl->rect.y 
-		&& (int)position.x >= otherColl->rect.x
+		&& (int)position.x+collider->rect.w*0.5F >= otherColl->rect.x
 		&& (int)position.x-collider->rect.w*0.5F <= otherColl->rect.x + otherColl->rect.w;
-	bool PlayerIsOnTheLeft = position.x <= otherColl->rect.x  && position.y > otherColl->rect.y;
-	bool PlayerIsOnTheRight = position.x >= otherColl->rect.x + otherColl->rect.w  && position.y > otherColl->rect.y;
-	bool PlayerIsUnder = position.y > otherColl->rect.y + otherColl->rect.h && collider->rect.x + collider->rect.w - 5 > otherColl->rect.x && collider->rect.x + 5 < otherColl->rect.x + otherColl->rect.w;
+
+	bool PlayerIsOnTheLeft = false;
+	bool PlayerIsOnTheRight = false;
+	bool PlayerIsUnder = false;
+
+	LOG("On collition %d ", PlayerIsOn );
+
+	if (PlayerIsOn == false)
+	{
+		PlayerIsOnTheLeft = position.x <= otherColl->rect.x  && position.y > otherColl->rect.y;
+		PlayerIsOnTheRight = position.x >= otherColl->rect.x + otherColl->rect.w  && position.y > otherColl->rect.y;
+		PlayerIsUnder = position.y > otherColl->rect.y + otherColl->rect.h && collider->rect.x + collider->rect.w - 5 > otherColl->rect.x && collider->rect.x + 5 < otherColl->rect.x + otherColl->rect.w;
+	}
 	
+
 	if (otherColl->type == COLLIDER_WALL || otherColl->type == COLLIDER_SPECIAL || otherColl->type == COLLIDER_ICE)
 		canJump = true;
 
-	if (otherColl->type == COLLIDER_WALL || otherColl->type == COLLIDER_SPECIAL)
+	if (PlayerIsOn)
 	{
-		if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_UP || App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_UP)
+		if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_IDLE && App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_IDLE)
 		{
-			speed.x = 0;
-		}
-		if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
-			speed.x = maxSpeed.x;
-		if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT)
-		{
-			speed.x = -maxSpeed.x;
-		}
-		maxSpeed.x = 90;
-				
-	}
-	if (otherColl->type == COLLIDER_ICE)
-	{
-		maxSpeed.x = 90 + 90 * 0.5;
-	}
-	if (otherColl->type == COLLIDER_WALL|| otherColl->type == COLLIDER_ICE || otherColl->type == COLLIDER_SPECIAL)
-	{
-		
-
-		if (otherColl->type != COLLIDER_ICE && App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_IDLE && App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_IDLE)
-		{
-			speed.x = 0.0F;
 			if (state == STATE_WALK)
 				state = STATE_IDLE;
 		}
 
-		
-	
-		if ((PlayerIsOn && otherColl->type != COLLIDER_SPECIAL) || (speed.y >= 0 && otherColl->type == COLLIDER_SPECIAL && PlayerIsOn))
+		if (otherColl->type == COLLIDER_ICE)
 		{
+			maxSpeed.x = 90 + 90 * 0.5;
+
+			if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_IDLE && App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_IDLE)
+			{
+
+				if ((int)speed.x != 0)
+					speed.x += (speed.x>0) ? -100 * dt : 100 * dt;
+				else
+					speed.x = 0.0F;
+
+				if (state == STATE_WALK)
+					state = STATE_IDLE;
+			}
+		}
+		if (otherColl->type == COLLIDER_WALL || otherColl->type == COLLIDER_SPECIAL)
+		{
+			maxSpeed.x = 90;
+
+		}
 			
+
+		
+		if ((otherColl->type != COLLIDER_ICE)
+			&& (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_IDLE && App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_IDLE))
+				speed.x = 0.0F;
+
+		if (otherColl->type != COLLIDER_SPECIAL || (speed.y >= 0 && otherColl->type == COLLIDER_SPECIAL))
+		{
 			if (state == STATE_JUMP)
 				state = STATE_IDLE;
 
-			
 			canJump = true;
-			speed.y = (otherColl->rect.y - (int)position.y) / dt;
-
-			
-		
-		}
-		if (otherColl->type != COLLIDER_SPECIAL)
-		{
-			if (PlayerIsOnTheLeft)
-			{
-				speed.x = (int)(otherColl->rect.x - (position.x + collider->rect.w * 0.5));
-			}
-				
-
-			if (PlayerIsOnTheRight)
-			{
-					speed.x = (int)((otherColl->rect.x + otherColl->rect.w) - (position.x - collider->rect.w / 2));
-				
-			}
-				
-			
-			if (PlayerIsUnder)
-				speed.y = (otherColl->rect.y + otherColl->rect.h) - ((int)position.y - collider->rect.h);
+			if (dt != 0.0F)
+				speed.y = (otherColl->rect.y - (int)position.y) / dt;
+			else
+				speed.y = 0.0F;
 		}
 		
 	}
+	if (otherColl->type == COLLIDER_WALL || otherColl->type == COLLIDER_ICE || otherColl->type == COLLIDER_SPECIAL)
+	{
+		if (PlayerIsOnTheLeft)
+		{
+			if (dt != 0.0F)
+				speed.x = (int)(otherColl->rect.x - (position.x + collider->rect.w * 0.5)) / dt;
+			else
+				speed.x = 0.0F;
+		}
+		if (PlayerIsOnTheRight)
+		{
+			if (dt != 0.0F)
+				speed.x = (int)(otherColl->rect.x + otherColl->rect.w - (position.x - collider->rect.w * 0.5)) / dt;
+			else
+				speed.x = 0.0F;
+		}
+		
+	}
+	
 
-	if (otherColl->type==COLLIDER_ENTITY && state == STATE_ATTACK)
+	if (PlayerIsUnder)
+	{
+		if (otherColl->type == COLLIDER_WALL || otherColl->type == COLLIDER_ICE || otherColl->type == COLLIDER_SPECIAL)
+			speed.y = (otherColl->rect.y + otherColl->rect.h) - ((int)position.y - collider->rect.h);
+
+	}
+
+
+	if (otherColl->type == COLLIDER_ENEMY && state != STATE_ATTACK)
+		state = STATE_DEATH;
+
+	if (otherColl->type == COLLIDER_RESPAWN)
+	{
+		state = STATE_DEATH;
+	}
+
+	if (otherColl->type == COLLIDER_ENTITY && state == STATE_ATTACK)
 	{
 		App->scene->points += 200;
 		str_points.create("POINTS : %u", App->scene->points);
@@ -355,24 +377,12 @@ void Player::OnCollision(Collider * otherColl)
 		App->scene->points += 50;
 
 		str_coin.create("x %u", App->scene->coin_points);
-		App->scene->label_coin->ChangeTextureIdle(&str_coin,NULL, NULL);
+		App->scene->label_coin->ChangeTextureIdle(&str_coin, NULL, NULL);
 
 		str_points.create("POINTS : %u", App->scene->points);
 		App->scene->label_points->ChangeTextureIdle(&str_points, NULL, NULL);
 	}
 
-	if (otherColl->type == COLLIDER_ENEMY && state != STATE_ATTACK)
-		state = STATE_DEATH;
-
-
-
-	if (otherColl->type == COLLIDER_RESPAWN)
-	{
-		state = STATE_DEATH;
-		//App->fade->FadeToBlack(App->scene->num_thismaplvl);
-	}
-
-	
 
 }
 

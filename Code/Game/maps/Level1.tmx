@@ -9194,14 +9194,12 @@
   <object id="142" name="DEATH" x="2176" y="329" width="31.75" height="23"/>
   <object id="143" name="DEATH" x="2560.18" y="233.455" width="31.4545" height="21.8182"/>
   <object id="144" name="DEATH" x="2911.82" y="296.545" width="31.8182" height="23.0909"/>
-  <object id="146" name="RESTART" x="3.79696e-14" y="444" width="4802.67" height="113.333"/>
   <object id="148" name="ICE" x="3008.25" y="255.75" width="31" height="32.75"/>
   <object id="149" name="ICE" x="3552.67" y="416.333" width="30.3333" height="29.6667"/>
   <object id="150" name="ICE" x="3328.67" y="128.667" width="30.3333" height="31"/>
   <object id="151" x="88" y="384"/>
   <object id="152" name="WALL" x="-104" y="0" width="104" height="560"/>
-  <object id="154" name="WALL" x="223" y="448" width="289" height="31"/>
-  <object id="162" name="DEATH" x="225.75" y="423" width="288.5" height="24"/>
+  <object id="154" name="WALL" x="216" y="448" width="304" height="31"/>
  </objectgroup>
  <layer id="6" name="Navigation" width="150" height="15" visible="0">
   <properties>

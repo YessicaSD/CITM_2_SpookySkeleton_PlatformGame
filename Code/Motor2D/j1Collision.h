@@ -87,7 +87,7 @@ public:
 		active = true;
 	}
 
-	 bool debug = false;
+	 bool debug = true;
 
 	// Called each loop iteration
 	 bool PreUpdate(float dt) override;
