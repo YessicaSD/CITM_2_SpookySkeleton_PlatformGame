@@ -81,7 +81,7 @@ Player::Player(fPoint position, Animation* anim, SDL_Texture* tex, entities_type
 	
 	
 	death_fx = true;
-	jump_fx = true;
+	
 	get_hurt = true;
 	maxSpeed = { nodePlayer.attribute("Speed_x").as_float(), nodePlayer.attribute("Speed_y").as_float() };
 
@@ -132,6 +132,7 @@ bool Player::PreUpdate(float dt)
 				state = STATE_ATTACK;
 			}
 
+			Collider* ColliderDown = App->collision->NearestCollDown(collider,speed.y*dt);
 
 			float horizontalInput = App->input->GetHorizontal();
 			if (horizontalInput != 0.0f)
@@ -139,8 +140,13 @@ bool Player::PreUpdate(float dt)
 				if (state == STATE_IDLE || state == STATE_JUMP || state == STATE_WALK)
 				{
 					right = horizontalInput > 0.0f ? true : false;
-
-					if (speed.x < maxSpeed.x && speed.x > -maxSpeed.x)
+					if ((ColliderDown != nullptr && (ColliderDown->type == COLLIDER_WALL || ColliderDown->type == COLLIDER_SPECIAL)) || ColliderDown==nullptr)
+					{
+						
+						speed.x = horizontalInput > 0 ? maxSpeed.x : -maxSpeed.x;
+					
+					}
+					else if (speed.x < maxSpeed.x && speed.x > -maxSpeed.x)
 					{
 						speed.x += horizontalInput * acceleration_x * dt;
 					}
