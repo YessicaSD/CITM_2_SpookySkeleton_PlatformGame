@@ -240,6 +240,75 @@ bool Collider::CheckCollision(const SDL_Rect& r) const
 		this->rect.y < r.y + r.h);
 }
 
+//With this funtion we want to find the nearest collider to a send Collider (Coll).
+//We are going to consider only the colliders in the horizonal axis that are in front of Coll
+// There is a max distance 
+Collider * j1Collision::NearestCollToRight(Collider * Coll, uint distance)
+{
+	Collider* ret = nullptr;
+	for (uint i = 0; i < MAX_COLLIDERS; i++)
+	{
+		if (colliders[i] == nullptr || colliders[i] == Coll)
+			continue;
+
+		if ( (colliders[i]->rect.x >= Coll->rect.x + Coll->rect.w &&  colliders[i]->rect.x <= Coll->rect.x+ Coll->rect.w+ distance)
+			&& ( (Coll->rect.y >= colliders[i]->rect.y && Coll->rect.y < colliders[i]->rect.y + colliders[i]->rect.h) || (Coll->rect.y+Coll->rect.h > colliders[i]->rect.y && Coll->rect.y + Coll->rect.h < colliders[i]->rect.y+colliders[i]->rect.h)))
+		{
+			if (ret == nullptr)
+				ret = colliders[i];
+
+			else if (colliders[i]->rect.x < ret->rect.x)
+					ret = colliders[i];
+				
+		}
+	}
+	return ret;
+}
+
+Collider * j1Collision::NearestCollToLeft(Collider * Coll, uint distance)
+{
+	Collider* ret = nullptr;
+	for (uint i = 0; i < MAX_COLLIDERS; i++)
+	{
+		if (colliders[i] == nullptr || colliders[i] == Coll)
+			continue;
+
+		if ((colliders[i]->rect.x+ colliders[i]->rect.w <= Coll->rect.x &&  colliders[i]->rect.x + colliders[i]->rect.w >= Coll->rect.x- distance)
+			&& ((Coll->rect.y >= colliders[i]->rect.y && Coll->rect.y <= colliders[i]->rect.y + colliders[i]->rect.h) || (Coll->rect.y + Coll->rect.h > colliders[i]->rect.y && Coll->rect.y + Coll->rect.h < colliders[i]->rect.y + colliders[i]->rect.h)))
+		{
+			if (ret == nullptr)
+				ret = colliders[i];
+
+			else if (colliders[i]->rect.x < ret->rect.x)
+				ret = colliders[i];
+
+		}
+	}
+	return ret;
+}
+
+Collider* j1Collision::NearestCollDown(Collider* Coll, uint distance)
+{
+	Collider* ret = nullptr;
+	for (uint i = 0; i < MAX_COLLIDERS; i++)
+	{
+		if (colliders[i] == nullptr || colliders[i] == Coll)
+			continue;
+
+		if ((colliders[i]->rect.y >= Coll->rect.y + Coll->rect.h &&  colliders[i]->rect.y <= Coll->rect.y + Coll->rect.h + distance)
+			&& (Coll->rect.x+Coll->rect.w > colliders[i]->rect.x && Coll->rect.x < colliders[i]->rect.x + colliders[i]->rect.w ))
+		{
+			if (ret == nullptr)
+				ret = colliders[i];
+
+			else if (colliders[i]->rect.y < ret->rect.y)
+				ret = colliders[i];
+
+		}
+	}
+	return ret;
+}
+
 void j1Collision::CheckCollision(Collider * thisColl)
 {
 	BROFILER_CATEGORY("Funtion CheckCollision between a sended one and the list of colliders", Profiler::Color::Salmon)

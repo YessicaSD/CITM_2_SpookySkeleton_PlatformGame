@@ -65,15 +65,17 @@ struct Collider
 
 class j1Collision : public j1Module 
 {
-
-	
-
 private:
 	int getFilledColNum();
 	Collider* colliders[MAX_COLLIDERS] = { nullptr };
 	bool matrix[COLLIDER_MAX][COLLIDER_MAX];
 
 public:
+	Collider* NearestCollToRight(Collider* Coll, uint distance);
+	Collider* NearestCollToLeft(Collider* Coll, uint distance);
+
+	Collider * NearestCollDown(Collider * Coll, uint distance);
+
 	void CheckCollision(Collider * thisColl);
 
 	j1Collision();
