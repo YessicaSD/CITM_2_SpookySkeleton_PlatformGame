@@ -133,24 +133,30 @@ bool Player::PreUpdate(float dt)
 			}
 
 			Collider* ColliderDown = App->collision->NearestCollDown(collider,speed.y*dt);
-
 			float horizontalInput = App->input->GetHorizontal();
+
 			if (horizontalInput != 0.0f)
 			{
 				if (state == STATE_IDLE || state == STATE_JUMP || state == STATE_WALK)
 				{
 					right = horizontalInput > 0.0f ? true : false;
-					if ((ColliderDown != nullptr && (ColliderDown->type == COLLIDER_WALL || ColliderDown->type == COLLIDER_SPECIAL)) || ColliderDown==nullptr)
+					if ((ColliderDown != nullptr && (ColliderDown->type == COLLIDER_WALL || ColliderDown->type == COLLIDER_SPECIAL)))
 					{
 						
 						speed.x = horizontalInput > 0 ? maxSpeed.x : -maxSpeed.x;
 					
 					}
+					else if (ColliderDown == nullptr && (speed.x < maxSpeed.x && speed.x > -maxSpeed.x))
+					{
+						speed.x += horizontalInput * 200 * dt;
+					}
+
 					else if (speed.x < maxSpeed.x && speed.x > -maxSpeed.x)
 					{
 						speed.x += horizontalInput * acceleration_x * dt;
 					}
 
+					
 				}
 
 				if (state == STATE_IDLE)
@@ -261,7 +267,8 @@ void Player::Draw()
 
 void Player::OnCollision(Collider * otherColl)
 {
-	
+	falling = true;
+
 	BROFILER_CATEGORY("PlayerOnCollision", Profiler::Color::Red)
 	bool PlayerIsOn = (int)position.y <= otherColl->rect.y 
 		&& (int)position.x+collider->rect.w*0.5F >= otherColl->rect.x
@@ -275,6 +282,7 @@ void Player::OnCollision(Collider * otherColl)
 
 	if (PlayerIsOn == false)
 	{
+		falling = false;
 		PlayerIsOnTheLeft = position.x <= otherColl->rect.x  && position.y > otherColl->rect.y;
 		PlayerIsOnTheRight = position.x >= otherColl->rect.x + otherColl->rect.w  && position.y > otherColl->rect.y;
 		PlayerIsUnder = position.y > otherColl->rect.y + otherColl->rect.h && collider->rect.x + collider->rect.w - 5 > otherColl->rect.x && collider->rect.x + 5 < otherColl->rect.x + otherColl->rect.w;
