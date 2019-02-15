@@ -267,7 +267,7 @@ void Player::Draw()
 
 void Player::OnCollision(Collider * otherColl)
 {
-	falling = true;
+	
 
 	BROFILER_CATEGORY("PlayerOnCollision", Profiler::Color::Red)
 	bool PlayerIsOn = (int)position.y <= otherColl->rect.y 
@@ -282,7 +282,7 @@ void Player::OnCollision(Collider * otherColl)
 
 	if (PlayerIsOn == false)
 	{
-		falling = false;
+		
 		PlayerIsOnTheLeft = position.x <= otherColl->rect.x  && position.y > otherColl->rect.y;
 		PlayerIsOnTheRight = position.x >= otherColl->rect.x + otherColl->rect.w  && position.y > otherColl->rect.y;
 		PlayerIsUnder = position.y > otherColl->rect.y + otherColl->rect.h && collider->rect.x + collider->rect.w - 5 > otherColl->rect.x && collider->rect.x + 5 < otherColl->rect.x + otherColl->rect.w;
