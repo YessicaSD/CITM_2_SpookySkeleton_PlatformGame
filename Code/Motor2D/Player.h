@@ -34,10 +34,7 @@ private:
 	bool canJump = false;
 
 	bool debugMode = false;
-
 	bool right = true;
-	
-	bool death_fx = false;
 	bool get_hurt = false;
 	
 	uint acceleration_x=100;

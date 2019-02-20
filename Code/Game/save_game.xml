@@ -12,12 +12,12 @@
 	<scene>
 		<level>
 			<entities>
-				<player x="1045" y="224" />
-				<bat x="1025" y="178" />
+				<player x="60" y="384" />
+				<bat x="1088" y="64" />
 				<bat x="2300" y="200" />
 				<bat x="3424" y="96" />
 				<bat x="3968" y="352" />
-				<zombie x="637" y="352" />
+				<zombie x="720" y="288" />
 				<zombie x="1888" y="224" />
 				<zombie x="2976" y="320" />
 				<zombie x="3840" y="96" />
@@ -40,6 +40,6 @@
 	<gui />
 	<fade />
 	<renderer>
-		<camera x="1970" y="3" />
+		<camera x="0" y="134" />
 	</renderer>
 </game_state>

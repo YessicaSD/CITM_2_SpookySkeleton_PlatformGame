@@ -71,8 +71,7 @@ class j1PathFinding : public j1Module
 public:
 	bool debug = true;
 private:
-	p2DynArray<iPoint> debugPath;
-	bool createdDebugPath = false;
+	 p2DynArray<iPoint> debugPath;
 public:
 	SDL_Texture* debug_tex = nullptr;
 	j1PathFinding();

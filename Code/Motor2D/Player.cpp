@@ -60,7 +60,7 @@ Player::Player(fPoint position, Animation* anim, SDL_Texture* tex, entities_type
 	rectMesure = {nodeCol.attribute("w").as_int(), nodeCol.attribute("h").as_int() };
 
 	SDL_Rect playerRect = { (position.x - rectMesure.x / 2), (position.y - rectMesure.y), rectMesure.x, rectMesure.y };
-	collider = App->collision->AddCollider(playerRect, COLLIDER_GOD, App->entity);
+	collider = App->collision->AddCollider(playerRect, COLLIDER_PLAYER, App->entity);
 
 	if (App->scene->num_thismaplvl == 1)
 	{
@@ -78,9 +78,6 @@ Player::Player(fPoint position, Animation* anim, SDL_Texture* tex, entities_type
 		LOG("DISTANCE TO CAM EN Y ES %i", distansToCam.y);
 	}
 
-	
-	
-	death_fx = true;
 	
 	get_hurt = true;
 	maxSpeed = { nodePlayer.attribute("Speed_x").as_float(), nodePlayer.attribute("Speed_y").as_float() };
@@ -102,6 +99,8 @@ bool Player::PreUpdate(float dt)
 {
 	BROFILER_CATEGORY("PreUpdate_Player.cpp", Profiler::Color::Salmon)
 	this->dt = dt;
+
+	static bool death_fx = true;
 	if (App->input->GetKey(SDL_SCANCODE_F10) == KEY_DOWN)
 	{
 		debugMode = !debugMode;

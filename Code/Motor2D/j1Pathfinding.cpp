@@ -40,6 +40,8 @@ bool j1PathFinding::PostUpdate()
 		// debug pathfing ------------------
 		static iPoint origin;
 		static bool origin_selected = false;
+		static bool createdDebugPath = false;
+	
 
 		iPoint mousePos;
 		App->input->GetMousePosition(mousePos);
