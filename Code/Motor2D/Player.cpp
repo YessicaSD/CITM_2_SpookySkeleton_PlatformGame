@@ -145,9 +145,17 @@ bool Player::PreUpdate(float dt)
 						speed.x = horizontalInput > 0 ? maxSpeed.x : -maxSpeed.x;
 					
 					}
-					else if (ColliderDown == nullptr && (speed.x < maxSpeed.x && speed.x > -maxSpeed.x))
+					else if (ColliderDown == nullptr && speed.x !=0.0F)
 					{
-						speed.x += horizontalInput * 200 * dt;
+						if (speed.x > 0.0F && horizontalInput < 0)
+						{
+							speed.x += horizontalInput * 200 * dt;
+						}
+						if (speed.x < 0.0F && horizontalInput > 0)
+						{
+							speed.x += horizontalInput * 200 * dt;
+						}
+						
 					}
 
 					else if (speed.x < maxSpeed.x && speed.x > -maxSpeed.x)
