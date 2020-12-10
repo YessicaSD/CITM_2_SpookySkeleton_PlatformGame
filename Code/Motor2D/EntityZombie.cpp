@@ -30,6 +30,9 @@ EntityZombie::EntityZombie(fPoint pos, Animation* anim, SDL_Texture* tex, entiti
 			animation[i].PushBack(anim[i].ReturnFrame(j));
 		}
 	}
+	animation[(uint)State_zomby::STATE_DEATH].loop = false;
+	animation[(uint)State_zomby::STATE_ATTACK].loop = false;
+
 	pugi::xml_node nodeZombie = App->entity->entitiesNodeDoc.child("zombie");
 	pugi::xml_node nodeCol = nodeZombie.child("collider");
 

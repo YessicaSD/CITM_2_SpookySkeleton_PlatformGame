@@ -19,6 +19,10 @@ j1Entity::~j1Entity()
 {
 	if (collider != nullptr)
 		collider->to_delete = true;
+
+	if (groundCollider != nullptr)
+		groundCollider->to_delete = true;
+
 	if (texture != nullptr)
 		texture = nullptr;
 }

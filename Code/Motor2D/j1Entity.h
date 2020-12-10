@@ -29,8 +29,10 @@ protected:
 public:
 	bool toDelete = false;
 	fPoint position = {0.0F,0.0F};
+	fPoint lastPos = { 0.0F,0.0F };
 	fPoint speed = { 0.0F,0.0F };
 	Collider* collider = nullptr;
+	Collider* groundCollider = nullptr;
 	entities_types type = UNKNOW;
 	bool death = false;
 public:
@@ -42,7 +44,7 @@ public:
 	virtual void Move(float dt) {};
 	virtual void Draw() {};
 	virtual void OnCollision(Collider* collider) {};
-	
+	virtual void OnCollisionGround(Collider* collider) {};
 };
 
 #endif // __j1ENTITY_H__

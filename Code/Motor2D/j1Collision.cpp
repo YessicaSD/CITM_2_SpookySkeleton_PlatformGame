@@ -24,11 +24,13 @@ j1Collision::j1Collision()
 
 	//Collider wall-----------------------------------------------------
 	matrix[COLLIDER_WALL][COLLIDER_PLAYER] = true;
+	matrix[COLLIDER_WALL][COLLIDER_GROUND_PLAYER] = true;
 	matrix[COLLIDER_WALL][COLLIDER_GOD] = true;
 	matrix[COLLIDER_WALL][COLLIDER_ENTITY] = true;
-
+	
 	//Collider special-------------------------------------------------
 	matrix[COLLIDER_SPECIAL][COLLIDER_PLAYER] = true;
+	matrix[COLLIDER_SPECIAL][COLLIDER_GROUND_PLAYER] = true;
 	matrix[COLLIDER_SPECIAL][COLLIDER_GOD] = true;
 	matrix[COLLIDER_SPECIAL][COLLIDER_ENTITY] = true;
 
@@ -40,23 +42,25 @@ j1Collision::j1Collision()
 	matrix[COLLIDER_PLAYER][COLLIDER_ICE] = true;
 	matrix[COLLIDER_PLAYER][COLLIDER_ENTITY] = true;
 	matrix[COLLIDER_PLAYER][COLLIDER_COIN] = true;
-	
+	// Collider Ground player---------------------------------------------
+	matrix[COLLIDER_GROUND_PLAYER][COLLIDER_WALL] = true;
+	matrix[COLLIDER_GROUND_PLAYER][COLLIDER_SPECIAL] = true;
+	matrix[COLLIDER_GROUND_PLAYER][COLLIDER_ICE] = true;
+
+
 	//Collider enemy -----------------------------------------------------
 	matrix[COLLIDER_ENEMY][COLLIDER_PLAYER] = true;
 
 	//Collider coin
 	matrix[COLLIDER_COIN][COLLIDER_PLAYER] = true;
 
-	//Collider God--------------------------------------------------------
-	matrix[COLLIDER_GOD][COLLIDER_WALL] = true;
-	matrix[COLLIDER_GOD][COLLIDER_SPECIAL] = true;
-	matrix[COLLIDER_GOD][COLLIDER_ICE] = true;
 	//Collider respawn ---------------------------------------------------
 	matrix[COLLIDER_RESPAWN][COLLIDER_PLAYER] = true;
 	matrix[COLLIDER_RESPAWN][COLLIDER_ENTITY] = true;
 
 	//Collider ice -------------------------------------------------------
 	matrix[COLLIDER_ICE][COLLIDER_PLAYER] = true;
+	matrix[COLLIDER_ICE][COLLIDER_GROUND_PLAYER] = true;
 	matrix[COLLIDER_ICE][COLLIDER_ENTITY] = true;
 	//Collider entity ----------------------------------------------------
 	matrix[COLLIDER_ENTITY][COLLIDER_ICE] = true;
@@ -64,10 +68,6 @@ j1Collision::j1Collision()
 	matrix[COLLIDER_ENTITY][COLLIDER_RESPAWN] = true;
 	matrix[COLLIDER_ENTITY][COLLIDER_SPECIAL] = true;
 	matrix[COLLIDER_ENTITY][COLLIDER_PLAYER] = true;
-
-}
-j1Collision::~j1Collision()
-{
 
 }
 bool j1Collision:: PreUpdate(float dt)
@@ -149,6 +149,9 @@ bool j1Collision::PostUpdate()
 		case COLLIDER_PLAYER: // green
 			App->render->DrawQuad(colliders[i]->rect, 0, 255, 0, alpha);
 			break;
+		case COLLIDER_GROUND_PLAYER: //white
+			App->render->DrawQuad(colliders[i]->rect, 255, 255, 255, alpha);
+			break;
 		case COLLIDER_ENEMY: // red
 			App->render->DrawQuad(colliders[i]->rect, 255, 0, 0, alpha);
 			break;
@@ -171,6 +174,7 @@ bool j1Collision::PostUpdate()
 		case COLLIDER_COIN:
 			App->render->DrawQuad(colliders[i]->rect, 0, 125, 125, alpha);
 			break;
+
 
 
 		}

@@ -13,6 +13,7 @@ enum COLLIDER_TYPE
 	COLLIDER_IGNORE_HIT = 0u,//A collider that doesn't generate any collision
 	COLLIDER_WALL,
 	COLLIDER_PLAYER,
+	COLLIDER_GROUND_PLAYER,
 	COLLIDER_ENEMY,
 	COLLIDER_GOD,
 	COLLIDER_RESPAWN,
@@ -79,7 +80,6 @@ public:
 	void CheckCollision(Collider * thisColl);
 
 	j1Collision();
-	~j1Collision();
 
 	Collider* AddCollider(SDL_Rect rect, COLLIDER_TYPE type, j1Module* callback);
 	
@@ -89,7 +89,7 @@ public:
 		active = true;
 	}
 
-	 bool debug = true;
+	 bool debug = false;
 
 	// Called each loop iteration
 	 bool PreUpdate(float dt) override;

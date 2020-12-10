@@ -12,6 +12,7 @@
 #include "UiItem_Label.h"
 #include "j1Pathfinding.h"
 #include "Brofiler/Brofiler.h"
+#include <cmath>
 
 void Player::DebugModeInput()
 {
@@ -37,8 +38,22 @@ void Player::DebugModeInput()
 	}
 }
 
+void Player::HandleGroundCollider(Collider* col)
+{
+	LOG("HANDLE GROUND COLLITION");
+}
+
+void Player::HandleBodyCollider(Collider* col)
+{
+}
+
 Player::Player(fPoint position, Animation* anim, SDL_Texture* tex, entities_types type):j1Entity(position,tex, type)
 {
+	maxHeight = 70.F; 
+	jumpDuration = 0.35F;
+	jumpInitialVelocity = -((2 * maxHeight) / jumpDuration);
+	gravity = -(-(2 * maxHeight) / (jumpDuration * jumpDuration));
+
 	BROFILER_CATEGORY("PlayerContructor", Profiler::Color::Red)
 	for (uint i = 0; i < STATE_MAX; ++i)
 	{
@@ -62,6 +77,9 @@ Player::Player(fPoint position, Animation* anim, SDL_Texture* tex, entities_type
 	SDL_Rect playerRect = { (position.x - rectMesure.x / 2), (position.y - rectMesure.y), rectMesure.x, rectMesure.y };
 	collider = App->collision->AddCollider(playerRect, COLLIDER_PLAYER, App->entity);
 
+	SDL_Rect groundRect = { (position.x - rectMesure.x / 2), (position.y - groundHeight * 0.5 ), rectMesure.x, groundHeight};
+	groundCollider = App->collision->AddCollider(groundRect, COLLIDER_GROUND_PLAYER, App->entity);
+
 	if (App->scene->num_thismaplvl == 1)
 	{
 		distansToCam = { (int)App->map->level.properties.GetAsFloat("Distant_to_cam_x"),(int)App->map->level.properties.GetAsFloat("Distant_to_cam_y") };
@@ -78,10 +96,11 @@ Player::Player(fPoint position, Animation* anim, SDL_Texture* tex, entities_type
 		LOG("DISTANCE TO CAM EN Y ES %i", distansToCam.y);
 	}
 
-	
+	lastPos = position;
 	get_hurt = true;
 	maxSpeed = { nodePlayer.attribute("Speed_x").as_float(), nodePlayer.attribute("Speed_y").as_float() };
-
+	iceSpeed = maxSpeed.x + maxSpeed.x * 0.75;
+	maxSpeed.x = 120;
 	App->scene->coin_points = 0;
 	str_coin.create("x %u", App->scene->coin_points);
 	App->scene->label_coin->ChangeTextureIdle(&str_coin, NULL, NULL);
@@ -90,23 +109,19 @@ Player::Player(fPoint position, Animation* anim, SDL_Texture* tex, entities_type
 	str_points.create("POINTS : %u", App->scene->points);
 	App->scene->label_points->ChangeTextureIdle(&str_points, NULL, NULL);
 }
-
-Player::~Player()
-{
-}
-
 bool Player::PreUpdate(float dt)
 {
 	BROFILER_CATEGORY("PreUpdate_Player.cpp", Profiler::Color::Salmon)
 	this->dt = dt;
 
 	static bool death_fx = true;
+
 	if (App->input->GetKey(SDL_SCANCODE_F10) == KEY_DOWN)
 	{
 		debugMode = !debugMode;
 		collider->type = (collider->type==COLLIDER_GOD)? COLLIDER_PLAYER:COLLIDER_GOD;
 	}
-
+	
 	if (!debugMode)
 	{
 		if (collider == nullptr || collider->to_delete == true)
@@ -115,13 +130,16 @@ bool Player::PreUpdate(float dt)
 		}
 		if (state != STATE_SPAWN && state != STATE_DEATH)
 		{
-			if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN
-				&& canJump)
+			if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN )
 			{
-				state = STATE_JUMP;
-				speed.y = -maxSpeed.y;
+				if (isGrounded)
+				{
+					state = STATE_JUMP;
+					speed.y = jumpInitialVelocity;
 
-				App->audio->PlayFx(App->entity->fx_jump);
+					App->audio->PlayFx(App->entity->fx_jump);
+				}
+				
 			}
 
 			if (App->input->GetKey(SDL_SCANCODE_Q) == KEY_DOWN
@@ -130,45 +148,48 @@ bool Player::PreUpdate(float dt)
 				speed.x = 0.0F;
 				state = STATE_ATTACK;
 			}
-
-			Collider* ColliderDown = App->collision->NearestCollDown(collider,speed.y*dt);
+			
 			float horizontalInput = App->input->GetHorizontal();
-
-			if (horizontalInput != 0.0f)
+			if (horizontalInput < 0)
 			{
-				if (state == STATE_IDLE || state == STATE_JUMP || state == STATE_WALK)
+				right = false;
+			}
+			else if(horizontalInput > 0)
+			{
+				right = true;
+			}
+			if (isGrounded)
+			{
+				
+				if (horizontalInput != 0.0f)
 				{
-					right = horizontalInput > 0.0f ? true : false;
-					if ((ColliderDown != nullptr && (ColliderDown->type == COLLIDER_WALL || ColliderDown->type == COLLIDER_SPECIAL)))
-					{
-						
-						speed.x = horizontalInput > 0 ? maxSpeed.x : -maxSpeed.x;
-					
-					}
-					else if (ColliderDown == nullptr && speed.x !=0.0F)
-					{
-						if (speed.x > 0.0F && horizontalInput < 0)
-						{
-							speed.x += horizontalInput * 200 * dt;
-						}
-						if (speed.x < 0.0F && horizontalInput > 0)
-						{
-							speed.x += horizontalInput * 200 * dt;
-						}
-						
-					}
-
-					else if (speed.x < maxSpeed.x && speed.x > -maxSpeed.x)
-					{
-						speed.x += horizontalInput * acceleration_x * dt;
-					}
-
-					
+					if (state == STATE_IDLE)
+						state = STATE_WALK;
+				}
+				else
+				{
+					state = STATE_IDLE;
 				}
 
-				if (state == STATE_IDLE)
-					state = STATE_WALK;
+				if (onIce)
+				{
+					speed.x += 10 * horizontalInput;
+					if (std::abs(speed.x) > iceSpeed)
+					{
+						speed.x = iceSpeed * horizontalInput;
+					}
+				}
+				else
+				{
+					speed.x = horizontalInput * maxSpeed.x;
+				}
+
 			}
+			else
+			{
+				speed.x += horizontalInput * 3.5;
+			}
+			
 		}
 		
 
@@ -210,42 +231,42 @@ bool Player::PreUpdate(float dt)
 			
 		}
 
-		
-		
-			
 	}
 	else
 	{
 		DebugModeInput();
 	}
-
-	collider->SetPos((position.x + speed.x * dt) - collider->rect.w*0.5F, (position.y + speed.y * dt) - collider->rect.h);
-	canJump = false;
+	fPoint temporalPosition((position.x + speed.x * dt), (position.y + (speed.y * dt) + (0.5F * gravity * dt * dt)));
+	collider->SetPos(temporalPosition.x - collider->rect.w*0.5F, temporalPosition.y - collider->rect.h);
+	groundCollider ->SetPos(temporalPosition.x - collider->rect.w * 0.5F, temporalPosition.y - groundHeight * 0.5);
+	isGrounded = false;
+	onIce = false;
 	return true;
 }
 
 void Player::Move(float dt)
 {
 	BROFILER_CATEGORY("Move_Player.cpp", Profiler::Color::Black)
+	lastPos = position;
 	if (!debugMode)
 	{
 		LOG("Speed x: %f  --- Speed y: %f", speed.x, speed.y);
 		position.x += speed.x * dt;
-		position.y += speed.y * dt;
+		position.y += (speed.y * dt) + (0.5F * gravity * dt * dt);
 		////Gravity ------------------------------------------------------------------------
-			speed.y += App->map->level.gravity * dt;
-
-		//Camera----------------------------------------------------------------------------------
-		if ((position.x + distansToCam.x)* App->win->GetScale() > 0 && (App->map->level.tile_width*App->map->level.width) * App->win->GetScale() > (((position.x + distansToCam.x)* App->win->GetScale()) + App->render->camera.w))
-			App->render->camera.x = ((position.x + distansToCam.x)* App->win->GetScale());
-
-		if ((position.y + distansToCam.y) <= ((App->map->level.height * App->map->level.tile_height)*App->win->GetScale() - App->render->camera.h) && (position.y + distansToCam.y) > 0)
-			App->render->camera.y = (position.y + distansToCam.y);
-
+		speed.y += (gravity * dt);
+		
 	}
 
+	//Camera----------------------------------------------------------------------------------
+	if ((position.x + distansToCam.x) * App->win->GetScale() > 0 && (App->map->level.tile_width * App->map->level.width) * App->win->GetScale() > (((position.x + distansToCam.x) * App->win->GetScale()) + App->render->camera.w))
+		App->render->camera.x = ((position.x + distansToCam.x) * App->win->GetScale());
+
+	if ((position.y + distansToCam.y) <= ((App->map->level.height * App->map->level.tile_height) * App->win->GetScale() - App->render->camera.h) && (position.y + distansToCam.y) > 0)
+		App->render->camera.y = (position.y + distansToCam.y);
+
 	collider->SetPos(position.x - collider->rect.w * 0.5f, position.y - collider->rect.h);
-	
+	groundCollider->SetPos(position.x - collider->rect.w * 0.5F, position.y - groundHeight * 0.5);
 }
 
 void Player::Draw()
@@ -268,16 +289,14 @@ void Player::Draw()
 		App->render->Blit(texture, position.x - frameAnim.w/2, position.y - frameAnim.h, &frameAnim);
 	else
 		App->render->Blit(texture, position.x - frameAnim.w / 2, position.y - frameAnim.h, &frameAnim, SDL_FLIP_HORIZONTAL);
-	SDL_Rect pos = { position.x,position.y,1,1 };
-	App->render->DrawQuad(pos, 255, 0, 0, 255);
+	//SDL_Rect pos = { position.x,position.y,1,1 };
+	//App->render->DrawQuad(pos, 255, 0, 0, 255);
 }
 
 void Player::OnCollision(Collider * otherColl)
 {
-	
-
 	BROFILER_CATEGORY("PlayerOnCollision", Profiler::Color::Red)
-	bool PlayerIsOn = (int)position.y <= otherColl->rect.y 
+	bool PlayerIsOn = lastPos.y - 1  <= otherColl->rect.y || position.y <= otherColl->rect.y
 		&& (int)position.x+collider->rect.w*0.5F >= otherColl->rect.x
 		&& (int)position.x-collider->rect.w*0.5F <= otherColl->rect.x + otherColl->rect.w;
 
@@ -285,70 +304,14 @@ void Player::OnCollision(Collider * otherColl)
 	bool PlayerIsOnTheRight = false;
 	bool PlayerIsUnder = false;
 
-	LOG("On collition %d ", PlayerIsOn );
-
 	if (PlayerIsOn == false)
 	{
-		
 		PlayerIsOnTheLeft = position.x <= otherColl->rect.x  && position.y > otherColl->rect.y;
 		PlayerIsOnTheRight = position.x >= otherColl->rect.x + otherColl->rect.w  && position.y > otherColl->rect.y;
 		PlayerIsUnder = position.y > otherColl->rect.y + otherColl->rect.h && collider->rect.x + collider->rect.w - 5 > otherColl->rect.x && collider->rect.x + 5 < otherColl->rect.x + otherColl->rect.w;
 	}
 	
-
-	if (otherColl->type == COLLIDER_WALL || otherColl->type == COLLIDER_SPECIAL || otherColl->type == COLLIDER_ICE)
-		canJump = true;
-
-	if (PlayerIsOn)
-	{
-		if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_IDLE && App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_IDLE)
-		{
-			if (state == STATE_WALK)
-				state = STATE_IDLE;
-		}
-
-		if (otherColl->type == COLLIDER_ICE)
-		{
-			maxSpeed.x = 90 + 90 * 0.5;
-
-			if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_IDLE && App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_IDLE)
-			{
-
-				if ((int)speed.x != 0)
-					speed.x += (speed.x>0) ? -100 * dt : 100 * dt;
-				else
-					speed.x = 0.0F;
-
-				if (state == STATE_WALK)
-					state = STATE_IDLE;
-			}
-		}
-		if (otherColl->type == COLLIDER_WALL || otherColl->type == COLLIDER_SPECIAL)
-		{
-			maxSpeed.x = 90;
-
-		}
-			
-
-		
-		if ((otherColl->type != COLLIDER_ICE)
-			&& (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_IDLE && App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_IDLE))
-				speed.x = 0.0F;
-
-		if (otherColl->type != COLLIDER_SPECIAL || (speed.y >= 0 && otherColl->type == COLLIDER_SPECIAL))
-		{
-			if (state == STATE_JUMP)
-				state = STATE_IDLE;
-
-			canJump = true;
-			if (dt != 0.0F)
-				speed.y = (otherColl->rect.y - (int)position.y) / dt;
-			else
-				speed.y = 0.0F;
-		}
-		
-	}
-	if (otherColl->type == COLLIDER_WALL || otherColl->type == COLLIDER_ICE || otherColl->type == COLLIDER_SPECIAL)
+	if (otherColl->type == COLLIDER_WALL || otherColl->type == COLLIDER_ICE)
 	{
 		if (PlayerIsOnTheLeft)
 		{
@@ -370,19 +333,14 @@ void Player::OnCollision(Collider * otherColl)
 
 	if (PlayerIsUnder)
 	{
-		if (otherColl->type == COLLIDER_WALL || otherColl->type == COLLIDER_ICE || otherColl->type == COLLIDER_SPECIAL)
+		if (otherColl->type == COLLIDER_WALL || otherColl->type == COLLIDER_ICE)
 			speed.y = (otherColl->rect.y + otherColl->rect.h) - ((int)position.y - collider->rect.h);
 
 	}
 
 
-	if (otherColl->type == COLLIDER_ENEMY && state != STATE_ATTACK)
+	if ((otherColl->type == COLLIDER_ENEMY && state != STATE_ATTACK) || otherColl->type == COLLIDER_RESPAWN)
 		state = STATE_DEATH;
-
-	if (otherColl->type == COLLIDER_RESPAWN)
-	{
-		state = STATE_DEATH;
-	}
 
 	if (otherColl->type == COLLIDER_ENTITY && state == STATE_ATTACK)
 	{
@@ -405,5 +363,20 @@ void Player::OnCollision(Collider * otherColl)
 	}
 
 
+}
+
+void Player::OnCollisionGround(Collider* otherColl)
+{
+	if (groundCollider->rect.y <= otherColl->rect.y || lastPos.y <= otherColl->rect.y)
+	{
+		isGrounded = true;
+		speed.y = 0;
+		position.y = otherColl->rect.y;
+		if (state == STATE_JUMP)
+			state = STATE_IDLE;
+	}
+	
+	if (otherColl->type == COLLIDER_ICE)
+		onIce = true;
 }
 

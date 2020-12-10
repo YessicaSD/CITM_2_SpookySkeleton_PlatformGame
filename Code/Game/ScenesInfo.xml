@@ -27,10 +27,8 @@
   <level name="level2">
     <entities>
         <player x="60" y="384"/>
-        <bat x="704" y="384"/>
         <bat x="1728" y="160"/>
         <bat x="2496" y="320"/>
-        <zombie x="160" y="448"/>
         <zombie x="820" y="224"/>
         <zombie x="1472" y="448"/>
         <coin x="576" y="416"/>

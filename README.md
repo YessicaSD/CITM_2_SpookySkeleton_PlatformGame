@@ -27,6 +27,8 @@ The first level is set inside a cave, and the second level is set in the outside
 
 [F2]  = Start from the beginning of the current level
 
+[F3]  = Change to the level 2
+
 [F5]  = Save the current state
 
 [F6]  = Load the previous state

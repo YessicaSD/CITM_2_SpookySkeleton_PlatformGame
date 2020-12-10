@@ -149,7 +149,7 @@ bool j1App::Update()
 
 	if(input->GetWindowEvent(WE_QUIT) == true )
 		ret = false;
-	LOG("Frame %u-------------------", frames);
+	//LOG("Frame %u-------------------", frames);
 
 	if(ret == true)
 		ret = PreUpdate();

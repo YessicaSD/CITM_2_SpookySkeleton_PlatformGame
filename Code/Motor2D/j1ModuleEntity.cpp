@@ -153,8 +153,13 @@ void j1Entities::OnCollision(Collider * c1, Collider * c2)
 	for (actualEntity = list_Entities.start; actualEntity; actualEntity = actualEntity->next)
 	{
 		if (actualEntity->data->collider == c1)
-				actualEntity->data->OnCollision(c2);
-		
+		{
+			actualEntity->data->OnCollision(c2);
+		}
+		else if(actualEntity->data->groundCollider == c1)
+		{
+			actualEntity->data->OnCollisionGround(c2);
+		}
 	}
 }
 
